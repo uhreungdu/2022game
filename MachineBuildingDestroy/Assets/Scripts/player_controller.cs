@@ -6,7 +6,7 @@ public class player_controller : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody body;
-    public float player_speed = 5.0f;
+    public float player_speed = 30f;
     void Start()
     {
         body = gameObject.GetComponent<Rigidbody>();
@@ -15,7 +15,11 @@ public class player_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        body.position += new Vector3(Input.GetAxis("Horizontal"),0,Input.GetAxis("Vertical")
-        *player_speed*Time.deltaTime);
+        float inputH = Input.GetAxis("Horizontal");
+        float inputV = Input.GetAxis("Vertical");
+        body.position += new Vector3(inputH, 0, inputV).normalized * player_speed * Time.deltaTime;
+
     }
+
+
 }
