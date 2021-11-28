@@ -8,8 +8,6 @@ using Photon.Realtime;
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     string networkState;
-    List<RoomInfo> roomInfos = new List<RoomInfo>();
-    public GameObject[] Pannel = new GameObject[4];
 
     // Start is called before the first frame update
     void Start() =>
@@ -18,29 +16,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster() =>
         PhotonNetwork.JoinLobby();
 
-   // public override void OnJoinedLobby() {
-    //    PhotonNetwork.JoinOrCreateRoom("room", new RoomOptions { MaxPlayers = 4 }, null);
-   // }
+    public override void OnJoinedLobby() {
+        PhotonNetwork.JoinOrCreateRoom("room", new RoomOptions { MaxPlayers = 6 }, null);
+   }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        foreach (RoomInfo room in roomList)
-        {
-            if(!ControllRoomlist(roomInfos, room.Name))
-            {
-                roomInfos.Add(room);
-            }
-        }
-
-        int index = 0;
-        foreach (RoomInfo room in roomInfos)
-        {
-            if (room == null)
-                break;
-            Pannel[index % 4].GetComponent<RoomPannel>()
-                .ChangeText(room.Name, room.PlayerCount, room.MaxPlayers);
-            index++;
-        }
     }
 
 
@@ -53,19 +34,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             networkState = curNetworkState;
             print(networkState);
         }
-    }
-
-    bool ControllRoomlist(List<RoomInfo> list, string name)
-    {
-        foreach (RoomInfo room in list)
-        {
-            if(room.Name == name)
-            {
-                list.Remove(room);
-                return true;
-            }
-        }
-        return false;
     }
 }
 
