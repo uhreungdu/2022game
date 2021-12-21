@@ -8,24 +8,25 @@ public class thirdpersonmove : MonoBehaviour
     public Transform cam;
 
     public float speed = 6f;
-    float velocity = 0;
+    float yvelocity = 0;
     public float Cgravity = 9.8f;
+    public float tempgravity = -20.0f;
     public float gourndgravity = -0.05f;
 
     public float turnsmoothTime = 0.1f;
     float turnsmoothvelocity;
-    public float jumpower = 30f;
+    public float jumpower = 50f;
 
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        jumpower = 20f;
+        jumpower = 5f;
     }
     void Update()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(horizontal,0f,vertical).normalized;
         Vector3 jumpmove = new Vector3(horizontal,0f,vertical).normalized;
         if(direction.magnitude >= 0.1f)
@@ -37,14 +38,14 @@ public class thirdpersonmove : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
             //Debug.Log(moveDir.normalized);
             jumpmove = moveDir.normalized;
-           
+            if(Input.GetButtonDown("Jump")&&controller.isGrounded)
+            {
+                yvelocity = jumpower;
+            }
+            jumpmove.y = yvelocity;
+            yvelocity += tempgravity*Time.deltaTime;
             //Debug.Log(realmove.y);
         }
-        if(Input.GetButtonDown("Jump")&&controller.isGrounded)
-        {
-            jumpmove.y = jumpower;
-        }
-        jumpmove += Physics.gravity*Time.deltaTime*9.5f;
         Debug.Log(jumpmove);
         controller.Move(jumpmove*speed*Time.deltaTime);
     }
