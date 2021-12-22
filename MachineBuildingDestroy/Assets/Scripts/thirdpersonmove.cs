@@ -38,14 +38,15 @@ public class thirdpersonmove : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
             //Debug.Log(moveDir.normalized);
             jumpmove = moveDir.normalized;
-            if(Input.GetButtonDown("Jump")&&controller.isGrounded)
-            {
-                yvelocity = jumpower;
-            }
-            jumpmove.y = yvelocity;
-            yvelocity += tempgravity*Time.deltaTime;
+            
             //Debug.Log(realmove.y);
         }
+        if(Input.GetButtonDown("Jump")&&controller.isGrounded)
+        {
+            yvelocity = jumpower;
+        }
+        jumpmove.y = yvelocity;
+        yvelocity += tempgravity*Time.deltaTime;
         Debug.Log(jumpmove);
         controller.Move(jumpmove*speed*Time.deltaTime);
     }
