@@ -21,12 +21,4 @@ public class Wall : MonoBehaviour
     {
         hp -= damage;
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (hp >= 0f) {
-            Debug.Log("hp = " + hp);
-            OnDamage(20f);
-        }
-    }
 }
