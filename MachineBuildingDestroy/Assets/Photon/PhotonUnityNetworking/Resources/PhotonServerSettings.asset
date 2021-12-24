@@ -20,7 +20,7 @@ MonoBehaviour:
     AppVersion: 
     UseNameServer: 0
     FixedRegion: 
-    Server: 127.0.0.1
+    Server: 220.94.221.36
     Port: 5055
     ProxyServer: 
     Protocol: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
-  StartInOfflineMode: 1
+  StartInOfflineMode: 0
   RpcList:
   - ClickRpc
   - DestroyRpc

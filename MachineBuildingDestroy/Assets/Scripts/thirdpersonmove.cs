@@ -10,18 +10,18 @@ public class thirdpersonmove : MonoBehaviour
     public float speed = 6f;
     float yvelocity = 0;
     public float Cgravity = 9.8f;
-    public float tempgravity = -20.0f;
+    public float tempgravity = -50.0f;
     public float gourndgravity = -0.05f;
 
     public float turnsmoothTime = 0.1f;
     float turnsmoothvelocity;
-    public float jumpower = 50f;
+    public float jumpower = 10f;
 
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        jumpower = 5f;
+        jumpower = 3f;
     }
     void Update()
     {
@@ -47,7 +47,7 @@ public class thirdpersonmove : MonoBehaviour
         }
         jumpmove.y = yvelocity;
         yvelocity += tempgravity*Time.deltaTime;
-        Debug.Log(jumpmove);
+        //Debug.Log(jumpmove);
         controller.Move(jumpmove*speed*Time.deltaTime);
     }
 }
