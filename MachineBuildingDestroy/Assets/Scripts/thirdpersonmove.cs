@@ -5,6 +5,7 @@ using UnityEngine;
 public class thirdpersonmove : MonoBehaviour
 {
     public CharacterController controller;
+    private PlayerInput playerInput; // 플레이어 입력을 알려주는 컴포넌트
     public Transform cam;
 
     public float speed = 6f;
@@ -21,14 +22,13 @@ public class thirdpersonmove : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        playerInput = GetComponent <PlayerInput>();
         jumpower = 5f;
     }
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(horizontal,0f,vertical).normalized;
-        Vector3 jumpmove = new Vector3(horizontal,0f,vertical).normalized;
+        Vector3 direction = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;
+        Vector3 jumpmove = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;
         if(direction.magnitude >= 0.1f)
         {
             float targetAngle = Mathf.Atan2(direction.x,direction.z)*Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -47,7 +47,7 @@ public class thirdpersonmove : MonoBehaviour
         }
         jumpmove.y = yvelocity;
         yvelocity += tempgravity*Time.deltaTime;
-        Debug.Log(jumpmove);
+        // Debug.Log(jumpmove);
         controller.Move(jumpmove*speed*Time.deltaTime);
     }
 }
