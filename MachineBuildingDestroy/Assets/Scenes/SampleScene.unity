@@ -379,6 +379,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 240975196}
   boxCollider: {fileID: 240975195}
+  timeBetAttack: 0.5
+  activeAttackTime: 0.2
 --- !u!1 &267762035
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +787,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 692560006}
-  m_LocalRotation: {x: 0.26385516, y: 0.00322312, z: -0.0008816869, w: 0.9645566}
+  m_LocalRotation: {x: 0.27045053, y: -0, z: -0, w: 0.9627339}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1205,7 +1207,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311968393}
-  m_LocalRotation: {x: 0.22438051, y: 0.000000016767645, z: -0.000000003860776, w: 0.9745016}
+  m_LocalRotation: {x: 0.22438051, y: -0.000000016767645, z: 0.000000003860776, w: 0.9745016}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1458,7 +1460,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_LocalRotation: {x: 0.26913273, y: 0.0006436504, z: -0.00017986384, w: 0.9631029}
+  m_LocalRotation: {x: 0.27045056, y: 3e-45, z: -1e-45, w: 0.96273386}
   m_LocalPosition: {x: 0, y: 5.721086, z: -6.7069716}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1597,7 +1599,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744477282}
-  m_LocalRotation: {x: 0.27045053, y: -1e-45, z: -0, w: 0.9627339}
+  m_LocalRotation: {x: 0.27045053, y: 3e-45, z: -1e-45, w: 0.9627339}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1656,12 +1658,12 @@ MonoBehaviour:
   m_LookaheadIgnoreY: 0
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
-  m_ScreenX: 0.4965802
-  m_ScreenY: 0.51434666
-  m_DeadZoneWidth: 0.0016025641
-  m_DeadZoneHeight: 0.0033957167
-  m_SoftZoneWidth: 0.8064103
-  m_SoftZoneHeight: 0.83056027
+  m_ScreenX: 0.5
+  m_ScreenY: 0.5
+  m_DeadZoneWidth: 0
+  m_DeadZoneHeight: 0
+  m_SoftZoneWidth: 0.8
+  m_SoftZoneHeight: 0.8
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1

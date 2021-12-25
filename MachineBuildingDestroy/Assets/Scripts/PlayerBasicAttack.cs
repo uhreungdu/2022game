@@ -9,7 +9,7 @@ public class PlayerBasicAttack : MonoBehaviour
     public BoxCollider boxCollider;
 
     public float timeBetAttack = 0.5f; // 공격 간격
-    public float  activeAttackTime = 0.3f; // 공격 유지 시간
+    public float activeAttackTime = 0.3f; // 공격 유지 시간
     private float lastAttackTime; // 공격을 마지막에 한 시점
 
     void Start()
@@ -48,8 +48,8 @@ public class PlayerBasicAttack : MonoBehaviour
         Wall attackTarget = other.GetComponent<Wall>();
         if (attackTarget != null && !attackTarget.dead)
         {
-            Debug.Log(attackTarget.hp);
             attackTarget.OnDamage(20);
+            Debug.Log(attackTarget.hp);
         }
     }
 }

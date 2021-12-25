@@ -5,6 +5,7 @@ using UnityEngine;
 public class Wall : MonoBehaviour
 {
     public float hp = 100f;
+
     public bool dead { get; protected set; } // 사망 상태
     // Start is called before the first frame update
     void Start()
@@ -33,5 +34,6 @@ public class Wall : MonoBehaviour
     {
         // 사망 상태를 참으로 변경
         dead = true;
+        gameObject.SetActive(false);
     }
 }

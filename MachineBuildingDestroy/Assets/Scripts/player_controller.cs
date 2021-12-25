@@ -17,6 +17,4 @@ public class player_controller : MonoBehaviour
         float inputH = Input.GetAxis("Horizontal");
         float inputV = Input.GetAxis("Vertical");
     }
-
-
 }
