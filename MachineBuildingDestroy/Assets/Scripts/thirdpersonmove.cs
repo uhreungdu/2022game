@@ -47,7 +47,7 @@ public class thirdpersonmove : MonoBehaviour
         }
         jumpmove.y = yvelocity;
         yvelocity += tempgravity*Time.deltaTime;
-        Debug.Log(jumpmove);
+        //Debug.Log(jumpmove);
         controller.Move(jumpmove*speed*Time.deltaTime);
     }
 }

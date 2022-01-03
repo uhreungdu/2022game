@@ -8,6 +8,7 @@ using Photon.Realtime;
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     string networkState;
+    public GameObject Player;
 
     // Start is called before the first frame update
     void Start() =>
@@ -20,6 +21,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinOrCreateRoom("room", new RoomOptions { MaxPlayers = 6 }, null);
    }
 
+    public override void OnJoinedRoom()
+    {
+        Vector3 Pos = new Vector3(0, 10, 0);
+        PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
+        Debug.Log("ball");
+    }
+    
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
     }
