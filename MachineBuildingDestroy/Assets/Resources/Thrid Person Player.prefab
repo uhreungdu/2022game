@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 2236499985377425413}
   - component: {fileID: 2236499985377425414}
   - component: {fileID: 8102902553242721008}
+  - component: {fileID: 8475927722522312868}
   - component: {fileID: 993396028480656721}
   - component: {fileID: 1113663139728314713}
   m_Layer: 0
@@ -148,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 2236499985377425413}
+  playerInput: {fileID: 0}
   cam: {fileID: 0}
   speed: 6
   Cgravity: 9.8
@@ -178,6 +180,21 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &8475927722522312868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236499985377425416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b6218ec4121e234a86581e29882f1a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveAxisName: Vertical
+  rotateAxisName: Horizontal
+  fireButtonName: Fire1
 --- !u!114 &993396028480656721
 MonoBehaviour:
   m_ObjectHideFlags: 0
