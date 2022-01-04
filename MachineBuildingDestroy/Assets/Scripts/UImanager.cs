@@ -1,21 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class UImanager : MonoBehaviour
 {
     // Start is called before the first frame update
-    private static GameManager instance;
-    private int[] gamescore = new int[2];
-    public static GameManager GetInstance()
+    private static UImanager instance;
+    public GameManager gmanager;
+    public List<GameObject> Score_UI = new List<GameObject>();
+    public static UImanager GetInstance()
     {
         if(instance == null)
         {
-            instance = FindObjectOfType<GameManager>();
+            instance = FindObjectOfType<UImanager>();
             if(instance == null)
             {
-                GameObject container = new GameObject("GameManager");
-                instance = container.AddComponent<GameManager>();
+                GameObject container = new GameObject("UIManager");
+                instance = container.AddComponent<UImanager>();
             }
         }
         return instance;
@@ -44,25 +46,22 @@ public class GameManager : MonoBehaviour
 			}
 		
 		}
-        //씬 옮길때 해당 오브젝트 삭제하지 않도록 하는 것
         DontDestroyOnLoad(instance);
-        for(int i = 0;i<2;++i)
-        {
-            gamescore[i] = 1;
-            Debug.Log("값들어감?");
-        }
+        gmanager = GameManager.GetInstance();
+        Score_UI.Add(GameObject.Find("Team_Blue_Score"));
+        Score_UI.Add(GameObject.Find("Team_Red_Score"));
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateGameScore();
     }
-    public int getScore(int num){
-        return gamescore[num];
-    }
-    public int setScore(int team, int point)
+    void UpdateGameScore()
     {
-        return gamescore[team] += point;
+        for(int i = 0; i<2; ++i)
+        {
+            Score_UI[i].GetComponent<ScoreText>().UpdateScore(gmanager.getScore(i));
+        }
     }
 }
