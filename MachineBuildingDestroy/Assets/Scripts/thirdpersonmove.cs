@@ -21,10 +21,13 @@ public class thirdpersonmove : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        cam = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         jumpower = 3f;
     }
     void Update()
     {
+        Debug.Log(cam.eulerAngles);
+        Debug.Log(cam.position);
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(horizontal,0f,vertical).normalized;
@@ -36,7 +39,6 @@ public class thirdpersonmove : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f,angle,0f);
 
             Vector3 moveDir = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
-            //Debug.Log(moveDir.normalized);
             jumpmove = moveDir.normalized;
             
             //Debug.Log(realmove.y);
