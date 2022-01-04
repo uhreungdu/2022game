@@ -5,7 +5,7 @@ using UnityEngine;
 public class thirdpersonmove : MonoBehaviour
 {
     public CharacterController controller;
-    private PlayerInput playerInput; // ÇÃ·¹ÀÌ¾î ÀÔ·ÂÀ» ¾Ë·ÁÁÖ´Â ÄÄÆ÷³ÍÆ®
+    private PlayerInput playerInput; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     public Transform cam;
 
     public float speed = 6f;
