@@ -45,10 +45,10 @@ public class PlayerBasicAttack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
-        Wall attackTarget = other.GetComponent<Wall>();
+        WallObject attackTarget = other.GetComponent<WallObject>();
         if (attackTarget != null && !attackTarget.dead)
         {
-            attackTarget.OnDamage(20);
+            attackTarget.OnDamage(100);
             Debug.Log(attackTarget.hp);
         }
     }
