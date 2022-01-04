@@ -22,18 +22,15 @@ public class thirdpersonmove : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        cam = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
+<<<<<<< HEAD
         playerInput = GetComponent <PlayerInput>();
+        jumpower = 5f;
+=======
         jumpower = 3f;
+>>>>>>> main
     }
     void Update()
     {
-        Debug.Log(cam.eulerAngles);
-        Debug.Log(cam.position);
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        //Vector3 direction = new Vector3(horizontal,0f,vertical).normalized;
-        //Vector3 jumpmove = new Vector3(horizontal,0f,vertical).normalized;
         Vector3 direction = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;
         Vector3 jumpmove = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;
         if(direction.magnitude >= 0.1f)
@@ -43,6 +40,7 @@ public class thirdpersonmove : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f,angle,0f);
 
             Vector3 moveDir = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
+            //Debug.Log(moveDir.normalized);
             jumpmove = moveDir.normalized;
             
             //Debug.Log(realmove.y);
@@ -53,7 +51,11 @@ public class thirdpersonmove : MonoBehaviour
         }
         jumpmove.y = yvelocity;
         yvelocity += tempgravity*Time.deltaTime;
+<<<<<<< HEAD
+        // Debug.Log(jumpmove);
+=======
         //Debug.Log(jumpmove);
+>>>>>>> main
         controller.Move(jumpmove*speed*Time.deltaTime);
     }
 }
