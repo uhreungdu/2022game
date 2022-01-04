@@ -22,8 +22,12 @@ public class thirdpersonmove : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+<<<<<<< HEAD
         playerInput = GetComponent <PlayerInput>();
+        jumpower = 5f;
+=======
         jumpower = 3f;
+>>>>>>> main
     }
     void Update()
     {
@@ -47,7 +51,11 @@ public class thirdpersonmove : MonoBehaviour
         }
         jumpmove.y = yvelocity;
         yvelocity += tempgravity*Time.deltaTime;
+<<<<<<< HEAD
+        // Debug.Log(jumpmove);
+=======
         //Debug.Log(jumpmove);
+>>>>>>> main
         controller.Move(jumpmove*speed*Time.deltaTime);
     }
 }
