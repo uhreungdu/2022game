@@ -37,14 +37,14 @@ public class WallObject : MonoBehaviour
         dead = true;
         for (int i = 0; i < 10; ++i)
         {
-            float radian = ((360f / 10f) * i) * Mathf.PI / 180;
+            float radian = (Random.Range(0, 360)) * Mathf.PI / 180;
             Vector3 coinPosition = transform.position;
             coinPosition.x = coinPosition.x + (1.5f * Mathf.Cos(radian));
             coinPosition.z = coinPosition.z + (1.5f * Mathf.Sin(radian));
             GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
             Vector3 coinForward = coin.transform.position - transform.position;
             coinForward.Normalize();
-            coin.GetComponent<Rigidbody>().AddForce(coinForward*500);
+            coin.GetComponent<Rigidbody>().AddForce(coinForward*400);
         }
         gameObject.SetActive(false);
     }
