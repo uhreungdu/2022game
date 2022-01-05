@@ -157,6 +157,12 @@ MonoBehaviour:
   gourndgravity: -0.05
   turnsmoothTime: 0.1
   jumpower: 5
+  pos_x: 0
+  pos_y: 0
+  pos_z: 0
+  ang_x: 0
+  ang_y: 0
+  ang_z: 0
 --- !u!114 &8102902553242721008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +183,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 993396028480656721}
+  - {fileID: 1113663139728314713}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

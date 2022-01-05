@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using Photon.Pun;
 
-public class CameraSetup : MonoBehaviourPun
+public class CameraSetup : MonoBehaviourPun, IPunObservable
 {
     // Start is called before the first frame update
     void Start()
@@ -22,5 +22,20 @@ public class CameraSetup : MonoBehaviourPun
     void Update()
     {
         
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // We own this player: send the others our data
+            stream.SendNext(Camera.main.transform);
+        }
+        else
+        {
+            // Network player, receive data
+            GetComponent<thirdpersonmove>().cam = (Transform)stream.ReceiveNext();
+            
+        }
     }
 }
