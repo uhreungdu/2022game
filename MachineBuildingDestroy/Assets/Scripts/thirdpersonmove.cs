@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class thirdpersonmove : MonoBehaviour
+public class thirdpersonmove : MonoBehaviourPun
 {
     public CharacterController controller;
     public PlayerInput playerInput; // 플레이어조작을 관리하는 스크립트
@@ -48,24 +49,27 @@ public class thirdpersonmove : MonoBehaviour
         //Vector3 jumpmove = new Vector3(horizontal,0f,vertical).normalized;
         Vector3 direction = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;
         Vector3 jumpmove = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;
-        if(direction.magnitude >= 0.1f)
+        if (photonView.IsMine)
         {
-            float targetAngle = Mathf.Atan2(direction.x,direction.z)*Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y,targetAngle,ref turnsmoothvelocity, turnsmoothTime);
-            transform.rotation = Quaternion.Euler(0f,angle,0f);
+            if (direction.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnsmoothvelocity, turnsmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
-            jumpmove = moveDir.normalized;
-            
-            //Debug.Log(realmove.y);
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                jumpmove = moveDir.normalized;
+
+                //Debug.Log(realmove.y);
+            }
+            if (Input.GetButtonDown("Jump") && controller.isGrounded)
+            {
+                yvelocity = jumpower;
+            }
+            jumpmove.y = yvelocity;
+            yvelocity += tempgravity * Time.deltaTime;
+            //Debug.Log(jumpmove);
+            controller.Move(jumpmove * speed * Time.deltaTime);
         }
-        if(Input.GetButtonDown("Jump")&&controller.isGrounded)
-        {
-            yvelocity = jumpower;
-        }
-        jumpmove.y = yvelocity;
-        yvelocity += tempgravity*Time.deltaTime;
-        //Debug.Log(jumpmove);
-        controller.Move(jumpmove*speed*Time.deltaTime);
     }
 }
