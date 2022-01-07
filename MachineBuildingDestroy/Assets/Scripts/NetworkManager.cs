@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -25,7 +26,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Vector3 Pos = new Vector3(0, 10, 0);
         PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
-        Debug.Log("ball");
+        RaiseEventSample();
     }
     
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -42,6 +43,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             networkState = curNetworkState;
             print(networkState);
         }
+    }
+
+    void RaiseEventSample()
+    {
+        byte evCode = 0;
+        object[] data = new object[] { "test", "sample", 7, 7, 1 };
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        SendOptions sendOpt = new SendOptions { Reliability = true };
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 }
 
