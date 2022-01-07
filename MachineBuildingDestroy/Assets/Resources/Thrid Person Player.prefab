@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 993396028480656721}
   - component: {fileID: 1113663139728314713}
   - component: {fileID: 9026365228878087245}
+  - component: {fileID: 4393584514899345586}
   m_Layer: 0
   m_Name: Thrid Person Player
   m_TagString: Untagged
@@ -241,6 +242,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf70f880ef4c9f2478987bd819c57023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4393584514899345586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236499985377425416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03056e2dc7f8f7a4a9a3c2d05018214a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2236499985505941599
