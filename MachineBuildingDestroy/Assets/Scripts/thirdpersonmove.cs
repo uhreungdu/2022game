@@ -6,6 +6,7 @@ public class thirdpersonmove : MonoBehaviour
 {
     public CharacterController controller;
     private PlayerInput playerInput; // 플레이어 입력을 알려주는 컴포넌트
+    private Animator playeranimator; // 애니메이션
     public Transform cam;
 
     public float speed = 6f;
@@ -23,6 +24,7 @@ public class thirdpersonmove : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         playerInput = GetComponent <PlayerInput>();
+        playeranimator = GetComponent<Animator>();
         jumpower = 3f;
     }
     void Update()
@@ -33,7 +35,7 @@ public class thirdpersonmove : MonoBehaviour
         {
             float targetAngle = Mathf.Atan2(direction.x,direction.z)*Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y,targetAngle,ref turnsmoothvelocity, turnsmoothTime);
-            transform.rotation = Quaternion.Euler(0f,angle,0f);
+            transform.rotation = Quaternion.Euler(0f, angle,0f);
 
             Vector3 moveDir = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
             //Debug.Log(moveDir.normalized);
@@ -49,5 +51,8 @@ public class thirdpersonmove : MonoBehaviour
         yvelocity += tempgravity*Time.deltaTime;
         //Debug.Log(jumpmove);
         controller.Move(jumpmove*speed*Time.deltaTime);
+
+        Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
+        playeranimator.SetFloat("Move", Origindirection.magnitude);
     }
 }
