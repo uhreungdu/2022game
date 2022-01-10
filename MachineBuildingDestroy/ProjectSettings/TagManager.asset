@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UI
   - Score_UI
+  - CamPos
   layers:
   - Default
   - TransparentFX
