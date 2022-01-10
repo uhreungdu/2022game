@@ -16,5 +16,22 @@ namespace MyFirstPlugin
             PluginHost.LogInfo($"OnCreateGame {info.Request.GameId} by user {info.UserId}");
             info.Continue(); // base.OnCreateGame(info) 와 같다.
         }
+
+        public override void OnRaiseEvent(IRaiseEventCallInfo info)
+        {
+            PluginHost.LogInfo($"user {info.UserId} called event {info.Request.EvCode}");
+
+            switch (info.Request.EvCode)
+            {
+                case 0:
+                    info.Request.Data = new object[] { "이 이벤트는", "몰?루가 지배했다", "EVENT", "HOOK", "TEST" };
+                    break;
+
+                default:
+                    break;
+            }
+
+            info.Continue();
+        }
     }
 }
