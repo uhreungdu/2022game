@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class thirdpersonmove : MonoBehaviourPun
+public class thirdpersonmove : LivingEntity
 {
     public CharacterController controller;
     public PlayerInput playerInput; // 플레이어조작을 관리하는 스크립트
@@ -37,7 +37,12 @@ public class thirdpersonmove : MonoBehaviourPun
     }
     void Update()
     {
-        // Debug.Log(cam.eulerAngles);
+        Movement();
+    }
+
+    public void Movement()
+    {
+        //Debug.Log(cam.eulerAngles);
         //Debug.Log(cam.position);
         pos_x = cam.position.x;
         pos_y = cam.position.y;
