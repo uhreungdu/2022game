@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7df7a64e5e7afdb4b8acd55e1e5d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingHealth: 100
   controller: {fileID: 2236499985377425413}
   playerInput: {fileID: 0}
   cam: {fileID: 0}
@@ -207,6 +208,8 @@ MonoBehaviour:
   moveAxisName: Vertical
   rotateAxisName: Horizontal
   fireButtonName: Fire1
+  JumpButtonName: Jump
+  DashButtonName: Dash
 --- !u!114 &993396028480656721
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -497,9 +497,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 4
   m_FollowOffset: {x: 0, y: 4.091086, z: -6.7069716}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0.1
+  m_YDamping: 0.1
+  m_ZDamping: 0.1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -840,7 +840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 699549221}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.95, y: 0.45310855, z: -3.69}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1455,8 +1455,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef489d263be7ee4aad66292ab68b262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingHealth: 100
   coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
-  hp: 100
 --- !u!54 &1599514351
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1892,9 +1892,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 4
   m_FollowOffset: {x: 0, y: 4.091086, z: -6.7069716}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0.1
+  m_YDamping: 0.1
+  m_ZDamping: 0.1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0

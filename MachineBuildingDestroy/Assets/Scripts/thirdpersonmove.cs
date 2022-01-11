@@ -12,7 +12,7 @@ public class thirdpersonmove : LivingEntity
 
     public float speed = 6f;
     float yvelocity = 0;
-    public float Cgravity = 9.8f;
+    public float Cgravity = 4f;
     public float tempgravity = -50.0f;
     public float gourndgravity = -0.05f;
 
@@ -33,11 +33,13 @@ public class thirdpersonmove : LivingEntity
         cam = GameObject.FindWithTag("CamPos").GetComponent<Transform>();
         playerInput = GetComponent <PlayerInput>();
         playeranimator = GetComponent<Animator>();
-        jumpower = 3f;
+        jumpower = 6f;
     }
     void Update()
     {
         Movement();
+        Jump();
+        Dash();
     }
 
     public void Movement()
@@ -50,8 +52,6 @@ public class thirdpersonmove : LivingEntity
         ang_x = cam.eulerAngles.x;
         ang_y = cam.eulerAngles.y;
         ang_z = cam.eulerAngles.z;
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
         //Vector3 direction = new Vector3(horizontal,0f,vertical).normalized;
         //Vector3 jumpmove = new Vector3(horizontal,0f,vertical).normalized;
         Vector3 direction = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;
@@ -69,16 +69,42 @@ public class thirdpersonmove : LivingEntity
 
                 //Debug.Log(realmove.y);
             }
-            if (Input.GetButtonDown("Jump") && controller.isGrounded)
-            {
-                yvelocity = jumpower;
-            }
             jumpmove.y = yvelocity;
             yvelocity += tempgravity * Time.deltaTime;
             //Debug.Log(jumpmove);
             controller.Move(jumpmove * speed * Time.deltaTime);
             Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
             playeranimator.SetFloat("Move", Origindirection.magnitude);
+        }
+    }
+
+    public void Jump()
+    {
+        if (playerInput.jump && controller.isGrounded)
+        {
+            yvelocity = jumpower;
+        }
+    }
+
+    public void Dash()
+    {
+        if (playerInput.dash && controller.isGrounded)
+        {
+            if (speed <= 18f)
+            {
+                speed += 6f * Time.deltaTime;
+            }
+        }
+        if (!playerInput.dash && controller.isGrounded)
+        {
+            if (speed > 6f)
+            {
+                speed -= 9f * Time.deltaTime;
+            }
+            else
+            {
+                speed = 6f;
+            }
         }
     }
 }
