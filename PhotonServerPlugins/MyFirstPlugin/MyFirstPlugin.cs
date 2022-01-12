@@ -9,10 +9,19 @@ namespace MyFirstPlugin
 {
     class MyFirstPlugin : PluginBase
     {
+        private Class1 DB;
         public override string Name => "MyFirstPlugin";
 
         public override void OnCreateGame(ICreateGameCallInfo info)
         {
+            HttpRequest request = new HttpRequest()
+            {
+                Callback = OnHttpResponse,
+                Url = "http://127.0.0.1/test.php",
+                Async = true
+            };
+            PluginHost.HttpRequest(request, info);
+
             PluginHost.LogInfo($"OnCreateGame {info.Request.GameId} by user {info.UserId}");
             info.Continue(); // base.OnCreateGame(info) 와 같다.
         }
@@ -32,6 +41,12 @@ namespace MyFirstPlugin
             }
 
             info.Continue();
+        }
+
+        private void OnHttpResponse(IHttpResponse response, object userState)
+        {
+            ICallInfo info = response.CallInfo;
+
         }
     }
 }
