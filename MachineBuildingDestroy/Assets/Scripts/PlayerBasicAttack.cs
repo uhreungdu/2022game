@@ -49,7 +49,7 @@ public class PlayerBasicAttack : MonoBehaviour
         if (attackTarget != null && !attackTarget.dead)
         {
             attackTarget.OnDamage(100);
-            Debug.Log(attackTarget.hp);
+            Debug.Log(attackTarget.health);
         }
     }
 }
