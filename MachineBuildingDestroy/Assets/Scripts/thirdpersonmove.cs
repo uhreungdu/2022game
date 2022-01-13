@@ -52,6 +52,8 @@ public class thirdpersonmove : LivingEntity
         ang_x = cam.eulerAngles.x;
         ang_y = cam.eulerAngles.y;
         ang_z = cam.eulerAngles.z;
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
         //Vector3 direction = new Vector3(horizontal,0f,vertical).normalized;
         //Vector3 jumpmove = new Vector3(horizontal,0f,vertical).normalized;
         Vector3 direction = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;

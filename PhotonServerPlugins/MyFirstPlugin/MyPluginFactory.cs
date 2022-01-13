@@ -12,7 +12,8 @@ namespace MyFirstPlugin
         public IGamePlugin Create(IPluginHost gameHost, string pluginName,
             Dictionary<string, string> config, out string errorMsg)
         {
-            MyFirstPlugin plugin = new MyFirstPlugin();
+            IGamePlugin plugin = new PluginBase();
+            plugin = new MyFirstPlugin();
             if (plugin.SetupInstance(gameHost, config, out errorMsg))
             {
                 return plugin;
