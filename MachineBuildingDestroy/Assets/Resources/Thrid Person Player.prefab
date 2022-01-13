@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2236499984866935373}
   - component: {fileID: 2236499984866935371}
   - component: {fileID: 2236499984866935372}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: -7067501509374460509}
   - component: {fileID: 1660260926888961763}
   - component: {fileID: -6309254918947745835}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Thrid Person Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 2236499985505941595}
   - component: {fileID: 2236499985505941596}
   - component: {fileID: 2236499985505941597}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
