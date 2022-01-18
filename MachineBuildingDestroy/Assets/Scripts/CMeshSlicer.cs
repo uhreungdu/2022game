@@ -25,6 +25,8 @@ public class CMeshSlicer
         //Original mesh data
 
         Mesh orinMesh = _target.GetComponent<MeshFilter>().sharedMesh;
+        //Mesh orinMesh = _target.GetComponentInChildren<MeshFilter>().sharedMesh;
+        
 
         Vector3[] orinVerts = orinMesh.vertices;
 
@@ -35,6 +37,7 @@ public class CMeshSlicer
         int orinSubMeshCount = orinMesh.subMeshCount;
 
         Material[] orinMaterials = _target.GetComponent<MeshRenderer>().sharedMaterials;
+        //Material[] orinMaterials = _target.GetComponentInChildren<MeshRenderer>().sharedMaterials;
 
         int existInterialMatIdx = -1;
 
