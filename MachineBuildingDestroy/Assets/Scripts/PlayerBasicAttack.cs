@@ -46,6 +46,7 @@ public class PlayerBasicAttack : MonoBehaviour
     {
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         WallObject attackTarget = other.GetComponent<WallObject>();
+        // GetComponent<CMeshSlicer>().SlicerWorld(attackTarget, other.ClosestPoint, other.ClosestPoint, attackTarget.GetComponent<Material>());
         if (attackTarget != null && !attackTarget.dead)
         {
             attackTarget.OnDamage(100);
