@@ -7,6 +7,7 @@ public class PlayerBasicAttack : MonoBehaviour
     // Start is called before the first frame update
     public PlayerInput playerInput;
     public BoxCollider boxCollider;
+    public GameObject coinprefab;     // 디버그용
 
     public float timeBetAttack = 0.5f; // 공격 간격
     public float activeAttackTime = 0.3f; // 공격 유지 시간
@@ -14,7 +15,7 @@ public class PlayerBasicAttack : MonoBehaviour
 
     void Start()
     {
-        playerInput = GetComponent<PlayerInput>();
+        playerInput = GetComponentInParent<PlayerInput>();
         boxCollider = GetComponent<BoxCollider>();
     }
 
@@ -25,6 +26,7 @@ public class PlayerBasicAttack : MonoBehaviour
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
             {
+                Debug.Log("앞 백터 = " + boxCollider.transform.forward);
                 if (Time.time >= lastAttackTime + timeBetAttack + activeAttackTime)
                 {
                     lastAttackTime = Time.time;
@@ -45,14 +47,18 @@ public class PlayerBasicAttack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
-        WallObject attackTarget = other.GetComponent<WallObject>();
-        Debug.Log(other.ClosestPointOnBounds(transform.position));
-        CMeshSlicer.SlicerWorld(other.gameObject, transform.forward, other.ClosestPointOnBounds(transform.position), other.gameObject.GetComponent<Material>());
-        // GetComponent<CMeshSlicer>().SlicerWorld(attackTarget, other.ClosestPoint, other.ClosestPoint, attackTarget.GetComponent<Material>());
-        if (attackTarget != null && !attackTarget.dead)
+        if (other.tag != "Player")
         {
-            attackTarget.OnDamage(100);
-            Debug.Log(attackTarget.health);
+            WallObject attackTarget = other.GetComponent<WallObject>();
+            Debug.Log(other.ClosestPointOnBounds(transform.position));
+            Vector3 forwardvector = boxCollider.transform.forward;
+            Debug.Log("앞 백터 = " + forwardvector);
+            CMeshSlicer.SlicerWorld(other.gameObject, boxCollider.transform.up, other.ClosestPointOnBounds(boxCollider.transform.position), other.gameObject.GetComponent<Material>());
+            if (attackTarget != null && !attackTarget.dead)
+            {
+                attackTarget.OnDamage(100);
+                Debug.Log(attackTarget.health);
+            }
         }
     }
 }
