@@ -7,11 +7,15 @@ public class PlayerInput : MonoBehaviour
     public string moveAxisName = "Vertical"; // 앞뒤 움직임을 위한 입력축 이름
     public string rotateAxisName = "Horizontal"; // 좌우 회전을 위한 입력축 이름
     public string fireButtonName = "Fire1"; // 발사를 위한 입력 버튼 이름
+    public string JumpButtonName = "Jump"; // 발사를 위한 입력 버튼 이름
+    public string DashButtonName = "Dash"; // 발사를 위한 입력 버튼 이름
 
     // 값 할당은 내부에서만 가능
     public float move { get; private set; } // 감지된 움직임 입력값
     public float rotate { get; private set; } // 감지된 회전 입력값
     public bool fire { get; private set; } // 감지된 발사 입력값
+    public bool jump { get; private set; } // 감지된 발사 입력값
+    public bool dash { get; private set; } // 감지된 발사 입력값
     // Update is called once per frame
     void Update()
     {
@@ -29,5 +33,8 @@ public class PlayerInput : MonoBehaviour
         rotate = Input.GetAxis(rotateAxisName);
         // fire에 관한 입력 감지
         fire = Input.GetButton(fireButtonName);
+
+        jump = Input.GetButton(JumpButtonName);
+        dash = Input.GetButton(DashButtonName);
     }
 }

@@ -262,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03056e2dc7f8f7a4a9a3c2d05018214a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 --- !u!114 &-7067501509374460509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +311,8 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+=======
+>>>>>>> main
 --- !u!1 &2236499985505941599
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +325,11 @@ GameObject:
   - component: {fileID: 2236499985505941595}
   - component: {fileID: 2236499985505941596}
   - component: {fileID: 2236499985505941597}
+<<<<<<< HEAD
   m_Layer: 7
+=======
+  m_Layer: 0
+>>>>>>> main
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
