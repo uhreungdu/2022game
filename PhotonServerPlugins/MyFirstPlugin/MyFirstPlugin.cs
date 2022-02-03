@@ -9,7 +9,7 @@ namespace MyFirstPlugin
 {
     class MyFirstPlugin : PluginBase
     {
-        private Class1 DB;
+        private int variableTest = 0;
         public override string Name => "MyFirstPlugin";
 
         public override void OnCreateGame(ICreateGameCallInfo info)
@@ -25,6 +25,11 @@ namespace MyFirstPlugin
             PluginHost.LogInfo($"OnCreateGame {info.Request.GameId} by user {info.UserId}");
             info.Continue(); // base.OnCreateGame(info) 와 같다.
         }
+        public override void OnJoin(IJoinGameCallInfo info)
+        {
+            variableTest++;
+            base.OnJoin(info);
+        }
 
         public override void OnRaiseEvent(IRaiseEventCallInfo info)
         {
@@ -33,7 +38,7 @@ namespace MyFirstPlugin
             switch (info.Request.EvCode)
             {
                 case 0:
-                    info.Request.Data = new object[] { "이 이벤트는", "몰?루가 지배했다", "EVENT", "HOOK", "TEST" };
+                    info.Request.Data = new object[] { "이 이벤트는", "몰?루가 지배했다", variableTest, "HOOK", "TEST" };
                     break;
 
                 default:
