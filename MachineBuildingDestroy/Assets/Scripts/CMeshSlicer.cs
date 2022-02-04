@@ -5,6 +5,7 @@ using UnityEngine;
 public class CMeshSlicer
 
 {
+
     public static GameObject[] SlicerWorld(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint, Material _interial)
 
     {
@@ -20,14 +21,13 @@ public class CMeshSlicer
 
     public static GameObject[] Slicer(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint, Material _ineterial)
 
-    {
+    { 
 
         //Original mesh data
 
         Mesh orinMesh = _target.GetComponent<MeshFilter>().sharedMesh;
         //Mesh orinMesh = _target.GetComponentInChildren<MeshFilter>().sharedMesh;
         
-
         Vector3[] orinVerts = orinMesh.vertices;
 
         Vector3[] orinNors = orinMesh.normals;
@@ -300,20 +300,33 @@ public class CMeshSlicer
         bObject.transform.localScale = _target.transform.localScale;
 
 
-
         //Hide original object
 
         _target.SetActive(false);
 
-
-
+        aObject.AddComponent<Rigidbody>();
+        bObject.AddComponent<Rigidbody>();
+        aObject.AddComponent<BoxCollider>();
+        bObject.AddComponent<BoxCollider>();
+        CopyComponent<WallObject>(_target.GetComponent<WallObject>(), aObject);
+        CopyComponent<WallObject>(_target.GetComponent<WallObject>(), bObject);
         //Return cutted object
 
         return new GameObject[] { aObject, bObject };
 
     }
 
-
+    static public T CopyComponent<T>(T original, GameObject destination) where T : Component
+    {
+        System.Type type = original.GetType();
+        Component copy = destination.AddComponent(type);
+        System.Reflection.FieldInfo[] fields = type.GetFields();
+        foreach (System.Reflection.FieldInfo field in fields)
+        {
+            field.SetValue(copy, field.GetValue(original));
+        }
+        return copy as T;
+    }
 
     internal static void SwapTwoIndex<T>(ref List<T> _target, int _idx0, int _idx1)
 
@@ -354,7 +367,6 @@ public class CMeshSlicer
     {
 
         _result = new List<Vector3>();
-
         _result.Add(_target[0]);
 
         _result.Add(_target[1]);
@@ -967,3 +979,4 @@ public class CMeshSlicer
         }
     }
 }
+

@@ -21,7 +21,6 @@ public class PlayerState : LivingEntity
     protected override void OnEnable()
     {
         // LivingEntity의 OnEnable() 실행 (상태 초기화)
-        base.OnEnable();
         team = Random.Range(0, 1);
     }
 

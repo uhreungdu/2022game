@@ -7,6 +7,7 @@ public class PlayerBasicAttack : MonoBehaviour
     // Start is called before the first frame update
     public PlayerInput playerInput;
     public BoxCollider boxCollider;
+    public Material boxmaterial;
     public GameObject coinprefab;     // 디버그용
 
     public float timeBetAttack = 0.5f; // 공격 간격
@@ -17,6 +18,7 @@ public class PlayerBasicAttack : MonoBehaviour
     {
         playerInput = GetComponentInParent<PlayerInput>();
         boxCollider = GetComponent<BoxCollider>();
+        boxmaterial = GetComponentInChildren<MeshRenderer>().sharedMaterial;
     }
 
     // Update is called once per frame
@@ -54,7 +56,7 @@ public class PlayerBasicAttack : MonoBehaviour
             if (attackTarget != null && !attackTarget.dead)
             {
                 attackTarget.OnDamage(100);
-                CMeshSlicer.SlicerWorld(other.gameObject, boxCollider.transform.up, other.ClosestPointOnBounds(boxCollider.transform.position), other.gameObject.GetComponent<Material>());
+                CMeshSlicer.SlicerWorld(other.gameObject, boxCollider.transform.up, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
                 Debug.Log(attackTarget.health);
             }
         }
