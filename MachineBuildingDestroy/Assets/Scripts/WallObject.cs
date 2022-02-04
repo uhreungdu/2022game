@@ -28,10 +28,10 @@ public class WallObject : LivingEntity
             Vector3 coinPosition = transform.position;
             coinPosition.x = coinPosition.x + (1.5f * Mathf.Cos(radian));
             coinPosition.z = coinPosition.z + (1.5f * Mathf.Sin(radian));
-            /*GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
+            GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
             Vector3 coinForward = coin.transform.position - transform.position;
             coinForward.Normalize();
-            coin.GetComponent<Rigidbody>().AddForce(coinForward * 350);*/
+            coin.GetComponent<Rigidbody>().AddForce(coinForward * 350);
         }
         gameObject.SetActive(false);
     }

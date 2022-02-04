@@ -51,12 +51,10 @@ public class PlayerBasicAttack : MonoBehaviour
         {
             WallObject attackTarget = other.GetComponent<WallObject>();
             Debug.Log(other.ClosestPointOnBounds(transform.position));
-            Vector3 forwardvector = boxCollider.transform.forward;
-            Debug.Log("æ’ πÈ≈Õ = " + forwardvector);
-            CMeshSlicer.SlicerWorld(other.gameObject, boxCollider.transform.up, other.ClosestPointOnBounds(boxCollider.transform.position), other.gameObject.GetComponent<Material>());
             if (attackTarget != null && !attackTarget.dead)
             {
                 attackTarget.OnDamage(100);
+                CMeshSlicer.SlicerWorld(other.gameObject, boxCollider.transform.up, other.ClosestPointOnBounds(boxCollider.transform.position), other.gameObject.GetComponent<Material>());
                 Debug.Log(attackTarget.health);
             }
         }

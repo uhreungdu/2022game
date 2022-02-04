@@ -14,9 +14,9 @@ public class PlayerState : LivingEntity
 
     void Start()
     {
-        playerAnimator = GetComponent<Animator>();          // Áö±Ý ¾ÈµÊ
-        playerAudioPlayer = GetComponent<AudioSource>();    // Áö±Ý ¾ÈµÊ
-        team = 1;
+        //playerAnimator = GetComponent<Animator>();          // Áö±Ý ¾ÈµÊ
+        //playerAudioPlayer = GetComponent<AudioSource>();    // Áö±Ý ¾ÈµÊ
+        base.OnEnable();
     }
     protected override void OnEnable()
     {
