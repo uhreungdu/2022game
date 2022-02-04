@@ -7,6 +7,7 @@ TagManager:
   - UI
   - Score_UI
   - CamPos
+  - Timer
   layers:
   - Default
   - TransparentFX
