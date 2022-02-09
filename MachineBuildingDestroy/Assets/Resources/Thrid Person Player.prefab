@@ -110,6 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 0}
   boxCollider: {fileID: 0}
+  boxmaterial: {fileID: 0}
   coinprefab: {fileID: 0}
   timeBetAttack: 0.5
   activeAttackTime: 0.3
@@ -193,12 +194,6 @@ MonoBehaviour:
   gourndgravity: -0.05
   turnsmoothTime: 0.1
   jumpower: 5
-  pos_x: 0
-  pos_y: 0
-  pos_z: 0
-  ang_x: 0
-  ang_y: 0
-  ang_z: 0
 --- !u!114 &8102902553242721008
 MonoBehaviour:
   m_ObjectHideFlags: 0
