@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
         }
         return instance;
     }
+    float time_display;
     void Awake()
     {
         if(instance == null)
@@ -48,14 +49,25 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(instance);
         for(int i = 0;i<2;++i)
         {
-            gamescore[i] = 1;
-            Debug.Log("값들어감?");
+            gamescore[i] = 0;
+            //Debug.Log("값들어감?");
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        for(int i = 0;i<2;++i)
+        {
+            if(gamescore[i] <= 5)
+            {
+                time_display += Time.deltaTime;
+            }
+            else
+            {
+                time_display = 0;
+            }
+        }
         
     }
     public int getScore(int num){
@@ -64,5 +76,9 @@ public class GameManager : MonoBehaviour
     public int setScore(int team, int point)
     {
         return gamescore[team] += point;
+    }
+    public float getTime()
+    {
+        return time_display;
     }
 }

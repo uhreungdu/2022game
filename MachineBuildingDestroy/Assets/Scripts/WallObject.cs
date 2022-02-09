@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WallObject : LivingEntity
 {
-    public GameObject coinprefab;     // 생성할 탄약의 원본 프리펩
+    public GameObject coinprefab;     // 생성할 코인의 원본 프리펩
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +31,7 @@ public class WallObject : LivingEntity
             GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
             Vector3 coinForward = coin.transform.position - transform.position;
             coinForward.Normalize();
-            coin.GetComponent<Rigidbody>().AddForce(coinForward* (Random.Range(300, 400)));
+            coin.GetComponent<Rigidbody>().AddForce(coinForward * 350);
         }
         gameObject.SetActive(false);
     }

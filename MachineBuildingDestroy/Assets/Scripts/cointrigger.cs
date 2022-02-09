@@ -20,7 +20,7 @@ public class cointrigger : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            gManager.setScore(0,1);
+            gManager.setScore(/*other.gameObject.GetComponent<PlayerState>().team*/0, 1);
             Destroy(gameObject);
         }
     }

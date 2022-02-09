@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class thirdpersonmove : LivingEntity
+public class thirdpersonmove : MonoBehaviourPun
 {
     public CharacterController controller;
     public PlayerInput playerInput; // 플레이어조작을 관리하는 스크립트
