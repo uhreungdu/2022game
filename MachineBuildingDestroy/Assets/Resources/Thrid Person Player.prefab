@@ -110,6 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 0}
   boxCollider: {fileID: 0}
+  boxmaterial: {fileID: 0}
   coinprefab: {fileID: 0}
   timeBetAttack: 0.5
   activeAttackTime: 0.3
