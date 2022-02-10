@@ -325,8 +325,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
-  deathClip: {fileID: 0}
-  hitClip: {fileID: 0}
 --- !u!1 &2236499985505941599
 GameObject:
   m_ObjectHideFlags: 0
