@@ -15,7 +15,7 @@ public class PlayerInput : MonoBehaviour
     void Start()
     {
         // 에디터 상에서 체크할려면 WindowsEditor로 해야됨
-        if (Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.WindowsEditor)
             joystick = GameObject.Find("Joystickback").GetComponent<Joystick>();
     }
 
@@ -40,7 +40,7 @@ public class PlayerInput : MonoBehaviour
         move = Input.GetAxis(moveAxisName);
         // rotate에 관한 입력 감지
         rotate = Input.GetAxis(rotateAxisName);
-        if (Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             move = joystick.moveVector.y;
             rotate = joystick.moveVector.x;

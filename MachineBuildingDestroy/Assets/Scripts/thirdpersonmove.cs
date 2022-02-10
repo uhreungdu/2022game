@@ -37,8 +37,6 @@ public class thirdpersonmove : MonoBehaviourPun
         playeranimator = GetComponent<Animator>();
         jumpower = 6f;
         Debug.Log(Application.platform);
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-            ;
     }
     void Update()
     {

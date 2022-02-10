@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Cinemachine;
 
-public class Joystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler,IDragHandler
+
+public class Joystick_Cam : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField]
     private RectTransform joystick;
@@ -13,7 +15,9 @@ public class Joystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler,IDragH
     private float moveRange;
 
     public Vector2 moveVector;
+    [SerializeField]
     private bool IsInput;
+    public CinemachineFreeLook cinevirtual;
 
     private void Awake()
     {
@@ -31,7 +35,7 @@ public class Joystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler,IDragH
     public void OnDrag(PointerEventData eventData)
     {
         //Debug.Log("OnDrag");
-        MoveJoystick(eventData);    
+        MoveJoystick(eventData);
     }
     public void OnEndDrag(PointerEventData eventData)
     {
@@ -43,10 +47,10 @@ public class Joystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler,IDragH
 
     void Update()
     {
-        if (IsInput)
-        {
-            
-        }
+        cinevirtual.m_XAxis.m_InputAxisValue = moveVector.x;
+        cinevirtual.m_YAxis.m_InputAxisValue = moveVector.y;
+
+
     }
 
     public void MoveJoystick(PointerEventData eventData)
@@ -59,5 +63,6 @@ public class Joystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler,IDragH
             clampedDir = inputDir;
         joystick.anchoredPosition = clampedDir;
         moveVector = clampedDir / moveRange;
+        //moveVector.x = moveVector.x * 180;
     }
 }
