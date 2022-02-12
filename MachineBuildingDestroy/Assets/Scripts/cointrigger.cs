@@ -21,10 +21,7 @@ public class cointrigger : MonoBehaviour
         int team;
         if (other.gameObject.tag == "Player")
         {
-            PlayerState playerstate = other.gameObject.GetComponentInParent<PlayerState>();
-
-            Debug.Log("ÆÀ : ");
-            gManager.setScore(playerstate.team, 1);
+            other.gameObject.GetComponentInParent<PlayerState>().GainPoint(1);
             Destroy(gameObject);
         }
     }
