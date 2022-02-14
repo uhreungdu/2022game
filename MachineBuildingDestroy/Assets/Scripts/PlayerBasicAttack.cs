@@ -75,10 +75,11 @@ public class PlayerBasicAttack : MonoBehaviour
         {
             WallObject attackTarget = other.GetComponent<WallObject>();
             Debug.Log(other.ClosestPointOnBounds(transform.position));
+            Vector3 Upvector = Quaternion.AngleAxis(Random.Range(45, 135), boxCollider.transform.up) * boxCollider.transform.forward;
             if (attackTarget != null && !attackTarget.dead)
             {
                 attackTarget.OnDamage(100);
-                CMeshSlicer.SlicerWorld(other.gameObject, boxCollider.transform.up, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
+                CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
                 Debug.Log(attackTarget.health);
             }
         }
