@@ -15,12 +15,8 @@ public class Item_Beacon_Control : MonoBehaviour
     void Start()
     {
         Gmanager = GameManager.GetInstance();
-        box = Resources.Load<GameObject>("item_box");
-        box_obj = Instantiate(box);
-        box_obj.transform.SetParent(gameObject.transform);
-        box_obj.transform.Translate(gameObject.transform.position);
-        box_obj.GetComponent<item_box_make>().decide_type();
         //box_obj.GetComponent<item_box_make>().effect_On = true;
+        have_box = true;
     }
 
     // Update is called once per frame
@@ -31,17 +27,33 @@ public class Item_Beacon_Control : MonoBehaviour
             if(Gmanager.now_timer.sec >= 30)
             {
                 box_obj.GetComponent<item_box_make>().effect_On = true;
+                past_min = Gmanager.now_timer.min;
             }
             
         }
+        else if(box_obj == null && Gmanager.now_timer.sec >= 30)
+        {
+            if(have_box == true)
+            {
+                box = Resources.Load<GameObject>("item_box");
+                box_obj = Instantiate(box);
+                box_obj.transform.SetParent(gameObject.transform);
+                box_obj.transform.Translate(gameObject.transform.position);
+                box_obj.GetComponent<item_box_make>().decide_type();
+                have_box = false;
+                past_min = Gmanager.now_timer.min;
+            }
+            else
+            {
+                if(past_min != Gmanager.now_timer.min)
+                {
+                    have_box = true;
+                }
+            }
+        }
         else
         {
-            box = Resources.Load<GameObject>("item_box");
-            box_obj = Instantiate(box);
-            box_obj.transform.SetParent(gameObject.transform);
-            box_obj.transform.Translate(gameObject.transform.position);
-            box_obj.GetComponent<item_box_make>().decide_type();
-
+            
         }
     }
 }

@@ -41,7 +41,7 @@ public class item_box_make : MonoBehaviour
                 }
                 else
                 {
-                    Time_temp += Time.deltaTime * Mathf.PI * 0.1f;
+                    Time_temp += Time.deltaTime * Mathf.PI * 0.5f;
                     move_height += Mathf.Sin(Time_temp)* 2;
                     SetHeight(move_height);
                     move_height = 0;
@@ -69,7 +69,10 @@ public class item_box_make : MonoBehaviour
     }
     void OnTriggerEnter(Collider col){
         if(col.tag == "Player"){
-            Destroy(gameObject);
+            if(effect_switch == true)
+            {
+                Destroy(gameObject);
+            }
         }
     }
     public void SetHeight(float height)
