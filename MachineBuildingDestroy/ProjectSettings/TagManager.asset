@@ -9,6 +9,7 @@ TagManager:
   - CamPos
   - Timer
   - Goalpost
+  - Wall
   layers:
   - Default
   - TransparentFX
