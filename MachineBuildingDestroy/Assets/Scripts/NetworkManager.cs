@@ -8,6 +8,11 @@ using ExitGames.Client.Photon;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+    enum EventCode : byte
+    {
+        Test,
+        RenewScore
+    }
     string networkState;
     public GameObject Player;
 
@@ -47,8 +52,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void RaiseEventSample()
     {
-        byte evCode = 0;
+        byte evCode = (byte)EventCode.Test;
         object[] data = new object[] { "test", "sample", 7, 7, 1 };
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        SendOptions sendOpt = new SendOptions { Reliability = true };
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
+
+    public void RenewGameScore(int team, int point)
+    {
+        byte evCode = (byte)EventCode.RenewScore;
+        object[] data = new object[] { team, point };
         RaiseEventOptions RaiseOpt = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         SendOptions sendOpt = new SendOptions { Reliability = true };
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);

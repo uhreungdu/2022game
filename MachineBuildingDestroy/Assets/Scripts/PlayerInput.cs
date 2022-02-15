@@ -42,7 +42,7 @@ public class PlayerInput : MonoBehaviour
         move = Input.GetAxis(moveAxisName);
         // rotate에 관한 입력 감지
         rotate = Input.GetAxis(rotateAxisName);
-        if (Application.platform == RuntimePlatform.WindowsEditor)
+        if (Application.platform == RuntimePlatform.Android)
         {
             move = joystick.moveVector.y;
             rotate = joystick.moveVector.x;
