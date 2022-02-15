@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerState : LivingEntity
 {
     public int team { get; private set; }
+    public int point { get; private set; }
     // Start is called before the first frame update
     public AudioClip deathClip; // 사망 소리
     public AudioClip hitClip; // 피격 소리
@@ -14,14 +15,25 @@ public class PlayerState : LivingEntity
 
     void Start()
     {
-        //playerAnimator = GetComponent<Animator>();          // 지금 안됨
-        //playerAudioPlayer = GetComponent<AudioSource>();    // 지금 안됨
+        playerAnimator = GetComponent<Animator>();          // 지금 안됨
+        playerAudioPlayer = GetComponent<AudioSource>();    // 지금 안됨
         base.OnEnable();
     }
     protected override void OnEnable()
     {
         // LivingEntity의 OnEnable() 실행 (상태 초기화)
-        team = Random.Range(0, 1);
+        team = Random.Range(0, 2);
+        point = 0;
+    }
+
+    public void GainPoint(int Point)
+    {
+        point += Point;
+    }
+
+    public void ResetPoint()
+    {
+        point = 0;
     }
 
     // Update is called once per frame

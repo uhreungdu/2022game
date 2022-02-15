@@ -308,8 +308,8 @@ public class CMeshSlicer
         bObject.AddComponent<Rigidbody>();
         aObject.AddComponent<BoxCollider>();
         bObject.AddComponent<BoxCollider>();
-        CopyComponent<WallObject>(_target.GetComponent<WallObject>(), aObject);
-        CopyComponent<WallObject>(_target.GetComponent<WallObject>(), bObject);
+        // CopyComponent<WallObject>(_target.GetComponent<WallObject>(), aObject);
+        // CopyComponent<WallObject>(_target.GetComponent<WallObject>(), bObject);
         //Return cutted object
 
         return new GameObject[] { aObject, bObject };
