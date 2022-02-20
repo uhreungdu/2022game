@@ -41,7 +41,7 @@ public class WallObject : LivingEntity
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (collision.collider.gameObject.tag == "Wall")
         {
-            Debug.Log("벽끼리 충돌 감지");
+            // Debug.Log("벽끼리 충돌 감지");
             //gameObject.transform.localScale += new Vector3(0.3f, 0, 0.3f);
             //Destroy(collision.collider.gameObject);
             Destroy(gameObject);
