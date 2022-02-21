@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class thirdpersonmove : LivingEntity
+public class thirdpersonmove : MonoBehaviourPun
 {
     public CharacterController controller;
     public PlayerInput playerInput; // 플레이어조작을 관리하는 스크립트
@@ -37,9 +37,9 @@ public class thirdpersonmove : LivingEntity
     }
     void Update()
     {
-        Movement();
         Jump();
         Dash();
+        Movement();
     }
 
     public void Movement()
@@ -72,11 +72,17 @@ public class thirdpersonmove : LivingEntity
                 //Debug.Log(realmove.y);
             }
             jumpmove.y = yvelocity;
+
+            controller.Move(jumpmove * speed * Time.deltaTime);
+
             yvelocity += tempgravity * Time.deltaTime;
             //Debug.Log(jumpmove);
-            controller.Move(jumpmove * speed * Time.deltaTime);
-            Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
-            playeranimator.SetFloat("Move", Origindirection.magnitude);
+            if (controller.isGrounded)
+            {
+                yvelocity = 0;
+            }
+            // Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
+            // playeranimator.SetFloat("Move", Origindirection.magnitude);
         }
     }
 

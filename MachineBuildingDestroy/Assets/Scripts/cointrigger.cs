@@ -18,9 +18,10 @@ public class cointrigger : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        int team;
+        if (other.gameObject.tag == "Player")
         {
-            gManager.setScore(0,1);
+            other.gameObject.GetComponentInParent<PlayerState>().AddPoint(1);
             Destroy(gameObject);
         }
     }
