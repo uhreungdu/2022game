@@ -72,7 +72,6 @@ public class thirdpersonmove : MonoBehaviourPun
                 //Debug.Log(realmove.y);
             }
             jumpmove.y = yvelocity;
-            Debug.Log(yvelocity);
 
             controller.Move(jumpmove * speed * Time.deltaTime);
 
