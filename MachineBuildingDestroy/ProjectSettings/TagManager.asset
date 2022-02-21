@@ -8,6 +8,8 @@ TagManager:
   - Score_UI
   - CamPos
   - Timer
+  - Goalpost
+  - Wall
   layers:
   - Default
   - TransparentFX
