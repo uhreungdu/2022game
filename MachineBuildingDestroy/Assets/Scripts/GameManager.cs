@@ -20,7 +20,19 @@ public class GameManager : MonoBehaviour
         }
         return instance;
     }
-    float time_display;
+    public float time_display;
+    public struct timer_block{
+        public int min;
+        public float sec;
+
+        public void settimes(int val, float val2)
+        {
+            min = val;
+            sec = val2;
+        }
+    }
+    public timer_block now_timer;
+
     void Awake()
     {
         if(instance == null)
@@ -38,19 +50,14 @@ public class GameManager : MonoBehaviour
 		{
 			if(instance != this)
 			{
-				// 인스턴스가 이미 존재하며, 이 인스턴스가 나 자신이 아니라면
-				// 즉 이미 다른 누군가가 인스턴스 자리에 있다면
-				// 첫번쨰 이후에 만들어진, 즉 자신을 스스로 제거한다.
 				Destroy(gameObject);
 			}
 		
 		}
-        //씬 옮길때 해당 오브젝트 삭제하지 않도록 하는 것
         DontDestroyOnLoad(instance);
         for(int i = 0;i<2;++i)
         {
             gamescore[i] = 0;
-            //Debug.Log("값들어감?");
         }
     }
 
@@ -77,8 +84,8 @@ public class GameManager : MonoBehaviour
     {
         return gamescore[team] += point;
     }
-    public float getTime()
+    public timer_block getTime()
     {
-        return time_display;
+        return now_timer;
     }
 }
