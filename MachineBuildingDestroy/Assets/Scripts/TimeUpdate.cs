@@ -10,6 +10,7 @@ public class TimeUpdate : MonoBehaviour
     private Text Timetext;
     int min;
     float secs;
+    float time_temp;
     void Start()
     {
         gManager = GameManager.GetInstance();
@@ -25,6 +26,7 @@ public class TimeUpdate : MonoBehaviour
     {
         if(min< 5)
         {
+            time_temp += Time.deltaTime;
             secs += Time.deltaTime;
             //TimeDisplay.GetComponent<Text>().text = temp.ToString();
             Timetext.text = string.Format("{0:D1} : {1:D2}",min,(int)secs);
@@ -34,7 +36,11 @@ public class TimeUpdate : MonoBehaviour
                 min ++;
                 
             }
-            gManager.now_timer.settimes(min,secs);
+            gManager.now_timer.settimes(min,secs,time_temp);
+            gManager.EManager.SetTime(min,secs,time_temp);
+            gManager.EManager.Active_Itembox();
+            gManager.EManager.Active_Goalopost();
+            gManager.EManager.Active_landmakr();
         }
         else
         {
