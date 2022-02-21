@@ -26,7 +26,7 @@ public class PlayerState : LivingEntity
         point = 0;
     }
 
-    public void GainPoint(int Point)
+    public void AddPoint(int Point)
     {
         point += Point;
     }

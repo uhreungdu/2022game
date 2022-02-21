@@ -40,9 +40,9 @@ public class thirdpersonmove : MonoBehaviourPun
     }
     void Update()
     {
-        Movement();
         Jump();
         Dash();
+        Movement();
     }
 
     public void Movement()
@@ -78,11 +78,17 @@ public class thirdpersonmove : MonoBehaviourPun
                 //Debug.Log(realmove.y);
             }
             jumpmove.y = yvelocity;
+
+            controller.Move(jumpmove * speed * Time.deltaTime);
+
             yvelocity += tempgravity * Time.deltaTime;
             //Debug.Log(jumpmove);
-            controller.Move(jumpmove * speed * Time.deltaTime);
-            Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
-            playeranimator.SetFloat("Move", Origindirection.magnitude);
+            if (controller.isGrounded)
+            {
+                yvelocity = 0;
+            }
+            // Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
+            // playeranimator.SetFloat("Move", Origindirection.magnitude);
         }
     }
 

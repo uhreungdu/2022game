@@ -32,7 +32,9 @@ public class TimeUpdate : MonoBehaviour
             {
                 secs = 0;
                 min ++;
+                
             }
+            gManager.now_timer.settimes(min,secs);
         }
         else
         {

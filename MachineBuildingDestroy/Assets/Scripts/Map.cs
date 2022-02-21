@@ -29,8 +29,8 @@ public class Map : MonoBehaviour
         temp.transform.localScale += new Vector3(x - 1, 0, z - 1);
         for (int i = 0; i < 100; ++i)
         {
-            position.x = Random.RandomRange(-offset * (x / 2) + offset, offset * (x / 2) - offset);
-            position.y = Random.RandomRange(20, 50);
+                position.x = Random.RandomRange(-offset * (x / 2) + offset, offset * (x / 2) - offset);
+                position.y = Random.RandomRange(20, 50);
             position.z = Random.RandomRange(-offset * (z / 2) + offset, offset * (z / 2) - offset);
 
             GameObject wall = Instantiate(bulidingpref, position, bulidingpref.transform.rotation);
