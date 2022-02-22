@@ -61,6 +61,12 @@ public class Map : MonoBehaviour
                 case 1:
                     tilepref = bulidingpref;
                     break;
+                case 2:
+                    tilepref = bulidingpref;
+                    break;
+                case 3:
+                    tilepref = bulidingpref;
+                    break;
             }
             GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, tilepref.transform.rotation);
             temp.transform.SetParent(this.transform);
