@@ -80,10 +80,16 @@ public class GameManager : MonoBehaviour
     public int getScore(int num){
         return gamescore[num];
     }
-    public int setScore(int team, int point)
+    public int plusScore(int team, int point)
     {
         return gamescore[team] += point;
     }
+
+    public int setScore(int team, int point)
+    {
+        return gamescore[team] = point;
+    }
+
     public timer_block getTime()
     {
         return now_timer;

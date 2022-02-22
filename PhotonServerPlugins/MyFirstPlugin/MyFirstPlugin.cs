@@ -8,8 +8,15 @@ using Photon.Hive.Plugin;
 namespace MyFirstPlugin
 {
     class MyFirstPlugin : PluginBase
-    {
-        private Class1 DB;
+    {   
+        enum EventCode : byte
+        {
+            Test = 0,
+            RenewScore
+        }
+
+        private int variableTest = 0;
+        private int[] score = new int[2];
         public override string Name => "MyFirstPlugin";
 
         public override void OnCreateGame(ICreateGameCallInfo info)
@@ -25,6 +32,11 @@ namespace MyFirstPlugin
             PluginHost.LogInfo($"OnCreateGame {info.Request.GameId} by user {info.UserId}");
             info.Continue(); // base.OnCreateGame(info) 와 같다.
         }
+        public override void OnJoin(IJoinGameCallInfo info)
+        {
+            variableTest++;
+            base.OnJoin(info);
+        }
 
         public override void OnRaiseEvent(IRaiseEventCallInfo info)
         {
@@ -32,8 +44,16 @@ namespace MyFirstPlugin
 
             switch (info.Request.EvCode)
             {
-                case 0:
-                    info.Request.Data = new object[] { "이 이벤트는", "몰?루가 지배했다", "EVENT", "HOOK", "TEST" };
+                case (byte)EventCode.Test:
+                    info.Request.Data = new object[] { "이 이벤트는", "몰?루가 지배했다", variableTest, "HOOK", "TEST" };
+                    break;
+
+                case (byte)EventCode.RenewScore:
+                    object[] data = (object[])info.Request.Data;
+                    int team = (int)data[0];
+                    int point = (int)data[1];
+                    score[team] = score[team] + point;
+                    info.Request.Data = new object[] { score[0], score[1] };
                     break;
 
                 default:
@@ -49,4 +69,5 @@ namespace MyFirstPlugin
 
         }
     }
+
 }

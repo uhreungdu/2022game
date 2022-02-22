@@ -195,12 +195,6 @@ MonoBehaviour:
   gourndgravity: -0.05
   turnsmoothTime: 0.1
   jumpower: 5
-  pos_x: 0
-  pos_y: 0
-  pos_z: 0
-  ang_x: 0
-  ang_y: 0
-  ang_z: 0
 --- !u!114 &8102902553242721008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf70f880ef4c9f2478987bd819c57023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gManager: {fileID: 0}
 --- !u!114 &4393584514899345586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +322,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
+  deathClip: {fileID: 0}
+  hitClip: {fileID: 0}
 --- !u!114 &-239434708854687426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +336,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 445914b38a4f085488ea4f5267b64d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 0}
+  playerState: {fileID: 0}
+  gManager: {fileID: 0}
+  timeBet: 3
 --- !u!1 &2236499985505941599
 GameObject:
   m_ObjectHideFlags: 0
