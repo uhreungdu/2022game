@@ -23,4 +23,3 @@ INSERT INTO room (
         $Pname
         );
         ");
-?>
