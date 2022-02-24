@@ -83,5 +83,13 @@ public class PlayerBasicAttack : MonoBehaviour
                 Debug.Log(attackTarget.health);
             }
         }
+        if (other.tag == "Player")
+        {
+            PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+            if (other.gameObject != null && !playerState.dead)
+            {
+                playerState.OnDamage(100);
+            }
+        }
     }
 }

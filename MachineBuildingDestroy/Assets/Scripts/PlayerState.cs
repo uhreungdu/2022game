@@ -9,6 +9,7 @@ public class PlayerState : LivingEntity
     // Start is called before the first frame update
     public AudioClip deathClip; // 사망 소리
     public AudioClip hitClip; // 피격 소리
+    public GameManager gManager;
 
     private AudioSource playerAudioPlayer; // 플레이어 소리 재생기
     private Animator playerAnimator; // 플레이어의 애니메이터
@@ -17,13 +18,20 @@ public class PlayerState : LivingEntity
     {
         playerAnimator = GetComponent<Animator>();          // 지금 안됨
         playerAudioPlayer = GetComponent<AudioSource>();    // 지금 안됨
+        team = Random.Range(0, 2);
+        gManager = GameManager.GetInstance();
         base.OnEnable();
     }
     protected override void OnEnable()
     {
         // LivingEntity의 OnEnable() 실행 (상태 초기화)
-        team = Random.Range(0, 2);
+        onDeath += DieAction;
+        gManager.addTeamcount(team);
         point = 0;
+    }
+    public void DieAction()
+    {
+        gameObject.SetActive(false);
     }
 
     public void AddPoint(int Point)

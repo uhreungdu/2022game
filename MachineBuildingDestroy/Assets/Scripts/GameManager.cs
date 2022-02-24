@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private static GameManager instance;
     private int[] gamescore = new int[2];
+    private int[] teamcount = new int[2];
     public static GameManager GetInstance()
     {
         if(instance == null)
@@ -83,6 +84,14 @@ public class GameManager : MonoBehaviour
     public int setScore(int team, int point)
     {
         return gamescore[team] += point;
+    }
+    public int getTeamcount(int num)
+    {
+        return teamcount[num];
+    }
+    public int addTeamcount(int team)
+    {
+        return teamcount[team] += 1;
     }
     public timer_block getTime()
     {
