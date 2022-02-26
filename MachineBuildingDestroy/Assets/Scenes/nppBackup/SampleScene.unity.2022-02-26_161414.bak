@@ -1464,6 +1464,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Thrid Person Player
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 2236499985505941597, guid: b2472c8d3eaf73646bbda371a4440ed4, type: 3}
       propertyPath: m_Height
       value: 2
@@ -1486,6 +1487,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236499985505941598, guid: b2472c8d3eaf73646bbda371a4440ed4, type: 3}
       propertyPath: m_LocalPosition.y
+=======
+    - target: {fileID: 2236499985377425416, guid: b2472c8d3eaf73646bbda371a4440ed4, type: 3}
+      propertyPath: m_IsActive
+>>>>>>> main
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8102902553242721008, guid: b2472c8d3eaf73646bbda371a4440ed4, type: 3}
