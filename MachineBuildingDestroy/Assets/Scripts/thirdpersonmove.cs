@@ -20,12 +20,14 @@ public class thirdpersonmove : MonoBehaviourPun
     float turnsmoothvelocity;
     public float jumpower = 10f;
 
+    /*
     public float pos_x;
     public float pos_y;
     public float pos_z;
     public float ang_x;
     public float ang_y;
     public float ang_z;
+    */
 
     void Start()
     {
@@ -34,6 +36,7 @@ public class thirdpersonmove : MonoBehaviourPun
         playerInput = GetComponent <PlayerInput>();
         playeranimator = GetComponent<Animator>();
         jumpower = 6f;
+        Debug.Log(Application.platform);
     }
     void Update()
     {
@@ -44,14 +47,17 @@ public class thirdpersonmove : MonoBehaviourPun
 
     public void Movement()
     {
-        //Debug.Log(cam.eulerAngles);
-        //Debug.Log(cam.position);
+        /*
+        Debug.Log(cam.eulerAngles);
+        Debug.Log(cam.position);
         pos_x = cam.position.x;
         pos_y = cam.position.y;
         pos_z = cam.position.z;
         ang_x = cam.eulerAngles.x;
         ang_y = cam.eulerAngles.y;
         ang_z = cam.eulerAngles.z;
+        */
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         //Vector3 direction = new Vector3(horizontal,0f,vertical).normalized;

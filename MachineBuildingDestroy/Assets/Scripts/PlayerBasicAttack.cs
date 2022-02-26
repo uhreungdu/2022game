@@ -28,7 +28,7 @@ public class PlayerBasicAttack : MonoBehaviour
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
             {
-                Debug.Log("앞 백터 = " + boxCollider.transform.forward);
+                //Debug.Log("앞 백터 = " + boxCollider.transform.forward);
                 if (Time.time >= lastAttackTime + timeBetAttack + activeAttackTime)
                 {
                     lastAttackTime = Time.time;

@@ -33,7 +33,9 @@ public class PlayerInteract : MonoBehaviour
             if (Time.time >= lastTime + timeBet)
             {
                 lastTime = -1;
-                gManager.setScore(playerState.team, playerState.point);
+                //gManager.setScore(playerState.team, playerState.point);
+                GameObject.Find("NetworkManager").GetComponent<NetworkManager>()
+                    .RenewGameScore(playerState.team, playerState.point);
                 playerState.ResetPoint();
             }
         }
