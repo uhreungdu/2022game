@@ -20,8 +20,6 @@ public class WallObject : LivingEntity
 
     public void DieAction()
     {
-        // 사망 상태를 참으로 변경
-        dead = true;
         for (int i = 0; i < 10; ++i)
         {
             float radian = (Random.Range(0, 360)) * Mathf.PI / 180;

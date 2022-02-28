@@ -25,65 +25,15 @@ public class GameManager : MonoBehaviour
     public struct timer_block{
         public int min;
         public float sec;
-        public float Ntimer;
-        public void settimes(int val, float val2, float val3)
+
+        public void settimes(int val, float val2)
         {
             min = val;
             sec = val2;
-            Ntimer = val3;
         }
     }
     public timer_block now_timer;
-    public class Event_manager{
-        public int min;
-        public float sec;
-        public float Ntimer;
-        public bool itembox_Create;
-        public bool goalpost_Create;
-        public bool landmakr_Create;
-        public void SetTime(int val, float val2, float val3){
-            min = val;
-            sec = val2;
-            Ntimer = val3;
-        }
-        public void Active_Itembox(){
-            if((int)Ntimer / 90 > 0 && (int)Ntimer % 90 < 20)
-            {
-                itembox_Create = true;
-                Debug.Log("아이템 생성");
-            }
-            else
-            {
-                itembox_Create = false;
-                //Debug.Log(Ntimer);
-            }
-        }
-        public void Active_Goalopost(){
-            if((int)Ntimer / 60 > 0 && (int)Ntimer % 60 < 20)
-            {
-                goalpost_Create = true;
-                //Debug.Log("아이템 생성");
-            }
-            else
-            {
-                goalpost_Create = false;
-                //Debug.Log(Ntimer);
-            }
-        }
-        public void Active_landmakr(){
-            if((int)Ntimer / 240 > 0)
-            {
-                landmakr_Create = true;
-                //Debug.Log("아이템 생성");
-            }
-            else
-            {
-                landmakr_Create = false;
-            }
-        }
-        
-    }
-    public Event_manager EManager = new Event_manager();
+
     void Awake()
     {
         if(instance == null)
@@ -135,6 +85,7 @@ public class GameManager : MonoBehaviour
     {
         return gamescore[team] += point;
     }
+<<<<<<< HEAD
     public int getTeamcount(int num)
     {
         return teamcount[num];
@@ -143,10 +94,14 @@ public class GameManager : MonoBehaviour
     {
         return teamcount[team] += 1;
     }
+=======
+
     public int setScore(int team, int point)
     {
         return gamescore[team] = point;
     }
+
+>>>>>>> main
     public timer_block getTime()
     {
         return now_timer;

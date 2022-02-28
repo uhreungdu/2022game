@@ -46,7 +46,6 @@ public class PlayerInteract : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Goalpost")
         {
             neargoalpost = true;
@@ -54,7 +53,6 @@ public class PlayerInteract : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Goalpost")
         {
             neargoalpost = false;
