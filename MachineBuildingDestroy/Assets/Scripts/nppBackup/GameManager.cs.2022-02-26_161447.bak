@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
     {
         return gamescore[team] += point;
     }
+<<<<<<< HEAD
     public int getTeamcount(int num)
     {
         return teamcount[num];
@@ -93,10 +94,14 @@ public class GameManager : MonoBehaviour
     {
         return teamcount[team] += 1;
     }
+=======
+
     public int setScore(int team, int point)
     {
         return gamescore[team] = point;
     }
+
+>>>>>>> main
     public timer_block getTime()
     {
         return now_timer;

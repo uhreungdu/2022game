@@ -17,7 +17,7 @@ public class PlayerBasicAttack : MonoBehaviour
     void Start()
     {
         playerInput = GetComponentInParent<PlayerInput>();
-        boxCollider = GetComponent<BoxCollider>();
+        boxCollider = GetComponentInChildren<BoxCollider>();
         boxmaterial = GetComponentInChildren<MeshRenderer>().sharedMaterial;
     }
 
@@ -46,27 +46,6 @@ public class PlayerBasicAttack : MonoBehaviour
             boxCollider.enabled = false;
         }
 
-        if (playerInput.fire)
-        {
-            if (Time.time >= lastAttackTime + timeBetAttack)
-            {
-                Debug.Log("앞 백터 = " + boxCollider.transform.forward);
-                if (Time.time >= lastAttackTime + timeBetAttack + activeAttackTime)
-                {
-                    lastAttackTime = Time.time;
-                }
-                boxCollider.enabled = true;
-            }
-            else
-            {
-                // 코드 너무 이상하게 짠듯 나중에 바꿈
-                boxCollider.enabled = false;
-            }
-        }
-        else
-        {
-            boxCollider.enabled = false;
-        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -81,6 +60,14 @@ public class PlayerBasicAttack : MonoBehaviour
                 attackTarget.OnDamage(100);
                 CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
                 Debug.Log(attackTarget.health);
+            }
+        }
+        if (other.tag == "Player")
+        {
+            PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+            if (other.gameObject != null && !playerState.dead)
+            {
+                playerState.OnDamage(100);
             }
         }
     }
