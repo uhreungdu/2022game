@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
         {
             gamescore[i] = 0;
         }
+        now_timer.settimes(0,0,0f);
     }
 
     // Update is called once per frame
@@ -119,7 +120,7 @@ public class GameManager : MonoBehaviour
         {
             if(gamescore[i] <= 5)
             {
-                time_display += Time.deltaTime;
+                Time_check();
             }
             else
             {
@@ -150,5 +151,24 @@ public class GameManager : MonoBehaviour
     public timer_block getTime()
     {
         return now_timer;
+    }
+    public void Time_check()
+    {
+        if(now_timer.min < 5)
+        {
+            now_timer.Ntimer += Time.deltaTime;
+            now_timer.sec += Time.deltaTime;
+            if((int)now_timer.sec > 59)
+            {
+                now_timer.sec = 0;
+                now_timer.min += 1;
+            }
+            EManager.SetTime(now_timer.min,now_timer.sec,now_timer.Ntimer);
+            EManager.Active_Itembox();
+            EManager.Active_Goalopost();
+            EManager.Active_landmakr();
+        }
+        
+        Debug.Log(now_timer.min);
     }
 }
