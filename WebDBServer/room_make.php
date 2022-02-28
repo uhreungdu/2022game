@@ -2,14 +2,14 @@
 
 $conn = mysqli_connect("localhost","root","kpu2022project","2022project");
 
-$iname=$_GET['iname'];
-$ename=$_GET['ename'];
-$nowPnum=$_GET['nowPnum'];
-$maxPnum=$_GET['maxPnum'];
-$Pname=$_GET['Pname'];
+$iname=$_POST['iname'];
+$ename=$_POST['ename'];
+$nowPnum=$_POST['nowPnum'];
+$maxPnum=$_POST['maxPnum'];
+$Pname=$_POST['Pname'];
 
 // 이미 생성된 방 체크    
-$result = mysqli_query($conn,"SELECT COUNT(*) FROM room WHERE internal_name=$iname;");
+$result = mysqli_query($conn,"SELECT COUNT(*) FROM room WHERE internal_name='$iname';");
 $resultval = $result->fetch_array()[0];
 if($resultval > 0){
     echo('이미 생성된 방');

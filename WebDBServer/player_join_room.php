@@ -2,8 +2,8 @@
 
 $conn = mysqli_connect("localhost","root","kpu2022project","2022project");
 
-$iname=$_GET['iname'];
-$Pname=$_GET['Pname'];
+$iname=$_POST['iname'];
+$Pname=$_POST['Pname'];
 
 // 방 존재하는지 체크
 $result = mysqli_query($conn,"SELECT COUNT(*) FROM room WHERE internal_name='$iname';");

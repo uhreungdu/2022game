@@ -2,8 +2,8 @@
 
 $conn = mysqli_connect("localhost","root","kpu2022project","2022project");
 
-$iname=$_GET['iname'];
-$Pname=$_GET['Pname'];
+$iname=$_POST['iname'];
+$Pname=$_POST['Pname'];
 
 // 플레이중인 유저 목록에서 제거
 mysqli_query($conn,"

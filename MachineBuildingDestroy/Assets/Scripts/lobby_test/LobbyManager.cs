@@ -11,6 +11,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private static LobbyManager instance;
     [SerializeField]
     private string PlayerName;
+    public GameObject Room;
     string networkState;
     
 
@@ -56,6 +57,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void SetName(string text)
     {
         PlayerName = text;
+    }
+
+    public string GetName()
+    {
+        return PlayerName;
     }
 
 }

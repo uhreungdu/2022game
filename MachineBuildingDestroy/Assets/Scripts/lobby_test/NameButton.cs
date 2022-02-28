@@ -22,5 +22,6 @@ public class NameButton : MonoBehaviour
     public void SetName()
     {
         gManager.SetName(GameObject.Find("Name").GetComponent<InputField>().text + Random.Range(0, 9999));
+        GameObject.Find("CreateRoomButton").GetComponent<Button>().interactable = true;
     }
 }
