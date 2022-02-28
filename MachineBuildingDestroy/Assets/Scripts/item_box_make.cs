@@ -50,9 +50,8 @@ public class item_box_make : MonoBehaviour
             transform.Rotate(Vector3.up * 20 * Time.deltaTime);
         }
     }
-    public void decide_type(){
-        int type_rand = Random.Range(0,3);
-        switch(type_rand){
+    public void decide_type(int type){
+        switch(type){
             case 0:
                 now_type = item_type.weapon;
                 break;

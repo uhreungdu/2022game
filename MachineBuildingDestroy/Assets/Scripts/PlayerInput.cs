@@ -16,7 +16,7 @@ public class PlayerInput : MonoBehaviour
     void Start()
     {
         // 에디터 상에서 체크할려면 WindowsEditor로 해야됨
-        if (Application.platform == RuntimePlatform.WindowsEditor)
+        if (Application.platform == RuntimePlatform.Android)
             joystick = GameObject.Find("Joystickback").GetComponent<Joystick>();
     }
 
