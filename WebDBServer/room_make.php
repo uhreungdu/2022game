@@ -1,6 +1,6 @@
 <?php
 
-$conn = mysqli_connect("localhost","root","hj7856","test");
+$conn = mysqli_connect("localhost","root","kpu2022project","2022project");
 
 $iname=$_GET['iname'];
 $ename=$_GET['ename'];

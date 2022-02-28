@@ -1,14 +1,12 @@
 <?php
-$DB = new SQLite3('DB����.db');
+$conn = mysqli_connect("localhost","root","kpu2022project","2022project");
 
-if($DB->lastErrorCode() == 1){
-	echo "Database connection failed";
-	echo $DB->lastErrorMsg();
+$result = mysqli_query($conn,"SELECT COUNT(*) FROM room WHERE internal_name='$iname';");
+$resultval = $result->fetch_array()[0];
+if($resultval > 0){
+    echo('이미 생성된 방');
+    exit();
 }
 
-$result = $DB->query("SELECT * FROM 'USER_ACOUNT';");
-
-while($row = $result->fetchArray(SQLITE3_ASSOC)){
-	echo $row["ID"]."<br>";
-}
+echo('db연결');
 ?>
