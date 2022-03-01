@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.Networking;
 using ExitGames.Client.Photon;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
@@ -15,14 +16,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private string inroomName;
     public GameObject Room;
     string networkState;
-    
+
 
     public static LobbyManager GetInstance()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = FindObjectOfType<LobbyManager>();
-            if(instance == null)
+            if (instance == null)
             {
                 GameObject container = new GameObject("LobbyManager");
                 instance = container.AddComponent<LobbyManager>();
@@ -33,17 +34,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
-        else if(instance != this)
+        else if (instance != this)
         {
             Destroy(gameObject);
         }
     }
-    void Start() =>
+    void Start()
+    {
         PhotonNetwork.ConnectUsingSettings();
+        StartCoroutine(WebRequest());
+    }
 
     // Update is called once per frame
     void Update()
@@ -54,6 +58,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             networkState = curNetworkState;
             print(networkState);
         }
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomBlocks();
     }
 
     public void SetName(string text)
@@ -86,4 +95,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         return exroomName;
     }
 
+
+    IEnumerator WebRequest()
+    {
+        WWWForm form = new WWWForm();
+
+        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/get_room_list.php", form);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            string results = www.downloadHandler.text;
+            GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomList(results.Split(';'));
+            GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomBlocks();
+        }
+    }
 }
