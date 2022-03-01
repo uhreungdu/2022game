@@ -10,9 +10,6 @@ public class CreateRoomButton : MonoBehaviour
 {
     public LobbyManager gManager;
 
-    string exroomName;
-    string inroomName;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -29,16 +26,17 @@ public class CreateRoomButton : MonoBehaviour
 
     public void CreateRoom()
     {
-        exroomName = "테스트" + Random.Range(0, 9999);
-        inroomName = exroomName + gManager.GetName() + System.DateTime.Now.ToString(" yyyy-MM-dd-HH-mm-ss");
+        gManager.SetExRoomName("테스트" + Random.Range(0, 9999));
+        gManager.SetInRoomName(gManager.GetExRoomName() + 
+            gManager.GetName() + System.DateTime.Now.ToString(" yyyy-MM-dd-HH-mm-ss"));
 
         StartCoroutine(WebRequest());
     }
     IEnumerator WebRequest()
     {
         WWWForm form = new WWWForm();
-        form.AddField("iname", "\""+inroomName+"\"" );
-        form.AddField("ename", "\"" + exroomName + "\"");
+        form.AddField("iname", "\""+gManager.GetInRoomName()+"\"" );
+        form.AddField("ename", "\"" + gManager.GetExRoomName() + "\"");
         form.AddField("nowPnum", 1);
         form.AddField("maxPnum", 6);
         form.AddField("Pname", "\"" + gManager.GetName() + "\"");
@@ -53,7 +51,10 @@ public class CreateRoomButton : MonoBehaviour
         else
         {
             Debug.Log("Form upload complete!");
-            PhotonNetwork.JoinOrCreateRoom(inroomName, new RoomOptions { MaxPlayers = 6 }, null);
+            PhotonNetwork.JoinOrCreateRoom(gManager.GetInRoomName(), new RoomOptions { MaxPlayers = 6 }, null);
+            GameObject.Find("DelRoomButton").GetComponent<Button>().interactable = true;
+            GameObject.Find("SetNameButton").GetComponent<Button>().interactable = false;
+            GetComponent<Button>().interactable = false;
         }
     }
 }
