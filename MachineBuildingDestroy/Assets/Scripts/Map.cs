@@ -57,9 +57,11 @@ public class Map : MonoBehaviour
             {
                 case 0:
                     tilepref = planepref;
+                    tilepref.name = "plane" + i;
                     break;
                 case 1:
                     tilepref = bulidingpref;
+                    tilepref.name = "buliding" + i;
                     break;
                 case 2:
                     tilepref = bulidingpref;
