@@ -45,8 +45,9 @@ public class DelRoomButton : MonoBehaviour
             Debug.Log("Form upload complete!");
             PhotonNetwork.LeaveRoom();
             GameObject.Find("CreateRoomButton").GetComponent<Button>().interactable = true;
-            GameObject.Find("SetNameButton").GetComponent<Button>().interactable = true;
             GetComponent<Button>().interactable = false;
+            // 시연을 위해 무조건 리스트가 갱신되게 넣은것
+            StartCoroutine(gManager.GetRoomList());
         }
     }
 }

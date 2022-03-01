@@ -39,6 +39,17 @@ public class RoomList : MonoBehaviour
                 SetVariables(iname,ename,nowP,maxP);
                 
         }
+        for (int i = rooms.Length-1; i < 6; i++)
+        {
+            string iname = "";
+            string ename = "";
+            int nowP = 0;
+            int maxP = 0;
+
+            RoomBlocks[i].GetComponent<RoomBlock>().
+                SetVariables(iname, ename, nowP, maxP);
+
+        }
     }
 
     string GetStringDataValue(string data, string index)

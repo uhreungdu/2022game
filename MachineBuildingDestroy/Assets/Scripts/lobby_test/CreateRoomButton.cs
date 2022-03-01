@@ -26,7 +26,7 @@ public class CreateRoomButton : MonoBehaviour
 
     public void CreateRoom()
     {
-        gManager.SetExRoomName("테스트" + Random.Range(0, 9999));
+        gManager.SetExRoomName(gManager.GetName()+"의 방" + Random.Range(0, 9999));
         gManager.SetInRoomName(gManager.GetExRoomName() + 
             gManager.GetName() + System.DateTime.Now.ToString(" yyyy-MM-dd-HH-mm-ss"));
 
@@ -55,6 +55,8 @@ public class CreateRoomButton : MonoBehaviour
             GameObject.Find("DelRoomButton").GetComponent<Button>().interactable = true;
             GameObject.Find("SetNameButton").GetComponent<Button>().interactable = false;
             GetComponent<Button>().interactable = false;
+            // 시연을 위해 무조건 리스트가 갱신되게 넣은것
+            StartCoroutine(gManager.GetRoomList());
         }
     }
 }

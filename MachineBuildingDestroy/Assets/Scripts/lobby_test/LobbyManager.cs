@@ -34,19 +34,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
+        var obj = FindObjectsOfType<LobbyManager>(); 
+        if (obj.Length == 1) 
+        { 
+            DontDestroyOnLoad(gameObject); 
+        } 
+        else 
+        { 
+            Destroy(gameObject); 
         }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
+
+    
     }
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
-        StartCoroutine(WebRequest());
+        StartCoroutine(GetRoomList());
     }
 
     // Update is called once per frame
@@ -62,7 +65,25 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomBlocks();
+        StartCoroutine(GetRoomList());
+    }
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("Join OK");
+    }
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.Log(message);
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        StartCoroutine(GetRoomList());
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        StartCoroutine(GetRoomList());
     }
 
     public void SetName(string text)
@@ -96,7 +117,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
 
-    IEnumerator WebRequest()
+    public IEnumerator GetRoomList()
     {
         WWWForm form = new WWWForm();
 
@@ -110,6 +131,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         else
         {
             string results = www.downloadHandler.text;
+            Debug.Log(results);
             GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomList(results.Split(';'));
             GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomBlocks();
         }

@@ -42,3 +42,4 @@ UPDATE room
 SET now_playernum = now_playernum + 1
 WHERE internal_name = $iname;
 ");
+echo ("방에 들어왔습니다.");
