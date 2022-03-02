@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 583386727964336637}
   m_Layer: 0
   m_Name: Coin
-  m_TagString: Untagged
+  m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,6 +111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gManager: {fileID: 0}
+  characterController: {fileID: 0}
+  pushPower: 2
 --- !u!54 &7759637799624331643
 Rigidbody:
   m_ObjectHideFlags: 0

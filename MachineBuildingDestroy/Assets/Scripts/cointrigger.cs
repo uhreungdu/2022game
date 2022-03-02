@@ -6,9 +6,11 @@ public class cointrigger : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameManager gManager;
+    public CharacterController characterController;
     void Start()
     {
         gManager = GameManager.GetInstance();
+        characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -16,6 +18,8 @@ public class cointrigger : MonoBehaviour
     {
         
     }
+
+
     void OnTriggerEnter(Collider other)
     {
         int team;

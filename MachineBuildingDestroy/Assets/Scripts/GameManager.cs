@@ -25,15 +25,65 @@ public class GameManager : MonoBehaviour
     public struct timer_block{
         public int min;
         public float sec;
-
-        public void settimes(int val, float val2)
+        public float Ntimer;
+        public void settimes(int val, float val2, float val3)
         {
             min = val;
             sec = val2;
+            Ntimer = val3;
         }
     }
     public timer_block now_timer;
-
+    public class Event_manager{
+        public int min;
+        public float sec;
+        public float Ntimer;
+        public bool itembox_Create;
+        public bool goalpost_Create;
+        public bool landmakr_Create;
+        public void SetTime(int val, float val2, float val3){
+            min = val;
+            sec = val2;
+            Ntimer = val3;
+        }
+        public void Active_Itembox(){
+            if((int)Ntimer / 90 > 0 && (int)Ntimer % 90 < 20)
+            {
+                itembox_Create = true;
+                Debug.Log("아이템 생성");
+            }
+            else
+            {
+                itembox_Create = false;
+                //Debug.Log(Ntimer);
+            }
+        }
+        public void Active_Goalopost(){
+            if((int)Ntimer / 60 > 0 && (int)Ntimer % 60 < 20)
+            {
+                goalpost_Create = true;
+                //Debug.Log("아이템 생성");
+            }
+            else
+            {
+                goalpost_Create = false;
+                //Debug.Log(Ntimer);
+            }
+        }
+        public void Active_landmakr(){
+            if((int)Ntimer / 240 > 0)
+            {
+                landmakr_Create = true;
+                //Debug.Log("아이템 생성");
+            }
+            else
+            {
+                landmakr_Create = false;
+            }
+        }
+        
+    }
+    public Event_manager EManager = new Event_manager();
     void Awake()
     {
         if(instance == null)
@@ -60,6 +110,7 @@ public class GameManager : MonoBehaviour
         {
             gamescore[i] = 0;
         }
+        now_timer.settimes(0,0,0f);
     }
 
     // Update is called once per frame
@@ -69,7 +120,7 @@ public class GameManager : MonoBehaviour
         {
             if(gamescore[i] <= 5)
             {
-                time_display += Time.deltaTime;
+                Time_check();
             }
             else
             {
@@ -100,5 +151,24 @@ public class GameManager : MonoBehaviour
     public timer_block getTime()
     {
         return now_timer;
+    }
+    public void Time_check()
+    {
+        if(now_timer.min < 5)
+        {
+            now_timer.Ntimer += Time.deltaTime;
+            now_timer.sec += Time.deltaTime;
+            if((int)now_timer.sec > 59)
+            {
+                now_timer.sec = 0;
+                now_timer.min += 1;
+            }
+            EManager.SetTime(now_timer.min,now_timer.sec,now_timer.Ntimer);
+            EManager.Active_Itembox();
+            EManager.Active_Goalopost();
+            EManager.Active_landmakr();
+        }
+        
+        Debug.Log(now_timer.min);
     }
 }
