@@ -18,13 +18,15 @@ public class item_box_make : MonoBehaviour
     public bool effect_switch;
     public float move_height;
     private Material material;
+    public GameManager GManager;
     private void Awake()
     {
         material = GetComponent<Renderer>().material;
     }
     void Start()
     {
-        effect_switch = true;
+        effect_switch = false;
+        GManager = GameManager.GetInstance();
     }
 
     // Update is called once per frame
@@ -48,6 +50,20 @@ public class item_box_make : MonoBehaviour
                 }
             }
             transform.Rotate(Vector3.up * 20 * Time.deltaTime);
+        }
+        if(GManager.EManager.itembox_Create == false && effect_switch == true)
+        {
+            if(move_height >= 0)
+            {
+                Time_temp += Time.deltaTime * Mathf.PI * 0.5f;
+                move_height += Mathf.Sin(Time_temp)* 2;
+                SetHeight(move_height);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
         }
     }
     public void decide_type(int type){

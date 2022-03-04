@@ -10,6 +10,7 @@ public class TimeUpdate : MonoBehaviour
     private Text Timetext;
     int min;
     float secs;
+    float time_temp;
     void Start()
     {
         gManager = GameManager.GetInstance();
@@ -23,22 +24,14 @@ public class TimeUpdate : MonoBehaviour
     }
     void Time_check()
     {
-        if(min< 5)
+        if(gManager.now_timer.min< 5)
         {
-            secs += Time.deltaTime;
-            //TimeDisplay.GetComponent<Text>().text = temp.ToString();
-            Timetext.text = string.Format("{0:D1} : {1:D2}",min,(int)secs);
-            if((int)secs > 59)
-            {
-                secs = 0;
-                min ++;
-                
-            }
-            gManager.now_timer.settimes(min,secs);
+            Timetext.text = string.Format("{0:D1} : {1:D2}",gManager.now_timer.min,(int)gManager.now_timer.sec);
         }
         else
         {
             Timetext.text = "Time up!";
+            Debug.Log(gManager.now_timer.min);
         }
     }
 }

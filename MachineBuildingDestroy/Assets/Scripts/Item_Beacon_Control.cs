@@ -35,7 +35,7 @@ public class Item_Beacon_Control : MonoBehaviourPun
             }
             
         }
-        else if(box_obj == null && Gmanager.now_timer.sec >= CreateTime)
+        else if(box_obj == null && Gmanager.EManager.itembox_Create == true)
         {
             if(have_box == true)
             {
@@ -44,7 +44,7 @@ public class Item_Beacon_Control : MonoBehaviourPun
             }
             else
             {
-                if(past_min != Gmanager.now_timer.min)
+                if(Gmanager.EManager.itembox_Create == false)
                 {
                     //have_box = true;
                 }
@@ -52,7 +52,7 @@ public class Item_Beacon_Control : MonoBehaviourPun
         }
         else
         {
-            
+            have_box = true;
         }
     }
 
