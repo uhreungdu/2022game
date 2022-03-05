@@ -2,8 +2,8 @@
 
 $conn = mysqli_connect("localhost","root","kpu2022project","2022project");
 
-$id=$_GET['id'];
-$name=$_GET['name'];
+$id=$_POST['id'];
+$name=$_POST['name'];
 
 // 계정 id 유효 체크
 $result = mysqli_query($conn,"SELECT COUNT(*) FROM account WHERE account_id=$id;");
