@@ -7,11 +7,13 @@ using UnityEngine.Networking;
 public class IDCheckButton : MonoBehaviour
 {
     private GameObject IDInput;
+    private GameObject PWInput;
 
     // Start is called before the first frame update
     void Start()
     {
         IDInput = GameObject.Find("R_IDInputField");
+        PWInput = GameObject.Find("R_PWInputField");
     }
 
     // Update is called once per frame
@@ -44,6 +46,7 @@ public class IDCheckButton : MonoBehaviour
             // IDCheck 활성화
             GetComponent<Button>().interactable = true;
             IDInput.GetComponent<InputField>().interactable = true;
+            PWInput.GetComponent<InputField>().interactable = false;
         }
         else
         {
@@ -53,6 +56,14 @@ public class IDCheckButton : MonoBehaviour
             // IDCheck 활성화
             GetComponent<Button>().interactable = true;
             IDInput.GetComponent<InputField>().interactable = true;
+            if (results == "OK")
+            {
+                PWInput.GetComponent<InputField>().interactable = true;    
+            }
+            else
+            {
+                PWInput.GetComponent<InputField>().interactable = false;
+            }
         }
     }
 }

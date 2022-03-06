@@ -518,7 +518,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 280544715}
   m_TextComponent: {fileID: 62984680}
   m_Placeholder: {fileID: 1439435142}
@@ -901,8 +901,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 517459108}
-        m_TargetAssemblyTypeName: LoginButton, Assembly-CSharp
+      - m_Target: {fileID: 517459112}
+        m_TargetAssemblyTypeName: SignupButton, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:

@@ -9,3 +9,5 @@ $pw=$_POST['pw'];
 mysqli_query($conn,"INSERT INTO account 
 (account_id,account_pw) 
     VALUE ($id, $pw);");
+    
+echo("OK");
