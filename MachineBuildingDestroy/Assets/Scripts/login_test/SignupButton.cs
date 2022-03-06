@@ -6,8 +6,8 @@ using UnityEngine.Networking;
 
 public class SignupButton : MonoBehaviour
 {
-    private GameObject IDInput;
-    private GameObject PWInput;
+    public GameObject IDInput;
+    public GameObject PWInput;
     public GameObject ParentWindow;
 
     private bool working = false;
@@ -15,8 +15,6 @@ public class SignupButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        IDInput = GameObject.Find("R_IDInputField");
-        PWInput = GameObject.Find("R_PWInputField");
     }
 
     // Update is called once per frame

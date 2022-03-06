@@ -6,14 +6,12 @@ using UnityEngine.Networking;
 
 public class LoginButton : MonoBehaviour
 {
-    private GameObject IDInput;
-    private GameObject PWInput;
+    public GameObject IDInput;
+    public GameObject PWInput;
     
     // Start is called before the first frame update
     void Start()
     {
-        IDInput = GameObject.Find("IDInputField");
-        PWInput = GameObject.Find("PWInputField");
     }
 
     // Update is called once per frame

@@ -6,14 +6,12 @@ using UnityEngine.Networking;
 
 public class IDCheckButton : MonoBehaviour
 {
-    private GameObject IDInput;
-    private GameObject PWInput;
+    public GameObject IDInput;
+    public GameObject PWInput;
 
     // Start is called before the first frame update
     void Start()
     {
-        IDInput = GameObject.Find("R_IDInputField");
-        PWInput = GameObject.Find("R_PWInputField");
     }
 
     // Update is called once per frame
