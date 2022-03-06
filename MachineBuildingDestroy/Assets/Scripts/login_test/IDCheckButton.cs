@@ -4,16 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class LoginButton : MonoBehaviour
+public class IDCheckButton : MonoBehaviour
 {
     private GameObject IDInput;
-    private GameObject PWInput;
-    
+
     // Start is called before the first frame update
     void Start()
     {
-        IDInput = GameObject.Find("IDInputField");
-        PWInput = GameObject.Find("PWInputField");
+        IDInput = GameObject.Find("R_IDInputField");
     }
 
     // Update is called once per frame
@@ -24,41 +22,37 @@ public class LoginButton : MonoBehaviour
 
     public void OnClick()
     {
-        // 로그인 창 비활성화
+        // IDCheck 비활성화
         GetComponent<Button>().interactable = false;
         IDInput.GetComponent<InputField>().interactable = false;
-        PWInput.GetComponent<InputField>().interactable = false;
-        
-        // 로그인 요청
-        StartCoroutine(LoginRequest());
+
+        // ID 검증 요청
+        StartCoroutine(IDCheckRequest());
     }
-    
-    IEnumerator LoginRequest()
+
+    IEnumerator IDCheckRequest()
     {
         WWWForm form = new WWWForm();
-        form.AddField("id", "\""+IDInput.GetComponent<InputField>().text+"\"") ;
-        form.AddField("pw", "\"" + PWInput.GetComponent<InputField>().text + "\"");
+        form.AddField("id", "\"" + IDInput.GetComponent<InputField>().text + "\"");
 
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/login_account.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/id_check.php", form);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
-            // 로그인 창 활성화
+            // IDCheck 활성화
             GetComponent<Button>().interactable = true;
             IDInput.GetComponent<InputField>().interactable = true;
-            PWInput.GetComponent<InputField>().interactable = true;
         }
         else
         {
             Debug.Log("Form upload complete!");
             string results = www.downloadHandler.text;
             Debug.Log(results);
-            // 로그인 창 활성화
+            // IDCheck 활성화
             GetComponent<Button>().interactable = true;
             IDInput.GetComponent<InputField>().interactable = true;
-            PWInput.GetComponent<InputField>().interactable = true;
         }
     }
 }

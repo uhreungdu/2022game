@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class LoginButton : MonoBehaviour
+public class SignupButton : MonoBehaviour
 {
     private GameObject IDInput;
     private GameObject PWInput;
@@ -12,8 +12,8 @@ public class LoginButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        IDInput = GameObject.Find("IDInputField");
-        PWInput = GameObject.Find("PWInputField");
+        IDInput = GameObject.Find("R_IDInputField");
+        PWInput = GameObject.Find("R_PWInputField");
     }
 
     // Update is called once per frame
@@ -32,14 +32,14 @@ public class LoginButton : MonoBehaviour
         // 로그인 요청
         StartCoroutine(LoginRequest());
     }
-    
+
     IEnumerator LoginRequest()
     {
         WWWForm form = new WWWForm();
-        form.AddField("id", "\""+IDInput.GetComponent<InputField>().text+"\"") ;
+        form.AddField("id", "\"" + IDInput.GetComponent<InputField>().text + "\"");
         form.AddField("pw", "\"" + PWInput.GetComponent<InputField>().text + "\"");
 
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/login_account.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login_account.php", form);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
