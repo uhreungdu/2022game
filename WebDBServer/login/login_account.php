@@ -20,4 +20,4 @@ if($resultval == 0){
     exit();
 }
 
-echo("로그인");
+echo("OK");

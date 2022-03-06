@@ -8,6 +8,9 @@ public class IDCheckButton : MonoBehaviour
 {
     public GameObject IDInput;
     public GameObject PWInput;
+    public GameObject ErrText;
+    
+    private bool working = false;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +20,14 @@ public class IDCheckButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Button>().interactable = IDInput.GetComponent<InputField>().text.Length != 0;
+        if (!working && IDInput.GetComponent<InputField>().text.Length != 0)
+        {
+            GetComponent<Button>().interactable = true;    
+        }
+        else
+        {
+            GetComponent<Button>().interactable = false;
+        }
     }
 
     public void OnClick()
@@ -27,6 +37,7 @@ public class IDCheckButton : MonoBehaviour
         IDInput.GetComponent<InputField>().interactable = false;
 
         // ID 검증 요청
+        working = true;
         StartCoroutine(IDCheckRequest());
     }
 
@@ -54,7 +65,17 @@ public class IDCheckButton : MonoBehaviour
             // IDCheck 활성화
             GetComponent<Button>().interactable = true;
             IDInput.GetComponent<InputField>().interactable = true;
-            PWInput.GetComponent<InputField>().interactable = results == "OK";
+            if (results == "OK")
+            {
+                PWInput.GetComponent<InputField>().interactable = true;
+                ErrText.SetActive(false);
+            }
+            else
+            {
+                ErrText.GetComponent<Text>().text = results;
+                ErrText.SetActive(true);
+            }
+            working = false;
         }
     }
 }

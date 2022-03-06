@@ -9,6 +9,7 @@ public class SignupButton : MonoBehaviour
     public GameObject IDInput;
     public GameObject PWInput;
     public GameObject ParentWindow;
+    public GameObject ErrText;
 
     private bool working = false;
     
@@ -62,14 +63,22 @@ public class SignupButton : MonoBehaviour
         }
         else
         {
-            Debug.Log("Form upload complete!");
             string results = www.downloadHandler.text;
             Debug.Log(results);
             // 가입 활성화
             GetComponent<Button>().interactable = true;
             IDInput.GetComponent<InputField>().interactable = true;
             PWInput.GetComponent<InputField>().interactable = true;
-            ParentWindow.SetActive(false);
+            if (results == "OK")
+            {
+                ParentWindow.SetActive(false);
+                ErrText.SetActive(false);
+            }
+            else
+            {
+                ErrText.GetComponent<Text>().text = results;
+                ErrText.SetActive(true);
+            }
             working = false;
         }
     }

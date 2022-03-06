@@ -8,6 +8,7 @@ public class LoginButton : MonoBehaviour
 {
     public GameObject IDInput;
     public GameObject PWInput;
+    public GameObject ErrText;
     
     // Start is called before the first frame update
     void Start()
@@ -50,13 +51,21 @@ public class LoginButton : MonoBehaviour
         }
         else
         {
-            Debug.Log("Form upload complete!");
             string results = www.downloadHandler.text;
             Debug.Log(results);
             // 로그인 창 활성화
             GetComponent<Button>().interactable = true;
             IDInput.GetComponent<InputField>().interactable = true;
             PWInput.GetComponent<InputField>().interactable = true;
+            if (results == "OK")
+            {
+                ErrText.SetActive(false);
+            }
+            else
+            {
+                ErrText.SetActive(true);
+                ErrText.GetComponent<Text>().text = results;
+            }
         }
     }
 }
