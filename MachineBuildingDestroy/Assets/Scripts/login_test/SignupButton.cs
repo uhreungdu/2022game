@@ -8,6 +8,7 @@ public class SignupButton : MonoBehaviour
 {
     private GameObject IDInput;
     private GameObject PWInput;
+    public GameObject ParentWindow;
 
     private bool working = false;
     
@@ -70,6 +71,7 @@ public class SignupButton : MonoBehaviour
             GetComponent<Button>().interactable = true;
             IDInput.GetComponent<InputField>().interactable = true;
             PWInput.GetComponent<InputField>().interactable = true;
+            ParentWindow.SetActive(false);
             working = false;
         }
     }

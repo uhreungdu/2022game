@@ -19,7 +19,7 @@ public class IDCheckButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GetComponent<Button>().interactable = IDInput.GetComponent<InputField>().text.Length != 0;
     }
 
     public void OnClick()
@@ -56,14 +56,7 @@ public class IDCheckButton : MonoBehaviour
             // IDCheck È°¼ºÈ­
             GetComponent<Button>().interactable = true;
             IDInput.GetComponent<InputField>().interactable = true;
-            if (results == "OK")
-            {
-                PWInput.GetComponent<InputField>().interactable = true;    
-            }
-            else
-            {
-                PWInput.GetComponent<InputField>().interactable = false;
-            }
+            PWInput.GetComponent<InputField>().interactable = results == "OK";
         }
     }
 }
