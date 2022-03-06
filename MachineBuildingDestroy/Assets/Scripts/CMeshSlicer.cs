@@ -20,12 +20,16 @@ public class CMeshSlicer : MonoBehaviour
 
 
     public static GameObject[] Slicer(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint, Material _ineterial)
-    { 
+    {
 
         //Original mesh data
 
-        Mesh orinMesh = _target.GetComponent<MeshFilter>().sharedMesh;
-        //Mesh orinMesh = _target.GetComponentInChildren<MeshFilter>().sharedMesh;
+        // Mesh orinMesh = _target.GetComponent<MeshFilter>().sharedMesh;
+        Mesh orinMesh = _target.GetComponentInChildren<MeshFilter>().sharedMesh;
+        if (orinMesh == null)
+        {
+
+        }
         
         Vector3[] orinVerts = orinMesh.vertices;
 
@@ -35,9 +39,12 @@ public class CMeshSlicer : MonoBehaviour
 
         int orinSubMeshCount = orinMesh.subMeshCount;
 
-        Material[] orinMaterials = _target.GetComponent<MeshRenderer>().sharedMaterials;
-        //Material[] orinMaterials = _target.GetComponentInChildren<MeshRenderer>().sharedMaterials;
+        // Material[] orinMaterials = _target.GetComponent<MeshRenderer>().sharedMaterials;
+        Material[] orinMaterials = _target.GetComponentInChildren<MeshRenderer>().sharedMaterials;
+        if (orinMaterials == null)
+        {
 
+        }
         int existInterialMatIdx = -1;
 
         for (int i = 0; i < orinMaterials.Length; i++)
@@ -204,7 +211,7 @@ public class CMeshSlicer : MonoBehaviour
 
         //Use existing interial material if there have the same material.
 
-        if (existInterialMatIdx > 0)
+        if (existInterialMatIdx >= 0)
 
         {
 
@@ -228,7 +235,7 @@ public class CMeshSlicer : MonoBehaviour
 
         aMesh.uv = aSideFinalUvs.ToArray();
 
-        aMesh.subMeshCount = existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
+        aMesh.subMeshCount = existInterialMatIdx <= 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
 
         for (int i = 0; i < orinSubMeshCount; i++)
 
@@ -238,7 +245,7 @@ public class CMeshSlicer : MonoBehaviour
 
         }
 
-        if (existInterialMatIdx < 0) aMesh.SetTriangles(aSideCapTris, orinSubMeshCount);
+        if (existInterialMatIdx <= 0) aMesh.SetTriangles(aSideCapTris, orinSubMeshCount);
 
         bMesh.vertices = bSideFinalVerts.ToArray();
 
@@ -246,7 +253,7 @@ public class CMeshSlicer : MonoBehaviour
 
         bMesh.uv = bSideFinalUvs.ToArray();
 
-        bMesh.subMeshCount = existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
+        bMesh.subMeshCount = existInterialMatIdx <= 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
 
         for (int i = 0; i < orinSubMeshCount; i++)
 
@@ -256,14 +263,14 @@ public class CMeshSlicer : MonoBehaviour
 
         }
 
-        if (existInterialMatIdx < 0) bMesh.SetTriangles(bSideCapTris, orinSubMeshCount);
+        if (existInterialMatIdx <= 0) bMesh.SetTriangles(bSideCapTris, orinSubMeshCount);
 
         GameObject aObject = new GameObject(_target.name + "_A", typeof(MeshFilter), typeof(MeshRenderer));
 
         GameObject bObject = new GameObject(_target.name + "_B", typeof(MeshFilter), typeof(MeshRenderer));
 
 
-        Material[] mats = new Material[(existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount)];
+        Material[] mats = new Material[(existInterialMatIdx <= 0 ? orinSubMeshCount + 1 : orinSubMeshCount)];
 
         for (int i = 0; i < orinSubMeshCount; i++)
 
@@ -273,7 +280,7 @@ public class CMeshSlicer : MonoBehaviour
 
         }
 
-        if (existInterialMatIdx < 0) mats[orinSubMeshCount] = _ineterial;
+        if (existInterialMatIdx <= 0) mats[orinSubMeshCount] = _ineterial;
 
         aObject.GetComponent<MeshFilter>().sharedMesh = aMesh;
 

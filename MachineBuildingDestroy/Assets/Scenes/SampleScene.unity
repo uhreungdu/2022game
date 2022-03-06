@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planepref: {fileID: 932610068854459547, guid: f8b0f403836ae414b9e31870b36525c3, type: 3}
-  bulidingpref: {fileID: 7248589472494137539, guid: f316434f4d114b740a3bfcd21fe86899, type: 3}
+  bulidingpref: {fileID: 1560815743673721885, guid: 239c8fdc05e898f489304149803126eb, type: 3}
 --- !u!4 &581632887
 Transform:
   m_ObjectHideFlags: 0
