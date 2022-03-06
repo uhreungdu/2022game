@@ -31,7 +31,7 @@ public class WallObject : LivingEntity
             coinForward.Normalize();
         }
         GetComponent<Rigidbody>().AddForce(-Vector3.up * 100);
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        Destroy(GetComponent<Rigidbody>());
         GetComponent<MeshCollider>().enabled = false;
 
         //for (int i = 0; i < transform.childCount; ++i)

@@ -18,7 +18,6 @@ public class PlayerBasicAttack : MonoBehaviour
     {
         playerInput = GetComponentInParent<PlayerInput>();
         boxCollider = GetComponentInChildren<BoxCollider>();
-        boxmaterial = GetComponentInChildren<MeshRenderer>().sharedMaterial;
     }
 
     // Update is called once per frame
@@ -63,17 +62,23 @@ public class PlayerBasicAttack : MonoBehaviour
         if (other.tag == "DestroyWall")
         {
             WallObject attackTarget = other.GetComponentInParent<WallObject>();
-            Debug.Log(other.ClosestPointOnBounds(transform.position));
-            if (attackTarget != null && !attackTarget.dead)
-            {
-                attackTarget.OnDamage(20);
-                Debug.Log(attackTarget.health);
-            }
+            // Debug.Log(other.ClosestPointOnBounds(transform.position));
 
             Vector3 Upvector = Quaternion.AngleAxis(90, boxCollider.transform.up) * boxCollider.transform.forward;
             if (!attackTarget.dead)
             {
-                CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
+                Material material = other.GetComponent<MeshRenderer>().sharedMaterial;
+                if (material == null)
+                {
+                    material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
+                }
+                CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), material);
+            }
+
+            if (attackTarget != null && !attackTarget.dead)
+            {
+                attackTarget.OnDamage(20);
+                Debug.Log(attackTarget.health);
             }
         }
         if (other.tag == "Player")
