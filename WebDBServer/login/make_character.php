@@ -33,3 +33,5 @@ if($resultval > 0){
 mysqli_query($conn,"INSERT INTO `character`
 (account_id,character_name) 
     VALUE ($id, $name);");
+
+echo('OK');

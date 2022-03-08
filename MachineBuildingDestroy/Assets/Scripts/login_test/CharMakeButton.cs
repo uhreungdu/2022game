@@ -4,16 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class LoginButton : MonoBehaviour
+public class CharMakeButton : MonoBehaviour
 {
     public GameObject IDInput;
-    public GameObject PWInput;
-    public GameObject MakeCharWindow;
+    public GameObject NameInput;
     public GameObject ErrText;
-    
     // Start is called before the first frame update
     void Start()
     {
+        
     }
 
     // Update is called once per frame
@@ -21,25 +20,24 @@ public class LoginButton : MonoBehaviour
     {
         
     }
-
+    
     public void OnClick()
     {
         // 로그인 창 비활성화
         GetComponent<Button>().interactable = false;
-        IDInput.GetComponent<InputField>().interactable = false;
-        PWInput.GetComponent<InputField>().interactable = false;
-        
+        NameInput.GetComponent<InputField>().interactable = false;
+
         // 로그인 요청
-        StartCoroutine(LoginRequest());
+        StartCoroutine(MakeCharRequest());
     }
     
-    IEnumerator LoginRequest()
+    IEnumerator MakeCharRequest()
     {
         WWWForm form = new WWWForm();
-        form.AddField("id", "\""+IDInput.GetComponent<InputField>().text+"\"") ;
-        form.AddField("pw", "\"" + PWInput.GetComponent<InputField>().text + "\"");
+        form.AddField("id", "\"" + IDInput.GetComponent<InputField>().text + "\"");
+        form.AddField("name", "\""+NameInput.GetComponent<InputField>().text+"\"") ;
 
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/login_account.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/make_character.php", form);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
@@ -47,8 +45,7 @@ public class LoginButton : MonoBehaviour
             Debug.Log(www.error);
             // 로그인 창 활성화
             GetComponent<Button>().interactable = true;
-            IDInput.GetComponent<InputField>().interactable = true;
-            PWInput.GetComponent<InputField>().interactable = true;
+            NameInput.GetComponent<InputField>().interactable = true;
         }
         else
         {
@@ -56,21 +53,13 @@ public class LoginButton : MonoBehaviour
             Debug.Log(results);
             // 로그인 창 활성화
             GetComponent<Button>().interactable = true;
-            IDInput.GetComponent<InputField>().interactable = true;
-            PWInput.GetComponent<InputField>().interactable = true;
+            NameInput.GetComponent<InputField>().interactable = true;
             if (results == "OK")
             {
-                // 캐릭터 보유, 로비씬 이동
                 ErrText.SetActive(false);
-            }
-            else if (results == "Need Character")
-            {
-                // 캐릭터 미보유, 설정 필요
-                MakeCharWindow.SetActive(true);
             }
             else
             {
-                // 로그인 오류
                 ErrText.SetActive(true);
                 ErrText.GetComponent<Text>().text = results;
             }
