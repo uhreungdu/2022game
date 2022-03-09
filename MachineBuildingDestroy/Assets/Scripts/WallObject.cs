@@ -44,7 +44,7 @@ public class WallObject : LivingEntity
         foreach (Transform child in allChildren)
         { 
             Renderer renderer = child.gameObject.GetComponent<Renderer>();
-            Debug.Log("이름 " + child.name + renderer.bounds.size.x + ", " + renderer.bounds.size.y + renderer.bounds.size.y + ", " + renderer.bounds.size.z);
+            Debug.Log("이름 " + child.name + " " + renderer.bounds.size.x + ", " + renderer.bounds.size.y + ", " + renderer.bounds.size.z);
             child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
 

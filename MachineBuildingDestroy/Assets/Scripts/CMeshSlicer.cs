@@ -264,6 +264,7 @@ public class CMeshSlicer : MonoBehaviour
         }
 
         if (existInterialMatIdx <= 0) bMesh.SetTriangles(bSideCapTris, orinSubMeshCount);
+        
 
         GameObject aObject = new GameObject(_target.name + "_A", typeof(MeshFilter), typeof(MeshRenderer));
 
@@ -352,52 +353,60 @@ public class CMeshSlicer : MonoBehaviour
 
             bObject.transform.SetParent(_target.transform.parent, true);
             
-            Renderer targetRenderer = _target.gameObject.GetComponent<Renderer>();
-            Renderer aRenderer = aObject.gameObject.GetComponent<Renderer>();
-            Renderer bRenderer = bObject.gameObject.GetComponent<Renderer>();
-            if (aRenderer.bounds.size.x < 5)
-            {
-                Destroy(aObject);
-                Destroy(bObject);
-                return null;
-            }
-
-            if (aRenderer.bounds.size.y < 5)
-            {
-                Destroy(aObject);
-                Destroy(bObject);
-                return null;
-            }
-
-            if (aRenderer.bounds.size.z < 5)
-            {
-                Destroy(aObject);
-                Destroy(bObject);
-                return null;
-            }
-
-            if (bRenderer.bounds.size.x < 5)
-            {
-                Destroy(aObject);
-                Destroy(bObject);
-                return null;
-            }
-
-            if (bRenderer.bounds.size.y < 5)
-            {
-                Destroy(aObject);
-                Destroy(bObject);
-                return null;
-            }
-
-            if (bRenderer.bounds.size.z < 5)
-            {
-                Destroy(aObject);
-                Destroy(bObject);
-                return null;
-            }
-
         }
+        
+        
+        Renderer targetRenderer = _target.gameObject.GetComponent<Renderer>();
+        Renderer aRenderer = aObject.gameObject.GetComponent<Renderer>();
+        Renderer bRenderer = bObject.gameObject.GetComponent<Renderer>();
+        if (aRenderer.bounds.size.x < 5)
+        {
+            Debug.Log("잘리지마");
+            Destroy(aObject);
+            Destroy(bObject);
+            return null;
+        }
+
+        if (aRenderer.bounds.size.y < 5)
+        {
+            Debug.Log("잘리지마");
+            Destroy(aObject);
+            Destroy(bObject);
+            return null;
+        }
+
+        if (aRenderer.bounds.size.z < 5)
+        {
+            Debug.Log("잘리지마");
+            Destroy(aObject);
+            Destroy(bObject);
+            return null;
+        }
+
+        if (bRenderer.bounds.size.x < 5)
+        {
+            Debug.Log("잘리지마");
+            Destroy(aObject);
+            Destroy(bObject);
+            return null;
+        }
+
+        if (bRenderer.bounds.size.y < 5)
+        {
+            Debug.Log("잘리지마");
+            Destroy(aObject);
+            Destroy(bObject);
+            return null;
+        }
+
+        if (bRenderer.bounds.size.z < 5)
+        {
+            Debug.Log("잘리지마");
+            Destroy(aObject);
+            Destroy(bObject);
+            return null;
+        }
+
 
 
         //Hide original object

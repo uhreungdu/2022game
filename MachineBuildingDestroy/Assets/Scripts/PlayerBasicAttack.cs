@@ -65,20 +65,18 @@ public class PlayerBasicAttack : MonoBehaviour
             // Debug.Log(other.ClosestPointOnBounds(transform.position));
 
             Vector3 Upvector = Quaternion.AngleAxis(90, boxCollider.transform.up) * boxCollider.transform.forward;
-            if (!attackTarget.dead)
+
+            if (attackTarget != null && !attackTarget.dead)
             {
+                attackTarget.OnDamage(20);
+                Debug.Log(attackTarget.health);
+                
                 Material material = other.GetComponent<MeshRenderer>().sharedMaterial;
                 if (material == null)
                 {
                     material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
                 }
                 CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), material);
-            }
-
-            if (attackTarget != null && !attackTarget.dead)
-            {
-                attackTarget.OnDamage(20);
-                Debug.Log(attackTarget.health);
             }
         }
         if (other.tag == "Player")
