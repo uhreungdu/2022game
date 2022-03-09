@@ -20,13 +20,14 @@ public class PlayerState : LivingEntity
         playerAudioPlayer = GetComponent<AudioSource>();    // 지금 안됨
         team = Random.Range(0, 2);
         gManager = GameManager.GetInstance();
+
+        gManager.addTeamcount(team);
         base.OnEnable();
     }
     protected override void OnEnable()
     {
         // LivingEntity의 OnEnable() 실행 (상태 초기화)
         onDeath += DieAction;
-        gManager.addTeamcount(team);
         point = 0;
     }
     public void DieAction()

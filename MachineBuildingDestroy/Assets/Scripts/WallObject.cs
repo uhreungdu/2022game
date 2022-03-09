@@ -29,15 +29,31 @@ public class WallObject : LivingEntity
             GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
             Vector3 coinForward = coin.transform.position - transform.position;
             coinForward.Normalize();
-            coin.GetComponent<Rigidbody>().AddForce(coinForward * 350);
         }
-        gameObject.SetActive(false);
-    }
+        GetComponent<Rigidbody>().AddForce(-Vector3.up * 100);
+        Destroy(GetComponent<Rigidbody>());
+        GetComponent<MeshCollider>().enabled = false;
+
+        //for (int i = 0; i < transform.childCount; ++i)
+        //{
+        //    transform.GetChild(i).GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        //}
+
+        Transform[] allChildren = GetComponentsInChildren<Transform>(); 
+        foreach (Transform child in allChildren)
+        { 
+            child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        }
+
+
+
+        // gameObject.SetActive(false);
+        }
 
     private void OnCollisionEnter(Collision collision)
     {
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
-        if (collision.collider.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == gameObject.tag)
         {
             // Debug.Log("벽끼리 충돌 감지");
             //gameObject.transform.localScale += new Vector3(0.3f, 0, 0.3f);

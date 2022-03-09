@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CMeshSlicer
+public class CMeshSlicer : MonoBehaviour
 
 {
 
@@ -20,13 +20,16 @@ public class CMeshSlicer
 
 
     public static GameObject[] Slicer(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint, Material _ineterial)
-
-    { 
+    {
 
         //Original mesh data
 
-        Mesh orinMesh = _target.GetComponent<MeshFilter>().sharedMesh;
-        //Mesh orinMesh = _target.GetComponentInChildren<MeshFilter>().sharedMesh;
+        // Mesh orinMesh = _target.GetComponent<MeshFilter>().sharedMesh;
+        Mesh orinMesh = _target.GetComponentInChildren<MeshFilter>().sharedMesh;
+        if (orinMesh == null)
+        {
+
+        }
         
         Vector3[] orinVerts = orinMesh.vertices;
 
@@ -36,9 +39,12 @@ public class CMeshSlicer
 
         int orinSubMeshCount = orinMesh.subMeshCount;
 
-        Material[] orinMaterials = _target.GetComponent<MeshRenderer>().sharedMaterials;
-        //Material[] orinMaterials = _target.GetComponentInChildren<MeshRenderer>().sharedMaterials;
+        // Material[] orinMaterials = _target.GetComponent<MeshRenderer>().sharedMaterials;
+        Material[] orinMaterials = _target.GetComponentInChildren<MeshRenderer>().sharedMaterials;
+        if (orinMaterials == null)
+        {
 
+        }
         int existInterialMatIdx = -1;
 
         for (int i = 0; i < orinMaterials.Length; i++)
@@ -205,7 +211,7 @@ public class CMeshSlicer
 
         //Use existing interial material if there have the same material.
 
-        if (existInterialMatIdx > 0)
+        if (existInterialMatIdx >= 0)
 
         {
 
@@ -229,7 +235,7 @@ public class CMeshSlicer
 
         aMesh.uv = aSideFinalUvs.ToArray();
 
-        aMesh.subMeshCount = existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
+        aMesh.subMeshCount = existInterialMatIdx <= 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
 
         for (int i = 0; i < orinSubMeshCount; i++)
 
@@ -239,7 +245,7 @@ public class CMeshSlicer
 
         }
 
-        if (existInterialMatIdx < 0) aMesh.SetTriangles(aSideCapTris, orinSubMeshCount);
+        if (existInterialMatIdx <= 0) aMesh.SetTriangles(aSideCapTris, orinSubMeshCount);
 
         bMesh.vertices = bSideFinalVerts.ToArray();
 
@@ -247,7 +253,7 @@ public class CMeshSlicer
 
         bMesh.uv = bSideFinalUvs.ToArray();
 
-        bMesh.subMeshCount = existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
+        bMesh.subMeshCount = existInterialMatIdx <= 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
 
         for (int i = 0; i < orinSubMeshCount; i++)
 
@@ -257,17 +263,14 @@ public class CMeshSlicer
 
         }
 
-        if (existInterialMatIdx < 0) bMesh.SetTriangles(bSideCapTris, orinSubMeshCount);
-
-
-
-        //Create sliced object
+        if (existInterialMatIdx <= 0) bMesh.SetTriangles(bSideCapTris, orinSubMeshCount);
 
         GameObject aObject = new GameObject(_target.name + "_A", typeof(MeshFilter), typeof(MeshRenderer));
 
         GameObject bObject = new GameObject(_target.name + "_B", typeof(MeshFilter), typeof(MeshRenderer));
 
-        Material[] mats = new Material[(existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount)];
+
+        Material[] mats = new Material[(existInterialMatIdx <= 0 ? orinSubMeshCount + 1 : orinSubMeshCount)];
 
         for (int i = 0; i < orinSubMeshCount; i++)
 
@@ -277,7 +280,7 @@ public class CMeshSlicer
 
         }
 
-        if (existInterialMatIdx < 0) mats[orinSubMeshCount] = _ineterial;
+        if (existInterialMatIdx <= 0) mats[orinSubMeshCount] = _ineterial;
 
         aObject.GetComponent<MeshFilter>().sharedMesh = aMesh;
 
@@ -299,17 +302,63 @@ public class CMeshSlicer
 
         bObject.transform.localScale = _target.transform.localScale;
 
+        aObject.AddComponent<Rigidbody>();
+        bObject.AddComponent<Rigidbody>();
+        aObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        bObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        aObject.AddComponent<MeshCollider>();
+        bObject.AddComponent<MeshCollider>();
+        aObject.GetComponent<MeshCollider>().convex = true;
+        aObject.tag = "DestroyWall";
+        bObject.GetComponent<MeshCollider>().convex = true;
+        bObject.tag = "DestroyWall";
+
+
+        //Create sliced object
+        if (_target.transform.parent.name == "Map")
+        {
+            GameObject abParentObject = new GameObject(_target.name, typeof(Rigidbody), typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider));
+
+            abParentObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            abParentObject.GetComponent<MeshFilter>().sharedMesh = orinMesh;
+            abParentObject.GetComponent<MeshCollider>().sharedMesh = orinMesh;
+            abParentObject.GetComponent<MeshCollider>().convex = true;
+            abParentObject.GetComponent<MeshRenderer>().enabled = false;
+            abParentObject.transform.position = _target.transform.position;
+
+            abParentObject.transform.rotation = _target.transform.rotation;
+
+            abParentObject.transform.localScale = _target.transform.localScale;
+
+            CopyComponent<WallObject>(_target.GetComponent<WallObject>(), abParentObject);
+
+            abParentObject.transform.SetParent(_target.transform.parent);
+
+            aObject.transform.SetParent(abParentObject.transform, true);
+
+            bObject.transform.SetParent(abParentObject.transform, true);
+
+            abParentObject.tag = "Wall";
+
+        }
+        else
+        {
+            aObject.transform.localScale = _target.transform.parent.localScale;
+
+            bObject.transform.localScale = _target.transform.parent.localScale;
+
+            aObject.transform.SetParent(_target.transform.parent, true);
+
+            bObject.transform.SetParent(_target.transform.parent, true);
+        }
+
 
         //Hide original object
 
-        _target.SetActive(false);
+        Destroy(_target);
+        // _target.GetComponent<MeshRenderer>().enabled = false;
+        // orinMesh.Clear();
 
-        aObject.AddComponent<Rigidbody>();
-        bObject.AddComponent<Rigidbody>();
-        aObject.AddComponent<BoxCollider>();
-        bObject.AddComponent<BoxCollider>();
-        // CopyComponent<WallObject>(_target.GetComponent<WallObject>(), aObject);
-        // CopyComponent<WallObject>(_target.GetComponent<WallObject>(), bObject);
         //Return cutted object
 
         return new GameObject[] { aObject, bObject };

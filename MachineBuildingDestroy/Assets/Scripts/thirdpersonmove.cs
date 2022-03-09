@@ -35,7 +35,7 @@ public class thirdpersonmove : MonoBehaviourPun
     {
         controller = GetComponent<CharacterController>();
         cam = GameObject.FindWithTag("CamPos").GetComponent<Transform>();
-        playerInput = GetComponent <PlayerInput>();
+        playerInput = GetComponent<PlayerInput>();
         playeranimator = GetComponent<Animator>();
         jumpower = 6f;
         Debug.Log(Application.platform);
