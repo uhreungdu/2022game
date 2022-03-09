@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
             if((int)Ntimer / 90 > 0 && (int)Ntimer % 90 < 20)
             {
                 itembox_Create = true;
-                Debug.Log("아이템 생성");
+                // Debug.Log("아이템 생성");
             }
             else
             {
@@ -169,6 +169,6 @@ public class GameManager : MonoBehaviour
             EManager.Active_landmakr();
         }
         
-        Debug.Log(now_timer.min);
+        // Debug.Log(now_timer.min);
     }
 }

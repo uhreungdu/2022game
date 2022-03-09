@@ -5,6 +5,7 @@ using UnityEngine;
 public class WallObject : LivingEntity
 {
     public GameObject coinprefab;     // 생성할 코인의 원본 프리펩
+    public int destroyTime = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +16,7 @@ public class WallObject : LivingEntity
     // Update is called once per frame
     void Update()
     {
-        
+        Renderer renderer = GetComponent<Renderer>();
     }
 
     public void DieAction()
@@ -30,7 +31,7 @@ public class WallObject : LivingEntity
             Vector3 coinForward = coin.transform.position - transform.position;
             coinForward.Normalize();
         }
-        GetComponent<Rigidbody>().AddForce(-Vector3.up * 100);
+        GetComponent<Rigidbody>().AddForce(Vector3.up * 500);
         Destroy(GetComponent<Rigidbody>());
         GetComponent<MeshCollider>().enabled = false;
 
@@ -39,9 +40,11 @@ public class WallObject : LivingEntity
         //    transform.GetChild(i).GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         //}
 
-        Transform[] allChildren = GetComponentsInChildren<Transform>(); 
+        Transform[] allChildren = GetComponentsInChildren<Transform>();
         foreach (Transform child in allChildren)
         { 
+            Renderer renderer = child.gameObject.GetComponent<Renderer>();
+            Debug.Log("이름 " + child.name + renderer.bounds.size.x + ", " + renderer.bounds.size.y + renderer.bounds.size.y + ", " + renderer.bounds.size.z);
             child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
 
@@ -53,12 +56,12 @@ public class WallObject : LivingEntity
     private void OnCollisionEnter(Collision collision)
     {
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
-        if (collision.gameObject.tag == gameObject.tag)
-        {
-            // Debug.Log("벽끼리 충돌 감지");
-            //gameObject.transform.localScale += new Vector3(0.3f, 0, 0.3f);
-            //Destroy(collision.collider.gameObject);
-            Destroy(gameObject);
-        }
+        // if (collision.gameObject.tag == gameObject.tag)
+        // {
+        //     // Debug.Log("벽끼리 충돌 감지");
+        //     //gameObject.transform.localScale += new Vector3(0.3f, 0, 0.3f);
+        //     //Destroy(collision.collider.gameObject);
+        //     Destroy(gameObject);
+        // }
     }
 }

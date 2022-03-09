@@ -312,8 +312,8 @@ public class CMeshSlicer : MonoBehaviour
         aObject.tag = "DestroyWall";
         bObject.GetComponent<MeshCollider>().convex = true;
         bObject.tag = "DestroyWall";
-
-
+        
+        
         //Create sliced object
         if (_target.transform.parent.name == "Map")
         {
@@ -343,6 +343,7 @@ public class CMeshSlicer : MonoBehaviour
         }
         else
         {
+            
             aObject.transform.localScale = _target.transform.parent.localScale;
 
             bObject.transform.localScale = _target.transform.parent.localScale;
@@ -350,6 +351,52 @@ public class CMeshSlicer : MonoBehaviour
             aObject.transform.SetParent(_target.transform.parent, true);
 
             bObject.transform.SetParent(_target.transform.parent, true);
+            
+            Renderer targetRenderer = _target.gameObject.GetComponent<Renderer>();
+            Renderer aRenderer = aObject.gameObject.GetComponent<Renderer>();
+            Renderer bRenderer = bObject.gameObject.GetComponent<Renderer>();
+            if (aRenderer.bounds.size.x < 5)
+            {
+                Destroy(aObject);
+                Destroy(bObject);
+                return null;
+            }
+
+            if (aRenderer.bounds.size.y < 5)
+            {
+                Destroy(aObject);
+                Destroy(bObject);
+                return null;
+            }
+
+            if (aRenderer.bounds.size.z < 5)
+            {
+                Destroy(aObject);
+                Destroy(bObject);
+                return null;
+            }
+
+            if (bRenderer.bounds.size.x < 5)
+            {
+                Destroy(aObject);
+                Destroy(bObject);
+                return null;
+            }
+
+            if (bRenderer.bounds.size.y < 5)
+            {
+                Destroy(aObject);
+                Destroy(bObject);
+                return null;
+            }
+
+            if (bRenderer.bounds.size.z < 5)
+            {
+                Destroy(aObject);
+                Destroy(bObject);
+                return null;
+            }
+
         }
 
 
