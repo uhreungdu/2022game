@@ -14,6 +14,7 @@ public class RoomBlock : MonoBehaviour
     public int maxP;
 
     private LobbyManager gManager;
+    private Account _account;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +50,7 @@ public class RoomBlock : MonoBehaviour
             transform.Find("Text").gameObject.GetComponent<Text>().text = "";
             GetComponent<Button>().interactable = false;
         }
-        if(gManager.GetName() == "")
+        if(_account.GetPlayerNickname() == "")
         {
             GetComponent<Button>().interactable = false;
         }
@@ -68,7 +69,7 @@ public class RoomBlock : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("iname", "\"" + iname + "\"");
-        form.AddField("Pname", "\"" + gManager.GetName() + "\"");
+        form.AddField("Pname", "\"" + _account.GetPlayerNickname() + "\"");
 
         UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/player_join_room.php", form);
         yield return www.SendWebRequest();

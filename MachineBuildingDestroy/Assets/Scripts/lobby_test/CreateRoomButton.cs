@@ -8,7 +8,8 @@ using Photon.Realtime;
 
 public class CreateRoomButton : MonoBehaviour
 {
-    public LobbyManager gManager;
+    private LobbyManager gManager;
+    private Account _account;
 
     // Start is called before the first frame update
     void Start()
@@ -26,9 +27,10 @@ public class CreateRoomButton : MonoBehaviour
 
     public void CreateRoom()
     {
-        gManager.SetExRoomName(gManager.GetName()+"의 방" + Random.Range(0, 9999));
+        gManager.SetExRoomName(_account.GetPlayerNickname()+"의 방" + Random.Range(0, 9999));
         gManager.SetInRoomName(gManager.GetExRoomName() + 
-            gManager.GetName() + System.DateTime.Now.ToString(" yyyy-MM-dd-HH-mm-ss"));
+                               _account.GetPlayerNickname() + 
+                               System.DateTime.Now.ToString(" yyyy-MM-dd-HH-mm-ss"));
 
         StartCoroutine(WebRequest());
     }
@@ -39,7 +41,7 @@ public class CreateRoomButton : MonoBehaviour
         form.AddField("ename", "\"" + gManager.GetExRoomName() + "\"");
         form.AddField("nowPnum", 1);
         form.AddField("maxPnum", 6);
-        form.AddField("Pname", "\"" + gManager.GetName() + "\"");
+        form.AddField("Pname", "\"" + _account.GetPlayerNickname() + "\"");
 
         UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/room_make.php", form);
         yield return www.SendWebRequest();

@@ -8,7 +8,9 @@ using Photon.Realtime;
 
 public class DelRoomButton : MonoBehaviour
 {
-    public LobbyManager gManager;
+    private LobbyManager gManager;
+    private Account _account;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +33,7 @@ public class DelRoomButton : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("iname", "\"" + gManager.GetInRoomName() + "\"");
-        form.AddField("Pname", "\"" + gManager.GetName() + "\"");
+        form.AddField("Pname", "\"" + _account.GetPlayerNickname() + "\"");
 
         UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/player_exit_room.php", form);
         yield return www.SendWebRequest();

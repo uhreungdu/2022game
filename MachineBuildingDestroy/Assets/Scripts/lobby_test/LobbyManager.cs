@@ -10,8 +10,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
     private static LobbyManager instance;
-    [SerializeField]
-    private string PlayerName;
     private string exroomName;
     private string inroomName;
     public GameObject Room;
@@ -82,16 +80,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         StartCoroutine(GetRoomList());
-    }
-
-    public void SetName(string text)
-    {
-        PlayerName = text;
-    }
-
-    public string GetName()
-    {
-        return PlayerName;
     }
 
     public void SetInRoomName(string text)
