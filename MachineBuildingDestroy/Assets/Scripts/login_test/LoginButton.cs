@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class LoginButton : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class LoginButton : MonoBehaviour
     [FormerlySerializedAs("PWInput")] public GameObject pwInput;
     [FormerlySerializedAs("MakeCharWindow")] public GameObject makeCharWindow;
     [FormerlySerializedAs("ErrText")] public GameObject errText;
+    [SerializeField] private string[] accountVal;
     
     // Start is called before the first frame update
     void Start()
@@ -55,16 +57,22 @@ public class LoginButton : MonoBehaviour
         {
             string results = www.downloadHandler.text;
             Debug.Log(results);
+            accountVal = results.Split(';');
             // 로그인 창 활성화
             GetComponent<Button>().interactable = true;
             idInput.GetComponent<InputField>().interactable = true;
             pwInput.GetComponent<InputField>().interactable = true;
-            if (results == "OK")
+            if (GetStringDataValue(accountVal[0],"Msg:") == "OK")
             {
                 // 캐릭터 보유, 로비씬 이동
                 errText.SetActive(false);
+                GameObject.Find("Account").GetComponent<Account>().WriteAccount(
+                    GetStringDataValue(accountVal[0],"account_id:"),
+                    GetStringDataValue(accountVal[0],"character_name:"));
+                SceneManager.LoadScene("lobby_test");
+
             }
-            else if (results == "Need Character")
+            else if (GetStringDataValue(accountVal[0],"Msg:") == "Need Character")
             {
                 // 캐릭터 미보유, 설정 필요
                 makeCharWindow.SetActive(true);
@@ -73,8 +81,15 @@ public class LoginButton : MonoBehaviour
             {
                 // 로그인 오류
                 errText.SetActive(true);
-                errText.GetComponent<Text>().text = results;
+                errText.GetComponent<Text>().text = GetStringDataValue(accountVal[0],"Msg:");
             }
         }
+    }
+    
+    string GetStringDataValue(string data, string index)
+    {
+        string value = data.Substring(data.IndexOf(index) + index.Length);
+        if (value.Contains("|")) value = value.Remove(value.IndexOf("|"));
+        return value;
     }
 }

@@ -30,10 +30,10 @@ public class RoomList : MonoBehaviour
     {
         for(int i = 0; i < rooms.Length-1; i++)
         {
-            string iname = GetStringDataValue(rooms[i], "internal_name");
-            string ename = GetStringDataValue(rooms[i], "external_name");
-            int nowP = GetIntDataValue(rooms[i], "now_playernum");
-            int maxP = GetIntDataValue(rooms[i], "max_playernum");
+            string iname = GetStringDataValue(rooms[i], "internal_name:");
+            string ename = GetStringDataValue(rooms[i], "external_name:");
+            int nowP = GetIntDataValue(rooms[i], "now_playernum:");
+            int maxP = GetIntDataValue(rooms[i], "max_playernum:");
 
             RoomBlocks[i].GetComponent<RoomBlock>().
                 SetVariables(iname,ename,nowP,maxP);
@@ -54,14 +54,14 @@ public class RoomList : MonoBehaviour
 
     string GetStringDataValue(string data, string index)
     {
-        string value = data.Substring(data.IndexOf(index) + index.Length + 1);
+        string value = data.Substring(data.IndexOf(index) + index.Length);
         value = value.Remove(value.IndexOf("|"));
         return value;
     }
 
     int GetIntDataValue(string data, string index)
     {
-        string value = data.Substring(data.IndexOf(index) + index.Length + 1);
+        string value = data.Substring(data.IndexOf(index) + index.Length);
         if (value.Contains("|")) value = value.Remove(value.IndexOf("|"));
         return int.Parse(value);
     }

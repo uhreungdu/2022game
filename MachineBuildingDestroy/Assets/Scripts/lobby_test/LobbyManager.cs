@@ -43,8 +43,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         { 
             Destroy(gameObject); 
         }
-
-    
     }
     void Start()
     {

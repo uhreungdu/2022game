@@ -1316,10 +1316,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e779559de3c4dd40ae8648aa2466330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IDInput: {fileID: 0}
-  PWInput: {fileID: 0}
-  MakeCharWindow: {fileID: 0}
-  ErrText: {fileID: 0}
+  idInput: {fileID: 0}
+  pwInput: {fileID: 0}
+  makeCharWindow: {fileID: 0}
+  errText: {fileID: 0}
+  accountVal: []
 --- !u!114 &517459109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1426,10 +1427,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05a67dec3f7090c4da9f7c704248ee44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IDInput: {fileID: 459904679}
-  PWInput: {fileID: 280544712}
-  ParentWindow: {fileID: 1303422404}
-  ErrText: {fileID: 644516661}
+  idInput: {fileID: 459904679}
+  pwInput: {fileID: 280544712}
+  parentWindow: {fileID: 1303422404}
+  errText: {fileID: 644516661}
 --- !u!1 &535909272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1879,9 +1880,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed45b35b1d435e04e947709dd12dd14e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IDInput: {fileID: 459904679}
-  PWInput: {fileID: 280544712}
-  ErrText: {fileID: 802945740}
+  idInput: {fileID: 459904679}
+  pwInput: {fileID: 280544712}
+  errText: {fileID: 802945740}
 --- !u!1 &802945740
 GameObject:
   m_ObjectHideFlags: 0
@@ -2583,9 +2584,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff2c7cf4daaa5e40901ace1e8ab9600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IDInput: {fileID: 1971577972}
-  NameInput: {fileID: 432736105}
-  ErrText: {fileID: 375350391}
+  idInput: {fileID: 1971577972}
+  nameInput: {fileID: 432736105}
+  errText: {fileID: 375350391}
 --- !u!114 &1094851492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3294,10 +3295,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e779559de3c4dd40ae8648aa2466330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IDInput: {fileID: 1971577972}
-  PWInput: {fileID: 1594853892}
-  MakeCharWindow: {fileID: 478063207}
-  ErrText: {fileID: 474667648}
+  idInput: {fileID: 1971577972}
+  pwInput: {fileID: 1594853892}
+  makeCharWindow: {fileID: 478063207}
+  errText: {fileID: 474667648}
+  accountVal: []
 --- !u!1 &1482480625
 GameObject:
   m_ObjectHideFlags: 0
@@ -3692,6 +3694,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1594853892}
   m_CullTransparentMesh: 1
+--- !u!1 &1787719433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1787719435}
+  - component: {fileID: 1787719434}
+  m_Layer: 0
+  m_Name: Account
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1787719434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787719433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4119fd15b8d5fd44a3c7996e5da43d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pID: 
+  pNickname: 
+--- !u!4 &1787719435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787719433}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1833112952
 GameObject:
   m_ObjectHideFlags: 0
