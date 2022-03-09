@@ -7,16 +7,37 @@ using Photon.Hive.Plugin;
 
 namespace MyFirstPlugin
 {
-    class MyFirstPlugin : PluginBase
-    {   
-        enum EventCode : byte
+    enum EventCode : byte
+    {
+        Test = 0,
+        RenewScore,
+        CreateItem
+    }
+
+    class ItemBox
+    {
+        private bool Activate;
+        private int Type;
+
+        public ItemBox()
         {
-            Test = 0,
-            RenewScore
+            Activate = false;
+            Type = 0;
         }
 
+        public bool GetActivate() { return Activate; }
+        public void SetActivate(bool Value) { Activate = Value; }
+
+        public int GetItemType() { return Type; }
+        public void SetItemType(int Value) { Type = Value; }
+    }
+
+    class MyFirstPlugin : PluginBase
+    {      
         private int variableTest = 0;
         private int[] score = new int[2];
+        private List<ItemBox> items = new List<ItemBox>();
+        private float time = 300.0f;
         public override string Name => "MyFirstPlugin";
 
         public override void OnCreateGame(ICreateGameCallInfo info)
@@ -28,6 +49,9 @@ namespace MyFirstPlugin
                 Async = true
             };
             PluginHost.HttpRequest(request, info);
+
+            // 아이템 하나 생성
+            items.Insert(0, new ItemBox());
 
             PluginHost.LogInfo($"OnCreateGame {info.Request.GameId} by user {info.UserId}");
             info.Continue(); // base.OnCreateGame(info) 와 같다.
@@ -44,16 +68,36 @@ namespace MyFirstPlugin
 
             switch (info.Request.EvCode)
             {
+                // 테스트용
                 case (byte)EventCode.Test:
                     info.Request.Data = new object[] { "이 이벤트는", "몰?루가 지배했다", variableTest, "HOOK", "TEST" };
                     break;
 
+                // 점수갱신
                 case (byte)EventCode.RenewScore:
-                    object[] data = (object[])info.Request.Data;
-                    int team = (int)data[0];
-                    int point = (int)data[1];
+                    object[] RSdata = (object[])info.Request.Data;
+                    int team = (int)RSdata[0];
+                    int point = (int)RSdata[1];
                     score[team] = score[team] + point;
                     info.Request.Data = new object[] { score[0], score[1] };
+                    break;
+
+                // 아이템 생성
+                case (byte)EventCode.CreateItem:
+                    object[] CIdata = (object[])info.Request.Data;
+                    int type = (int)CIdata[0];
+                    bool result = (bool)CIdata[1];
+                    if (!items[0].GetActivate())
+                    {
+                        items[0].SetActivate(true);
+                        items[0].SetItemType(type);
+                        result = true;
+                    }
+                    else
+                    {
+                        result = false;
+                    }
+                    info.Request.Data = new object[] { type, result };
                     break;
 
                 default:

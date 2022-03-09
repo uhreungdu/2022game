@@ -5,3 +5,5 @@ primary key(character_name),
 foreign key(room_internal_name) REFERENCES ROOM (internal_name) 
 on delete cascade on update cascade
 );
+ALTER TABLE playingchar 
+ADD FOREIGN KEY (character_name) REFERENCES `character`(character_name);
