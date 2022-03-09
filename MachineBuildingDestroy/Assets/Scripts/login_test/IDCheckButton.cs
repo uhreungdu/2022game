@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 
 public class IDCheckButton : MonoBehaviour
 {
-    public GameObject IDInput;
-    public GameObject PWInput;
-    public GameObject ErrText;
+    [FormerlySerializedAs("IDInput")] public GameObject idInput;
+    [FormerlySerializedAs("PWInput")] public GameObject pwInput;
+    [FormerlySerializedAs("ErrText")] public GameObject errText;
     
-    private bool working = false;
+    private bool _working = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,7 @@ public class IDCheckButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!working && IDInput.GetComponent<InputField>().text.Length != 0)
+        if (!_working && idInput.GetComponent<InputField>().text.Length != 0)
         {
             GetComponent<Button>().interactable = true;    
         }
@@ -34,17 +35,17 @@ public class IDCheckButton : MonoBehaviour
     {
         // IDCheck 비활성화
         GetComponent<Button>().interactable = false;
-        IDInput.GetComponent<InputField>().interactable = false;
+        idInput.GetComponent<InputField>().interactable = false;
 
         // ID 검증 요청
-        working = true;
+        _working = true;
         StartCoroutine(IDCheckRequest());
     }
 
     IEnumerator IDCheckRequest()
     {
         WWWForm form = new WWWForm();
-        form.AddField("id", "\"" + IDInput.GetComponent<InputField>().text + "\"");
+        form.AddField("id", "\"" + idInput.GetComponent<InputField>().text + "\"");
 
         UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/id_check.php", form);
         yield return www.SendWebRequest();
@@ -54,8 +55,8 @@ public class IDCheckButton : MonoBehaviour
             Debug.Log(www.error);
             // IDCheck 활성화
             GetComponent<Button>().interactable = true;
-            IDInput.GetComponent<InputField>().interactable = true;
-            PWInput.GetComponent<InputField>().interactable = false;
+            idInput.GetComponent<InputField>().interactable = true;
+            pwInput.GetComponent<InputField>().interactable = false;
         }
         else
         {
@@ -64,18 +65,18 @@ public class IDCheckButton : MonoBehaviour
             Debug.Log(results);
             // IDCheck 활성화
             GetComponent<Button>().interactable = true;
-            IDInput.GetComponent<InputField>().interactable = true;
+            idInput.GetComponent<InputField>().interactable = true;
             if (results == "OK")
             {
-                PWInput.GetComponent<InputField>().interactable = true;
-                ErrText.SetActive(false);
+                pwInput.GetComponent<InputField>().interactable = true;
+                errText.SetActive(false);
             }
             else
             {
-                ErrText.GetComponent<Text>().text = results;
-                ErrText.SetActive(true);
+                errText.GetComponent<Text>().text = results;
+                errText.SetActive(true);
             }
-            working = false;
+            _working = false;
         }
     }
 }

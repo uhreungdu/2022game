@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 
 public class CharMakeButton : MonoBehaviour
 {
-    public GameObject IDInput;
-    public GameObject NameInput;
-    public GameObject ErrText;
+    [FormerlySerializedAs("IDInput")] public GameObject idInput;
+    [FormerlySerializedAs("NameInput")] public GameObject nameInput;
+    [FormerlySerializedAs("ErrText")] public GameObject errText;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,7 @@ public class CharMakeButton : MonoBehaviour
     {
         // 로그인 창 비활성화
         GetComponent<Button>().interactable = false;
-        NameInput.GetComponent<InputField>().interactable = false;
+        nameInput.GetComponent<InputField>().interactable = false;
 
         // 로그인 요청
         StartCoroutine(MakeCharRequest());
@@ -34,8 +35,8 @@ public class CharMakeButton : MonoBehaviour
     IEnumerator MakeCharRequest()
     {
         WWWForm form = new WWWForm();
-        form.AddField("id", "\"" + IDInput.GetComponent<InputField>().text + "\"");
-        form.AddField("name", "\""+NameInput.GetComponent<InputField>().text+"\"") ;
+        form.AddField("id", "\"" + idInput.GetComponent<InputField>().text + "\"");
+        form.AddField("name", "\""+nameInput.GetComponent<InputField>().text+"\"") ;
 
         UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/make_character.php", form);
         yield return www.SendWebRequest();
@@ -45,7 +46,7 @@ public class CharMakeButton : MonoBehaviour
             Debug.Log(www.error);
             // 로그인 창 활성화
             GetComponent<Button>().interactable = true;
-            NameInput.GetComponent<InputField>().interactable = true;
+            nameInput.GetComponent<InputField>().interactable = true;
         }
         else
         {
@@ -53,15 +54,15 @@ public class CharMakeButton : MonoBehaviour
             Debug.Log(results);
             // 로그인 창 활성화
             GetComponent<Button>().interactable = true;
-            NameInput.GetComponent<InputField>().interactable = true;
+            nameInput.GetComponent<InputField>().interactable = true;
             if (results == "OK")
             {
-                ErrText.SetActive(false);
+                errText.SetActive(false);
             }
             else
             {
-                ErrText.SetActive(true);
-                ErrText.GetComponent<Text>().text = results;
+                errText.SetActive(true);
+                errText.GetComponent<Text>().text = results;
             }
         }
     }
