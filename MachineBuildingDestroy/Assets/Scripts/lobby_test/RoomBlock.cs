@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 using Photon.Realtime;
 
 public class RoomBlock : MonoBehaviour
@@ -20,6 +21,7 @@ public class RoomBlock : MonoBehaviour
     void Start()
     {
         gManager = LobbyManager.GetInstance();
+        _account = Account.GetInstance();
     }
 
     // Update is called once per frame
@@ -50,10 +52,6 @@ public class RoomBlock : MonoBehaviour
             transform.Find("Text").gameObject.GetComponent<Text>().text = "";
             GetComponent<Button>().interactable = false;
         }
-        if(_account.GetPlayerNickname() == "")
-        {
-            GetComponent<Button>().interactable = false;
-        }
         if(GameObject.Find("CreateRoomButton").GetComponent<Button>().interactable == false)
         {
             GetComponent<Button>().interactable = false;
@@ -81,17 +79,10 @@ public class RoomBlock : MonoBehaviour
         else
         {
             Debug.Log("Form upload complete!");
-            PhotonNetwork.JoinRoom(iname);
-            GameObject.Find("DelRoomButton").GetComponent<Button>().interactable = true;
-            GameObject.Find("SetNameButton").GetComponent<Button>().interactable = false;
-            GetComponent<Button>().interactable = false;
-            // 시연을 위해 무조건 리스트가 갱신되게 넣은것
-            StartCoroutine(gManager.GetRoomList());
-            string results = www.downloadHandler.text;
-            Debug.Log(results);
-
             gManager.SetInRoomName(iname);
             gManager.SetExRoomName(ename);
+            PhotonNetwork.JoinRoom(iname);
+            SceneManager.LoadScene("SampleScene");
         }
     }
 }

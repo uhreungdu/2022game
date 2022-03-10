@@ -12,7 +12,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private static LobbyManager instance;
     private string exroomName;
     private string inroomName;
-    public GameObject Room;
+    public GameObject roomlist;
     string networkState;
 
 
@@ -72,16 +72,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log(message);
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        StartCoroutine(GetRoomList());
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        StartCoroutine(GetRoomList());
-    }
-
     public void SetInRoomName(string text)
     {
         inroomName = text;
@@ -118,8 +108,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             string results = www.downloadHandler.text;
             Debug.Log(results);
-            GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomList(results.Split(';'));
-            GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomBlocks();
+            roomlist.GetComponent<RoomList>().SetRoomList(results.Split(';'));
+            roomlist.GetComponent<RoomList>().SetRoomBlocks();
         }
     }
 }
