@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Account : MonoBehaviour
 {
@@ -45,6 +47,15 @@ public class Account : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnApplicationQuit()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", "\""+pID+"\"") ;
+
+        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/logout_account.php", form);
+        www.SendWebRequest();
     }
 
     public void WriteAccount(string id, string nickname)
