@@ -32,12 +32,18 @@ public class Item_Beacon_Control : MonoBehaviourPun
         }
         else if(box_obj == null && Gmanager.EManager.itembox_Create == true)
         {
+            // Master Client가 아니면 아무것도 하지않습니다.
+            if (!PhotonNetwork.IsMasterClient) return;
+            
+            // Master Client라면 CreateItem(int)함수를 자신 포함 방 안에있는 모두에게 실행하라고 명령합니다.
             int rand = Random.Range(0, 3);
-            CreateItem(rand);
+            photonView.RPC("CreateItem", RpcTarget.All, rand);
+            //CreateItem(rand);
         }
-        Debug.Log(Gmanager.EManager.itembox_Create);
+        //Debug.Log(Gmanager.EManager.itembox_Create);
     }
-
+    
+    [PunRPC]
     void CreateItem(int type)
     {
         box = Resources.Load<GameObject>("item_box");
@@ -47,30 +53,5 @@ public class Item_Beacon_Control : MonoBehaviourPun
         box_obj.GetComponent<item_box_make>().decide_type(type);
         have_box = false;
         past_min = Gmanager.now_timer.min;
-    }
-
-    public void OnEvent(EventData Evdata)
-    {
-        byte eventCode = Evdata.Code;
-        Debug.Log("EVENTCALLITEM");
-        // 아이템 생성
-        if (eventCode == 2)
-        {
-            object[] data = (object[])Evdata.CustomData;
-            if ((bool)data[1])
-            {
-                CreateItem((int)data[0]);
-            }
-        }
-    }
-
-    public void OnEnable()
-    {
-        PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
-    }
-
-    public void OnDisable()
-    {
-        PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
     }
 }

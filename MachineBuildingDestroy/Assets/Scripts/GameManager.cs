@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     // Start is called before the first frame update
     private static GameManager instance;
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
         public void SetTime(float val3){
             Ntimer = val3;
         }
+        
         public void Active_Itembox(){
             if((int)Ntimer / 90 > 0 && (int)Ntimer % 90 < 10)
             {
@@ -145,7 +147,12 @@ public class GameManager : MonoBehaviour
     {
         if(now_timer.min < 5)
         {
-            now_timer.Ntimer += Time.deltaTime * 0.5f;
+            // 내가 Master Client(동기화의 주체)이면 시간을 더해줍니다.
+            if (PhotonNetwork.IsMasterClient)
+            {
+                now_timer.Ntimer += Time.deltaTime * 0.5f;
+            }
+
             now_timer.min = (int) now_timer.Ntimer / 60;
             now_timer.sec = ((int)now_timer.Ntimer - now_timer.min * 60) % 60;
             EManager.SetTime(now_timer.Ntimer);
@@ -154,6 +161,22 @@ public class GameManager : MonoBehaviour
             EManager.Active_landmakr();
         }
         
-        Debug.Log(now_timer.min);
+        //Debug.Log(now_timer.min);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
+        if (stream.IsWriting)
+        {
+            stream.SendNext(EManager.Ntimer);
+            //Debug.Log(string.Format("Send time {0}",EManager.Ntimer));
+        }
+        // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
+        else
+        {
+            now_timer.Ntimer = (float) stream.ReceiveNext();
+            //Debug.Log(string.Format("Recieve time {0}",EManager.Ntimer));
+        }
     }
 }
