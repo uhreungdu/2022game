@@ -39,14 +39,15 @@ public class Item_Beacon_Control : MonoBehaviourPun
         {
             if(have_box == true)
             {
-                GameObject.Find("NetworkManager").GetComponent<NetworkManager>()
-                .RequestCreateItem(Random.Range(0, 3));
+                //GameObject.Find("NetworkManager").GetComponent<NetworkManager>()
+                //.RequestCreateItem(Random.Range(0, 3));
+                CreateItem(Random.Range(0, 3));
             }
             else
             {
                 if(Gmanager.EManager.itembox_Create == false)
                 {
-                    //have_box = true;
+                    have_box = true;
                 }
             }
         }

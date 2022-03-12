@@ -158,9 +158,9 @@ public class GameManager : MonoBehaviour
         {
             now_timer.Ntimer += Time.deltaTime;
             now_timer.sec += Time.deltaTime;
-            if((int)now_timer.sec > 59)
+            if(now_timer.sec > 60.0f)
             {
-                now_timer.sec = 0;
+                now_timer.sec -= 60.0f;
                 now_timer.min += 1;
             }
             EManager.SetTime(now_timer.min,now_timer.sec,now_timer.Ntimer);
@@ -169,6 +169,6 @@ public class GameManager : MonoBehaviour
             EManager.Active_landmakr();
         }
         
-        Debug.Log(now_timer.min);
+        //Debug.Log(now_timer.min);
     }
 }
