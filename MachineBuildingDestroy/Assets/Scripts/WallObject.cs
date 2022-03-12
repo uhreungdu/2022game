@@ -43,8 +43,8 @@ public class WallObject : LivingEntity
         Transform[] allChildren = GetComponentsInChildren<Transform>();
         foreach (Transform child in allChildren)
         { 
-            Renderer renderer = child.gameObject.GetComponent<Renderer>();
-            Debug.Log("이름 " + child.name + " " + renderer.bounds.size.x + ", " + renderer.bounds.size.y + ", " + renderer.bounds.size.z);
+            Mesh renderer = child.gameObject.GetComponent<MeshFilter>().sharedMesh;
+            Debug.Log("이름 " + child.name + " " + renderer.bounds.ToString());
             child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
 

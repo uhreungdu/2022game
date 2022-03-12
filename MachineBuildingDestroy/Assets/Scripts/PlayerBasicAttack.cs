@@ -8,7 +8,7 @@ public class PlayerBasicAttack : MonoBehaviour
     public PlayerInput playerInput;
     public BoxCollider boxCollider;
     public Material boxmaterial;
-    public GameObject coinprefab;     // 디버그용
+    public GameObject coinprefab; // 디버그용
 
     public float timeBetAttack = 0.5f; // 공격 간격
     public float activeAttackTime = 0.1f; // 공격 유지 시간
@@ -32,6 +32,7 @@ public class PlayerBasicAttack : MonoBehaviour
                 {
                     lastAttackTime = Time.time;
                 }
+
                 boxCollider.enabled = true;
             }
             else
@@ -44,8 +45,8 @@ public class PlayerBasicAttack : MonoBehaviour
         {
             boxCollider.enabled = false;
         }
-
     }
+
     private void OnTriggerEnter(Collider other)
     {
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
@@ -59,26 +60,34 @@ public class PlayerBasicAttack : MonoBehaviour
             }
             // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
         }
+
         if (other.tag == "DestroyWall")
         {
-            WallObject attackTarget = other.GetComponentInParent<WallObject>();
             // Debug.Log(other.ClosestPointOnBounds(transform.position));
+            WallObject attackTargetParent = other.GetComponentInParent<WallObject>();
 
-            Vector3 Upvector = Quaternion.AngleAxis(90, boxCollider.transform.up) * boxCollider.transform.forward;
-
-            if (attackTarget != null && !attackTarget.dead)
+            if (!attackTargetParent.dead)
             {
-                attackTarget.OnDamage(20);
-                Debug.Log(attackTarget.health);
-                
+                Vector3 Upvector = Quaternion.AngleAxis(90, boxCollider.transform.up) * boxCollider.transform.forward;
+
                 Material material = other.GetComponent<MeshRenderer>().sharedMaterial;
                 if (material == null)
                 {
                     material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
                 }
+                
                 CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), material);
             }
+
+            WallObject attackTarget = other.GetComponent<WallObject>();
+            
+            if (attackTarget != null && !attackTarget.dead && attackTargetParent == attackTarget)
+            {
+                attackTarget.OnDamage(20);
+                Debug.Log(attackTarget.health);
+            }
         }
+
         if (other.tag == "Player")
         {
             PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
