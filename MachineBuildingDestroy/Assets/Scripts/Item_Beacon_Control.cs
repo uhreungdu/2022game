@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using ExitGames.Client.Photon;
 
-public class Item_Beacon_Control : MonoBehaviour
+public class Item_Beacon_Control : MonoBehaviourPun
 {
     // Start is called before the first frame update
     public GameManager Gmanager;
@@ -12,6 +14,8 @@ public class Item_Beacon_Control : MonoBehaviour
     public GameObject box;
     public GameObject box_obj;
     public bool have_box;
+    [SerializeField]
+    private int CreateTime = 10;
     void Start()
     {
         Gmanager = GameManager.GetInstance();
@@ -24,7 +28,7 @@ public class Item_Beacon_Control : MonoBehaviour
     {
         if(box_obj != null)
         {
-            if(Gmanager.now_timer.sec >= 30)
+            if(Gmanager.now_timer.sec >= CreateTime)
             {
                 box_obj.GetComponent<item_box_make>().effect_On = true;
                 past_min = Gmanager.now_timer.min;
@@ -35,19 +39,14 @@ public class Item_Beacon_Control : MonoBehaviour
         {
             if(have_box == true)
             {
-                box = Resources.Load<GameObject>("item_box");
-                box_obj = Instantiate(box);
-                box_obj.transform.SetParent(gameObject.transform);
-                box_obj.transform.Translate(gameObject.transform.position);
-                box_obj.GetComponent<item_box_make>().decide_type();
-                have_box = false;
-                past_min = Gmanager.now_timer.min;
+                GameObject.Find("NetworkManager").GetComponent<NetworkManager>()
+                .RequestCreateItem(Random.Range(0, 3));
             }
             else
             {
                 if(Gmanager.EManager.itembox_Create == false)
                 {
-                    have_box = true;
+                    //have_box = true;
                 }
             }
         }
@@ -55,5 +54,41 @@ public class Item_Beacon_Control : MonoBehaviour
         {
             have_box = true;
         }
+    }
+
+    void CreateItem(int type)
+    {
+        box = Resources.Load<GameObject>("item_box");
+        box_obj = Instantiate(box);
+        box_obj.transform.SetParent(gameObject.transform);
+        box_obj.transform.Translate(gameObject.transform.position);
+        box_obj.GetComponent<item_box_make>().decide_type(type);
+        have_box = false;
+        past_min = Gmanager.now_timer.min;
+    }
+
+    public void OnEvent(EventData Evdata)
+    {
+        byte eventCode = Evdata.Code;
+        Debug.Log("EVENTCALLITEM");
+        // 아이템 생성
+        if (eventCode == 2)
+        {
+            object[] data = (object[])Evdata.CustomData;
+            if ((bool)data[1])
+            {
+                CreateItem((int)data[0]);
+            }
+        }
+    }
+
+    public void OnEnable()
+    {
+        PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
+    }
+
+    public void OnDisable()
+    {
+        PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
     }
 }
