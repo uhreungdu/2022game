@@ -115,3 +115,4 @@ MonoBehaviour:
   Time_temp: 0
   effect_switch: 0
   move_height: 0
+  GManager: {fileID: 0}

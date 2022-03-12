@@ -277,7 +277,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 124130634}
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2170,6 +2171,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -144346676000884673, guid: 36d6f2e7f8fe0164aa53b264ab5b9d80, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6056022715655027594, guid: 36d6f2e7f8fe0164aa53b264ab5b9d80, type: 3}
       propertyPath: m_RootOrder
       value: 8
