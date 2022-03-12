@@ -71,7 +71,7 @@ public class Item_Beacon_Control : MonoBehaviourPun
     public void OnEvent(EventData Evdata)
     {
         byte eventCode = Evdata.Code;
-        Debug.Log("EVENTCALLITEM");
+        //Debug.Log("EVENTCALLITEM");
         // 아이템 생성
         if (eventCode == 2)
         {

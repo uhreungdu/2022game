@@ -22,7 +22,7 @@ public class RcvEventSample : MonoBehaviourPun
     public void OnEvent(EventData Evdata)
     {
         byte eventCode = Evdata.Code;
-        Debug.Log("EVENTCALL");
+        //Debug.Log("EVENTCALL");
         if (eventCode == 0)
         {
             object[] data = (object[])Evdata.CustomData;
