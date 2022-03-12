@@ -28,32 +28,14 @@ public class Item_Beacon_Control : MonoBehaviourPun
     {
         if(box_obj != null)
         {
-            if(Gmanager.now_timer.sec >= CreateTime)
-            {
-                box_obj.GetComponent<item_box_make>().effect_On = true;
-                past_min = Gmanager.now_timer.min;
-            }
-            
+            box_obj.GetComponent<item_box_make>().effect_On = true;
         }
         else if(box_obj == null && Gmanager.EManager.itembox_Create == true)
         {
-            if(have_box == true)
-            {
-                GameObject.Find("NetworkManager").GetComponent<NetworkManager>()
-                .RequestCreateItem(Random.Range(0, 3));
-            }
-            else
-            {
-                if(Gmanager.EManager.itembox_Create == false)
-                {
-                    //have_box = true;
-                }
-            }
+            int rand = Random.Range(0, 3);
+            CreateItem(rand);
         }
-        else
-        {
-            have_box = true;
-        }
+        Debug.Log(Gmanager.EManager.itembox_Create);
     }
 
     void CreateItem(int type)
