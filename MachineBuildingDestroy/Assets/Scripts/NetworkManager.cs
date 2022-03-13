@@ -11,10 +11,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     enum EventCode : byte
     {
         Test,
-        RenewScore
+        RenewScore,
+        CreateItem
     }
     string networkState;
     public GameObject Player;
+    public GameObject Map;
 
     // Start is called before the first frame update
     void Start() =>
@@ -30,8 +32,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Vector3 Pos = new Vector3(0, 10, 0);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Map.GetComponent<Map>().CreateNetworkMap();
+        }
         PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
-        RaiseEventSample();
     }
     
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -63,6 +68,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         byte evCode = (byte)EventCode.RenewScore;
         object[] data = new object[] { team, point };
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        SendOptions sendOpt = new SendOptions { Reliability = true };
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
+
+    public void RequestCreateItem(int type)
+    {
+        byte evCode = (byte)EventCode.CreateItem;
+        object[] data = new object[] { 0, false };  // type, result
         RaiseEventOptions RaiseOpt = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         SendOptions sendOpt = new SendOptions { Reliability = true };
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);

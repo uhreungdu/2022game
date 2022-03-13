@@ -51,24 +51,13 @@ public class item_box_make : MonoBehaviour
             }
             transform.Rotate(Vector3.up * 20 * Time.deltaTime);
         }
-        if(GManager.EManager.itembox_Create == false && effect_switch == true)
+        if(GManager.EManager.itembox_Create == false)
         {
-            if(move_height >= 0)
-            {
-                Time_temp += Time.deltaTime * Mathf.PI * 0.5f;
-                move_height += Mathf.Sin(Time_temp)* 2;
-                SetHeight(move_height);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-            
+            Destroy(gameObject);
         }
     }
-    public void decide_type(){
-        int type_rand = Random.Range(0,3);
-        switch(type_rand){
+    public void decide_type(int type){
+        switch(type){
             case 0:
                 now_type = item_type.weapon;
                 break;
