@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -14,9 +15,8 @@ public class CreateRoomButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Button>().interactable = false;
         gManager = LobbyManager.GetInstance();
-        
+        _account = Account.GetInstance();
     }
 
     // Update is called once per frame
@@ -54,11 +54,7 @@ public class CreateRoomButton : MonoBehaviour
         {
             Debug.Log("Form upload complete!");
             PhotonNetwork.JoinOrCreateRoom(gManager.GetInRoomName(), new RoomOptions { MaxPlayers = 6 }, null);
-            GameObject.Find("DelRoomButton").GetComponent<Button>().interactable = true;
-            GameObject.Find("SetNameButton").GetComponent<Button>().interactable = false;
-            GetComponent<Button>().interactable = false;
-            // 시연을 위해 무조건 리스트가 갱신되게 넣은것
-            StartCoroutine(gManager.GetRoomList());
+            SceneManager.LoadScene("SampleScene");
         }
     }
 }

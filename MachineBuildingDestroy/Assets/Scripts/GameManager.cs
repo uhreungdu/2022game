@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     // Start is called before the first frame update
     private static GameManager instance;
@@ -24,30 +25,21 @@ public class GameManager : MonoBehaviour
     public float time_display;
     public struct timer_block{
         public int min;
-        public float sec;
+        public int sec;
         public float Ntimer;
-        public void settimes(int val, float val2, float val3)
-        {
-            min = val;
-            sec = val2;
-            Ntimer = val3;
-        }
     }
     public timer_block now_timer;
     public class Event_manager{
-        public int min;
-        public float sec;
         public float Ntimer;
         public bool itembox_Create;
         public bool goalpost_Create;
         public bool landmakr_Create;
-        public void SetTime(int val, float val2, float val3){
-            min = val;
-            sec = val2;
+        public void SetTime(float val3){
             Ntimer = val3;
         }
+        
         public void Active_Itembox(){
-            if((int)Ntimer / 90 > 0 && (int)Ntimer % 90 < 20)
+            if((int)Ntimer / 90 > 0 && (int)Ntimer % 90 < 10)
             {
                 itembox_Create = true;
                 // Debug.Log("아이템 생성");
@@ -55,7 +47,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 itembox_Create = false;
-                //Debug.Log(Ntimer);
+                //Debug.Log("아이템 존재 X");
             }
         }
         public void Active_Goalopost(){
@@ -67,7 +59,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 goalpost_Create = false;
-                //Debug.Log(Ntimer);
+                
             }
         }
         public void Active_landmakr(){
@@ -110,7 +102,10 @@ public class GameManager : MonoBehaviour
         {
             gamescore[i] = 0;
         }
-        now_timer.settimes(0,0,0f);
+        //now_timer.settimes(0,0,0f);
+        now_timer.min = 0;
+        now_timer.sec = 0;
+        now_timer.Ntimer = 0f;
     }
 
     // Update is called once per frame
@@ -121,10 +116,6 @@ public class GameManager : MonoBehaviour
             if(gamescore[i] <= 5)
             {
                 Time_check();
-            }
-            else
-            {
-                time_display = 0;
             }
         }
         
@@ -156,19 +147,36 @@ public class GameManager : MonoBehaviour
     {
         if(now_timer.min < 5)
         {
-            now_timer.Ntimer += Time.deltaTime;
-            now_timer.sec += Time.deltaTime;
-            if((int)now_timer.sec > 59)
+            // 내가 Master Client(동기화의 주체)이면 시간을 더해줍니다.
+            if (PhotonNetwork.IsMasterClient)
             {
-                now_timer.sec = 0;
-                now_timer.min += 1;
+                now_timer.Ntimer += Time.deltaTime * 0.5f;
             }
-            EManager.SetTime(now_timer.min,now_timer.sec,now_timer.Ntimer);
+
+            now_timer.min = (int) now_timer.Ntimer / 60;
+            now_timer.sec = ((int)now_timer.Ntimer - now_timer.min * 60) % 60;
+            EManager.SetTime(now_timer.Ntimer);
             EManager.Active_Itembox();
             EManager.Active_Goalopost();
             EManager.Active_landmakr();
         }
         
-        // Debug.Log(now_timer.min);
+        //Debug.Log(now_timer.min);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
+        if (stream.IsWriting)
+        {
+            stream.SendNext(EManager.Ntimer);
+            //Debug.Log(string.Format("Send time {0}",EManager.Ntimer));
+        }
+        // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
+        else
+        {
+            now_timer.Ntimer = (float) stream.ReceiveNext();
+            //Debug.Log(string.Format("Recieve time {0}",EManager.Ntimer));
+        }
     }
 }

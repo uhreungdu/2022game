@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Text;
+using Photon.Pun;
 
 public class Map : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class Map : MonoBehaviour
         {
             for (int i = 0; i < Tiles.Count; ++i)
             {
-                Debug.Log("kind = " + Tiles[i].kind);
-                Debug.Log("position = " + Tiles[i].position);
+                //Debug.Log("kind = " + Tiles[i].kind);
+                //Debug.Log("position = " + Tiles[i].position);
             }
         }
     }
@@ -53,7 +54,7 @@ public class Map : MonoBehaviour
         string jsonData = ObjectToJson(maptile);
         Debug.Log(jsonData);
         CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
-        
+        /*
         var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
         maptile = jtc2;
         // jtc2.Print();
@@ -84,6 +85,9 @@ public class Map : MonoBehaviour
             temp.transform.SetParent(this.transform);
         }
 
+        string jsonData = ObjectToJson(maptile);
+        */
+        //Debug.Log(jsonData);
         //CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
 
     }
@@ -167,5 +171,36 @@ public class Map : MonoBehaviour
             // buliding.transform.SetParent(this.transform);
 
         }
+    }
+
+    public void CreateNetworkMap()
+    {
+        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
+        maptile = jtc2;
+        jtc2.Print();
+
+        for (int i = 0; i < maptile.Tiles.Count; ++i)
+        {
+            GameObject tilepref = null;
+            switch (maptile.Tiles[i].kind)
+            {
+                case 0:
+                    tilepref = planepref;
+                    break;
+                case 1:
+                    tilepref = bulidingpref;
+                    break;
+                case 2:
+                    tilepref = bulidingpref;
+                    break;
+                case 3:
+                    tilepref = bulidingpref;
+                    break;
+            }
+            GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, tilepref.transform.rotation);
+            temp.transform.SetParent(this.transform);
+        }
+
+        string jsonData = ObjectToJson(maptile);
     }
 }

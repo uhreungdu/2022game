@@ -8,9 +8,6 @@ public class TimeUpdate : MonoBehaviour
     public GameManager gManager;
     public GameObject TimeDisplay;
     private Text Timetext;
-    int min;
-    float secs;
-    float time_temp;
     void Start()
     {
         gManager = GameManager.GetInstance();

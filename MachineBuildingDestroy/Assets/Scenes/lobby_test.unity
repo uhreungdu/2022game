@@ -317,7 +317,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 62339216}
   m_OnClick:
     m_PersistentCalls:
@@ -1006,7 +1006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d8baafd203524ab5bee8700d263b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Room: {fileID: 3504561904039289972, guid: 285e8edffe9f9ac449382944139b5885, type: 3}
+  roomlist: {fileID: 504155431}
 --- !u!1 &669789179
 GameObject:
   m_ObjectHideFlags: 0

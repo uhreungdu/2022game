@@ -16,6 +16,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
     string networkState;
     public GameObject Player;
+    public GameObject Map;
 
     // Start is called before the first frame update
     void Start() =>
@@ -31,8 +32,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Vector3 Pos = new Vector3(0, 10, 0);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Map.GetComponent<Map>().CreateNetworkMap();
+        }
         PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
-        RaiseEventSample();
     }
     
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
