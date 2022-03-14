@@ -6,15 +6,13 @@ using Photon.Realtime;
 using UnityEngine.Networking;
 using ExitGames.Client.Photon;
 
-public class LobbyManager : MonoBehaviourPunCallbacks
+public class LobbyManager : MonoBehaviour
 {
     // Start is called before the first frame update
     private static LobbyManager instance;
     private string exroomName;
     private string inroomName;
     public GameObject roomlist;
-    string networkState;
-
 
     public static LobbyManager GetInstance()
     {
@@ -51,25 +49,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        string curNetworkState = PhotonNetwork.NetworkClientState.ToString();
-        if (networkState != curNetworkState)
-        {
-            networkState = curNetworkState;
-            print(networkState);
-        }
-    }
-
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        StartCoroutine(GetRoomList());
-    }
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("Join OK");
-    }
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        Debug.Log(message);
     }
 
     public void SetInRoomName(string text)
