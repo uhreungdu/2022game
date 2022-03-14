@@ -55,37 +55,46 @@ public class PlayerBasicAttack : MonoBehaviour
             WallObject attackTarget = other.GetComponent<WallObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
-                attackTarget.OnDamage(20);
-                Debug.Log(attackTarget.health);
-            }
-            // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
-        }
-
-        if (other.tag == "DestroyWall")
-        {
-            // Debug.Log(other.ClosestPointOnBounds(transform.position));
-            WallObject attackTargetParent = other.GetComponentInParent<WallObject>();
-
-            if (!attackTargetParent.dead)
-            {
-                Vector3 Upvector = Quaternion.AngleAxis(90, boxCollider.transform.up) * boxCollider.transform.forward;
+                Vector3 Upvector = Quaternion.AngleAxis(90, boxCollider.transform.up) * Vector3.forward;
 
                 Material material = other.GetComponent<MeshRenderer>().sharedMaterial;
                 if (material == null)
                 {
                     material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
                 }
+                CMeshSlicer.Sliceseveraltimes(other.gameObject, Vector3.up, material, 1);
+                // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
                 
-                CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), material);
-            }
-
-            WallObject attackTarget = other.GetComponent<WallObject>();
-            
-            if (attackTarget != null && !attackTarget.dead && attackTargetParent == attackTarget)
-            {
-                attackTarget.OnDamage(20);
+                attackTarget.OnDamage(100);
                 Debug.Log(attackTarget.health);
             }
+        }
+
+        if (other.tag == "DestroyWall")
+        {
+            // Debug.Log(other.ClosestPointOnBounds(transform.position));
+            // WallObject attackTargetParent = other.GetComponentInParent<WallObject>();
+            //
+            // if (!attackTargetParent.dead)
+            // {
+            //     Vector3 Upvector = Quaternion.AngleAxis(90, boxCollider.transform.up) * Vector3.forward;
+            //
+            //     Material material = other.GetComponent<MeshRenderer>().sharedMaterial;
+            //     if (material == null)
+            //     {
+            //         material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
+            //     }
+            //     CMeshSlicer.Sliceseveraltimes(other.gameObject, Vector3.up, material, 1);
+            //     // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), material);
+            // }
+            //
+            // WallObject attackTarget = other.GetComponent<WallObject>();
+            //
+            // if (attackTarget != null && !attackTarget.dead && attackTargetParent == attackTarget)
+            // {
+            //     attackTarget.OnDamage(20);
+            //     Debug.Log(attackTarget.health);
+            // }
         }
 
         if (other.tag == "Player")

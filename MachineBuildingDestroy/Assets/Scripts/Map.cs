@@ -141,7 +141,7 @@ public class Map : MonoBehaviour
             position.z = Random.RandomRange(-offset * (z / 2) + offset, offset * (z / 2) - offset);
             
             Tile tile = new Tile();
-            tile.kind = Random.Range(2, 3 + 1);
+            tile.kind = Random.Range(2, 4 + 1);
             tile.position = position;
             maptile.Tiles.Add(tile);
             

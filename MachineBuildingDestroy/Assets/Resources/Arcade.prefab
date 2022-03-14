@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4075717829768256502}
   m_Layer: 0
   m_Name: Arcade
-  m_TagString: DestroyWall
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0f440fb2185236f429398c71b0eda9b5, type: 2}
+  - {fileID: 2100000, guid: 185c7e8e2d3833540ad04b7eb9ce53e1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

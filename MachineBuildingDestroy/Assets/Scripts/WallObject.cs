@@ -39,13 +39,13 @@ public class WallObject : LivingEntity
         //{
         //    transform.GetChild(i).GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         //}
-
-        Transform[] allChildren = GetComponentsInChildren<Transform>();
-        foreach (Transform child in allChildren)
-        { 
-            Mesh renderer = child.gameObject.GetComponent<MeshFilter>().sharedMesh;
-            Debug.Log("¿Ã∏ß " + child.name + " " + renderer.bounds.ToString());
-            child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        for (int i = 0; i < 2; ++i)
+        {
+            Transform[] allChildren = GetComponentsInChildren<Transform>();
+            foreach (Transform child in allChildren)
+            {
+                child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            }
         }
 
 
