@@ -125,6 +125,14 @@ public class thirdpersonmove : MonoBehaviourPun
             }
         }
     }
+
+    public void Aim()
+    {
+        if (playerState.Item == item_box_make.item_type.potion)
+        {
+            
+        }
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Item")
@@ -133,7 +141,7 @@ public class thirdpersonmove : MonoBehaviourPun
             if (itemBoxMake.effect_switch == true)
             {
                 playerState.SetItem(itemBoxMake.now_type);
-                Destroy(other.gameObject);
+                //Destroy(other.gameObject);
             }
         }
         

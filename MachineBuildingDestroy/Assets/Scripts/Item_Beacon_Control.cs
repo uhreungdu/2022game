@@ -8,19 +8,16 @@ public class Item_Beacon_Control : MonoBehaviourPun
 {
     // Start is called before the first frame update
     public GameManager Gmanager;
-    public int min;
-    public int past_min;
-    public float sec;
     public GameObject box;
     public GameObject box_obj;
-    public bool have_box;
+    public bool Item_get;
     [SerializeField]
     private int CreateTime = 10;
     void Start()
     {
         Gmanager = GameManager.GetInstance();
         //box_obj.GetComponent<item_box_make>().effect_On = true;
-        have_box = true;
+        Item_get = true;
     }
 
     // Update is called once per frame
@@ -34,11 +31,19 @@ public class Item_Beacon_Control : MonoBehaviourPun
         {
             // Master Client가 아니면 아무것도 하지않습니다.
             if (!PhotonNetwork.IsMasterClient) return;
-            
-            // Master Client라면 CreateItem(int)함수를 자신 포함 방 안에있는 모두에게 실행하라고 명령합니다.
-            int rand = Random.Range(0, 3 + 1);
-            photonView.RPC("CreateItem", RpcTarget.All, rand);
-            //CreateItem(rand);
+
+            if (Item_get == true)
+            {
+                // Master Client라면 CreateItem(int)함수를 자신 포함 방 안에있는 모두에게 실행하라고 명령합니다.
+                int rand = Random.Range(0, 3 + 1);
+                photonView.RPC("CreateItem", RpcTarget.All, rand);
+                //CreateItem(rand);
+            }
+        }
+
+        if (Gmanager.EManager.itembox_Create == false)
+        {
+            Item_get = true;
         }
         //Debug.Log(Gmanager.EManager.itembox_Create);
     }
@@ -51,7 +56,6 @@ public class Item_Beacon_Control : MonoBehaviourPun
         box_obj.transform.SetParent(gameObject.transform);
         box_obj.transform.Translate(gameObject.transform.position);
         box_obj.GetComponent<item_box_make>().decide_type(type);
-        have_box = false;
-        past_min = Gmanager.now_timer.min;
+        Item_get = false;
     }
 }
