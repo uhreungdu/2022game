@@ -42,7 +42,6 @@ public class LobbyManager : MonoBehaviour
     }
     void Start()
     {
-        PhotonNetwork.ConnectUsingSettings();
         StartCoroutine(GetRoomList());
     }
 

@@ -31,5 +31,3 @@ if($resultval <= 0){
     WHERE internal_name = $iname;
     ");
 }
-
-fclose($myfile);
