@@ -13,6 +13,7 @@ TagManager:
   - Coin
   - Slicer
   - DestroyWall
+  - Item
   layers:
   - Default
   - TransparentFX

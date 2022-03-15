@@ -62,7 +62,6 @@ public class PlayerBasicAttack : MonoBehaviour
                 {
                     material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
                 }
-                CMeshSlicer.Sliceseveraltimes(other.gameObject, Vector3.up, material, 1);
                 // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
                 
                 attackTarget.OnDamage(100);

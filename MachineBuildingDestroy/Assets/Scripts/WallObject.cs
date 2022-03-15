@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class WallObject : LivingEntity
 {
-    public GameObject coinprefab;     // »ý¼ºÇÒ ÄÚÀÎÀÇ ¿øº» ÇÁ¸®Æé
+    public GameObject coinprefab;     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public Material boxmaterial;
     public int destroyTime = 5;
 
     // Start is called before the first frame update
@@ -31,22 +32,23 @@ public class WallObject : LivingEntity
             Vector3 coinForward = coin.transform.position - transform.position;
             coinForward.Normalize();
         }
-        GetComponent<Rigidbody>().AddForce(Vector3.up * 500);
-        Destroy(GetComponent<Rigidbody>());
+        // for (int i = 0; i < 2; ++i)
+        // {
+        //     Transform[] allChildren = GetComponentsInChildren<Transform>();
+        //     foreach (Transform child in allChildren)
+        //     {
+        //         child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        //     }
+        // }
         GetComponent<MeshCollider>().enabled = false;
+        // GetComponent<Rigidbody>().AddForce(Vector3.up * 2000);
+        Destroy(GetComponent<Rigidbody>());
+        CMeshSlicer.Sliceseveraltimes(gameObject, boxmaterial, 1);
 
         //for (int i = 0; i < transform.childCount; ++i)
         //{
         //    transform.GetChild(i).GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         //}
-        for (int i = 0; i < 2; ++i)
-        {
-            Transform[] allChildren = GetComponentsInChildren<Transform>();
-            foreach (Transform child in allChildren)
-            {
-                child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            }
-        }
 
 
 
@@ -55,10 +57,10 @@ public class WallObject : LivingEntity
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Æ®¸®°Å Ãæµ¹ÇÑ »ó´ë¹æ °ÔÀÓ ¿ÀºêÁ§Æ®°¡ ÃßÀû ´ë»óÀÌ¶ó¸é °ø°Ý ½ÇÇà
+        // Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         // if (collision.gameObject.tag == gameObject.tag)
         // {
-        //     // Debug.Log("º®³¢¸® Ãæµ¹ °¨Áö");
+        //     // Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½");
         //     //gameObject.transform.localScale += new Vector3(0.3f, 0, 0.3f);
         //     //Destroy(collision.collider.gameObject);
         //     Destroy(gameObject);

@@ -13,9 +13,12 @@ GameObject:
   - component: {fileID: 2515976170111450842}
   - component: {fileID: 4269508634443668874}
   - component: {fileID: 2121533630588431281}
+<<<<<<< HEAD:MachineBuildingDestroy/Assets/Resources/Tank.prefab
   - component: {fileID: 6988218010845621718}
-  - component: {fileID: -2283443481089927820}
-  - component: {fileID: -7679107019282651007}
+=======
+  - component: {fileID: 919431213263391627}
+  - component: {fileID: 3829803868660944124}
+>>>>>>> main:MachineBuildingDestroy/Assets/Resources/Box015.prefab
   m_Layer: 0
   m_Name: Tank
   m_TagString: Wall
@@ -44,7 +47,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560815743673721885}
-  m_Mesh: {fileID: -8298940227465870776, guid: 507b4e914a16d024e93fc534c1a20785, type: 3}
+  m_Mesh: {fileID: -8298940227465870776, guid: 70d273e0d479d8144a8c54afd6e40149, type: 3}
 --- !u!23 &2515976170111450842
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -94,7 +97,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560815743673721885}
   serializedVersion: 2
-  m_Mass: 0.2
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -116,29 +119,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 100
   coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
-  boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
+<<<<<<< HEAD:MachineBuildingDestroy/Assets/Resources/Tank.prefab
   destroyTime: 5
 --- !u!64 &6988218010845621718
 MeshCollider:
+=======
+--- !u!114 &919431213263391627
+MonoBehaviour:
+>>>>>>> main:MachineBuildingDestroy/Assets/Resources/Box015.prefab
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560815743673721885}
+<<<<<<< HEAD:MachineBuildingDestroy/Assets/Resources/Tank.prefab
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -8298940227465870776, guid: 507b4e914a16d024e93fc534c1a20785, type: 3}
---- !u!114 &-2283443481089927820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560815743673721885}
+  m_Mesh: {fileID: -8298940227465870776, guid: 70d273e0d479d8144a8c54afd6e40149, type: 3}
+=======
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
@@ -148,14 +150,14 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 0
+  OwnershipTransfer: 1
+  observableSearch: 2
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 3829803868660944124}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-7679107019282651007
+--- !u!114 &3829803868660944124
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,5 +171,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 0
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+>>>>>>> main:MachineBuildingDestroy/Assets/Resources/Box015.prefab

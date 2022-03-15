@@ -7,6 +7,7 @@ public class thirdpersonmove : MonoBehaviourPun
 {
     public CharacterController controller;
     public PlayerInput playerInput; // 플레이어조작을 관리하는 스크립트
+    public PlayerState playerState;
     public Transform cam;
     private Animator playeranimator;
 
@@ -37,6 +38,7 @@ public class thirdpersonmove : MonoBehaviourPun
         cam = GameObject.FindWithTag("CamPos").GetComponent<Transform>();
         playerInput = GetComponent<PlayerInput>();
         playeranimator = GetComponent<Animator>();
+        playerState = GetComponent<PlayerState>();
         jumpower = 6f;
         Debug.Log(Application.platform);
     }
@@ -123,10 +125,38 @@ public class thirdpersonmove : MonoBehaviourPun
             }
         }
     }
-
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Item")
+        {
+            item_box_make itemBoxMake = other.gameObject.GetComponent<item_box_make>();
+            if (itemBoxMake.effect_switch == true)
+            {
+                playerState.SetItem(itemBoxMake.now_type);
+                Destroy(other.gameObject);
+            }
+        }
+        
+        if (other.gameObject.tag == "Coin")
+        {
+            playerState.AddPoint(1);
+            Destroy(other.gameObject);
+        }
+    }
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody body = hit.collider.attachedRigidbody;
+        //
+        // if (hit.gameObject.tag == "Item")
+        // {
+        //     item_box_make itemBoxMake = hit.gameObject.GetComponent<item_box_make>();
+        //     if (itemBoxMake.effect_switch == true)
+        //     {
+        //         playerState.SetItem(itemBoxMake.now_type);
+        //         Destroy(hit.gameObject);
+        //     }
+        // }
+        
         if (body == null || body.isKinematic)
             return;
 
@@ -135,13 +165,12 @@ public class thirdpersonmove : MonoBehaviourPun
 
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         body.velocity = pushDir * pushPower;
-
-        if (hit.gameObject.tag == "Coin")
-        {
-            gameObject.GetComponentInParent<PlayerState>().AddPoint(1);
-            Destroy(hit.gameObject);
-        }
-
+        //
+        // if (hit.gameObject.tag == "Coin")
+        // {
+        //     playerState.AddPoint(1);
+        //     Destroy(hit.gameObject);
+        // }
     }
 
 }

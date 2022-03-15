@@ -15,7 +15,7 @@ public class Map : MonoBehaviour
     }
     public class Maptile
     {
-        public List<Tile> Tiles = new List<Tile>();        // jsonï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¼ï¿½
+        public List<Tile> Tiles = new List<Tile>();        // jsonÀ¸·Î ¹­±â À§ÇÑ ²Ä¼ö
         public void Print()
         {
             for (int i = 0; i < Tiles.Count; ++i)
@@ -50,11 +50,14 @@ public class Map : MonoBehaviour
         //{
 
         //}
+<<<<<<< HEAD
         RandomMap();
         string jsonData = ObjectToJson(maptile);
         Debug.Log(jsonData);
         CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
+=======
         /*
+>>>>>>> main
         var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
         maptile = jtc2;
         // jtc2.Print();
@@ -85,16 +88,20 @@ public class Map : MonoBehaviour
             temp.transform.SetParent(this.transform);
         }
 
+<<<<<<< HEAD
+=======
         string jsonData = ObjectToJson(maptile);
         */
         //Debug.Log(jsonData);
+>>>>>>> main
         //CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     string ObjectToJson(object obj)
@@ -127,8 +134,8 @@ public class Map : MonoBehaviour
             for (int j = 0; j < z; ++j)
             {
                 Vector3 position = new Vector3((i * offset) - (offset * ((x - 1) / 2)), 0, (j * offset) - (offset * ((z - 1) / 2)));
-                // GameObject temp = Instantiate(planepref, position, planepref.transform.rotation);
-                // temp.transform.SetParent(this.transform);
+                GameObject temp = Instantiate(planepref, position, planepref.transform.rotation);
+                temp.transform.SetParent(this.transform);
                 Tile tile = new Tile();
                 tile.kind = 0;
                 tile.position = position;
@@ -140,17 +147,11 @@ public class Map : MonoBehaviour
         {
             Vector3 position = Vector3.zero;
             position.x = Random.RandomRange(-offset * (x / 2) + offset, offset * (x / 2) - offset);
+            position.y = Random.RandomRange(20, 50);
             position.z = Random.RandomRange(-offset * (z / 2) + offset, offset * (z / 2) - offset);
             
             Tile tile = new Tile();
             tile.kind = Random.Range(2, 4 + 1);
-            if (tile.kind == 2)
-            {
-                position.y = 0.15f;
-            }
-            else
-                position.y = Random.RandomRange(20, 50);
-
             tile.position = position;
             maptile.Tiles.Add(tile);
             
@@ -193,20 +194,16 @@ public class Map : MonoBehaviour
                     tilepref = planepref;
                     break;
                 case 1:
-                    tilepref = goalpostpref;
+                    tilepref = bulidingpref;
                     break;
                 case 2:
-                    tilepref = itempref;
+                    tilepref = bulidingpref;
                     break;
                 case 3:
-                    tilepref = tankpref;
-                    break;
-                case 4:
-                    tilepref = arcadepref;
+                    tilepref = bulidingpref;
                     break;
             }
             GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, tilepref.transform.rotation);
-            temp.name = tilepref.name + i;
             temp.transform.SetParent(this.transform);
         }
 

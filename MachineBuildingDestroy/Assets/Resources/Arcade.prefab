@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: -7842005215656174503}
   - component: {fileID: 6396733988404644729}
   - component: {fileID: 4075717829768256502}
+  - component: {fileID: -1049732148916473526}
+  - component: {fileID: 7027677454253979164}
   m_Layer: 0
   m_Name: Arcade
   m_TagString: Wall
@@ -114,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 100
   coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
+  boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
   destroyTime: 5
 --- !u!64 &4075717829768256502
 MeshCollider:
@@ -129,3 +132,42 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 5060444177187149915, guid: 33c84c5d1d4272548b89d7733c4a4a4f, type: 3}
+--- !u!114 &-1049732148916473526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817797041097849417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
+--- !u!114 &7027677454253979164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817797041097849417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: -1049732148916473526}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
