@@ -5,75 +5,75 @@ using UnityEngine;
 public class CMeshSlicer : MonoBehaviour
 
 {
-    public static void Sliceseveraltimes(GameObject _target, Material _interial, int _number)
+    public static void Sliceseveraltimes(GameObject _target, Vector3 _sliceNormal, Material _interial, int _number)
     {
-        List<GameObject[]> SliceMesh_list = new List<GameObject[]>();
-        GameObject[] SliceObjects = {_target};
-        SliceMesh_list.Add(SliceObjects);
+        // List<GameObject[]> SliceMesh_list = new List<GameObject[]>();
+        // GameObject[] SliceObjects = {_target};
+        // SliceMesh_list.Add(SliceObjects);
         for (int i = 0; i < _number; ++i)
         {
-            List<GameObject[]> SliceMesh_temp = new List<GameObject[]>();
-            foreach (GameObject[] gameObjectlist in SliceMesh_list)
-            {
-                SliceMesh_temp.Add(gameObjectlist);
-            }
-            foreach (GameObject[] gameObjectlist in SliceMesh_temp)
-            {
-                foreach (GameObject gameObject in gameObjectlist)
-                {
-                    GameObject[] temp = SlicerWorld(gameObject.gameObject,
-                        Vector3.right, 
-                        gameObject.GetComponent<MeshRenderer>().bounds.center,
-                        _interial);
-                    SliceMesh_list.Add(temp);
-                }
-                SliceMesh_list.Remove(gameObjectlist);
-            }
-            
-            SliceMesh_temp.Clear();
-            foreach (GameObject[] gameObjectlist in SliceMesh_list)
-            {
-                SliceMesh_temp.Add(gameObjectlist);
-            }
-            
-            foreach (GameObject[] gameObjectlist in SliceMesh_temp)
-            {
-                foreach (GameObject gameObject in gameObjectlist)
-                {
-                    GameObject[] temp = SlicerWorld(gameObject.gameObject,
-                        Vector3.forward,
-                        gameObject.GetComponent<MeshRenderer>().bounds.center,
-                        _interial);
-                    SliceMesh_list.Add(temp);
-                }
-                SliceMesh_list.Remove(gameObjectlist);
-            }
-            
-            SliceMesh_temp.Clear();
-            foreach (GameObject[] gameObjectlist in SliceMesh_list)
-            {
-                SliceMesh_temp.Add(gameObjectlist);
-            }
-            foreach (GameObject[] gameObjectlist in SliceMesh_temp)
-            {
-                foreach (GameObject gameObject in gameObjectlist)
-                {
-                    GameObject[] temp = SlicerWorld(gameObject.gameObject,
-                        Vector3.up, 
-                        gameObject.GetComponent<MeshRenderer>().bounds.center,
-                        _interial);
-                    SliceMesh_list.Add(temp);
-                }
-                SliceMesh_list.Remove(gameObjectlist);
-            }
-            //
-            // Transform[] allChildren = _target.GetComponentsInChildren<Transform>();
-            // foreach (Transform child in allChildren)
+            // List<GameObject[]> SliceMesh_temp = new List<GameObject[]>();
+            // foreach (GameObject[] gameObjectlist in SliceMesh_list)
             // {
-            //     if (child.gameObject.activeSelf != false)
-            //         SlicerWorld(child.gameObject, _sliceNormal, child.GetComponent<MeshRenderer>().bounds.center,
-            //             _interial);
+            //     SliceMesh_temp.Add(gameObjectlist);
             // }
+            // foreach (GameObject[] gameObjectlist in SliceMesh_temp)
+            // {
+            //     foreach (GameObject gameObject in gameObjectlist)
+            //     {
+            //         GameObject[] temp = SlicerWorld(gameObject.gameObject,
+            //             Vector3.right, 
+            //             gameObject.GetComponent<MeshRenderer>().bounds.center,
+            //             _interial);
+            //         SliceMesh_list.Add(temp);
+            //     }
+            //     SliceMesh_list.Remove(gameObjectlist);
+            // }
+            //
+            // SliceMesh_temp.Clear();
+            // foreach (GameObject[] gameObjectlist in SliceMesh_list)
+            // {
+            //     SliceMesh_temp.Add(gameObjectlist);
+            // }
+            //
+            // foreach (GameObject[] gameObjectlist in SliceMesh_temp)
+            // {
+            //     foreach (GameObject gameObject in gameObjectlist)
+            //     {
+            //         GameObject[] temp = SlicerWorld(gameObject.gameObject,
+            //             Vector3.forward,
+            //             gameObject.GetComponent<MeshRenderer>().bounds.center,
+            //             _interial);
+            //         SliceMesh_list.Add(temp);
+            //     }
+            //     SliceMesh_list.Remove(gameObjectlist);
+            // }
+            //
+            // SliceMesh_temp.Clear();
+            // foreach (GameObject[] gameObjectlist in SliceMesh_list)
+            // {
+            //     SliceMesh_temp.Add(gameObjectlist);
+            // }
+            // foreach (GameObject[] gameObjectlist in SliceMesh_temp)
+            // {
+            //     foreach (GameObject gameObject in gameObjectlist)
+            //     {
+            //         GameObject[] temp = SlicerWorld(gameObject.gameObject,
+            //             Vector3.up, 
+            //             gameObject.GetComponent<MeshRenderer>().bounds.center,
+            //             _interial);
+            //         SliceMesh_list.Add(temp);
+            //     }
+            //     SliceMesh_list.Remove(gameObjectlist);
+            // }
+            
+            Transform[] allChildren = _target.GetComponentsInChildren<Transform>();
+            foreach (Transform child in allChildren)
+            {
+                if (child.gameObject.activeSelf != false)
+                    SlicerWorld(child.gameObject, _sliceNormal, child.GetComponent<MeshRenderer>().bounds.center,
+                        _interial);
+            }
             //
             // allChildren = _target.GetComponentsInChildren<Transform>();
             // foreach (Transform child in allChildren)
@@ -82,7 +82,7 @@ public class CMeshSlicer : MonoBehaviour
             //         SlicerWorld(child.gameObject, Quaternion.AngleAxis(90, child.transform.forward) * _sliceNormal, child.GetComponent<MeshRenderer>().bounds.center, _interial);
             // }
             //
-            
+            //
             // allChildren = _target.GetComponentsInChildren<Transform>();
             // foreach (Transform child in allChildren)
             // {
@@ -390,8 +390,8 @@ public class CMeshSlicer : MonoBehaviour
 
         aObject.AddComponent<Rigidbody>();
         bObject.AddComponent<Rigidbody>();
-        // aObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        // bObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        aObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        bObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         aObject.AddComponent<MeshCollider>();
         bObject.AddComponent<MeshCollider>();
         aObject.GetComponent<MeshCollider>().convex = true;
@@ -400,50 +400,50 @@ public class CMeshSlicer : MonoBehaviour
         bObject.tag = "DestroyWall";
         
         //Create sliced object
-        // if (_target.transform.parent.name == "Map")
-        // {
-        //     _target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        //     _target.GetComponent<MeshFilter>().sharedMesh = orinMesh;
-        //     _target.GetComponent<MeshCollider>().sharedMesh = orinMesh;
-        //     _target.GetComponent<MeshCollider>().convex = true;
-        //     _target.GetComponent<MeshRenderer>().enabled = false;
-        //     
-        //     aObject.transform.SetParent(_target.transform, true);
-        //
-        //     bObject.transform.SetParent(_target.transform, true);
-        //
-        //     _target.tag = "Wall";
-        //     
-        //     // abParentObject = new GameObject(_target.name, typeof(Rigidbody), typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider));
-        //     //
-        //     // abParentObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        //     // abParentObject.GetComponent<MeshFilter>().sharedMesh = orinMesh;
-        //     // abParentObject.GetComponent<MeshCollider>().sharedMesh = orinMesh;
-        //     // abParentObject.GetComponent<MeshCollider>().convex = true;
-        //     // abParentObject.GetComponent<MeshRenderer>().enabled = false;
-        //     // abParentObject.transform.position = _target.transform.position;
-        //     //
-        //     // abParentObject.transform.rotation = _target.transform.rotation;
-        //     //
-        //     // abParentObject.transform.localScale = _target.transform.localScale;
-        //     //
-        //     // CopyComponent<WallObject>(_target.GetComponent<WallObject>(), abParentObject);
-        //     //
-        //     // abParentObject.transform.SetParent(_target.transform.parent);
-        //     //
-        //     // aObject.transform.SetParent(abParentObject.transform, true);
-        //     //
-        //     // bObject.transform.SetParent(abParentObject.transform, true);
-        //     //
-        //     // abParentObject.tag = "Wall";
-        //
-        // }
-        // else
+        if (_target.transform.parent.name == "Map")
+        {
+            _target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            _target.GetComponent<MeshFilter>().sharedMesh = orinMesh;
+            _target.GetComponent<MeshCollider>().sharedMesh = orinMesh;
+            _target.GetComponent<MeshCollider>().convex = true;
+            _target.GetComponent<MeshRenderer>().enabled = false;
+            
+            aObject.transform.SetParent(_target.transform, true);
+        
+            bObject.transform.SetParent(_target.transform, true);
+        
+            _target.tag = "Wall";
+            
+            // abParentObject = new GameObject(_target.name, typeof(Rigidbody), typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider));
+            //
+            // abParentObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            // abParentObject.GetComponent<MeshFilter>().sharedMesh = orinMesh;
+            // abParentObject.GetComponent<MeshCollider>().sharedMesh = orinMesh;
+            // abParentObject.GetComponent<MeshCollider>().convex = true;
+            // abParentObject.GetComponent<MeshRenderer>().enabled = false;
+            // abParentObject.transform.position = _target.transform.position;
+            //
+            // abParentObject.transform.rotation = _target.transform.rotation;
+            //
+            // abParentObject.transform.localScale = _target.transform.localScale;
+            //
+            // CopyComponent<WallObject>(_target.GetComponent<WallObject>(), abParentObject);
+            //
+            // abParentObject.transform.SetParent(_target.transform.parent);
+            //
+            // aObject.transform.SetParent(abParentObject.transform, true);
+            //
+            // bObject.transform.SetParent(abParentObject.transform, true);
+            //
+            // abParentObject.tag = "Wall";
+        
+        }
+        else
         {
             
-            // aObject.transform.localScale = _target.transform.parent.localScale;
+            aObject.transform.localScale = _target.transform.parent.localScale;
             
-            // bObject.transform.localScale = _target.transform.parent.localScale;
+            bObject.transform.localScale = _target.transform.parent.localScale;
             
             aObject.transform.SetParent(_target.transform.parent, true);
             

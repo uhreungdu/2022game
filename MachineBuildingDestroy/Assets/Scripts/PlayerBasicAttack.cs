@@ -64,7 +64,7 @@ public class PlayerBasicAttack : MonoBehaviour
                 }
                 // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
                 
-                attackTarget.OnDamage(100);
+                attackTarget.OnDamage(20);
                 Debug.Log(attackTarget.health);
             }
         }
