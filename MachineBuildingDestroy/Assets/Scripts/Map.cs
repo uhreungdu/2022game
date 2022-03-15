@@ -15,7 +15,7 @@ public class Map : MonoBehaviour
     }
     public class Maptile
     {
-        public List<Tile> Tiles = new List<Tile>();        // jsonÀ¸·Î ¹­±â À§ÇÑ ²Ä¼ö
+        public List<Tile> Tiles = new List<Tile>();        // jsonï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¼ï¿½
         public void Print()
         {
             for (int i = 0; i < Tiles.Count; ++i)
@@ -31,7 +31,10 @@ public class Map : MonoBehaviour
     private List<GameObject> Planes = new List<GameObject>();
 
     public GameObject planepref;
-    public GameObject bulidingpref;
+    public GameObject goalpostpref;
+    public GameObject itempref;
+    public GameObject tankpref;
+    public GameObject arcadepref;
 
     private float x = 20;
     private float z = 20;
@@ -47,10 +50,14 @@ public class Map : MonoBehaviour
         //{
 
         //}
+        RandomMap();
+        string jsonData = ObjectToJson(maptile);
+        Debug.Log(jsonData);
+        CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
         /*
         var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
         maptile = jtc2;
-        jtc2.Print();
+        // jtc2.Print();
 
         for (int i = 0; i < maptile.Tiles.Count; ++i)
         {
@@ -59,20 +66,22 @@ public class Map : MonoBehaviour
             {
                 case 0:
                     tilepref = planepref;
-                    tilepref.name = "plane" + i;
                     break;
                 case 1:
-                    tilepref = bulidingpref;
-                    tilepref.name = "buliding" + i;
+                    tilepref = goalpostpref;
                     break;
                 case 2:
-                    tilepref = bulidingpref;
+                    tilepref = itempref;
                     break;
                 case 3:
-                    tilepref = bulidingpref;
+                    tilepref = tankpref;
+                    break;
+                case 4:
+                    tilepref = arcadepref;
                     break;
             }
             GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, tilepref.transform.rotation);
+            temp.name = tilepref.name + i;
             temp.transform.SetParent(this.transform);
         }
 
@@ -80,13 +89,12 @@ public class Map : MonoBehaviour
         */
         //Debug.Log(jsonData);
         //CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     string ObjectToJson(object obj)
@@ -119,29 +127,54 @@ public class Map : MonoBehaviour
             for (int j = 0; j < z; ++j)
             {
                 Vector3 position = new Vector3((i * offset) - (offset * ((x - 1) / 2)), 0, (j * offset) - (offset * ((z - 1) / 2)));
-                GameObject temp = Instantiate(planepref, position, planepref.transform.rotation);
-                temp.transform.SetParent(this.transform);
+                // GameObject temp = Instantiate(planepref, position, planepref.transform.rotation);
+                // temp.transform.SetParent(this.transform);
                 Tile tile = new Tile();
                 tile.kind = 0;
                 tile.position = position;
                 maptile.Tiles.Add(tile);
             }
         }
+        
         for (int i = 0; i < 100; ++i)
         {
             Vector3 position = Vector3.zero;
             position.x = Random.RandomRange(-offset * (x / 2) + offset, offset * (x / 2) - offset);
-            position.y = Random.RandomRange(20, 50);
             position.z = Random.RandomRange(-offset * (z / 2) + offset, offset * (z / 2) - offset);
-
-            GameObject buliding = Instantiate(bulidingpref, position, bulidingpref.transform.rotation);
-            Buildings.Add(buliding);
-            buliding.transform.SetParent(this.transform);
-
+            
             Tile tile = new Tile();
-            tile.kind = 1;
+            tile.kind = Random.Range(2, 4 + 1);
+            if (tile.kind == 2)
+            {
+                position.y = 0.15f;
+            }
+            else
+                position.y = Random.RandomRange(20, 50);
+
             tile.position = position;
             maptile.Tiles.Add(tile);
+            
+            // GameObject tilepref = null;
+            // switch (Random.Range(2, 3 + 1))
+            // {
+            //     case 0:
+            //         tilepref = planepref;
+            //         break;
+            //     case 1:
+            //         tilepref = goalpostpref;
+            //         break;
+            //     case 2:
+            //         tilepref = tankpref;
+            //         break;
+            //     case 3:
+            //         tilepref = arcadepref;
+            //         break;
+            // }
+
+            // GameObject buliding = Instantiate(tilepref, position, bulidingpref.transform.rotation);
+            // Buildings.Add(buliding);
+            // buliding.transform.SetParent(this.transform);
+
         }
     }
 
@@ -160,16 +193,20 @@ public class Map : MonoBehaviour
                     tilepref = planepref;
                     break;
                 case 1:
-                    tilepref = bulidingpref;
+                    tilepref = goalpostpref;
                     break;
                 case 2:
-                    tilepref = bulidingpref;
+                    tilepref = itempref;
                     break;
                 case 3:
-                    tilepref = bulidingpref;
+                    tilepref = tankpref;
+                    break;
+                case 4:
+                    tilepref = arcadepref;
                     break;
             }
             GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, tilepref.transform.rotation);
+            temp.name = tilepref.name + i;
             temp.transform.SetParent(this.transform);
         }
 

@@ -36,7 +36,7 @@ public class Item_Beacon_Control : MonoBehaviourPun
             if (!PhotonNetwork.IsMasterClient) return;
             
             // Master Client라면 CreateItem(int)함수를 자신 포함 방 안에있는 모두에게 실행하라고 명령합니다.
-            int rand = Random.Range(0, 3);
+            int rand = Random.Range(0, 3 + 1);
             photonView.RPC("CreateItem", RpcTarget.All, rand);
             //CreateItem(rand);
         }

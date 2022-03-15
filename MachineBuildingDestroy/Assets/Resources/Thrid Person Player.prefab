@@ -267,6 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 686778006457817184}
   playerInput: {fileID: 0}
+  playerState: {fileID: 0}
   cam: {fileID: 0}
   speed: 6
   Cgravity: 9.8
