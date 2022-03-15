@@ -76,6 +76,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        _lobbyManager.GetRoomList();
     }
     
     public override void OnDisconnected(DisconnectCause cause)

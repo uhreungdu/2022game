@@ -123,7 +123,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public int getScore(int num){
         return gamescore[num];
     }
-    public int plusScore(int team, int point)
+    public int setScore(int team, int point)
+    {
+        return gamescore[team] = point;
+    }
+    public int addScore(int team, int point)
     {
         return gamescore[team] += point;
     }
@@ -135,10 +139,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         return teamcount[team] += 1;
     }
-    public int setScore(int team, int point)
-    {
-        return gamescore[team] = point;
-    }
+   
     public timer_block getTime()
     {
         return now_timer;
@@ -170,13 +171,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(EManager.Ntimer);
-            //Debug.Log(string.Format("Send time {0}",EManager.Ntimer));
+            stream.SendNext(gamescore[0]);
+            stream.SendNext(gamescore[1]);
         }
         // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
         else
         {
             now_timer.Ntimer = (float) stream.ReceiveNext();
-            //Debug.Log(string.Format("Recieve time {0}",EManager.Ntimer));
+            gamescore[0] = (int) stream.ReceiveNext();
+            gamescore[1] = (int) stream.ReceiveNext();
         }
     }
 }
