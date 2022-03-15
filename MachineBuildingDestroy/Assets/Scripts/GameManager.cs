@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             if((int)Ntimer / 90 > 0 && (int)Ntimer % 90 < 10)
             {
                 itembox_Create = true;
-                //Debug.Log("아이템 생성");
+                // Debug.Log("아이템 생성");
             }
             else
             {
@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 goalpost_Create = false;
-                
             }
         }
         public void Active_landmakr(){
@@ -111,6 +110,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
+        
+        if (PhotonNetwork.IsMasterClient)
+        {
+            now_timer.Ntimer += Time.deltaTime;
+        }
+        
         for(int i = 0;i<2;++i)
         {
             if(gamescore[i] <= 5)
@@ -148,11 +153,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if(now_timer.min < 5)
         {
             // 내가 Master Client(동기화의 주체)이면 시간을 더해줍니다.
-            if (PhotonNetwork.IsMasterClient)
-            {
-                now_timer.Ntimer += Time.deltaTime * 0.5f;
-            }
-
             now_timer.min = (int) now_timer.Ntimer / 60;
             now_timer.sec = ((int)now_timer.Ntimer - now_timer.min * 60) % 60;
             EManager.SetTime(now_timer.Ntimer);

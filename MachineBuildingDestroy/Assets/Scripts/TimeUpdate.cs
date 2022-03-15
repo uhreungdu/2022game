@@ -28,7 +28,7 @@ public class TimeUpdate : MonoBehaviour
         else
         {
             Timetext.text = "Time up!";
-            Debug.Log(gManager.now_timer.min);
+            //Debug.Log(gManager.now_timer.min);
         }
     }
 }

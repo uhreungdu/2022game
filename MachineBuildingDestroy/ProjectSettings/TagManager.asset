@@ -11,6 +11,9 @@ TagManager:
   - Goalpost
   - Wall
   - Coin
+  - Slicer
+  - DestroyWall
+  - Item
   layers:
   - Default
   - TransparentFX
