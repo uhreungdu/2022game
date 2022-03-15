@@ -6,18 +6,21 @@ public class PlayerState : LivingEntity
 {
     public int team { get; private set; }
     public int point { get; private set; }
+
+    public item_box_make.item_type Item { get; private set; }
+    
     // Start is called before the first frame update
-    public AudioClip deathClip; // »ç¸Á ¼Ò¸®
-    public AudioClip hitClip; // ÇÇ°Ý ¼Ò¸®
+    public AudioClip deathClip; // ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½
+    public AudioClip hitClip; // ï¿½Ç°ï¿½ ï¿½Ò¸ï¿½
     public GameManager gManager;
 
-    private AudioSource playerAudioPlayer; // ÇÃ·¹ÀÌ¾î ¼Ò¸® Àç»ý±â
-    private Animator playerAnimator; // ÇÃ·¹ÀÌ¾îÀÇ ¾Ö´Ï¸ÞÀÌÅÍ
+    private AudioSource playerAudioPlayer; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+    private Animator playerAnimator; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½
 
     void Start()
     {
-        playerAnimator = GetComponent<Animator>();          // Áö±Ý ¾ÈµÊ
-        playerAudioPlayer = GetComponent<AudioSource>();    // Áö±Ý ¾ÈµÊ
+        playerAnimator = GetComponent<Animator>();          // ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½
+        playerAudioPlayer = GetComponent<AudioSource>();    // ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½
         team = Random.Range(0, 2);
         gManager = GameManager.GetInstance();
 
@@ -26,7 +29,7 @@ public class PlayerState : LivingEntity
     }
     protected override void OnEnable()
     {
-        // LivingEntityÀÇ OnEnable() ½ÇÇà (»óÅÂ ÃÊ±âÈ­)
+        // LivingEntityï¿½ï¿½ OnEnable() ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­)
         onDeath += DieAction;
         point = 0;
     }
@@ -38,6 +41,12 @@ public class PlayerState : LivingEntity
     public void AddPoint(int Point)
     {
         point += Point;
+    }
+    
+    
+    public void SetItem(item_box_make.item_type dItemType)
+    {
+        Item = dItemType;
     }
 
     public void ResetPoint()

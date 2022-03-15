@@ -9,7 +9,7 @@ public class item_box_make : MonoBehaviour
     public enum item_type{
         weapon,splash,potion,obstacles
     }
-    public item_type now_type;
+    public item_type now_type {get; private set;}
     public bool effect_On = false;
     // Start is called before the first frame update
     [SerializeField] private float noiseStrength = 0.25f;
@@ -73,12 +73,12 @@ public class item_box_make : MonoBehaviour
         }
     }
     void OnTriggerEnter(Collider col){
-        if(col.tag == "Player"){
-            if(effect_switch == true)
-            {
-                Destroy(gameObject);
-            }
-        }
+        // if(col.tag == "Player"){
+        //     if(effect_switch == true)
+        //     {
+        //         Destroy(gameObject);
+        //     }
+        // }
     }
     public void SetHeight(float height)
     {
