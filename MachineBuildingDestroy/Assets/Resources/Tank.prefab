@@ -117,6 +117,7 @@ MonoBehaviour:
   startingHealth: 100
   coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
   boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
+  destroyfloor: 0
   destroyTime: 5
 --- !u!64 &6988218010845621718
 MeshCollider:
@@ -149,9 +150,9 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 0
+  observableSearch: 2
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: -7679107019282651007}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
