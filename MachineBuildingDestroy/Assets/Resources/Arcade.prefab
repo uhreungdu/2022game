@@ -117,6 +117,7 @@ MonoBehaviour:
   startingHealth: 100
   coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
   boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
+  destroyfloor: 0
   destroyTime: 5
 --- !u!64 &4075717829768256502
 MeshCollider:
