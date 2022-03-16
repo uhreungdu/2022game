@@ -55,7 +55,7 @@ public class RoomList : MonoBehaviour
     string GetStringDataValue(string data, string index)
     {
         string value = data.Substring(data.IndexOf(index) + index.Length);
-        value = value.Remove(value.IndexOf("|"));
+        if (value.Contains("|")) value = value.Remove(value.IndexOf("|"));
         return value;
     }
 
