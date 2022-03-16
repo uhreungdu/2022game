@@ -73,12 +73,13 @@ public class item_box_make : MonoBehaviour
         }
     }
     void OnTriggerEnter(Collider col){
-        // if(col.tag == "Player"){
-        //     if(effect_switch == true)
-        //     {
-        //         Destroy(gameObject);
-        //     }
-        // }
+        if(col.tag == "Player"){
+             if(effect_switch == true)
+             {
+                 
+                 Destroy(gameObject);
+             }
+         }
     }
     public void SetHeight(float height)
     {

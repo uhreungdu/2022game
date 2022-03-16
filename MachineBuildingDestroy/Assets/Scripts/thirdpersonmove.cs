@@ -23,6 +23,10 @@ public class thirdpersonmove : MonoBehaviourPun
 
     public float pushPower = 2.0F;
 
+    public bool isAimming;
+    public bool nowEquip;
+    public GameObject getobj;
+    public GameObject ItemObj;
     /*
     public float pos_x;
     public float pos_y;
@@ -125,6 +129,35 @@ public class thirdpersonmove : MonoBehaviourPun
             }
         }
     }
+
+    public void Equip_item()
+    {
+        if(!isAimming)
+            return;
+        if (playerState.Item == item_box_make.item_type.potion)
+        {
+            getobj = Resources.Load<GameObject>("potion");
+            ItemObj = Instantiate(getobj);
+            ItemObj.transform.SetParent(gameObject.transform);
+            Vector3 move_item = gameObject.transform.position + new Vector3(3, 5, 0);
+            Debug.Log(move_item);
+            ItemObj.transform.Translate(move_item);
+            nowEquip = true;
+        }
+    }
+
+    public void Throw_item()
+    {
+        if (ItemObj == null)
+            return;
+        Rigidbody Item_Ridid = ItemObj.GetComponent<Rigidbody>();
+        ItemObj.transform.DetachChildren();
+        Vector3 throw_Angle;
+        throw_Angle = transform.forward * 50f;
+        throw_Angle.y = 25f;
+        Item_Ridid.AddForce(throw_Angle * 50f, ForceMode.Impulse);
+        
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Item")
@@ -133,7 +166,7 @@ public class thirdpersonmove : MonoBehaviourPun
             if (itemBoxMake.effect_switch == true)
             {
                 playerState.SetItem(itemBoxMake.now_type);
-                Destroy(other.gameObject);
+                //Destroy(other.gameObject);
             }
         }
         
