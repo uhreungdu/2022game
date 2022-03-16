@@ -4,33 +4,33 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public string moveAxisName = "Vertical"; // ¾ÕµÚ ¿òÁ÷ÀÓÀ» À§ÇÑ ÀÔ·ÂÃà ÀÌ¸§
-    public string rotateAxisName = "Horizontal"; // ÁÂ¿ì È¸ÀüÀ» À§ÇÑ ÀÔ·ÂÃà ÀÌ¸§
-    public string fireButtonName = "Fire1"; // ¹ß»ç¸¦ À§ÇÑ ÀÔ·Â ¹öÆ° ÀÌ¸§
-    public string JumpButtonName = "Jump"; // Á¡ÇÁ¸¦ À§ÇÑ ÀÔ·Â ¹öÆ° ÀÌ¸§
-    public string DashButtonName = "Dash"; // ´ë½¬¸¦ À§ÇÑ ÀÔ·Â ¹öÆ° ÀÌ¸§
-    public string InteractionButtonName = "Interaction"; // »óÈ£ÀÛ¿ë¸¦ À§ÇÑ ÀÔ·Â ¹öÆ° ÀÌ¸§
+    public string moveAxisName = "Vertical"; // ì•ë’¤ ì›€ì§ì„ì„ ìœ„í•œ ì…ë ¥ì¶• ì´ë¦„
+    public string rotateAxisName = "Horizontal"; // ì¢Œìš° íšŒì „ì„ ìœ„í•œ ì…ë ¥ì¶• ì´ë¦„
+    public string fireButtonName = "Fire1"; // ë°œì‚¬ë¥¼ ìœ„í•œ ì…ë ¥ ë²„íŠ¼ ì´ë¦„
+    public string JumpButtonName = "Jump"; // ì í”„ë¥¼ ìœ„í•œ ì…ë ¥ ë²„íŠ¼ ì´ë¦„
+    public string DashButtonName = "Dash"; // ëŒ€ì‰¬ë¥¼ ìœ„í•œ ì…ë ¥ ë²„íŠ¼ ì´ë¦„
+    public string InteractionButtonName = "Interaction"; // ìƒí˜¸ì‘ìš©ë¥¼ ìœ„í•œ ì…ë ¥ ë²„íŠ¼ ì´ë¦„
 
     private Joystick joystick;
 
     void Start()
     {
-        // ¿¡µğÅÍ »ó¿¡¼­ Ã¼Å©ÇÒ·Á¸é WindowsEditor·Î ÇØ¾ßµÊ
+        // ì—ë””í„° ìƒì—ì„œ ì²´í¬í• ë ¤ë©´ WindowsEditorë¡œ í•´ì•¼ë¨
         if (Application.platform == RuntimePlatform.Android)
             joystick = GameObject.Find("Joystickback").GetComponent<Joystick>();
     }
 
-    // °ª ÇÒ´çÀº ³»ºÎ¿¡¼­¸¸ °¡´É
-    public float move { get; private set; } // °¨ÁöµÈ ¿òÁ÷ÀÓ ÀÔ·Â°ª
-    public float rotate { get; private set; } // °¨ÁöµÈ È¸Àü ÀÔ·Â°ª
-    public bool fire { get; private set; } // °¨ÁöµÈ ¹ß»ç ÀÔ·Â°ª
-    public bool jump { get; private set; } // °¨ÁöµÈ ¹ß»ç ÀÔ·Â°ª
-    public bool dash { get; private set; } // °¨ÁöµÈ ¹ß»ç ÀÔ·Â°ª
-    public bool Interaction { get; private set; } // °¨ÁöµÈ ¹ß»ç ÀÔ·Â°ª
+    // ê°’ í• ë‹¹ì€ ë‚´ë¶€ì—ì„œë§Œ ê°€ëŠ¥
+    public float move { get; private set; } // ê°ì§€ëœ ì›€ì§ì„ ì…ë ¥ê°’
+    public float rotate { get; private set; } // ê°ì§€ëœ íšŒì „ ì…ë ¥ê°’
+    public bool fire { get; private set; } // ê°ì§€ëœ ë°œì‚¬ ì…ë ¥ê°’
+    public bool jump { get; private set; } // ê°ì§€ëœ ë°œì‚¬ ì…ë ¥ê°’
+    public bool dash { get; private set; } // ê°ì§€ëœ ë°œì‚¬ ì…ë ¥ê°’
+    public bool Interaction { get; private set; } // ê°ì§€ëœ ë°œì‚¬ ì…ë ¥ê°’
     // Update is called once per frame
     void Update()
     {
-        // °ÔÀÓ¿À¹ö »óÅÂ¿¡¼­´Â »ç¿ëÀÚ ÀÔ·ÂÀ» °¨ÁöÇÏÁö ¾Ê´Â´Ù
+        // ê²Œì„ì˜¤ë²„ ìƒíƒœì—ì„œëŠ” ì‚¬ìš©ì ì…ë ¥ì„ ê°ì§€í•˜ì§€ ì•ŠëŠ”ë‹¤
         //if (GameManager.GetInstance() != null)
         //{
         //    move = 0;
@@ -38,16 +38,16 @@ public class PlayerInput : MonoBehaviour
         //    fire = false;
         //    return;
         //}
-        // move¿¡ °üÇÑ ÀÔ·Â °¨Áö
+        // moveì— ê´€í•œ ì…ë ¥ ê°ì§€
         move = Input.GetAxis(moveAxisName);
-        // rotate¿¡ °üÇÑ ÀÔ·Â °¨Áö
+        // rotateì— ê´€í•œ ì…ë ¥ ê°ì§€
         rotate = Input.GetAxis(rotateAxisName);
         if (Application.platform == RuntimePlatform.Android)
         {
             move = joystick.moveVector.y;
             rotate = joystick.moveVector.x;
         }
-        // fire¿¡ °üÇÑ ÀÔ·Â °¨Áö
+        // fireì— ê´€í•œ ì…ë ¥ ê°ì§€
         fire = Input.GetButton(fireButtonName);
         jump = Input.GetButton(JumpButtonName);
         dash = Input.GetButton(DashButtonName);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class Potion_Boom_Effect : MonoBehaviour
     void Start()
     {
         countdowm = delay;
-        check_boom = false;
+        check_boom = true;
         Getobj = Resources.Load<GameObject>("Throw_Tail");
         Tail_obj = Instantiate(Getobj);
         Tail_obj.transform.SetParent(gameObject.transform);
@@ -41,5 +42,13 @@ public class Potion_Boom_Effect : MonoBehaviour
         
         
         Destroy(gameObject);
+    }
+
+    private void OnCollisionStay(Collision coll)
+    {
+        if (coll.transform.CompareTag("Floor"))
+        {
+            check_boom = false;
+        }
     }
 }
