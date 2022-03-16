@@ -37,7 +37,7 @@ public class LoginButton : MonoBehaviour
         StartCoroutine(LoginRequest());
     }
     
-    IEnumerator LoginRequest()
+    public IEnumerator LoginRequest()
     {
         WWWForm form = new WWWForm();
         form.AddField("id", "\""+idInput.GetComponent<InputField>().text+"\"") ;
