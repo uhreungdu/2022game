@@ -12,6 +12,7 @@ public class LoginButton : MonoBehaviour
     [FormerlySerializedAs("PWInput")] public GameObject pwInput;
     [FormerlySerializedAs("MakeCharWindow")] public GameObject makeCharWindow;
     [FormerlySerializedAs("ErrText")] public GameObject errText;
+    public GameObject nManager;
     [SerializeField] private string[] accountVal;
     
     // Start is called before the first frame update
@@ -36,7 +37,7 @@ public class LoginButton : MonoBehaviour
         StartCoroutine(LoginRequest());
     }
     
-    IEnumerator LoginRequest()
+    public IEnumerator LoginRequest()
     {
         WWWForm form = new WWWForm();
         form.AddField("id", "\""+idInput.GetComponent<InputField>().text+"\"") ;
@@ -69,6 +70,7 @@ public class LoginButton : MonoBehaviour
                 GameObject.Find("Account").GetComponent<Account>().WriteAccount(
                     GetStringDataValue(accountVal[0],"account_id:"),
                     GetStringDataValue(accountVal[0],"character_name:"));
+                nManager.GetComponent<NetworkManager>().ConnectPhotonServer();
                 SceneManager.LoadScene("lobby_test");
 
             }

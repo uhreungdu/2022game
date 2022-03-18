@@ -28,7 +28,7 @@ public class CharMakeButton : MonoBehaviour
         GetComponent<Button>().interactable = false;
         nameInput.GetComponent<InputField>().interactable = false;
 
-        // 로그인 요청
+        // 캐릭터생성 요청
         StartCoroutine(MakeCharRequest());
     }
     
@@ -58,6 +58,7 @@ public class CharMakeButton : MonoBehaviour
             if (results == "OK")
             {
                 errText.SetActive(false);
+                StartCoroutine(GameObject.Find("LoginButton").GetComponent<LoginButton>().LoginRequest());
             }
             else
             {
