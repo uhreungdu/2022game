@@ -86,16 +86,18 @@ public class CMeshSlicer : MonoBehaviour
             // allChildren = _target.GetComponentsInChildren<Transform>();
             // foreach (Transform child in allChildren)
             // {
-            //     if (child.gameObject.activeSelf != false)
-            //         SlicerWorld(child.gameObject, Quaternion.AngleAxis(90, child.transform.forward) * _sliceNormal, child.GetComponent<MeshRenderer>().bounds.center, _interial);
+            //     if (child.gameObject != _target && child.gameObject.activeSelf != false)
+            //         SlicerWorld(child.gameObject, Vector3.right, 
+            //             child.GetComponent<MeshRenderer>().bounds.center, _interial);
             // }
             //
             //
             // allChildren = _target.GetComponentsInChildren<Transform>();
             // foreach (Transform child in allChildren)
             // {
-            //     if (child.gameObject.activeSelf != false)
-            //         SlicerWorld(child.gameObject, Quaternion.AngleAxis(90, child.transform.right) * _sliceNormal, child.GetComponent<MeshRenderer>().bounds.center, _interial);
+            //     if (child.gameObject != _target && child.gameObject.activeSelf != false)
+            //         SlicerWorld(child.gameObject, Vector3.forward, 
+            //             child.GetComponent<MeshRenderer>().bounds.center, _interial);
             // }
         }
     }
@@ -103,7 +105,7 @@ public class CMeshSlicer : MonoBehaviour
     public static GameObject[] SlicerWorld(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint,
         Material _interial)
     {
-        Vector3 localNormal = _target.transform.InverseTransformVector(_sliceNormal); //localMatrix * _sliceNormal;
+        Vector3 localNormal = _target.transform.InverseTransformVector(_sliceNormal).normalized; //localMatrix * _sliceNormal;
 
         Vector3 localPoint = _target.transform.InverseTransformPoint(_slicePoint); //localMatrix * _slicePoint;
 
@@ -223,7 +225,7 @@ public class CMeshSlicer : MonoBehaviour
 
         MakeCap(_sliceNormal, sortedCreatedVerts, out aSideCapVerts, out bSideCapVerts, out aSideCapNors,
             out bSideCapNors, out aSideCapUvs, out bSideCapUvs, out aSideCapTris, out bSideCapTris);
-        
+
         //Supplement cap data
 
         for (int i = 0; i < aSideCapTris.Count; i++)
@@ -302,12 +304,14 @@ public class CMeshSlicer : MonoBehaviour
         aMesh.subMeshCount = existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
 
         for (int i = 0; i < orinSubMeshCount; i++)
-
         {
             aMesh.SetTriangles(aSideTris[i], i);
         }
 
-        if (existInterialMatIdx < 0) aMesh.SetTriangles(aSideCapTris, orinSubMeshCount);
+        if (existInterialMatIdx < 0)   
+        {
+            aMesh.SetTriangles(aSideCapTris, orinSubMeshCount);
+        }
 
         bMesh.vertices = bSideFinalVerts.ToArray();
 
@@ -322,13 +326,16 @@ public class CMeshSlicer : MonoBehaviour
             bMesh.SetTriangles(bSideTris[i], i);
         }
 
-        if (existInterialMatIdx < 0) bMesh.SetTriangles(bSideCapTris, orinSubMeshCount);
-        
+        if (existInterialMatIdx < 0)
+        {
+            bMesh.SetTriangles(bSideCapTris, orinSubMeshCount);
+        }
+
 
         GameObject aObject = new GameObject(_target.name + "_A", typeof(MeshFilter), typeof(MeshRenderer));
 
         GameObject bObject = new GameObject(_target.name + "_B", typeof(MeshFilter), typeof(MeshRenderer));
-        
+
         Material[] mats = new Material[(existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount)];
 
         for (int i = 0; i < orinSubMeshCount; i++)

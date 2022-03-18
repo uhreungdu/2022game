@@ -35,12 +35,6 @@ public class WallObject : LivingEntity
             Vector3 coinForward = coin.transform.position - transform.position;
             coinForward.Normalize();
         }
-        Transform[] allChildren = GetComponentsInChildren<Transform>();
-        rigidbody.constraints = RigidbodyConstraints.None;
-        foreach (Transform child in allChildren)
-        {
-            child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        }
         GetComponent<MeshCollider>().enabled = false;
         // GetComponent<Rigidbody>().AddForce(Vector3.up * 2000);
         Destroy(rigidbody);
@@ -65,14 +59,14 @@ public class WallObject : LivingEntity
         else if (health <= startingHealth / 7f * 5  && destroyfloor <= 1)
         {
             destroyfloor++;
-            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
-        }
-        else if (health <= startingHealth / 7f * 4 && destroyfloor <= 2)
-        {
-            destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
         }
-        else if (health <= startingHealth / 7f * 3  && destroyfloor <= 3)
+        else if (health <= startingHealth / 7f * 4  && destroyfloor <= 2)
+        {
+            destroyfloor++;
+            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
+        }
+        else if (health <= startingHealth / 7f * 3 && destroyfloor <= 3)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1);
@@ -80,12 +74,22 @@ public class WallObject : LivingEntity
         else if (health <= startingHealth / 7f * 2  && destroyfloor <= 4)
         {
             destroyfloor++;
-            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
+            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
         }
-        else if (health <= startingHealth / 7f * 1 && destroyfloor <= 5)
+        else if (health <= startingHealth / 7f * 1  && destroyfloor <= 5)
         {
             destroyfloor++;
-            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
+            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
+        }
+
+        if (dead)
+        {
+            Transform[] allChildren = GetComponentsInChildren<Transform>();
+            rigidbody.constraints = RigidbodyConstraints.None;
+            foreach (Transform child in allChildren)
+            {
+                child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            }
         }
     }
     private void OnCollisionEnter(Collision collision)
