@@ -719,6 +719,7 @@ GameObject:
   - component: {fileID: 511912536}
   - component: {fileID: 511912535}
   - component: {fileID: 511912534}
+  - component: {fileID: 511912537}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -789,7 +790,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 511912535}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 511912537}
+        m_TargetAssemblyTypeName: SceneBackButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &511912535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,6 +841,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511912532}
   m_CullTransparentMesh: 1
+--- !u!114 &511912537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511912532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1982ec8bcef583c49a14344c85cce733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: lobby_test
 --- !u!1 &521616097
 GameObject:
   m_ObjectHideFlags: 0
