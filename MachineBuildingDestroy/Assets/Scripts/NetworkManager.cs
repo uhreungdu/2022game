@@ -22,6 +22,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     string networkState;
     public GameObject Player;
     public GameObject Map;
+    [SerializeField]private Player[] _players;
 
     public static NetworkManager GetInstance()
     {
@@ -54,6 +55,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void Start()
     {
         _account = Account.GetInstance();
+        _players = PhotonNetwork.PlayerList;
     }
 
     public override void OnConnectedToMaster() =>
@@ -82,6 +84,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         ExitRoom(_account.GetPlayerID(),_lobbyManager.GetInRoomName());
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        _players = PhotonNetwork.PlayerList;
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        _players = PhotonNetwork.PlayerList;
     }
 
     private void OnApplicationQuit()
