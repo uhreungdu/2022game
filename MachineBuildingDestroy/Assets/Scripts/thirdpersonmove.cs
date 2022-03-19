@@ -96,14 +96,18 @@ public class thirdpersonmove : MonoBehaviourPun
             {
                 yvelocity = 0;
             }
+            
+            // 애니메이션을 위한 연산
             Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
             if (Origindirection.magnitude >= 1)
             {
                 Origindirection.Normalize();
             }
             Origindirection = Origindirection * speed / Maxspeed;
+            
             playeranimator.SetFloat("Move", Origindirection.magnitude);
             print(Origindirection.magnitude);
+            
         }
     }
 
