@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Pun.Demo.Cockpit;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 public class NetworkForTest : MonoBehaviourPunCallbacks
 {
@@ -27,6 +28,10 @@ public class NetworkForTest : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        // 테스트용
+        if (Application.platform == RuntimePlatform.WindowsEditor) PhotonNetwork.NickName = "test1";
+        else if (Application.platform == RuntimePlatform.WindowsPlayer) PhotonNetwork.NickName = "test0";
+        
         photonView.RPC("SetSlot",RpcTarget.MasterClient,"test",PhotonNetwork.IsMasterClient);
     }
 
@@ -34,13 +39,13 @@ public class NetworkForTest : MonoBehaviourPunCallbacks
     void SetSlot(string name, bool is_master)
     {
         var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();
+        var info = GameObject.Find("Myroominfo").GetComponent<MyInRoomInfo>();
         for (var i = 0; i < 6; ++i)
         {
             var target = slots.slots[i].GetComponent<Slot>();
             if (target.Nickname == "")
             {
                 target.Nickname = "test" + i;
-                if (target.IsMaster == false && is_master) target.IsMaster = true;
                 break;
             }
             
