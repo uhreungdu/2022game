@@ -62,7 +62,7 @@ public class PlayerBasicAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log(playerState.Item);
+            
             Equip_item();
         }
     }
@@ -132,12 +132,13 @@ public class PlayerBasicAttack : MonoBehaviour
             getobj = Resources.Load<GameObject>("potion");
             ItemObj = Instantiate(getobj);
             ItemObj.transform.SetParent(gameObject.transform);
-            ItemObj.transform.Translate(gameObject.transform.position);
+            Vector3 tpos = gameObject.transform.position + new Vector3(1f, 0f, 1f);
+            ItemObj.transform.Translate(tpos);
             item_Coll = ItemObj.GetComponent<Collider>();
             item_Rigid = ItemObj.GetComponent<Rigidbody>();
-            item_Rigid.isKinematic = false;
+            item_Rigid.isKinematic = true;
             item_Rigid.useGravity = false;
-            item_Coll.enabled = true;
+            item_Coll.enabled = false;
             nowEquip = true;
         }
     }
@@ -148,12 +149,13 @@ public class PlayerBasicAttack : MonoBehaviour
             return;
         item_Coll.enabled = false;
         gameObject.transform.DetachChildren();
-        Debug.Log(ItemObj.transform.parent);
+        item_Rigid.isKinematic = false;
+        item_Coll.enabled = true;
         item_Rigid.useGravity = true;
         Vector3 throw_Angle;
-        throw_Angle = transform.forward * 50f;
-        throw_Angle.y = 25f;
-        item_Rigid.AddForce(throw_Angle * 50f, ForceMode.Impulse);
+        throw_Angle = gameObject.transform.forward * 10f;
+        throw_Angle.y = 5f;
+        item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
         nowEquip = false;
 
     }
