@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315297461230297584}
-  m_Mesh: {fileID: 3024335231107445698, guid: c9288cf0b3611714891585023e6dd453, type: 3}
+  m_Mesh: {fileID: 4300002, guid: 92afa2e4e0d0b8542bf48b0de3ac19bd, type: 3}
 --- !u!23 &2261041410270117925
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -100,6 +100,8 @@ MonoBehaviour:
   countdowm: 0
   check_boom: 0
   Boom_Effect: {fileID: 0}
+  Getobj: {fileID: 0}
+  Tail_obj: {fileID: 0}
 --- !u!54 &493438088265683076
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -45,12 +45,15 @@ public class thirdpersonmove : MonoBehaviourPun
         playerState = GetComponent<PlayerState>();
         jumpower = 6f;
         Debug.Log(Application.platform);
+        isAimming = false;
+        nowEquip = false;
     }
     void Update()
     {
         Jump();
         Dash();
         Movement();
+        
     }
 
     public void Movement()
@@ -166,6 +169,7 @@ public class thirdpersonmove : MonoBehaviourPun
             if (itemBoxMake.effect_switch == true)
             {
                 playerState.SetItem(itemBoxMake.now_type);
+                isAimming = true;
                 //Destroy(other.gameObject);
             }
         }

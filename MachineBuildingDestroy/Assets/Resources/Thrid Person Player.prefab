@@ -276,6 +276,10 @@ MonoBehaviour:
   turnsmoothTime: 0.1
   jumpower: 5
   pushPower: 2
+  isAimming: 0
+  nowEquip: 0
+  getobj: {fileID: 0}
+  ItemObj: {fileID: 0}
 --- !u!114 &686778006457817186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,8 +455,14 @@ MonoBehaviour:
   boxCollider: {fileID: 0}
   boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
   coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
+  playerState: {fileID: 0}
   timeBetAttack: 0.5
   activeAttackTime: 0.01
+  nowEquip: 0
+  getobj: {fileID: 0}
+  ItemObj: {fileID: 0}
+  item_Rigid: {fileID: 0}
+  item_Coll: {fileID: 0}
 --- !u!1001 &686778007271934940
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class PlayerBasicAttack : MonoBehaviour
@@ -9,15 +10,20 @@ public class PlayerBasicAttack : MonoBehaviour
     public BoxCollider boxCollider;
     public Material boxmaterial;
     public GameObject coinprefab; // 디버그용
-
+    public PlayerState playerState;
     public float timeBetAttack = 0.5f; // 공격 간격
     public float activeAttackTime = 0.1f; // 공격 유지 시간
     private float lastAttackTime; // 공격을 마지막에 한 시점
-
+    public bool nowEquip;
+    public GameObject getobj;
+    public GameObject ItemObj;
+    public Rigidbody item_Rigid;
+    public Collider item_Coll;
     void Start()
     {
         playerInput = GetComponentInParent<PlayerInput>();
         boxCollider = GetComponentInChildren<BoxCollider>();
+        playerState = GetComponentInParent<PlayerState>();
     }
 
     // Update is called once per frame
@@ -33,7 +39,15 @@ public class PlayerBasicAttack : MonoBehaviour
                     lastAttackTime = Time.time;
                 }
 
-                boxCollider.enabled = true;
+                if (nowEquip == true)
+                {
+                    Throw_item();
+                }
+                else
+                {
+                    boxCollider.enabled = true;
+                }
+                
             }
             else
             {
@@ -44,6 +58,12 @@ public class PlayerBasicAttack : MonoBehaviour
         else
         {
             boxCollider.enabled = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log(playerState.Item);
+            Equip_item();
         }
     }
 
@@ -104,5 +124,37 @@ public class PlayerBasicAttack : MonoBehaviour
                 playerState.OnDamage(20);
             }
         }
+    }
+    public void Equip_item()
+    {
+        if (playerState.Item == item_box_make.item_type.potion && nowEquip == false)
+        {
+            getobj = Resources.Load<GameObject>("potion");
+            ItemObj = Instantiate(getobj);
+            ItemObj.transform.SetParent(gameObject.transform);
+            ItemObj.transform.Translate(gameObject.transform.position);
+            item_Coll = ItemObj.GetComponent<Collider>();
+            item_Rigid = ItemObj.GetComponent<Rigidbody>();
+            item_Rigid.isKinematic = false;
+            item_Rigid.useGravity = false;
+            item_Coll.enabled = true;
+            nowEquip = true;
+        }
+    }
+
+    public void Throw_item()
+    {
+        if (ItemObj == null)
+            return;
+        item_Coll.enabled = false;
+        gameObject.transform.DetachChildren();
+        Debug.Log(ItemObj.transform.parent);
+        item_Rigid.useGravity = true;
+        Vector3 throw_Angle;
+        throw_Angle = transform.forward * 50f;
+        throw_Angle.y = 25f;
+        item_Rigid.AddForce(throw_Angle * 50f, ForceMode.Impulse);
+        nowEquip = false;
+
     }
 }

@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         
         public void Active_Itembox(){
-            if((int)Ntimer / 90 > 0 && (int)Ntimer % 90 < 10)
+            if((int)Ntimer / 20 > 0 && (int)Ntimer % 20 < 10)
             {
                 itembox_Create = true;
                 // Debug.Log("아이템 생성");
