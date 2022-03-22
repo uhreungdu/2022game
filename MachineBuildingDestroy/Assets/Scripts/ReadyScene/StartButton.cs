@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class StartButton : MonoBehaviour
+public class StartButton : MonoBehaviourPun
 {
     public GameObject Info;
     
@@ -51,24 +52,29 @@ public class StartButton : MonoBehaviour
                     return;
                 }
             }
-            SceneManager.LoadScene("SampleScene");
+            PhotonNetwork.LoadLevel("SampleScene");
         }
         else
         {
             if (info.IsReady)
             {
                 info.IsReady = false;
-                GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>()
-                    .slots[info.MySlotNum].GetComponent<Slot>()
-                    .IsReady = false;
+                photonView.RPC("ReadyPlayerSlot", RpcTarget.MasterClient, info.MySlotNum, false);
             }
             else
             {
                 info.IsReady = true;
-                GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>()
-                    .slots[info.MySlotNum].GetComponent<Slot>()
-                    .IsReady = true;
+                photonView.RPC("ReadyPlayerSlot", RpcTarget.MasterClient, info.MySlotNum, true);
             }
         }
+    }
+
+    [PunRPC]
+    void ReadyPlayerSlot(int num, bool val)
+    {
+        print("ready?");
+        GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>()
+            .slots[num].GetComponent<Slot>()
+            .IsReady = val;
     }
 }
