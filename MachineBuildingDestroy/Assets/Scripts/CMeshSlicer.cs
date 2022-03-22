@@ -66,58 +66,61 @@ public class CMeshSlicer : MonoBehaviour
             //     }
             //     SliceMesh_list.Remove(gameObjectlist);
             // }
-            
+
             Transform[] allChildren = _target.GetComponentsInChildren<Transform>();
-            foreach (Transform child in allChildren)
+            if (allChildren.Length <= 1)
             {
-                if (child.gameObject.activeSelf != false)
-                    SlicerWorld(child.gameObject, _sliceNormal, child.GetComponent<MeshRenderer>().bounds.center,
-                        _interial);
+                SlicerWorld(_target.gameObject, _sliceNormal, _target.GetComponent<MeshRenderer>().bounds.center,
+                    _interial);
+            }
+            else
+            {
+                foreach (Transform child in allChildren)
+                {
+                    if (child.gameObject != _target && child.gameObject.activeSelf != false)
+                        SlicerWorld(child.gameObject, _sliceNormal, child.GetComponent<MeshRenderer>().bounds.center,
+                            _interial);
+                }
             }
             //
             // allChildren = _target.GetComponentsInChildren<Transform>();
             // foreach (Transform child in allChildren)
             // {
-            //     if (child.gameObject.activeSelf != false)
-            //         SlicerWorld(child.gameObject, Quaternion.AngleAxis(90, child.transform.forward) * _sliceNormal, child.GetComponent<MeshRenderer>().bounds.center, _interial);
+            //     if (child.gameObject != _target && child.gameObject.activeSelf != false)
+            //         SlicerWorld(child.gameObject, Vector3.right, 
+            //             child.GetComponent<MeshRenderer>().bounds.center, _interial);
             // }
             //
             //
             // allChildren = _target.GetComponentsInChildren<Transform>();
             // foreach (Transform child in allChildren)
             // {
-            //     if (child.gameObject.activeSelf != false)
-            //         SlicerWorld(child.gameObject, Quaternion.AngleAxis(90, child.transform.right) * _sliceNormal, child.GetComponent<MeshRenderer>().bounds.center, _interial);
+            //     if (child.gameObject != _target && child.gameObject.activeSelf != false)
+            //         SlicerWorld(child.gameObject, Vector3.forward, 
+            //             child.GetComponent<MeshRenderer>().bounds.center, _interial);
             // }
-            
         }
     }
 
-    public static GameObject[] SlicerWorld(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint, Material _interial)
-
+    public static GameObject[] SlicerWorld(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint,
+        Material _interial)
     {
-
-        Vector3 localNormal = _target.transform.InverseTransformVector(_sliceNormal); //localMatrix * _sliceNormal;
+        Vector3 localNormal = _target.transform.InverseTransformVector(_sliceNormal).normalized; //localMatrix * _sliceNormal;
 
         Vector3 localPoint = _target.transform.InverseTransformPoint(_slicePoint); //localMatrix * _slicePoint;
 
         return Slicer(_target, localNormal, localPoint, _interial);
-
     }
 
 
-    public static GameObject[] Slicer(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint, Material _ineterial)
+    public static GameObject[] Slicer(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint,
+        Material _ineterial)
     {
-
         //Original mesh data
 
         // Mesh orinMesh = _target.GetComponent<MeshFilter>().sharedMesh;
         Mesh orinMesh = _target.GetComponentInChildren<MeshFilter>().sharedMesh;
-        if (orinMesh == null)
-        {
 
-        }
-        
         Vector3[] orinVerts = orinMesh.vertices;
 
         Vector3[] orinNors = orinMesh.normals;
@@ -128,19 +131,17 @@ public class CMeshSlicer : MonoBehaviour
 
         // Material[] orinMaterials = _target.GetComponent<MeshRenderer>().sharedMaterials;
         Material[] orinMaterials = _target.GetComponentInChildren<MeshRenderer>().sharedMaterials;
-        if (orinMaterials == null)
-        {
 
-        }
         int existInterialMatIdx = -1;
 
         for (int i = 0; i < orinMaterials.Length; i++)
         {
-
-            if (orinMaterials[i].Equals(_ineterial)) { existInterialMatIdx = i; break; }
-
+            if (orinMaterials[i].Equals(_ineterial))
+            {
+                existInterialMatIdx = i;
+                break;
+            }
         }
-
 
 
         //New mesh data
@@ -166,7 +167,6 @@ public class CMeshSlicer : MonoBehaviour
         List<int>[] bSideTris = new List<int>[orinSubMeshCount];
 
 
-
         //Created vertices as new
 
         List<Vector3> createdVerts = new List<Vector3>();
@@ -176,40 +176,31 @@ public class CMeshSlicer : MonoBehaviour
         List<Vector2> createdUvs = new List<Vector2>();
 
 
-
         for (int i = 0; i < orinSubMeshCount; i++)
 
         {
-
             int aVertCount = aSideVerts.Count;
 
             int bVertCount = bSideVerts.Count;
 
             ParseSubMesh(orinVerts, orinNors, orinUvs, orinMesh.GetTriangles(i),
-
                 _sliceNormal, _slicePoint, ref aSideVerts, ref bSideVerts,
-
-                ref aSideNors, ref bSideNors, ref aSideUvs, ref bSideUvs, out aSideTris[i], out bSideTris[i], ref createdVerts, ref createdNors, ref createdUvs);
+                ref aSideNors, ref bSideNors, ref aSideUvs, ref bSideUvs, out aSideTris[i], out bSideTris[i],
+                ref createdVerts, ref createdNors, ref createdUvs);
 
             //Supplement tris data
 
             for (int j = 0; j < aSideTris[i].Count; j++)
             {
-
                 aSideTris[i][j] += aVertCount;
-
             }
 
             for (int j = 0; j < bSideTris[i].Count; j++)
 
             {
-
                 bSideTris[i][j] += bVertCount;
-
             }
-
         }
-
 
 
         //Sort and optimize created vert
@@ -217,7 +208,6 @@ public class CMeshSlicer : MonoBehaviour
         List<Vector3> sortedCreatedVerts;
 
         SortVertices(createdVerts, out sortedCreatedVerts);
-
 
 
         //Cap data
@@ -231,29 +221,23 @@ public class CMeshSlicer : MonoBehaviour
         List<int> aSideCapTris, bSideCapTris;
 
 
-
         //Make cap
 
-        MakeCap(_sliceNormal, sortedCreatedVerts, out aSideCapVerts, out bSideCapVerts, out aSideCapNors, out bSideCapNors, out aSideCapUvs, out bSideCapUvs, out aSideCapTris, out bSideCapTris);
-
-
+        MakeCap(_sliceNormal, sortedCreatedVerts, out aSideCapVerts, out bSideCapVerts, out aSideCapNors,
+            out bSideCapNors, out aSideCapUvs, out bSideCapUvs, out aSideCapTris, out bSideCapTris);
 
         //Supplement cap data
 
         for (int i = 0; i < aSideCapTris.Count; i++)
 
         {
-
             aSideCapTris[i] += aSideVerts.Count;
-
         }
 
         for (int i = 0; i < bSideCapTris.Count; i++)
 
         {
-
             bSideCapTris[i] += bSideVerts.Count;
-
         }
 
         //Finalize mesh data
@@ -299,13 +283,10 @@ public class CMeshSlicer : MonoBehaviour
         if (existInterialMatIdx > 0)
 
         {
-
             aSideTris[existInterialMatIdx].AddRange(aSideCapTris);
 
             bSideTris[existInterialMatIdx].AddRange(bSideCapTris);
-
         }
-
 
 
         //Create mesh
@@ -323,14 +304,14 @@ public class CMeshSlicer : MonoBehaviour
         aMesh.subMeshCount = existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
 
         for (int i = 0; i < orinSubMeshCount; i++)
-
         {
-
             aMesh.SetTriangles(aSideTris[i], i);
-
         }
 
-        if (existInterialMatIdx < 0) aMesh.SetTriangles(aSideCapTris, orinSubMeshCount);
+        if (existInterialMatIdx < 0)   
+        {
+            aMesh.SetTriangles(aSideCapTris, orinSubMeshCount);
+        }
 
         bMesh.vertices = bSideFinalVerts.ToArray();
 
@@ -341,29 +322,26 @@ public class CMeshSlicer : MonoBehaviour
         bMesh.subMeshCount = existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount;
 
         for (int i = 0; i < orinSubMeshCount; i++)
-
         {
-            
             bMesh.SetTriangles(bSideTris[i], i);
-            
         }
 
-        if (existInterialMatIdx < 0) bMesh.SetTriangles(bSideCapTris, orinSubMeshCount);
-        
+        if (existInterialMatIdx < 0)
+        {
+            bMesh.SetTriangles(bSideCapTris, orinSubMeshCount);
+        }
+
 
         GameObject aObject = new GameObject(_target.name + "_A", typeof(MeshFilter), typeof(MeshRenderer));
 
         GameObject bObject = new GameObject(_target.name + "_B", typeof(MeshFilter), typeof(MeshRenderer));
-
 
         Material[] mats = new Material[(existInterialMatIdx < 0 ? orinSubMeshCount + 1 : orinSubMeshCount)];
 
         for (int i = 0; i < orinSubMeshCount; i++)
 
         {
-
             mats[i] = orinMaterials[i];
-
         }
 
         if (existInterialMatIdx < 0) mats[orinSubMeshCount] = _ineterial;
@@ -398,7 +376,7 @@ public class CMeshSlicer : MonoBehaviour
         aObject.tag = "DestroyWall";
         bObject.GetComponent<MeshCollider>().convex = true;
         bObject.tag = "DestroyWall";
-        
+
         //Create sliced object
         if (_target.transform.parent.name == "Map")
         {
@@ -407,13 +385,13 @@ public class CMeshSlicer : MonoBehaviour
             _target.GetComponent<MeshCollider>().sharedMesh = orinMesh;
             _target.GetComponent<MeshCollider>().convex = true;
             _target.GetComponent<MeshRenderer>().enabled = false;
-            
+
             aObject.transform.SetParent(_target.transform, true);
-        
+
             bObject.transform.SetParent(_target.transform, true);
-        
+
             _target.tag = "Wall";
-            
+
             // abParentObject = new GameObject(_target.name, typeof(Rigidbody), typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider));
             //
             // abParentObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
@@ -436,23 +414,19 @@ public class CMeshSlicer : MonoBehaviour
             // bObject.transform.SetParent(abParentObject.transform, true);
             //
             // abParentObject.tag = "Wall";
-        
         }
         else
         {
-            
             aObject.transform.localScale = _target.transform.parent.localScale;
-            
+
             bObject.transform.localScale = _target.transform.parent.localScale;
-            
+
             aObject.transform.SetParent(_target.transform.parent, true);
-            
+
             bObject.transform.SetParent(_target.transform.parent, true);
             _target.SetActive(false);
             Destroy(_target);
         }
-        
-
 
 
         //Hide original object
@@ -463,8 +437,7 @@ public class CMeshSlicer : MonoBehaviour
 
         //Return cutted object
 
-        return new GameObject[] { aObject, bObject };
-
+        return new GameObject[] {aObject, bObject};
     }
 
     static public T CopyComponent<T>(T original, GameObject destination) where T : Component
@@ -476,27 +449,24 @@ public class CMeshSlicer : MonoBehaviour
         {
             field.SetValue(copy, field.GetValue(original));
         }
+
         return copy as T;
     }
 
     internal static void SwapTwoIndex<T>(ref List<T> _target, int _idx0, int _idx1)
 
     {
-
         T temp = _target[_idx1];
 
         _target[_idx1] = _target[_idx0];
 
         _target[_idx0] = temp;
-
     }
-
 
 
     internal static void SwapTwoIndexSet<T>(ref List<T> _target, int _idx00, int _idx01, int _idx10, int _idx11)
 
     {
-
         T temp0 = _target[_idx00];
 
         T temp1 = _target[_idx01];
@@ -508,15 +478,12 @@ public class CMeshSlicer : MonoBehaviour
         _target[_idx10] = temp0;
 
         _target[_idx11] = temp1;
-
     }
-
 
 
     internal static void SortVertices(List<Vector3> _target, out List<Vector3> _result)
 
     {
-
         _result = new List<Vector3>();
         _result.Add(_target[0]);
 
@@ -527,7 +494,6 @@ public class CMeshSlicer : MonoBehaviour
         for (int i = 0; i < vertSetCount - 1; i++)
 
         {
-
             Vector3 vert0 = _target[i * 2];
 
             Vector3 vert1 = _target[i * 2 + 1];
@@ -535,7 +501,6 @@ public class CMeshSlicer : MonoBehaviour
             for (int j = i + 1; j < vertSetCount; j++)
 
             {
-
                 Vector3 cVert0 = _target[j * 2];
 
                 Vector3 cVert1 = _target[j * 2 + 1];
@@ -543,57 +508,39 @@ public class CMeshSlicer : MonoBehaviour
                 if (vert1 == cVert0)
 
                 {
-
                     _result.Add(cVert1);
 
 
-
                     SwapTwoIndexSet<Vector3>(ref _target, i * 2 + 2, i * 2 + 3, j * 2, j * 2 + 1);
-
                 }
 
                 else if (vert1 == cVert1)
 
                 {
-
                     _result.Add(cVert0);
 
 
-
                     SwapTwoIndexSet<Vector3>(ref _target, i * 2 + 2, i * 2 + 3, j * 2 + 1, j * 2);
-
                 }
-
             }
-
         }
 
         if (_result[0] == _result[_result.Count - 1]) _result.RemoveAt(_result.Count - 1);
-
     }
 
 
-
     internal static void ParseSubMesh(Vector3[] _orinVerts, Vector3[] _orinNors, Vector2[] _orinUvs, int[] _subMeshTris,
-
         Vector3 _sliceNormal, Vector3 _slicePoint,
-
         ref List<Vector3> _aSideVerts, ref List<Vector3> _bSideVerts,
-
         ref List<Vector3> _aSideNors, ref List<Vector3> _bSideNors,
-
         ref List<Vector2> _aSideUvs, ref List<Vector2> _bSideUvs,
-
         out List<int> _aSideTris, out List<int> _bSideTris,
-
         ref List<Vector3> _createdVerts, ref List<Vector3> _createdNors, ref List<Vector2> _createdUvs)
 
     {
-
         _aSideTris = new List<int>();
 
         _bSideTris = new List<int>();
-
 
 
         //Split vertices
@@ -603,7 +550,6 @@ public class CMeshSlicer : MonoBehaviour
         for (int i = 0; i < triCount; i++)
 
         {
-
             //Target vertices
 
             int idx0 = i * 3;
@@ -637,7 +583,6 @@ public class CMeshSlicer : MonoBehaviour
             Vector2 uv2 = _orinUvs[vertIdx2];
 
 
-
             float dot0 = Vector3.Dot(_sliceNormal, vert0 - _slicePoint);
 
             float dot1 = Vector3.Dot(_sliceNormal, vert1 - _slicePoint);
@@ -645,13 +590,11 @@ public class CMeshSlicer : MonoBehaviour
             float dot2 = Vector3.Dot(_sliceNormal, vert2 - _slicePoint);
 
 
-
             //If all vertices are at same side
 
             if (dot0 < 0 && dot1 < 0 && dot2 < 0)
 
             {
-
                 _aSideVerts.Add(vert0);
 
                 _aSideVerts.Add(vert1);
@@ -675,13 +618,11 @@ public class CMeshSlicer : MonoBehaviour
                 _aSideTris.Add(_aSideTris.Count);
 
                 _aSideTris.Add(_aSideTris.Count);
-
             }
 
             else if (dot0 >= 0 && dot1 >= 0 && dot2 >= 0)
 
             {
-
                 _bSideVerts.Add(vert0);
 
                 _bSideVerts.Add(vert1);
@@ -705,7 +646,6 @@ public class CMeshSlicer : MonoBehaviour
                 _bSideTris.Add(_bSideTris.Count);
 
                 _bSideTris.Add(_bSideTris.Count);
-
             }
 
             //If not all vertices are at smae side
@@ -713,12 +653,17 @@ public class CMeshSlicer : MonoBehaviour
             else
 
             {
+                int aloneVertIdx = Mathf.Sign(dot0) == Mathf.Sign(dot1)
+                    ? vertIdx2
+                    : (Mathf.Sign(dot0) == Mathf.Sign(dot2) ? vertIdx1 : vertIdx0);
 
-                int aloneVertIdx = Mathf.Sign(dot0) == Mathf.Sign(dot1) ? vertIdx2 : (Mathf.Sign(dot0) == Mathf.Sign(dot2) ? vertIdx1 : vertIdx0);
+                int otherVertIdx0 = Mathf.Sign(dot0) == Mathf.Sign(dot1)
+                    ? vertIdx0
+                    : (Mathf.Sign(dot0) == Mathf.Sign(dot2) ? vertIdx2 : vertIdx1);
 
-                int otherVertIdx0 = Mathf.Sign(dot0) == Mathf.Sign(dot1) ? vertIdx0 : (Mathf.Sign(dot0) == Mathf.Sign(dot2) ? vertIdx2 : vertIdx1);
-
-                int otherVertIdx1 = Mathf.Sign(dot0) == Mathf.Sign(dot1) ? vertIdx1 : (Mathf.Sign(dot0) == Mathf.Sign(dot2) ? vertIdx0 : vertIdx2);
+                int otherVertIdx1 = Mathf.Sign(dot0) == Mathf.Sign(dot1)
+                    ? vertIdx1
+                    : (Mathf.Sign(dot0) == Mathf.Sign(dot2) ? vertIdx0 : vertIdx2);
 
                 Vector3 aloneVert = _orinVerts[aloneVertIdx];
 
@@ -739,7 +684,6 @@ public class CMeshSlicer : MonoBehaviour
                 Vector2 otherUv1 = _orinUvs[otherVertIdx1];
 
 
-
                 float alone2PlaneDist = Mathf.Abs(Vector3.Dot(_sliceNormal, aloneVert - _slicePoint));
 
                 float other02PlaneDist = Mathf.Abs(Vector3.Dot(_sliceNormal, otherVert0 - _slicePoint));
@@ -749,7 +693,6 @@ public class CMeshSlicer : MonoBehaviour
                 float alone2Other0Ratio = alone2PlaneDist / (alone2PlaneDist + other02PlaneDist);
 
                 float alone2Other1Ratio = alone2PlaneDist / (alone2PlaneDist + other12PlaneDist);
-
 
 
                 Vector3 createdVert0 = Vector3.Lerp(aloneVert, otherVert0, alone2Other0Ratio);
@@ -777,7 +720,6 @@ public class CMeshSlicer : MonoBehaviour
                 _createdUvs.Add(createdUv1);
 
 
-
                 //Distribute vertices data to both side
 
                 float aloneSide = Vector3.Dot(_sliceNormal, aloneVert - _slicePoint);
@@ -785,7 +727,6 @@ public class CMeshSlicer : MonoBehaviour
                 if (aloneSide < 0)
 
                 {
-
                     //A side
 
                     _aSideVerts.Add(aloneVert);
@@ -811,7 +752,6 @@ public class CMeshSlicer : MonoBehaviour
                     _aSideTris.Add(_aSideTris.Count);
 
                     _aSideTris.Add(_aSideTris.Count);
-
 
 
                     //B side
@@ -841,7 +781,6 @@ public class CMeshSlicer : MonoBehaviour
                     _bSideTris.Add(_bSideTris.Count);
 
 
-
                     _bSideVerts.Add(otherVert1);
 
                     _bSideVerts.Add(createdVert1);
@@ -865,13 +804,11 @@ public class CMeshSlicer : MonoBehaviour
                     _bSideTris.Add(_bSideTris.Count);
 
                     _bSideTris.Add(_bSideTris.Count);
-
                 }
 
                 else
 
                 {
-
                     //B side
 
                     _bSideVerts.Add(aloneVert);
@@ -897,7 +834,6 @@ public class CMeshSlicer : MonoBehaviour
                     _bSideTris.Add(_bSideTris.Count);
 
                     _bSideTris.Add(_bSideTris.Count);
-
 
 
                     //A side
@@ -927,7 +863,6 @@ public class CMeshSlicer : MonoBehaviour
                     _aSideTris.Add(_aSideTris.Count);
 
 
-
                     _aSideVerts.Add(otherVert1);
 
                     _aSideVerts.Add(createdVert1);
@@ -951,29 +886,19 @@ public class CMeshSlicer : MonoBehaviour
                     _aSideTris.Add(_aSideTris.Count);
 
                     _aSideTris.Add(_aSideTris.Count);
-
                 }
-
             }
-
         }
-
     }
 
 
-
     internal static void MakeCap(Vector3 _faceNormal, List<Vector3> _relatedVerts,
-
         out List<Vector3> _aSideVerts, out List<Vector3> _bSideVerts,
-
         out List<Vector3> _aSideNors, out List<Vector3> _bSideNors,
-
         out List<Vector2> _aSideUvs, out List<Vector2> _bSideUvs,
-
         out List<int> _aSideTris, out List<int> _bSideTris)
 
     {
-
         _aSideVerts = new List<Vector3>();
 
         _bSideVerts = new List<Vector3>();
@@ -997,7 +922,6 @@ public class CMeshSlicer : MonoBehaviour
         if (_relatedVerts.Count < 2) return;
 
 
-
         //Calculate center of the cap
 
         Vector3 center = Vector3.zero;
@@ -1005,9 +929,7 @@ public class CMeshSlicer : MonoBehaviour
         foreach (Vector3 v in _relatedVerts)
 
         {
-
             center += v;
-
         }
 
         center /= _relatedVerts.Count;
@@ -1019,7 +941,6 @@ public class CMeshSlicer : MonoBehaviour
         _bSideVerts.Add(center);
 
 
-
         //Calculate cap data
 
         //Normal
@@ -1027,11 +948,9 @@ public class CMeshSlicer : MonoBehaviour
         for (int i = 0; i < _aSideVerts.Count; i++)
 
         {
-
             _aSideNors.Add(_faceNormal);
 
             _bSideNors.Add(-_faceNormal);
-
         }
 
         //Uv
@@ -1051,7 +970,6 @@ public class CMeshSlicer : MonoBehaviour
         for (int i = 0; i < _relatedVerts.Count; i++)
 
         {
-
             Vector3 dir = _relatedVerts[i] - center;
 
             Vector2 relatedUV = Vector2.zero;
@@ -1063,7 +981,6 @@ public class CMeshSlicer : MonoBehaviour
             _aSideUvs.Add(relatedUV);
 
             _bSideUvs.Add(relatedUV);
-
         }
 
         _aSideUvs.Add(new Vector2(0.5f, 0.5f));
@@ -1076,14 +993,14 @@ public class CMeshSlicer : MonoBehaviour
 
         //Check first triangle face where
 
-        float faceDir = Vector3.Dot(_faceNormal, Vector3.Cross(_relatedVerts[0] - center, _relatedVerts[1] - _relatedVerts[0]));
+        float faceDir = Vector3.Dot(_faceNormal,
+            Vector3.Cross(_relatedVerts[0] - center, _relatedVerts[1] - _relatedVerts[0]));
 
         //Store tris
 
         for (int i = 0; i < _aSideVerts.Count - 1; i++)
 
         {
-
             int idx0 = i;
 
             int idx1 = (i + 1) % (_aSideVerts.Count - 1);
@@ -1091,7 +1008,6 @@ public class CMeshSlicer : MonoBehaviour
             if (faceDir < 0)
 
             {
-
                 _aSideTris.Add(centerIdx);
 
                 _aSideTris.Add(idx1);
@@ -1099,19 +1015,16 @@ public class CMeshSlicer : MonoBehaviour
                 _aSideTris.Add(idx0);
 
 
-
                 _bSideTris.Add(centerIdx);
 
                 _bSideTris.Add(idx0);
 
                 _bSideTris.Add(idx1);
-
             }
 
             else
 
             {
-
                 _aSideTris.Add(centerIdx);
 
                 _aSideTris.Add(idx0);
@@ -1119,15 +1032,12 @@ public class CMeshSlicer : MonoBehaviour
                 _aSideTris.Add(idx1);
 
 
-
                 _bSideTris.Add(centerIdx);
 
                 _bSideTris.Add(idx1);
 
                 _bSideTris.Add(idx0);
-
             }
         }
     }
 }
-

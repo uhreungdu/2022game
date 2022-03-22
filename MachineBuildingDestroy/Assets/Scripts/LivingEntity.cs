@@ -2,60 +2,60 @@ using System;
 using UnityEngine;
 using Photon.Pun;
 
-// »ı¸íÃ¼·Î¼­ µ¿ÀÛÇÒ °ÔÀÓ ¿ÀºêÁ§Æ®µéÀ» À§ÇÑ »À´ë¸¦ Á¦°ø
-// Ã¼·Â, µ¥¹ÌÁö ¹Ş¾ÆµéÀÌ±â, »ç¸Á ±â´É, »ç¸Á ÀÌº¥Æ®¸¦ Á¦°ø
+// ìƒëª…ì²´ë¡œì„œ ë™ì‘í•  ê²Œì„ ì˜¤ë¸Œì íŠ¸ë“¤ì„ ìœ„í•œ ë¼ˆëŒ€ë¥¼ ì œê³µ
+// ì²´ë ¥, ë°ë¯¸ì§€ ë°›ì•„ë“¤ì´ê¸°, ì‚¬ë§ ê¸°ëŠ¥, ì‚¬ë§ ì´ë²¤íŠ¸ë¥¼ ì œê³µ
 public class LivingEntity : MonoBehaviourPun, IDamageable
 {
-    public float startingHealth = 100f; // ½ÃÀÛ Ã¼·Â
-    public float health { get; protected set; } // ÇöÀç Ã¼·Â
-    public bool dead { get; protected set; } // »ç¸Á »óÅÂ
-    public event Action onDeath; // »ç¸Á½Ã ¹ßµ¿ÇÒ ÀÌº¥Æ®
+    public float startingHealth = 100f; // ì‹œì‘ ì²´ë ¥
+    public float health { get; protected set; } // í˜„ì¬ ì²´ë ¥
+    public bool dead { get; protected set; } // ì‚¬ë§ ìƒíƒœ
+    public event Action onDeath; // ì‚¬ë§ì‹œ ë°œë™í•  ì´ë²¤íŠ¸
 
-    // »ı¸íÃ¼°¡ È°¼ºÈ­µÉ¶§ »óÅÂ¸¦ ¸®¼Â
+    // ìƒëª…ì²´ê°€ í™œì„±í™”ë ë•Œ ìƒíƒœë¥¼ ë¦¬ì…‹
     protected virtual void OnEnable()
     {
-        // »ç¸ÁÇÏÁö ¾ÊÀº »óÅÂ·Î ½ÃÀÛ
+        // ì‚¬ë§í•˜ì§€ ì•Šì€ ìƒíƒœë¡œ ì‹œì‘
         dead = false;
-        // Ã¼·ÂÀ» ½ÃÀÛ Ã¼·ÂÀ¸·Î ÃÊ±âÈ­
+        // ì²´ë ¥ì„ ì‹œì‘ ì²´ë ¥ìœ¼ë¡œ ì´ˆê¸°í™”
         health = startingHealth;
     }
 
-    // µ¥¹ÌÁö¸¦ ÀÔ´Â ±â´É
+    // ë°ë¯¸ì§€ë¥¼ ì…ëŠ” ê¸°ëŠ¥
     public virtual void OnDamage(float damage)
     {
-        // µ¥¹ÌÁö¸¸Å­ Ã¼·Â °¨¼Ò
+        // ë°ë¯¸ì§€ë§Œí¼ ì²´ë ¥ ê°ì†Œ
         health -= damage;
 
-        // Ã¼·ÂÀÌ 0 ÀÌÇÏ && ¾ÆÁ÷ Á×Áö ¾Ê¾Ò´Ù¸é »ç¸Á Ã³¸® ½ÇÇà
+        // ì²´ë ¥ì´ 0 ì´í•˜ && ì•„ì§ ì£½ì§€ ì•Šì•˜ë‹¤ë©´ ì‚¬ë§ ì²˜ë¦¬ ì‹¤í–‰
         if (health <= 0 && !dead)
         {
             Die();
         }
     }
 
-    // Ã¼·ÂÀ» È¸º¹ÇÏ´Â ±â´É
+    // ì²´ë ¥ì„ íšŒë³µí•˜ëŠ” ê¸°ëŠ¥
     public virtual void RestoreHealth(float newHealth)
     {
         if (dead)
         {
-            // ÀÌ¹Ì »ç¸ÁÇÑ °æ¿ì Ã¼·ÂÀ» È¸º¹ÇÒ ¼ö ¾øÀ½
+            // ì´ë¯¸ ì‚¬ë§í•œ ê²½ìš° ì²´ë ¥ì„ íšŒë³µí•  ìˆ˜ ì—†ìŒ
             return;
         }
 
-        // Ã¼·Â Ãß°¡
+        // ì²´ë ¥ ì¶”ê°€
         health += newHealth;
     }
 
-    // »ç¸Á Ã³¸®
+    // ì‚¬ë§ ì²˜ë¦¬
     public virtual void Die()
     {
-        // onDeath ÀÌº¥Æ®¿¡ µî·ÏµÈ ¸Ş¼­µå°¡ ÀÖ´Ù¸é ½ÇÇà
+        // onDeath ì´ë²¤íŠ¸ì— ë“±ë¡ëœ ë©”ì„œë“œê°€ ìˆë‹¤ë©´ ì‹¤í–‰
         if (onDeath != null)
         {
             onDeath();
         }
 
-        // »ç¸Á »óÅÂ¸¦ ÂüÀ¸·Î º¯°æ
+        // ì‚¬ë§ ìƒíƒœë¥¼ ì°¸ìœ¼ë¡œ ë³€ê²½
         dead = true;
     }
 }

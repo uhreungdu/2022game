@@ -38,6 +38,9 @@ public class Map : MonoBehaviour
 
     private float x = 20;
     private float z = 20;
+    
+    [Tooltip("True = 온라인모드, False = 로컬모드")]
+    public bool Online = false;
 
 
     // Start is called before the first frame update
@@ -54,7 +57,7 @@ public class Map : MonoBehaviour
         string jsonData = ObjectToJson(maptile);
         Debug.Log(jsonData);
         CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
-        /*
+        
         var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
         maptile = jtc2;
         // jtc2.Print();
@@ -85,8 +88,8 @@ public class Map : MonoBehaviour
             temp.transform.SetParent(this.transform);
         }
 
-        string jsonData = ObjectToJson(maptile);
-        */
+        //string jsonData = ObjectToJson(maptile);
+        
         //Debug.Log(jsonData);
         //CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
     }
@@ -127,8 +130,8 @@ public class Map : MonoBehaviour
             for (int j = 0; j < z; ++j)
             {
                 Vector3 position = new Vector3((i * offset) - (offset * ((x - 1) / 2)), 0, (j * offset) - (offset * ((z - 1) / 2)));
-                // GameObject temp = Instantiate(planepref, position, planepref.transform.rotation);
-                // temp.transform.SetParent(this.transform);
+                GameObject temp = Instantiate(planepref, position, planepref.transform.rotation);
+                temp.transform.SetParent(this.transform);
                 Tile tile = new Tile();
                 tile.kind = 0;
                 tile.position = position;
