@@ -12,6 +12,7 @@ public class thirdpersonmove : MonoBehaviourPun
     private Animator playeranimator;
 
     public float speed = 6f;
+    public float Maxspeed = 18f;
     float yvelocity = 0;
     public float Cgravity = 4f;
     public float tempgravity = -50.0f;
@@ -41,16 +42,19 @@ public class thirdpersonmove : MonoBehaviourPun
         controller = GetComponent<CharacterController>();
         cam = GameObject.FindWithTag("CamPos").GetComponent<Transform>();
         playerInput = GetComponent<PlayerInput>();
-        playeranimator = GetComponent<Animator>();
+        playeranimator = GetComponentInChildren<Animator>();
         playerState = GetComponent<PlayerState>();
         jumpower = 6f;
         Debug.Log(Application.platform);
+        isAimming = false;
+        nowEquip = false;
     }
     void Update()
     {
         Jump();
         Dash();
         Movement();
+        
     }
 
     public void Movement()
@@ -95,8 +99,14 @@ public class thirdpersonmove : MonoBehaviourPun
             {
                 yvelocity = 0;
             }
-            // Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
-            // playeranimator.SetFloat("Move", Origindirection.magnitude);
+            Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
+            if (Origindirection.magnitude >= 1)
+            {
+                Origindirection.Normalize();
+            }
+            Origindirection = Origindirection * speed / Maxspeed;
+            playeranimator.SetFloat("Move", Origindirection.magnitude);
+            print(Origindirection.magnitude);
         }
     }
 
@@ -112,7 +122,7 @@ public class thirdpersonmove : MonoBehaviourPun
     {
         if (playerInput.dash && controller.isGrounded)
         {
-            if (speed <= 18f)
+            if (speed <= Maxspeed)
             {
                 speed += 6f * Time.deltaTime;
             }
@@ -166,6 +176,7 @@ public class thirdpersonmove : MonoBehaviourPun
             if (itemBoxMake.effect_switch == true)
             {
                 playerState.SetItem(itemBoxMake.now_type);
+                isAimming = true;
                 //Destroy(other.gameObject);
             }
         }

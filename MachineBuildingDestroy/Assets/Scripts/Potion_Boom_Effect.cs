@@ -46,9 +46,12 @@ public class Potion_Boom_Effect : MonoBehaviour
 
     private void OnCollisionStay(Collision coll)
     {
+        check_boom = false;
+        /*
         if (coll.transform.CompareTag("Floor"))
         {
-            check_boom = false;
+            
         }
+        */
     }
 }
