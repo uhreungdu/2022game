@@ -7,6 +7,7 @@ public class MyInRoomInfo : MonoBehaviour
 {
     private int myslotnum = 0;
     private bool _is_master = false;
+    public bool _is_ready = false;
     
     // Start is called before the first frame update
     void Start()
@@ -30,5 +31,11 @@ public class MyInRoomInfo : MonoBehaviour
     {
         get => _is_master;
         set => _is_master = value;
+    }
+    
+    public bool IsReady
+    {
+        get => _is_ready;
+        set => _is_ready = value;
     }
 }

@@ -37,8 +37,8 @@ public class CharacterSlots : MonoBehaviour
                 break;
             }
         }
-        
-        // Master 넘기는 버튼 갱신
+
+        // Master 넘기는 버튼 활성화 갱신
         if (PhotonNetwork.IsMasterClient)
         {
             for (int i = 0; i < 6; ++i)
@@ -56,11 +56,5 @@ public class CharacterSlots : MonoBehaviour
                 slots[i].GetComponent<Slot>().MasterButton.GetComponent<Button>().interactable = false;
             }
         }
-    }
-    
-    
-    public void ClickSlotMoveButton()
-    {
-        var info = GameObject.Find("Myroominfo").GetComponent<MyInRoomInfo>();
     }
 }
