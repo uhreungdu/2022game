@@ -25,11 +25,7 @@ public class MasterButton : MonoBehaviour
         Player[] p = PhotonNetwork.PlayerList;
         for (int i = 0; i < p.Length; ++i)
         {
-            //실제적용할거
-            //if (p[i].NickName == targetName)
-            
-            //테스트용
-            if (p[i].NickName == "test1")
+            if (p[i].NickName == targetName)
             {
                 PhotonNetwork.SetMasterClient(p[i]);
                 break;

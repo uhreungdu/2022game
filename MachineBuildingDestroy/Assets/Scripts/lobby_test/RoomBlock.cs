@@ -82,7 +82,7 @@ public class RoomBlock : MonoBehaviour
             gManager.SetInRoomName(iname);
             gManager.SetExRoomName(ename);
             PhotonNetwork.JoinRoom(iname);
-            SceneManager.LoadScene("SampleScene");
+            //SceneManager.LoadScene("SampleScene");
         }
     }
 }

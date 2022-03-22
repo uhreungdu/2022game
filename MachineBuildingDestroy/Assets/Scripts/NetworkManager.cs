@@ -67,6 +67,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.LoadLevel("ReadyRoom");
+        /*
         Map = GameObject.Find("Map");
         Vector3 Pos = new Vector3(0, 10, 0);
         if (PhotonNetwork.IsMasterClient)
@@ -74,8 +77,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Map.GetComponent<Map>().CreateNetworkMap();
         }
         PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
+        */
     }
-    
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         StartCoroutine(_lobbyManager.GetRoomList());

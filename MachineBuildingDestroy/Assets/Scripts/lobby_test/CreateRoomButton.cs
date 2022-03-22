@@ -52,9 +52,7 @@ public class CreateRoomButton : MonoBehaviour
         }
         else
         {
-            Debug.Log("Form upload complete!");
             PhotonNetwork.JoinOrCreateRoom(gManager.GetInRoomName(), new RoomOptions { MaxPlayers = 6 }, null);
-            SceneManager.LoadScene("SampleScene");
         }
     }
 }

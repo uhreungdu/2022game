@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,22 @@ public class Slot : MonoBehaviour,IPunObservable
     void Update()
     {
         
+    }
+
+    private void FixedUpdate()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // Player 존재하는지 체크
+            foreach (var target in PhotonNetwork.PlayerList)
+            {
+                // 있다면 return;
+                if (target.NickName == _nickname) return;
+            }
+            // 없으면 변수 초기화
+            _nickname = "";
+            _is_ready = false;
+        }
     }
 
     public string Nickname

@@ -6,14 +6,16 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterSlots : MonoBehaviour
+public class CharacterSlots : MonoBehaviourPun
 {
+    private bool init = false;
     public GameObject[] slots = new GameObject[6];
     public GameObject info;
     // Start is called before the first frame update
     void Start()
     {
         info = GameObject.Find("Myroominfo");
+        
     }
 
     // Update is called once per frame
@@ -24,13 +26,18 @@ public class CharacterSlots : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(!init){
+            photonView.RPC("SetSlot",RpcTarget.MasterClient,
+            PhotonNetwork.NickName);
+            init = true;
+        }
+        
         int num = -1;
         // 자신 슬롯 번호 갱신
         for (int i = 0; i < 6; ++i)
         {
             var SlotComponent = slots[i].GetComponent<Slot>();
-            // 변경필요
-            if (SlotComponent.Nickname == "test0")
+            if (SlotComponent.Nickname == PhotonNetwork.NickName)
             {
                 info.GetComponent<MyInRoomInfo>().MySlotNum = i;
                 num = i;
@@ -55,6 +62,22 @@ public class CharacterSlots : MonoBehaviour
             {
                 slots[i].GetComponent<Slot>().MasterButton.GetComponent<Button>().interactable = false;
             }
+        }
+    }
+    
+    [PunRPC]
+    void SetSlot(string nickname)
+    {
+        print("RPC CALL");
+        var slot = transform.GetComponent<CharacterSlots>();
+        for (var i = 0; i < 6; ++i)
+        {
+            var target = slot.slots[i].GetComponent<Slot>();
+            if (target.Nickname != "") continue;
+            target.Nickname = nickname;
+            target.IsReady = false;
+            break;
+
         }
     }
 }
