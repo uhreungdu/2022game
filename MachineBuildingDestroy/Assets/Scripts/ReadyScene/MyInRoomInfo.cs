@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class MyInRoomInfo : MonoBehaviour
@@ -19,6 +20,11 @@ public class MyInRoomInfo : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void FixedUpdate()
+    {
+        _is_master = PhotonNetwork.IsMasterClient;
     }
 
     public int MySlotNum
