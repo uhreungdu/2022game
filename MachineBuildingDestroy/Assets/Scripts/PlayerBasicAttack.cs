@@ -134,7 +134,7 @@ public class PlayerBasicAttack : MonoBehaviour
             getobj = Resources.Load<GameObject>("potion");
             ItemObj = Instantiate(getobj);
             ItemObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = gameObject.transform.position + new Vector3(1f, 0f, 1f);
+            Vector3 tpos = gameObject.transform.position + gameObject.transform.forward;
             ItemObj.transform.Translate(tpos);
             item_Coll = ItemObj.GetComponent<Collider>();
             item_Rigid = ItemObj.GetComponent<Rigidbody>();
