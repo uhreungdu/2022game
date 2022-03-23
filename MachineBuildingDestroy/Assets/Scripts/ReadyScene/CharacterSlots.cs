@@ -27,7 +27,7 @@ public class CharacterSlots : MonoBehaviourPun
     private void FixedUpdate()
     {
         if(!init){
-            photonView.RPC("SetSlot",RpcTarget.MasterClient,
+            photonView.RPC("SetSlotByQuick",RpcTarget.MasterClient,
             PhotonNetwork.NickName);
             init = true;
         }
@@ -66,9 +66,8 @@ public class CharacterSlots : MonoBehaviourPun
     }
     
     [PunRPC]
-    void SetSlot(string nickname)
+    void SetSlotByQuick(string nickname)
     {
-        print("RPC CALL");
         var slot = transform.GetComponent<CharacterSlots>();
         for (var i = 0; i < 6; ++i)
         {
@@ -80,4 +79,5 @@ public class CharacterSlots : MonoBehaviourPun
 
         }
     }
+    
 }
