@@ -59,13 +59,13 @@ public class MapEditerCam : MonoBehaviour
         // Debug.Log("화면크기 : " + xScreenHalfSize + ", " + yScreenHalfSize);
         Vector3 direction = Vector3.zero;
         Vector3 MouseScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-        if (Input.mousePosition.x < Screen.width / 8)
+        if (Input.mousePosition.x < Screen.width / 10)
             direction.x = -1;
-        if (Input.mousePosition.x > Screen.width / 8 * 7)
+        if (Input.mousePosition.x > Screen.width / 10 * 9)
             direction.x = 1;
-        if (Input.mousePosition.y < Screen.height / 8)
+        if (Input.mousePosition.y < Screen.height / 10)
             direction.z = -1;
-        if (Input.mousePosition.y > Screen.height / 8 * 7)
+        if (Input.mousePosition.y > Screen.height / 10 * 9)
             direction.z = 1;
         direction = direction.normalized;
         transform.position += (direction * speed * Time.deltaTime);
