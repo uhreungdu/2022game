@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapEditerUI : MonoBehaviour
 {
     public bool SaveMode = false;
+    public Text PathText;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,4 +21,5 @@ public class MapEditerUI : MonoBehaviour
     {
         SaveMode = false;
     }
+
 }

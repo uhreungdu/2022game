@@ -30,6 +30,8 @@ public class Map : MonoBehaviour
     private List<GameObject> Buildings = new List<GameObject>();
     private List<GameObject> Planes = new List<GameObject>();
 
+    public GameObject mapGameObject;
+
     public GameObject planepref;
     public GameObject goalpostpref;
     public GameObject itempref;
@@ -185,7 +187,51 @@ public class Map : MonoBehaviour
     public void MapSave()
     {
         string jsonData = ObjectToJson(maptile);
+        Debug.Log(jsonData);
         CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
+    }
+
+    public void MapLoad()
+    {
+        Transform[] allChildren = mapGameObject.GetComponentsInChildren<Transform>();
+        foreach (var child in allChildren)
+        {
+            if (child.gameObject != mapGameObject)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        if (maptile.Tiles.Count >= 1)
+            maptile.Tiles.Clear();
+        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
+        maptile = jtc2;
+
+        for (int i = 0; i < maptile.Tiles.Count; ++i)
+        {
+            GameObject tilepref = null;
+            switch (maptile.Tiles[i].kind)
+            {
+                case 0:
+                    tilepref = planepref;
+                    break;
+                case 1:
+                    tilepref = goalpostpref;
+                    break;
+                case 2:
+                    tilepref = itempref;
+                    break;
+                case 3:
+                    tilepref = tankpref;
+                    break;
+                case 4:
+                    tilepref = arcadepref;
+                    break;
+            }
+            GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, tilepref.transform.rotation);
+            temp.name = tilepref.name + i;
+            temp.transform.SetParent(this.transform);
+        }
+
     }
 
     public void CreateNetworkMap()
