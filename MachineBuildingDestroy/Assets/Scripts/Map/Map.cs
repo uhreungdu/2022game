@@ -43,6 +43,7 @@ public class Map : MonoBehaviour
     public bool Online = false;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -130,8 +131,8 @@ public class Map : MonoBehaviour
             for (int j = 0; j < z; ++j)
             {
                 Vector3 position = new Vector3((i * offset) - (offset * ((x - 1) / 2)), 0, (j * offset) - (offset * ((z - 1) / 2)));
-                GameObject temp = Instantiate(planepref, position, planepref.transform.rotation);
-                temp.transform.SetParent(this.transform);
+                // GameObject temp = Instantiate(planepref, position, planepref.transform.rotation);
+                // temp.transform.SetParent(this.transform);
                 Tile tile = new Tile();
                 tile.kind = 0;
                 tile.position = position;
@@ -179,6 +180,12 @@ public class Map : MonoBehaviour
             // buliding.transform.SetParent(this.transform);
 
         }
+    }
+
+    public void MapSave()
+    {
+        string jsonData = ObjectToJson(maptile);
+        CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
     }
 
     public void CreateNetworkMap()

@@ -7,18 +7,25 @@ public class MapEditerCam : MonoBehaviour
     public GameObject controller;
     public MapEditerCamInput mapEditerCamInput; // 플레이어조작을 관리하는 스크립트
     public float speed = 30f;
+
+    public MapEditerUI mapEditerUI;
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<GameObject>();
         mapEditerCamInput = GetComponent<MapEditerCamInput>();
+        mapEditerUI = GetComponent<MapEditerUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Movement();
-        CameraPoint();
+        if (mapEditerUI.SaveMode == false)
+        {
+            Movement();
+            Rotate();
+            CameraPoint();
+        }
     }
 
     public void Movement()
@@ -48,6 +55,13 @@ public class MapEditerCam : MonoBehaviour
 
         if (transform.position.y < 20)
             transform.position = new Vector3(transform.position.x, 20, transform.position.z);
+    }
+    public void Rotate()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+            transform.rotation = Quaternion.Euler(0f, 90, 0f);
+        if (Input.GetKeyDown(KeyCode.E))
+            transform.rotation = Quaternion.Euler(0f, -90, 0f);
     }
 
     public void CameraPoint()
