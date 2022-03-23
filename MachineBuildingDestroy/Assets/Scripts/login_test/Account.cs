@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -66,6 +68,8 @@ public class Account : MonoBehaviour
     {
         pID = id;
         pNickname = nickname;
+        PhotonNetwork.NickName = nickname;
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public string GetPlayerID()

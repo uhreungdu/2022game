@@ -57,11 +57,18 @@ public class Map : MonoBehaviour
         string jsonData = ObjectToJson(maptile);
         Debug.Log(jsonData);
         CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
-        
+
+        if (PhotonNetwork.IsMasterClient)
+            CreateNetworkMap();
+        GameObject.Find("NetworkManager").GetComponent<NetworkManager>()
+            .SpawnPlayer();
+        // localMAP not USE NetworkGame
+        /*
         var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
         maptile = jtc2;
         // jtc2.Print();
 
+        
         for (int i = 0; i < maptile.Tiles.Count; ++i)
         {
             GameObject tilepref = null;
@@ -87,9 +94,9 @@ public class Map : MonoBehaviour
             temp.name = tilepref.name + i;
             temp.transform.SetParent(this.transform);
         }
-
+        */
         //string jsonData = ObjectToJson(maptile);
-        
+
         //Debug.Log(jsonData);
         //CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
     }
