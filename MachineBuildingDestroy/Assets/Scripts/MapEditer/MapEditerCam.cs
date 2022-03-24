@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class MapEditerCam : MonoBehaviour
 {
-    public GameObject controller;
     public MapEditerCamInput mapEditerCamInput; // 플레이어조작을 관리하는 스크립트
     public float speed = 30f;
 
-    public MapEditerUI mapEditerUI;
+    public MapEditerManager mapEditerManager;
     // Start is called before the first frame update
     void Start()
     {
-        controller = GetComponent<GameObject>();
         mapEditerCamInput = GetComponent<MapEditerCamInput>();
-        mapEditerUI = GetComponent<MapEditerUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (mapEditerUI.SaveMode == false)
+        if (mapEditerManager.SaveMode == false)
         {
             Movement();
             Rotate();
@@ -72,7 +69,6 @@ public class MapEditerCam : MonoBehaviour
         // xScreenHalfSize = yScreenHalfSize * Camera.main.aspect;
         // Debug.Log("화면크기 : " + xScreenHalfSize + ", " + yScreenHalfSize);
         Vector3 direction = Vector3.zero;
-        Vector3 MouseScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
         if (Input.mousePosition.x < Screen.width / 10)
             direction.x = -1;
         if (Input.mousePosition.x > Screen.width / 10 * 9)
@@ -84,9 +80,5 @@ public class MapEditerCam : MonoBehaviour
         direction = direction.normalized;
         transform.position += (direction * speed * Time.deltaTime);
         
-        Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,
-            Input.mousePosition.y, -Camera.main.transform.position.z));
-        Debug.Log("화면좌표 : " + MouseScreenPoint.ToString());
-        Debug.Log("월드좌표 : " + point.ToString());
     }
 }
