@@ -60,6 +60,7 @@ public class MapEditerManager : MonoBehaviour
     
     public void SaveModeSetActive(bool mode)
     {
+        Prefnum = -1;
         SaveMode = mode;
     }
 }

@@ -26,7 +26,7 @@ public class Map : MonoBehaviour
         }
     }
 
-    private Maptile maptile = new Maptile();
+    public Maptile maptile = new Maptile();
     private List<GameObject> Buildings = new List<GameObject>();
     private List<GameObject> Planes = new List<GameObject>();
 
