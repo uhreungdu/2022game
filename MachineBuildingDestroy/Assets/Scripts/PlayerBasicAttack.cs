@@ -134,7 +134,7 @@ public class PlayerBasicAttack : MonoBehaviour
             getobj = Resources.Load<GameObject>("potion");
             ItemObj = Instantiate(getobj);
             ItemObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = gameObject.transform.position + gameObject.transform.forward;
+            Vector3 tpos = gameObject.transform.position + (gameObject.transform.up*(-2f));
             ItemObj.transform.Translate(tpos);
             item_Coll = ItemObj.GetComponent<Collider>();
             item_Rigid = ItemObj.GetComponent<Rigidbody>();
@@ -155,7 +155,7 @@ public class PlayerBasicAttack : MonoBehaviour
         item_Coll.enabled = true;
         item_Rigid.useGravity = true;
         Vector3 throw_Angle;
-        throw_Angle = gameObject.transform.forward * 10f;
+        throw_Angle = gameObject.transform.up * -10f;
         throw_Angle.y = 5f;
         item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
         nowEquip = false;
