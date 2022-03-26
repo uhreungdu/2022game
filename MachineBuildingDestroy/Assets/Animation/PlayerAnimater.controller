@@ -137,7 +137,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: a0988c351c1e0c845810c427bea0f2fb, type: 3}
+  m_Motion: {fileID: 1827226128182048838, guid: d1d09b0f0da8292418b7b7d93e76584f, type: 3}
   m_Tag: 
   m_SpeedParameter: Move
   m_MirrorParameter: 
@@ -149,7 +149,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Thrid Person Player 1
+  m_Name: PlayerAnimater
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Move
@@ -193,7 +193,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: 92de8fe5a4242bd45bc9f51fd4487928, type: 3}
+  m_Motion: {fileID: 1827226128182048838, guid: 4d890970568fd034f94eb34fc24de027, type: 3}
   m_Tag: 
   m_SpeedParameter: Move
   m_MirrorParameter: 

@@ -271,6 +271,7 @@ MonoBehaviour:
   playerState: {fileID: 0}
   cam: {fileID: 0}
   speed: 6
+  Maxspeed: 18
   Cgravity: 9.8
   tempgravity: -20
   gourndgravity: -0.05
@@ -492,6 +493,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -1.3963547, y: 57.001747, z: -5.250799}
     m_Extent: {x: 132.12186, y: 115.22535, z: 66.7345}
   m_DirtyAABB: 0
+--- !u!65 &8041386121511024013
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8978355833691610393}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 50, y: 50, z: 50}
+  m_Center: {x: 0, y: 57.001747, z: 80}
 --- !u!114 &6893324081844404535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,19 +524,6 @@ MonoBehaviour:
   coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
   timeBetAttack: 0.5
   activeAttackTime: 0.01
---- !u!65 &8041386121511024013
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8978355833691610393}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 50, y: 50, z: 50}
-  m_Center: {x: 0, y: 57.001747, z: 80}
 --- !u!1001 &1478240909685124120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -597,6 +598,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 67f4c3a56e334244981a3d5ee5814031, type: 3}
       propertyPath: m_Name
       value: test_model
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 67f4c3a56e334244981a3d5ee5814031, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 67f4c3a56e334244981a3d5ee5814031, type: 3}
       propertyPath: m_TagString

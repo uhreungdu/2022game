@@ -63,6 +63,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                     tilepref = map.arcadepref;
                     break;
             }
+
             if (tilepref != null)
             {
                 GameObject temp = Instantiate(tilepref, GetPoint(), tilepref.transform.rotation);
@@ -81,8 +82,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
         else if (gameObject.transform.childCount >= 1)
         {
             Vector3 Point = GetPoint();
-            int x = (int)GetPoint().x / 10;
-            int z = (int)GetPoint().z / 10;
+            int x = (int) GetPoint().x / 10;
+            int z = (int) GetPoint().z / 10;
             if (Point.x <= 0)
             {
                 Point.x = -5 + x * 10;
@@ -91,6 +92,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
             {
                 Point.x = 5 + x * 10;
             }
+
             if (Point.z <= 0)
             {
                 Point.z = -5 + z * 10;
@@ -108,13 +110,16 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     {
         if (!mapEditerManager.SaveMode && gameObject.transform.childCount >= 1)
         {
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonDown(0))
             {
-                Map.Tile tile = new Map.Tile();
-                tile.kind = mapEditerManager.Prefnum;
-                tile.position = transform.GetChild(0).position;
-                map.maptile.Tiles.Add(tile);
-                transform.GetChild(0).parent = map.gameObject.transform;
+                if (!InstallCheck())
+                {
+                    Map.Tile tile = new Map.Tile();
+                    tile.kind = mapEditerManager.Prefnum;
+                    tile.position = transform.GetChild(0).position;
+                    map.maptile.Tiles.Add(tile);
+                    transform.GetChild(0).parent = map.gameObject.transform;
+                }
             }
         }
     }
@@ -158,4 +163,26 @@ public class MapEditerOnScreenPoint : MonoBehaviour
             mapEditerManager.Prefnum = num;
         }
     }
+
+    bool InstallCheck()
+    {
+        foreach (var allTile in map.maptile.Tiles)
+        {
+            Vector3 comp1 = new Vector3((int) allTile.position.x, 0,
+                (int) allTile.position.z);
+            Vector3 comp2 = new Vector3((int) transform.GetChild(0).position.x,
+                0, (int) transform.GetChild(0).position.z);
+            if (mapEditerManager.Prefnum == 0 && allTile.kind == 0 && comp1 == comp2)
+            {
+                return true;
+            }
+            else if (mapEditerManager.Prefnum != 0 && allTile.kind > 0 && comp1 == comp2)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
 }
