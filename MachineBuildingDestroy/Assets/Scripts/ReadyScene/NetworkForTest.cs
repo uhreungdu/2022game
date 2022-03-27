@@ -28,10 +28,6 @@ public class NetworkForTest : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        // 테스트용
-        if (Application.platform == RuntimePlatform.WindowsEditor) PhotonNetwork.NickName = "test1";
-        else if (Application.platform == RuntimePlatform.WindowsPlayer) PhotonNetwork.NickName = "test0";
-        
         photonView.RPC("SetSlot",RpcTarget.MasterClient,"test",PhotonNetwork.IsMasterClient);
     }
 

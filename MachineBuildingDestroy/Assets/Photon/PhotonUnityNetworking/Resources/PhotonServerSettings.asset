@@ -45,6 +45,8 @@ MonoBehaviour:
   - ReadyPlayerSlot
   - SetSlotByQuick
   - SetSlotByNum
+  - Equip_item
+  - Throw_item
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
