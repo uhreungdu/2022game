@@ -26,9 +26,11 @@ public class Map : MonoBehaviour
         }
     }
 
-    private Maptile maptile = new Maptile();
+    public Maptile maptile = new Maptile();
     private List<GameObject> Buildings = new List<GameObject>();
     private List<GameObject> Planes = new List<GameObject>();
+
+    public GameObject mapGameObject;
 
     public GameObject planepref;
     public GameObject goalpostpref;
@@ -41,6 +43,7 @@ public class Map : MonoBehaviour
     
     [Tooltip("True = 온라인모드, False = 로컬모드")]
     public bool Online = false;
+
 
 
     // Start is called before the first frame update
@@ -137,8 +140,8 @@ public class Map : MonoBehaviour
             for (int j = 0; j < z; ++j)
             {
                 Vector3 position = new Vector3((i * offset) - (offset * ((x - 1) / 2)), 0, (j * offset) - (offset * ((z - 1) / 2)));
-                GameObject temp = Instantiate(planepref, position, planepref.transform.rotation);
-                temp.transform.SetParent(this.transform);
+                // GameObject temp = Instantiate(planepref, position, planepref.transform.rotation);
+                // temp.transform.SetParent(this.transform);
                 Tile tile = new Tile();
                 tile.kind = 0;
                 tile.position = position;
@@ -186,6 +189,56 @@ public class Map : MonoBehaviour
             // buliding.transform.SetParent(this.transform);
 
         }
+    }
+
+    public void MapSave()
+    {
+        string jsonData = ObjectToJson(maptile);
+        Debug.Log(jsonData);
+        CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
+    }
+
+    public void MapLoad()
+    {
+        Transform[] allChildren = mapGameObject.GetComponentsInChildren<Transform>();
+        foreach (var child in allChildren)
+        {
+            if (child.gameObject != mapGameObject)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        if (maptile.Tiles.Count >= 1)
+            maptile.Tiles.Clear();
+        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
+        maptile = jtc2;
+
+        for (int i = 0; i < maptile.Tiles.Count; ++i)
+        {
+            GameObject tilepref = null;
+            switch (maptile.Tiles[i].kind)
+            {
+                case 0:
+                    tilepref = planepref;
+                    break;
+                case 1:
+                    tilepref = goalpostpref;
+                    break;
+                case 2:
+                    tilepref = itempref;
+                    break;
+                case 3:
+                    tilepref = tankpref;
+                    break;
+                case 4:
+                    tilepref = arcadepref;
+                    break;
+            }
+            GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, tilepref.transform.rotation);
+            temp.name = tilepref.name + i;
+            temp.transform.SetParent(this.transform);
+        }
+
     }
 
     public void CreateNetworkMap()
