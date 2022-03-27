@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using Photon.Pun;
+using Unity.Mathematics;
+using UnityEditor;
 using UnityEngine;
+using Photon.Pun;
 
 public class PlayerBasicAttack : MonoBehaviourPun
 {
@@ -20,17 +22,20 @@ public class PlayerBasicAttack : MonoBehaviourPun
     public GameObject ItemObj;
     public Rigidbody item_Rigid;
     public Collider item_Coll;
+    public Quaternion parent_qut;
     void Start()
     {
         playerInput = GetComponentInParent<PlayerInput>();
         boxCollider = GetComponentInChildren<BoxCollider>();
         playerState = GetComponentInParent<PlayerState>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!photonView.IsMine) return;
+        parent_qut = gameObject.transform.parent.transform.rotation;
         if (playerInput.fire)
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
@@ -68,6 +73,15 @@ public class PlayerBasicAttack : MonoBehaviourPun
             photonView.RPC("Equip_item",RpcTarget.All);
             //Equip_item();
         }
+
+        if (nowEquip == true && ItemObj != null)
+        {
+            ItemObj.transform.rotation = new Quaternion(parent_qut.x,
+                0, 0, 0);
+            ItemObj.transform.Rotate(new Vector3(90,0,0));
+        }
+
+        Debug.Log(gameObject.transform.parent.transform.parent.name);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -148,6 +162,20 @@ public class PlayerBasicAttack : MonoBehaviourPun
             item_Coll.enabled = false;
             nowEquip = true;
         }
+
+        if (playerState.Item == item_box_make.item_type.obstacles && nowEquip == false)
+        {
+            getobj = Resources.Load<GameObject>("Wall_Obstcle_Frame");
+            ItemObj = Instantiate(getobj);
+            ItemObj.transform.SetParent(gameObject.transform);
+            Vector3 tpos = gameObject.transform.position + (gameObject.transform.up*(-5f));
+            ItemObj.transform.Translate(tpos);
+            Quaternion temp_Q = quaternion.identity;
+            ItemObj.transform.rotation = temp_Q;
+            Debug.Log(ItemObj.transform.rotation);
+            nowEquip = true;
+            
+        }
     }
 
     [PunRPC]
@@ -155,16 +183,32 @@ public class PlayerBasicAttack : MonoBehaviourPun
     {
         if (ItemObj == null)
             return;
-        item_Coll.enabled = false;
-        gameObject.transform.DetachChildren();
-        item_Rigid.isKinematic = false;
-        item_Coll.enabled = true;
-        item_Rigid.useGravity = true;
-        Vector3 throw_Angle;
-        throw_Angle = gameObject.transform.up * -10f;
-        throw_Angle.y = 5f;
-        item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
-        nowEquip = false;
+        if (playerState.Item == item_box_make.item_type.potion)
+        {
+            item_Coll.enabled = false;
+            gameObject.transform.DetachChildren();
+            item_Rigid.isKinematic = false;
+            item_Coll.enabled = true;
+            item_Rigid.useGravity = true;
+            Vector3 throw_Angle;
+            throw_Angle = gameObject.transform.up * -10f;
+            throw_Angle.y = 5f;
+            item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
+            nowEquip = false;
+        }
+        if (playerState.Item == item_box_make.item_type.obstacles)
+        {
+            Quaternion old_rot = gameObject.transform.parent.transform.parent.transform.rotation;
+            Debug.Log(old_rot);
+            Destroy(ItemObj.gameObject);
+            getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
+            ItemObj = Instantiate(getobj);
+            Vector3 tpos = gameObject.transform.position + (gameObject.transform.up*(-5f));
+            ItemObj.transform.Translate(tpos);
+            ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
+            ItemObj = null;
+            nowEquip = false;
+        }
 
     }
 }
