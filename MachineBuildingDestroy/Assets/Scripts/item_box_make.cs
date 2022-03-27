@@ -5,7 +5,7 @@ using UnityEngine;
 public class item_box_make : MonoBehaviour
 {
     //아이템 타입을 나타내는 enum
-    //1:무기, 2:투척, 3:소모, 4:설치
+    //0:무기, 1:투척, 2:소모, 3:설치
     public enum item_type{
         weapon,splash,potion,obstacles
     }

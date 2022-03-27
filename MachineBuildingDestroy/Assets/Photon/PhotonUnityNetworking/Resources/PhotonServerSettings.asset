@@ -41,6 +41,10 @@ MonoBehaviour:
   - RespawnSpaceship
   - ChatMessage
   - CreateItem
+  - SetSlot
+  - ReadyPlayerSlot
+  - SetSlotByQuick
+  - SetSlotByNum
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

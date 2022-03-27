@@ -55,7 +55,7 @@ public class Item_Beacon_Control : MonoBehaviourPun
         box_obj = Instantiate(box);
         box_obj.transform.SetParent(gameObject.transform);
         box_obj.transform.Translate(gameObject.transform.position);
-        box_obj.GetComponent<item_box_make>().decide_type(type);
+        box_obj.GetComponent<item_box_make>().decide_type(2);
         Item_get = false;
     }
 }

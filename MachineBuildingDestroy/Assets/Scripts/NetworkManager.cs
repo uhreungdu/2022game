@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using Random = UnityEngine.Random;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -22,6 +23,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     string networkState;
     public GameObject Player;
     public GameObject Map;
+    [SerializeField]private Player[] _players;
 
     public static NetworkManager GetInstance()
     {
@@ -54,6 +56,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void Start()
     {
         _account = Account.GetInstance();
+        _players = PhotonNetwork.PlayerList;
     }
 
     public override void OnConnectedToMaster() =>
@@ -65,6 +68,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.LoadLevel("ReadyRoom");
+        /*
         Map = GameObject.Find("Map");
         Vector3 Pos = new Vector3(0, 10, 0);
         if (PhotonNetwork.IsMasterClient)
@@ -72,8 +78,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Map.GetComponent<Map>().CreateNetworkMap();
         }
         PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
+        */
     }
-    
+
+    public void SpawnPlayer()
+    {
+        Vector3 Pos = new Vector3(Random.Range(0,30), 2.0f, 0);
+        PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
+    }
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         StartCoroutine(_lobbyManager.GetRoomList());
@@ -82,6 +95,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         ExitRoom(_account.GetPlayerID(),_lobbyManager.GetInRoomName());
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        _players = PhotonNetwork.PlayerList;
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        _players = PhotonNetwork.PlayerList;
     }
 
     private void OnApplicationQuit()

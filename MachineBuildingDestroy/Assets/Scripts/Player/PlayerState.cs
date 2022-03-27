@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerState : LivingEntity
+public class PlayerState : LivingEntity,IPunObservable
 {
     public int team { get; private set; }
     public int point { get; private set; }
@@ -21,7 +23,9 @@ public class PlayerState : LivingEntity
     {
         playerAnimator = GetComponent<Animator>();          // ���� �ȵ�
         playerAudioPlayer = GetComponent<AudioSource>();    // ���� �ȵ�
-        team = Random.Range(0, 2);
+        var info = GameObject.Find("Myroominfo");
+        team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
+        Destroy(info);
         gManager = GameManager.GetInstance();
 
         gManager.addTeamcount(team);
@@ -58,5 +62,21 @@ public class PlayerState : LivingEntity
     void Update()
     {
         
+    }
+    
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
+        if (stream.IsWriting)
+        {
+            stream.SendNext(team);
+            stream.SendNext(point);
+        }
+        // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
+        else
+        {
+            team = (int) stream.ReceiveNext();
+            point = (int) stream.ReceiveNext();
+        }
     }
 }
