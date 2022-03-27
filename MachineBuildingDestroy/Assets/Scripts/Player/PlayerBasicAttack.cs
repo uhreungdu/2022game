@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerBasicAttack : MonoBehaviour
+public class PlayerBasicAttack : MonoBehaviourPun
 {
     // Start is called before the first frame update
     public PlayerInput playerInput;
@@ -29,6 +30,7 @@ public class PlayerBasicAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!photonView.IsMine) return;
         if (playerInput.fire)
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
@@ -41,7 +43,8 @@ public class PlayerBasicAttack : MonoBehaviour
 
                 if (nowEquip == true)
                 {
-                    Throw_item();
+                   //Throw_item();
+                    photonView.RPC("Throw_item",RpcTarget.All);
                 }
                 else
                 {
@@ -62,8 +65,8 @@ public class PlayerBasicAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            
-            Equip_item();
+            photonView.RPC("Equip_item",RpcTarget.All);
+            //Equip_item();
         }
     }
 
@@ -127,6 +130,8 @@ public class PlayerBasicAttack : MonoBehaviour
             }
         }
     }
+    
+    [PunRPC]
     public void Equip_item()
     {
         if (playerState.Item == item_box_make.item_type.potion && nowEquip == false)
@@ -145,6 +150,7 @@ public class PlayerBasicAttack : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void Throw_item()
     {
         if (ItemObj == null)

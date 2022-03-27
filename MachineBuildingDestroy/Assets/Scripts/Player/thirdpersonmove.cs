@@ -6,7 +6,7 @@ using Photon.Pun;
 public class thirdpersonmove : MonoBehaviourPun
 {
     public CharacterController controller;
-    public PlayerInput playerInput; // ÇÃ·¹ÀÌ¾îÁ¶ÀÛÀ» °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®
+    public PlayerInput playerInput; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®
     public PlayerState playerState;
     public Transform cam;
     private Animator playeranimator;
@@ -100,7 +100,7 @@ public class thirdpersonmove : MonoBehaviourPun
                 yvelocity = 0;
             }
             
-            // ¾Ö´Ï¸ÞÀÌ¼ÇÀ» À§ÇÑ ¿¬»ê
+            // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
             if (Origindirection.magnitude >= 1)
             {
@@ -109,7 +109,7 @@ public class thirdpersonmove : MonoBehaviourPun
             Origindirection = Origindirection * speed / Maxspeed;
             
             playeranimator.SetFloat("Move", Origindirection.magnitude);
-            print(Origindirection.magnitude);
+            //print(Origindirection.magnitude);
             
         }
     }
