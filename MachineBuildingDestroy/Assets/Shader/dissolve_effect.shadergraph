@@ -557,7 +557,7 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 2
+    "m_Space": 0
 }
 
 {
@@ -1174,7 +1174,7 @@
             "x": -1892.0001220703125,
             "y": 141.0,
             "width": 144.0,
-            "height": 34.000003814697269
+            "height": 34.0
         }
     },
     "m_Slots": [

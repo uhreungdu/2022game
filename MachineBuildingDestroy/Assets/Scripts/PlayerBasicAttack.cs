@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerBasicAttack : MonoBehaviour
@@ -62,7 +63,6 @@ public class PlayerBasicAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            
             Equip_item();
         }
     }
@@ -143,22 +143,49 @@ public class PlayerBasicAttack : MonoBehaviour
             item_Coll.enabled = false;
             nowEquip = true;
         }
+
+        if (playerState.Item == item_box_make.item_type.obstacles && nowEquip == false)
+        {
+            getobj = Resources.Load<GameObject>("Wall_Obstcle_Frame");
+            Vector3 tpos = gameObject.transform.position + (gameObject.transform.up*(-5f));
+            ItemObj = Instantiate(getobj,tpos,quaternion.identity);
+            ItemObj.transform.SetParent(gameObject.transform);
+            Quaternion temp_quaternion = new Quaternion(gameObject.transform.rotation.x,
+                gameObject.transform.rotation.y - 60, gameObject.transform.rotation.z, gameObject.transform.rotation.w);
+            //ItemObj.transform.Translate(tpos);
+            nowEquip = true;
+        }
     }
 
     public void Throw_item()
     {
         if (ItemObj == null)
             return;
-        item_Coll.enabled = false;
-        gameObject.transform.DetachChildren();
-        item_Rigid.isKinematic = false;
-        item_Coll.enabled = true;
-        item_Rigid.useGravity = true;
-        Vector3 throw_Angle;
-        throw_Angle = gameObject.transform.up * -10f;
-        throw_Angle.y = 5f;
-        item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
-        nowEquip = false;
+        if (playerState.Item == item_box_make.item_type.potion)
+        {
+            item_Coll.enabled = false;
+            gameObject.transform.DetachChildren();
+            item_Rigid.isKinematic = false;
+            item_Coll.enabled = true;
+            item_Rigid.useGravity = true;
+            Vector3 throw_Angle;
+            throw_Angle = gameObject.transform.up * -10f;
+            throw_Angle.y = 5f;
+            item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
+            nowEquip = false;
+        }
+        if (playerState.Item == item_box_make.item_type.obstacles)
+        {
+            Destroy(ItemObj.gameObject);
+            getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
+            Vector3 tpos = gameObject.transform.position + (gameObject.transform.up*(-5f));
+            ItemObj = Instantiate(getobj,tpos,quaternion.identity);
+            Quaternion temp_quaternion = new Quaternion(gameObject.transform.rotation.x,
+                gameObject.transform.rotation.y-60, gameObject.transform.rotation.z, gameObject.transform.rotation.w);
+            ItemObj.transform.rotation = temp_quaternion;
+            //ItemObj.transform.Translate(tpos);
+            nowEquip = false;
+        }
 
     }
 }
