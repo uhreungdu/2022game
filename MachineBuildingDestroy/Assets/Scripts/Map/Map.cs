@@ -62,9 +62,13 @@ public class Map : MonoBehaviour
         CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
 
         if (PhotonNetwork.IsMasterClient)
+        {
             CreateNetworkMap();
-        GameObject.Find("NetworkManager").GetComponent<NetworkManager>()
-            .SpawnPlayer();
+            GameObject.Find("NetworkManager").GetComponent<NetworkManager>().SpawnPlayerEvent();
+        }
+
+        //GameObject.Find("NetworkManager").GetComponent<NetworkManager>()
+        //    .SpawnPlayer();
         // localMAP not USE NetworkGame
         /*
         var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");

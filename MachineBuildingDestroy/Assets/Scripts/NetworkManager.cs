@@ -14,8 +14,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     enum EventCode : byte
     {
         Test,
-        RenewScore,
-        CreateItem
+        SpawnPlayer
     }
     private static NetworkManager instance;
     private Account _account;
@@ -141,23 +140,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
-    public void RenewGameScore(int team, int point)
+    public void SpawnPlayerEvent()
     {
-        byte evCode = (byte)EventCode.RenewScore;
-        object[] data = new object[] { team, point };
+        byte evCode = (byte)EventCode.SpawnPlayer;
+        object[] data = new object[] {  };
         RaiseEventOptions RaiseOpt = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         SendOptions sendOpt = new SendOptions { Reliability = true };
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
-
-    public void RequestCreateItem(int type)
-    {
-        byte evCode = (byte)EventCode.CreateItem;
-        object[] data = new object[] { 0, false };  // type, result
-        RaiseEventOptions RaiseOpt = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        SendOptions sendOpt = new SendOptions { Reliability = true };
-        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
-    }
+    
 
     public void ConnectPhotonServer()
     {
