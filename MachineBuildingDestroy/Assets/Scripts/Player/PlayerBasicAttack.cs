@@ -74,7 +74,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             //Equip_item();
         }
 
-        if (nowEquip == true && ItemObj != null)
+        if (nowEquip == true && ItemObj != null && playerState.Item == item_box_make.item_type.obstacles)
         {
             ItemObj.transform.rotation = new Quaternion(parent_qut.x,
                 0, 0, 0);
