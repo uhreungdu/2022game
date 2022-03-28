@@ -114,7 +114,7 @@ public class thirdpersonmove : MonoBehaviourPun
             Origindirection = Origindirection * speed / Maxspeed;
             
             playeranimator.SetFloat("Move", Origindirection.magnitude);
-            print(Origindirection.magnitude);
+            //print(Origindirection.magnitude);
             
         }
     }

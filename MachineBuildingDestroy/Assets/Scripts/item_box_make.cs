@@ -27,6 +27,8 @@ public class item_box_make : MonoBehaviour
     {
         effect_switch = false;
         GManager = GameManager.GetInstance();
+        move_height = -1f;
+        SetHeight(move_height);
     }
 
     // Update is called once per frame
@@ -34,26 +36,30 @@ public class item_box_make : MonoBehaviour
     {
         if(effect_On == true)
         {
-            if(move_height <= 2)
+            if(GManager.EManager.itembox_Create == false)
             {
-                if(Mathf.Sin(Time_temp) >= 0.99f)
+                effect_switch = false;
+                move_height -= Time.deltaTime * 2;
+                Debug.Log(move_height);
+                SetHeight(move_height);
+                if (move_height <= -1f)
                 {
-                    move_height += 2;
-                    effect_switch = true;
+                    Destroy(gameObject);
+                }
+            }
+            else
+            {
+                if(move_height <= 1.5)
+                {
+                    move_height += Time.deltaTime * 2;
+                    SetHeight(move_height);
                 }
                 else
                 {
-                    Time_temp += Time.deltaTime * Mathf.PI * 0.5f;
-                    move_height += Mathf.Sin(Time_temp)* 2;
-                    SetHeight(move_height);
-                    move_height = 0;
+                    effect_switch = true;
                 }
             }
             transform.Rotate(Vector3.up * 20 * Time.deltaTime);
-        }
-        if(GManager.EManager.itembox_Create == false)
-        {
-            Destroy(gameObject);
         }
     }
     public void decide_type(int type){
@@ -76,7 +82,6 @@ public class item_box_make : MonoBehaviour
         if(col.tag == "Player"){
              if(effect_switch == true)
              {
-                 
                  Destroy(gameObject);
              }
          }

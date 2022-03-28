@@ -24,9 +24,11 @@ public class PlayerState : LivingEntity,IPunObservable
         playerAnimator = GetComponent<Animator>();          // ���� �ȵ�
         playerAudioPlayer = GetComponent<AudioSource>();    // ���� �ȵ�
         var info = GameObject.Find("Myroominfo");
-            //team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
-            team = 0;
-        Destroy(info);
+        if (info != null)
+        {
+            team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
+            Destroy(info);
+        }
         gManager = GameManager.GetInstance();
 
         gManager.addTeamcount(team);
@@ -71,12 +73,14 @@ public class PlayerState : LivingEntity,IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(team);
+            stream.SendNext(Item);
             stream.SendNext(point);
         }
         // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
         else
         {
             team = (int) stream.ReceiveNext();
+            Item = (item_box_make.item_type) stream.ReceiveNext();
             point = (int) stream.ReceiveNext();
         }
     }
