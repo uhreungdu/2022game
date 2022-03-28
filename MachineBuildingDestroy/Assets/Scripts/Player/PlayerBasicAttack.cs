@@ -38,17 +38,14 @@ public class PlayerBasicAttack : MonoBehaviourPun
     void Update()
     {
         PressFire();
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Equip_item();
-        }
     }
 
     void PressFire()
     {
         playeranimator.OnComboAttack();
         if (!photonView.IsMine) return;
-        parent_qut = gameObject.transform.parent.transform.rotation;
+        // parent_qut = gameObject.transform.parent.transform.rotation;
+        parent_qut = gameObject.transform.transform.rotation;
         if (playerInput.fire)
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
@@ -81,8 +78,6 @@ public class PlayerBasicAttack : MonoBehaviourPun
                 0, 0, 0);
             ItemObj.transform.Rotate(new Vector3(90,0,0));
         }
-
-        Debug.Log(gameObject.transform.parent.transform.parent.name);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -154,7 +149,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             getobj = Resources.Load<GameObject>("potion");
             ItemObj = Instantiate(getobj);
             ItemObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = gameObject.transform.position + (gameObject.transform.up*(-2f));
+            Vector3 tpos = GameObject.Find("Bip001 R Finger0").transform.position + Vector3.up;
             ItemObj.transform.Translate(tpos);
             item_Coll = ItemObj.GetComponent<Collider>();
             item_Rigid = ItemObj.GetComponent<Rigidbody>();

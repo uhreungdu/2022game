@@ -32,6 +32,7 @@ public class PlayerState : LivingEntity,IPunObservable
         gManager = GameManager.GetInstance();
 
         gManager.addTeamcount(team);
+        Item = item_box_make.item_type.potion;
         base.OnEnable();
     }
     protected override void OnEnable()

@@ -1072,6 +1072,7 @@ MonoBehaviour:
   ItemObj: {fileID: 0}
   item_Rigid: {fileID: 0}
   item_Coll: {fileID: 0}
+  parent_qut: {x: 0, y: 0, z: 0, w: 0}
 --- !u!143 &362423289143800835
 CharacterController:
   m_ObjectHideFlags: 0
