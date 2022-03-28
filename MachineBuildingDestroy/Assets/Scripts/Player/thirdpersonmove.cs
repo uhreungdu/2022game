@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 public class thirdpersonmove : MonoBehaviourPun
 {
     public CharacterController controller;
-    public PlayerInput playerInput; // ÇÃ·¹ÀÌ¾îÁ¶ÀÛÀ» °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®
+    public PlayerInput playerInput; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®
     public PlayerState playerState;
     public Transform cam;
     private Animator playeranimator;
@@ -28,6 +29,10 @@ public class thirdpersonmove : MonoBehaviourPun
     public bool nowEquip;
     public GameObject getobj;
     public GameObject ItemObj;
+    
+    public bool activeattack { get; private set; }
+
+
     /*
     public float pos_x;
     public float pos_y;
@@ -54,7 +59,7 @@ public class thirdpersonmove : MonoBehaviourPun
         Jump();
         Dash();
         Movement();
-        
+        BasicAttackMove(0);
     }
 
     public void Movement()
@@ -100,7 +105,7 @@ public class thirdpersonmove : MonoBehaviourPun
                 yvelocity = 0;
             }
             
-            // ¾Ö´Ï¸ÞÀÌ¼ÇÀ» À§ÇÑ ¿¬»ê
+            // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
             if (Origindirection.magnitude >= 1)
             {
@@ -141,6 +146,23 @@ public class thirdpersonmove : MonoBehaviourPun
             {
                 speed = 6f;
             }
+        }
+    }
+
+    public void SetActiveAttack(int set)
+    {
+        if (set >= 1)
+            activeattack = true;
+        else if (set < 1)
+            activeattack = false;
+    }
+
+    public void BasicAttackMove(int num)
+    {
+        if (activeattack == true)
+        {
+            Vector3 attackVector = transform.forward;
+            controller.Move(attackVector * 10f * Time.deltaTime);
         }
     }
 

@@ -24,7 +24,8 @@ public class PlayerState : LivingEntity,IPunObservable
         playerAnimator = GetComponent<Animator>();          // ���� �ȵ�
         playerAudioPlayer = GetComponent<AudioSource>();    // ���� �ȵ�
         var info = GameObject.Find("Myroominfo");
-        team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
+            //team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
+            team = 0;
         Destroy(info);
         gManager = GameManager.GetInstance();
 

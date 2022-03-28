@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.2850269, g: 0.3713935, b: 0.49601045, a: 1}
+  m_IndirectSpecularColor: {r: 0.28502667, g: 0.37139323, b: 0.49600998, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -390,11 +390,11 @@ MonoBehaviour:
   m_BindingMode: 4
   m_SplineCurvature: 0.2
   m_Orbits:
-  - m_Height: 4
+  - m_Height: 4.5
     m_Radius: 6
-  - m_Height: 1.5
-    m_Radius: 9
-  - m_Height: -2
+  - m_Height: 2.5
+    m_Radius: 8
+  - m_Height: 0.5
     m_Radius: 6
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
@@ -521,7 +521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 3.777028, z: -6.7069716}
+  m_FollowOffset: {x: 0, y: 4.3002286, z: -6.493257}
   m_XDamping: 0.1
   m_YDamping: 0.1
   m_ZDamping: 0.1
@@ -603,6 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547d136b8e626804299320dbc48cb168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapGameObject: {fileID: 0}
   planepref: {fileID: 932610068854459547, guid: f8b0f403836ae414b9e31870b36525c3, type: 3}
   goalpostpref: {fileID: 3591101973611699780, guid: a0ede66e75badc742a2bf08053beca51, type: 3}
   itempref: {fileID: 6056022715655027599, guid: 36d6f2e7f8fe0164aa53b264ab5b9d80, type: 3}
@@ -963,7 +964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 3.777028, z: -6.7069716}
+  m_FollowOffset: {x: 0, y: 4.3002286, z: -6.493257}
   m_XDamping: 0
   m_YDamping: 0.5
   m_ZDamping: 0.5
@@ -1121,7 +1122,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1048794424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1852,7 +1853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 3.777028, z: -6.7069716}
+  m_FollowOffset: {x: 0, y: 4.3002286, z: -6.493257}
   m_XDamping: 0.1
   m_YDamping: 0.1
   m_ZDamping: 0.1

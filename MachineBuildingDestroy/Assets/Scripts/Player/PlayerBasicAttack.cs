@@ -9,11 +9,14 @@ public class PlayerBasicAttack : MonoBehaviour
     public PlayerInput playerInput;
     public BoxCollider boxCollider;
     public Material boxmaterial;
-    public GameObject coinprefab; // 디버그용
+    public GameObject coinprefab;
     public PlayerState playerState;
-    public float timeBetAttack = 0.5f; // 공격 간격
-    public float activeAttackTime = 0.1f; // 공격 유지 시간
-    private float lastAttackTime; // 공격을 마지막에 한 시점
+    public PlayerAnimator playeranimator;
+    
+    private float timeBetAttack = 0.3f; // 공격 간격
+    private float activeAttackTime = 0f; // 공격 유지 시간
+    private float lastAttackTime = 0f; // 공격을 마지막에 한 시점
+    
     public bool nowEquip;
     public GameObject getobj;
     public GameObject ItemObj;
@@ -24,46 +27,35 @@ public class PlayerBasicAttack : MonoBehaviour
         playerInput = GetComponentInParent<PlayerInput>();
         boxCollider = GetComponentInChildren<BoxCollider>();
         playerState = GetComponentInParent<PlayerState>();
+        playeranimator = GetComponentInChildren <PlayerAnimator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        PressFire();
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Equip_item();
+        }
+    }
+
+    void PressFire()
+    {
+        playeranimator.OnComboAttack();
         if (playerInput.fire)
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
             {
                 //Debug.Log("앞 백터 = " + boxCollider.transform.forward);
-                if (Time.time >= lastAttackTime + timeBetAttack + activeAttackTime)
-                {
-                    lastAttackTime = Time.time;
-                }
-
                 if (nowEquip == true)
                 {
                     Throw_item();
                 }
                 else
                 {
-                    boxCollider.enabled = true;
                 }
-                
             }
-            else
-            {
-                // 코드 너무 이상하게 짠듯 나중에 바꿈
-                boxCollider.enabled = false;
-            }
-        }
-        else
-        {
-            boxCollider.enabled = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            
-            Equip_item();
         }
     }
 
