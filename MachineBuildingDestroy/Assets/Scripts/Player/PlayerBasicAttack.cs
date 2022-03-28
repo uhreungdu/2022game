@@ -42,10 +42,9 @@ public class PlayerBasicAttack : MonoBehaviourPun
 
     void PressFire()
     {
-        playeranimator.OnComboAttack();
         if (!photonView.IsMine) return;
         // parent_qut = gameObject.transform.parent.transform.rotation;
-        parent_qut = gameObject.transform.transform.rotation;
+        parent_qut = gameObject.transform.rotation;
         if (playerInput.fire)
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
@@ -58,12 +57,13 @@ public class PlayerBasicAttack : MonoBehaviourPun
                 }
                 else
                 {
+                    playeranimator.OnComboAttack();
                 }
             }
         }
         else
         {
-            boxCollider.enabled = false;
+            playeranimator.OnComboAttack();
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -149,7 +149,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             getobj = Resources.Load<GameObject>("potion");
             ItemObj = Instantiate(getobj);
             ItemObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = GameObject.Find("Bip001 R Finger0").transform.position + Vector3.up;
+            Vector3 tpos = GameObject.Find("Bip001 R Finger0").transform.position + Vector3.up+ Vector3.forward;
             ItemObj.transform.Translate(tpos);
             item_Coll = ItemObj.GetComponent<Collider>();
             item_Rigid = ItemObj.GetComponent<Rigidbody>();
@@ -182,12 +182,12 @@ public class PlayerBasicAttack : MonoBehaviourPun
         if (playerState.Item == item_box_make.item_type.potion)
         {
             item_Coll.enabled = false;
-            gameObject.transform.DetachChildren();
+            ItemObj.transform.parent = null;
             item_Rigid.isKinematic = false;
             item_Coll.enabled = true;
             item_Rigid.useGravity = true;
             Vector3 throw_Angle;
-            throw_Angle = gameObject.transform.up * -10f;
+            throw_Angle = gameObject.transform.forward * 10f;
             throw_Angle.y = 5f;
             item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
             nowEquip = false;
