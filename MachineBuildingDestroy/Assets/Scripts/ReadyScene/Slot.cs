@@ -1,15 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class Slot : MonoBehaviour,IPunObservable
 {
-    private string _nickname = "";
-    private bool _is_ready = false;
-
-    public GameObject MasterButton;
+    public GameObject nicknameText;
+    public GameObject statusText;
+    public GameObject masterButton;
 
     // Start is called before the first frame update
     void Start()
@@ -25,45 +26,41 @@ public class Slot : MonoBehaviour,IPunObservable
 
     private void FixedUpdate()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            // Player 존재하는지 체크
-            foreach (var target in PhotonNetwork.PlayerList)
-            {
-                // 있다면 return;
-                if (target.NickName == _nickname) return;
-            }
-            // 없으면 변수 초기화
-            _nickname = "";
-            _is_ready = false;
-        }
+        SetText();
+        
+        if (!PhotonNetwork.IsMasterClient) return;
+        
+        // Player 존재하는지 체크
+        if (PhotonNetwork.PlayerList.Any(target => target.NickName == Nickname)) return;
+        
+        // 없으면 변수 초기화
+        Nickname = "";
+        IsReady = false;
     }
 
-    public string Nickname
+    private void SetText()
     {
-        get => _nickname;
-        set => _nickname = value;
-    }
-
-    public bool IsReady
-    {
-        get => _is_ready;
-        set => _is_ready = value;
+        nicknameText.GetComponent<Text>().text = Nickname;
+        statusText.GetComponent<Text>().text = IsReady ? "ready!" : "";
     }
     
+    public string Nickname { get; set; } = "";
+
+    public bool IsReady { get; set; } = false;
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
         if (stream.IsWriting)
         {
-            stream.SendNext(_nickname);
-            stream.SendNext(_is_ready);
+            stream.SendNext(Nickname);
+            stream.SendNext(IsReady);
         }
         // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
         else
         {
-            _nickname = (string) stream.ReceiveNext();
-            _is_ready = (bool) stream.ReceiveNext();
+            Nickname = (string) stream.ReceiveNext();
+            IsReady = (bool) stream.ReceiveNext();
         }
     }
     

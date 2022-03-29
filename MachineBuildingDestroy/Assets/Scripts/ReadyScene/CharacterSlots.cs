@@ -32,35 +32,40 @@ public class CharacterSlots : MonoBehaviourPun
             init = true;
         }
         
-        int num = -1;
+        var num = -1;
         // 자신 슬롯 번호 갱신
-        for (int i = 0; i < 6; ++i)
+        for (var i = 0; i < 6; ++i)
         {
-            var SlotComponent = slots[i].GetComponent<Slot>();
-            if (SlotComponent.Nickname == PhotonNetwork.NickName)
-            {
-                info.GetComponent<MyInRoomInfo>().MySlotNum = i;
-                num = i;
-                break;
-            }
+            var slotComponent = slots[i].GetComponent<Slot>();
+            if (slotComponent.Nickname != PhotonNetwork.NickName) continue;
+            info.GetComponent<MyInRoomInfo>().MySlotNum = i;
+            num = i;
+            break;
         }
-
+        
+        // 자신 슬롯 색상 강조
+        for (var i = 0; i < 6; ++i)
+        {
+            var slotComponent = slots[i].GetComponent<Slot>();
+            slots[i].GetComponent<Image>().color = num!=i ? Color.white : Color.yellow;
+        }
+        
         // Master 넘기는 버튼 활성화 갱신
         if (PhotonNetwork.IsMasterClient)
         {
-            for (int i = 0; i < 6; ++i)
+            for (var i = 0; i < 6; ++i)
             {
-                var SlotComponent = slots[i].GetComponent<Slot>();
-                if (SlotComponent.Nickname != "")
-                    SlotComponent.MasterButton.GetComponent<Button>().interactable = i != num;
-                else SlotComponent.MasterButton.GetComponent<Button>().interactable = false;
+                var slotComponent = slots[i].GetComponent<Slot>();
+                if (slotComponent.Nickname != "")
+                    slotComponent.masterButton.GetComponent<Button>().interactable = i != num;
+                else slotComponent.masterButton.GetComponent<Button>().interactable = false;
             }
         }
         else
         {
-            for (int i = 0; i < 6; ++i)
+            for (var i = 0; i < 6; ++i)
             {
-                slots[i].GetComponent<Slot>().MasterButton.GetComponent<Button>().interactable = false;
+                slots[i].GetComponent<Slot>().masterButton.GetComponent<Button>().interactable = false;
             }
         }
     }

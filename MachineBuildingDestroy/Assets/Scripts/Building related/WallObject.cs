@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class WallObject : LivingEntity
+public class WallObject : LivingEntity,IPunObservable
 {
     public GameObject coinprefab;     // ������ ������ ���� ������
     public Material boxmaterial;
@@ -49,6 +49,7 @@ public class WallObject : LivingEntity
         // gameObject.SetActive(false);
         }
 
+    [PunRPC]
     public void WallDestroy()
     {
         if (health <= startingHealth / 7f * 6 && destroyfloor <= 0)
@@ -85,7 +86,6 @@ public class WallObject : LivingEntity
         if (dead)
         {
             Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
-            rigidbody.constraints = RigidbodyConstraints.None;
             foreach (Rigidbody child in allChildren)
             {
                 child.constraints = RigidbodyConstraints.None;
@@ -95,6 +95,37 @@ public class WallObject : LivingEntity
             }
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
+        }
+    }
+
+    [PunRPC]
+    public override void OnDamage(float damage)
+    {
+        base.OnDamage(damage);
+    }
+
+    public void NetworkOnDamage(float val)
+    {
+        photonView.RPC("OnDamage",RpcTarget.MasterClient,val);
+        //photonView.RPC("WallDestroy",RpcTarget.All);
+    }
+    
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
+        if (stream.IsWriting)
+        {
+            stream.SendNext(health);
+            stream.SendNext(destroyfloor);
+            WallDestroy();
+        }
+        // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
+        else
+        {
+            health = (float) stream.ReceiveNext();
+            destroyfloor = (int) stream.ReceiveNext();
+            OnDamage(0);
+            WallDestroy();
         }
     }
 

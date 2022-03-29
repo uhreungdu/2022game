@@ -103,9 +103,8 @@ public class PlayerBasicAttack : MonoBehaviourPun
                     material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
                 }
                 // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
-                
-                attackTarget.OnDamage(20);
-                attackTarget.WallDestroy();
+                attackTarget.NetworkOnDamage(20);
+                //attackTarget.WallDestroy();
                 
                 Debug.Log(attackTarget.health);
             }

@@ -27,6 +27,11 @@ public class CreateRoomButton : MonoBehaviour
 
     public void CreateRoom()
     {
+        if (!PhotonNetwork.IsConnected)
+        {
+            print("ERR: offline");
+            return;
+        }
         gManager.SetExRoomName(_account.GetPlayerNickname()+"ÀÇ ¹æ" + Random.Range(0, 9999));
         gManager.SetInRoomName(gManager.GetExRoomName() + 
                                _account.GetPlayerNickname() + 
