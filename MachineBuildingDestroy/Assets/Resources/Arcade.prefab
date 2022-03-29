@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4075717829768256502}
   - component: {fileID: -1049732148916473526}
   - component: {fileID: 7027677454253979164}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Arcade
   m_TagString: Wall
   m_Icon: {fileID: 0}

@@ -34,18 +34,15 @@ public class WallObject : LivingEntity
             GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
             Vector3 coinForward = coin.transform.position - transform.position;
             coinForward.Normalize();
+            coin.GetComponent<Rigidbody>().AddExplosionForce(500, transform.position, 10f);
         }
         GetComponent<MeshCollider>().enabled = false;
-        // GetComponent<Rigidbody>().AddForce(Vector3.up * 2000);
         Destroy(rigidbody);
 
         //for (int i = 0; i < transform.childCount; ++i)
         //{
         //    transform.GetChild(i).GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         //}
-
-
-
         // gameObject.SetActive(false);
         }
 
@@ -84,11 +81,12 @@ public class WallObject : LivingEntity
 
         if (dead)
         {
-            Transform[] allChildren = GetComponentsInChildren<Transform>();
+            Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
             rigidbody.constraints = RigidbodyConstraints.None;
-            foreach (Transform child in allChildren)
+            foreach (Rigidbody child in allChildren)
             {
-                child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                child.constraints = RigidbodyConstraints.None;
+                child.AddExplosionForce(500, transform.position, 50f);
             }
         }
     }
