@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -8323076672761444401}
   m_Layer: 0
   m_Name: Goalpost
-  m_TagString: Untagged
+  m_TagString: Goalpost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,7 +132,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -8323076672761444401}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

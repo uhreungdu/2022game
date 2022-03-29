@@ -1281,6 +1281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1370157965}
   - component: {fileID: 1370157964}
+  - component: {fileID: 1370157966}
   m_Layer: 0
   m_Name: Pointer
   m_TagString: Untagged
@@ -1302,6 +1303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapEditerManager: {fileID: 4615872}
   map: {fileID: 1514790154}
+  boxCollider: {fileID: 0}
   RadMaterial: {fileID: 0}
   Blue: {fileID: 0}
 --- !u!4 &1370157965
@@ -1316,8 +1318,21 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1370157966
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370157963}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1420044101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1546,6 +1561,7 @@ MonoBehaviour:
   tankpref: {fileID: 1560815743673721885, guid: 83b93a4d3b8d9c3438e3df58e01ba707, type: 3}
   arcadepref: {fileID: 2358042896829115922, guid: f10516a1783f53348abf11e920bb8d9f, type: 3}
   Online: 0
+  MapEditer: 1
 --- !u!4 &1514790155
 Transform:
   m_ObjectHideFlags: 0
@@ -2684,7 +2700,7 @@ Transform:
   m_Children:
   - {fileID: 1277819367}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &2079437025
 GameObject:
