@@ -37,7 +37,8 @@ public class WallObject : LivingEntity
             coin.GetComponent<Rigidbody>().AddExplosionForce(500, transform.position, 10f);
         }
         GetComponent<MeshCollider>().enabled = false;
-        Destroy(rigidbody);
+        
+        Destroy(gameObject, 5);
 
         //for (int i = 0; i < transform.childCount; ++i)
         //{
@@ -86,9 +87,17 @@ public class WallObject : LivingEntity
             foreach (Rigidbody child in allChildren)
             {
                 child.constraints = RigidbodyConstraints.None;
-                child.AddExplosionForce(500, transform.position, 50f);
+                Vector3 objectPotision = transform.position;
+                objectPotision.y = 3;
+                child.AddExplosionForce(250, objectPotision, 50f);
             }
+            Destroy(rigidbody);
         }
+    }
+
+    void onDestroy()
+    {
+        
     }
     private void OnCollisionEnter(Collision collision)
     {
