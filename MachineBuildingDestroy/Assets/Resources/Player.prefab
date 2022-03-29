@@ -361,6 +361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5918517459939566721}
   - component: {fileID: 6950217055529407943}
+  - component: {fileID: 964881188568357225}
   m_Layer: 7
   m_Name: Bip001 R Hand
   m_TagString: Untagged
@@ -392,10 +393,22 @@ BoxCollider:
   m_GameObject: {fileID: 3864567087714883586}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.7241039, y: 1.6174656, z: 1.7580135}
   m_Center: {x: -0.7654917, y: -0.08358213, z: 0.086003415}
+--- !u!114 &964881188568357225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3864567087714883586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4126272748829694739
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,6 +769,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4313752271134156396}
   - component: {fileID: 5125265972744278373}
+  - component: {fileID: 9010977314917154756}
   m_Layer: 7
   m_Name: Bip001 L Hand
   m_TagString: Untagged
@@ -787,10 +801,22 @@ BoxCollider:
   m_GameObject: {fileID: 5812270970004276480}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.7241039, y: 1.6174656, z: 1.7580135}
   m_Center: {x: -0.7654917, y: -0.08358213, z: 0.086003415}
+--- !u!114 &9010977314917154756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5812270970004276480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5904294802011440760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1029,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6962304825099367683}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 67f4c3a56e334244981a3d5ee5814031, type: 3}
   m_Controller: {fileID: 9100000, guid: 7e71cfddc794259468ce7e5808fc6791, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -1062,11 +1088,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInput: {fileID: 0}
-  boxCollider: {fileID: 0}
+  HitBoxColliders: []
   boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
   coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
   playerState: {fileID: 0}
   playeranimator: {fileID: 0}
+  Thirdpersonmove: {fileID: 0}
   nowEquip: 0
   getobj: {fileID: 0}
   ItemObj: {fileID: 0}
@@ -1248,6 +1275,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnimator: {fileID: 0}
   playerInput: {fileID: 0}
+  Thirdpersonmove: {fileID: 0}
+  lastAttackTime: 0
+  KeepAttackTime: 0.3
 --- !u!1 &8140157465476988085
 GameObject:
   m_ObjectHideFlags: 0
