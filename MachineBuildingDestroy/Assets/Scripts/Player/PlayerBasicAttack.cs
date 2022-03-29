@@ -86,7 +86,6 @@ public class PlayerBasicAttack : MonoBehaviourPun
         {
             ItemObj.transform.rotation = new Quaternion(parent_qut.x,
                 0, 0, 0);
-            ItemObj.transform.Rotate(new Vector3(90,0,0));
         }
     }
 
@@ -188,11 +187,10 @@ public class PlayerBasicAttack : MonoBehaviourPun
             getobj = Resources.Load<GameObject>("Wall_Obstcle_Frame");
             ItemObj = Instantiate(getobj);
             ItemObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = gameObject.transform.position + (gameObject.transform.up*(-5f));
+            Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward*5f)+ Vector3.up;
             ItemObj.transform.Translate(tpos);
             Quaternion temp_Q = quaternion.identity;
             ItemObj.transform.rotation = temp_Q;
-            Debug.Log(ItemObj.transform.rotation);
             nowEquip = true;
             
         }
@@ -218,12 +216,13 @@ public class PlayerBasicAttack : MonoBehaviourPun
         }
         if (playerState.Item == item_box_make.item_type.obstacles)
         {
-            Quaternion old_rot = gameObject.transform.parent.transform.parent.transform.rotation;
+            Quaternion old_rot = gameObject.transform.rotation;
             Debug.Log(old_rot);
             Destroy(ItemObj.gameObject);
+            ItemObj.transform.parent = null;
             getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
             ItemObj = Instantiate(getobj);
-            Vector3 tpos = gameObject.transform.position + (gameObject.transform.up*(-5f));
+            Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward*5f);
             ItemObj.transform.Translate(tpos);
             ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
             ItemObj = null;
