@@ -30,10 +30,7 @@ public class PlayerHandCollision : MonoBehaviour
                     material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
                 }
                 // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
-                
-                attackTarget.OnDamage(20);
-                attackTarget.WallDestroy();
-                
+                attackTarget.NetworkOnDamage(20);         
                 Debug.Log(attackTarget.health);
             }
         }
