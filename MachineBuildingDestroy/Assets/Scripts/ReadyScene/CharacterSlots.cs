@@ -42,7 +42,14 @@ public class CharacterSlots : MonoBehaviourPun
             num = i;
             break;
         }
-
+        
+        // 자신 슬롯 색상 강조
+        for (var i = 0; i < 6; ++i)
+        {
+            var slotComponent = slots[i].GetComponent<Slot>();
+            slots[i].GetComponent<Image>().color = num!=i ? Color.white : Color.yellow;
+        }
+        
         // Master 넘기는 버튼 활성화 갱신
         if (PhotonNetwork.IsMasterClient)
         {
