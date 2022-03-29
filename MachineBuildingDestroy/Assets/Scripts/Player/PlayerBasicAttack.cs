@@ -10,11 +10,12 @@ public class PlayerBasicAttack : MonoBehaviourPun
 {
     // Start is called before the first frame update
     public PlayerInput playerInput;
-    public BoxCollider boxCollider;
+    public List<BoxCollider> HitBoxColliders;
     public Material boxmaterial;
     public GameObject coinprefab;
     public PlayerState playerState;
     public PlayerAnimator playeranimator;
+    public thirdpersonmove Thirdpersonmove;
     
     private float timeBetAttack = 0.3f; // 공격 간격
     private float activeAttackTime = 0f; // 공격 유지 시간
@@ -29,9 +30,11 @@ public class PlayerBasicAttack : MonoBehaviourPun
     void Start()
     {
         playerInput = GetComponentInParent<PlayerInput>();
-        boxCollider = GetComponentInChildren<BoxCollider>();
         playerState = GetComponentInParent<PlayerState>();
         playeranimator = GetComponentInChildren <PlayerAnimator>();
+        Thirdpersonmove = GetComponentInChildren <thirdpersonmove>();
+        HitBoxColliders.Add(GameObject.Find("Bip001 L Hand").GetComponent<BoxCollider>());
+        HitBoxColliders.Add(GameObject.Find("Bip001 R Hand").GetComponent<BoxCollider>());
     }
 
     // Update is called once per frame
@@ -57,13 +60,20 @@ public class PlayerBasicAttack : MonoBehaviourPun
                 }
                 else
                 {
+                    lastAttackTime = Time.time;
                     playeranimator.OnComboAttack();
+                    Thirdpersonmove.SetKeepActiveAttack(1);
                 }
             }
         }
         else
         {
             playeranimator.OnComboAttack();
+        }
+        
+        if (Time.time >= lastAttackTime + 0.6f)
+        {
+            Thirdpersonmove.SetKeepActiveAttack(0);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -88,8 +98,6 @@ public class PlayerBasicAttack : MonoBehaviourPun
             WallObject attackTarget = other.GetComponent<WallObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
-                Vector3 Upvector = Quaternion.AngleAxis(90, boxCollider.transform.up) * Vector3.forward;
-
                 Material material = other.GetComponent<MeshRenderer>().sharedMaterial;
                 if (material == null)
                 {
@@ -139,6 +147,22 @@ public class PlayerBasicAttack : MonoBehaviourPun
                 playerState.OnDamage(20);
             }
         }
+    }
+
+    public void SetLHandCollision(int set)
+    {
+        if (set > 0)
+            HitBoxColliders[0].enabled = true;
+        else if (set <= 0)
+            HitBoxColliders[0].enabled = false;
+    }
+    
+    public void SetRHandCollision(int set)
+    {
+        if (set > 0)
+            HitBoxColliders[1].enabled = true;
+        else if (set <= 0)
+            HitBoxColliders[1].enabled = false;
     }
     
     [PunRPC]
