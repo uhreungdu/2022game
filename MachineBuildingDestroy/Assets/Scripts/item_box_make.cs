@@ -40,7 +40,7 @@ public class item_box_make : MonoBehaviour
             {
                 effect_switch = false;
                 move_height -= Time.deltaTime * 2;
-                Debug.Log(move_height);
+                // Debug.Log(move_height);
                 SetHeight(move_height);
                 if (move_height <= -1f)
                 {
