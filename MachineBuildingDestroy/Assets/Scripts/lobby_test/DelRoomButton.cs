@@ -47,7 +47,7 @@ public class DelRoomButton : MonoBehaviour
             PhotonNetwork.LeaveRoom();
             GameObject.Find("CreateRoomButton").GetComponent<Button>().interactable = true;
             GetComponent<Button>().interactable = false;
-            // ½Ã¿¬À» À§ÇØ ¹«Á¶°Ç ¸®½ºÆ®°¡ °»½ÅµÇ°Ô ³ÖÀº°Í
+            // ì‹œì—°ì„ ìœ„í•´ ë¬´ì¡°ê±´ ë¦¬ìŠ¤íŠ¸ê°€ ê°±ì‹ ë˜ê²Œ ë„£ì€ê²ƒ
             StartCoroutine(gManager.GetRoomList());
         }
     }
