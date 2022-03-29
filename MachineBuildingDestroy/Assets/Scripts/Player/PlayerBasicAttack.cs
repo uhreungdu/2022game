@@ -15,6 +15,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
     public GameObject coinprefab;
     public PlayerState playerState;
     public PlayerAnimator playeranimator;
+    public thirdpersonmove Thirdpersonmove;
     
     private float timeBetAttack = 0.3f; // 공격 간격
     private float activeAttackTime = 0f; // 공격 유지 시간
@@ -32,6 +33,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
         boxCollider = GetComponentInChildren<BoxCollider>();
         playerState = GetComponentInParent<PlayerState>();
         playeranimator = GetComponentInChildren <PlayerAnimator>();
+        Thirdpersonmove = GetComponentInChildren <thirdpersonmove>();
     }
 
     // Update is called once per frame
@@ -57,13 +59,20 @@ public class PlayerBasicAttack : MonoBehaviourPun
                 }
                 else
                 {
+                    lastAttackTime = Time.time;
                     playeranimator.OnComboAttack();
+                    Thirdpersonmove.SetKeepActiveAttack(1);
                 }
             }
         }
         else
         {
             playeranimator.OnComboAttack();
+        }
+        
+        if (Time.time >= lastAttackTime + 0.6f)
+        {
+            Thirdpersonmove.SetKeepActiveAttack(0);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
