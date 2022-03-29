@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class WallObject : LivingEntity
@@ -31,6 +32,7 @@ public class WallObject : LivingEntity
             Vector3 coinPosition = transform.position;
             coinPosition.x = coinPosition.x + (1.5f * Mathf.Cos(radian));
             coinPosition.z = coinPosition.z + (1.5f * Mathf.Sin(radian));
+            coinPosition.y = coinPosition.y + 3.0f;
             GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
             Vector3 coinForward = coin.transform.position - transform.position;
             coinForward.Normalize();
@@ -91,6 +93,7 @@ public class WallObject : LivingEntity
                 objectPotision.y = 3;
                 child.AddExplosionForce(250, objectPotision, 50f);
             }
+            Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
         }
     }

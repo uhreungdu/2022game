@@ -607,8 +607,8 @@ MonoBehaviour:
   planepref: {fileID: 932610068854459547, guid: f8b0f403836ae414b9e31870b36525c3, type: 3}
   goalpostpref: {fileID: 3591101973611699780, guid: a0ede66e75badc742a2bf08053beca51, type: 3}
   itempref: {fileID: 6056022715655027599, guid: 36d6f2e7f8fe0164aa53b264ab5b9d80, type: 3}
-  tankpref: {fileID: 1560815743673721885, guid: 239c8fdc05e898f489304149803126eb, type: 3}
-  arcadepref: {fileID: 4817797041097849417, guid: 4ec87248cc88a3f43be2b313428c0c66, type: 3}
+  tankpref: {fileID: 1560815743673721885, guid: 83b93a4d3b8d9c3438e3df58e01ba707, type: 3}
+  arcadepref: {fileID: 2358042896829115922, guid: f10516a1783f53348abf11e920bb8d9f, type: 3}
   Online: 1
 --- !u!4 &581632887
 Transform:
