@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class WallObject : LivingEntity
@@ -31,21 +32,20 @@ public class WallObject : LivingEntity
             Vector3 coinPosition = transform.position;
             coinPosition.x = coinPosition.x + (1.5f * Mathf.Cos(radian));
             coinPosition.z = coinPosition.z + (1.5f * Mathf.Sin(radian));
+            coinPosition.y = coinPosition.y + 3.0f;
             GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
             Vector3 coinForward = coin.transform.position - transform.position;
             coinForward.Normalize();
+            coin.GetComponent<Rigidbody>().AddExplosionForce(500, transform.position, 10f);
         }
         GetComponent<MeshCollider>().enabled = false;
-        // GetComponent<Rigidbody>().AddForce(Vector3.up * 2000);
-        Destroy(rigidbody);
+        
+        Destroy(gameObject, 5);
 
         //for (int i = 0; i < transform.childCount; ++i)
         //{
         //    transform.GetChild(i).GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         //}
-
-
-
         // gameObject.SetActive(false);
         }
 
@@ -84,13 +84,23 @@ public class WallObject : LivingEntity
 
         if (dead)
         {
-            Transform[] allChildren = GetComponentsInChildren<Transform>();
+            Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
             rigidbody.constraints = RigidbodyConstraints.None;
-            foreach (Transform child in allChildren)
+            foreach (Rigidbody child in allChildren)
             {
-                child.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                child.constraints = RigidbodyConstraints.None;
+                Vector3 objectPotision = transform.position;
+                objectPotision.y = 3;
+                child.AddExplosionForce(250, objectPotision, 50f);
             }
+            Destroy(GetComponent<PhotonRigidbodyView>());
+            Destroy(rigidbody);
         }
+    }
+
+    void onDestroy()
+    {
+        
     }
     private void OnCollisionEnter(Collision collision)
     {

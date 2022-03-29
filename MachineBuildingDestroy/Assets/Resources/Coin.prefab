@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7759637799624331642}
   - component: {fileID: 7759637799624331643}
   - component: {fileID: 583386727964336637}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Coin
   m_TagString: Coin
   m_Icon: {fileID: 0}
@@ -112,7 +112,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gManager: {fileID: 0}
   characterController: {fileID: 0}
-  pushPower: 2
 --- !u!54 &7759637799624331643
 Rigidbody:
   m_ObjectHideFlags: 0

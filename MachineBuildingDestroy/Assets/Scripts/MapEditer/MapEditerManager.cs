@@ -11,7 +11,7 @@ public class MapEditerManager : MonoBehaviour
     public Text PathText;
     // 몇번 프리펩을 사용할 것인지
     public int Prefnum = 0;
-    
+
     private static MapEditerManager instance;
     
     public static MapEditerManager GetInstance()

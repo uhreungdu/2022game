@@ -31,6 +31,7 @@ public class thirdpersonmove : MonoBehaviourPun
     public GameObject ItemObj;
     
     public bool activeattack { get; private set; }
+    public bool keepactiveattack { get; private set; }
 
 
     /*
@@ -83,39 +84,44 @@ public class thirdpersonmove : MonoBehaviourPun
         Vector3 jumpmove = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;
         if (photonView.IsMine)
         {
-            if (direction.magnitude >= 0.1f)
+            if (!keepactiveattack)
             {
-                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnsmoothvelocity, turnsmoothTime);
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                if (direction.magnitude >= 0.1f)
+                {
+                    float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                    float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnsmoothvelocity,
+                        turnsmoothTime);
+                    transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                jumpmove = moveDir.normalized;
+                    Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                    jumpmove = moveDir.normalized;
 
-                //Debug.Log(realmove.y);
+                    //Debug.Log(realmove.y);
+                }
+
+                jumpmove.y = yvelocity;
+
+                controller.Move(jumpmove * speed * Time.deltaTime);
+
+                yvelocity += tempgravity * Time.deltaTime;
+                //Debug.Log(jumpmove);
+                if (controller.isGrounded)
+                {
+                    yvelocity = 0;
+                }
+
+                // �ִϸ��̼��� ���� ����
+                Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
+                if (Origindirection.magnitude >= 1)
+                {
+                    Origindirection.Normalize();
+                }
+
+                Origindirection = Origindirection * speed / Maxspeed;
+
+                playeranimator.SetFloat("Move", Origindirection.magnitude);
+                //print(Origindirection.magnitude);
             }
-            jumpmove.y = yvelocity;
-
-            controller.Move(jumpmove * speed * Time.deltaTime);
-
-            yvelocity += tempgravity * Time.deltaTime;
-            //Debug.Log(jumpmove);
-            if (controller.isGrounded)
-            {
-                yvelocity = 0;
-            }
-            
-            // �ִϸ��̼��� ���� ����
-            Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
-            if (Origindirection.magnitude >= 1)
-            {
-                Origindirection.Normalize();
-            }
-            Origindirection = Origindirection * speed / Maxspeed;
-            
-            playeranimator.SetFloat("Move", Origindirection.magnitude);
-            //print(Origindirection.magnitude);
-            
         }
     }
 
@@ -155,6 +161,14 @@ public class thirdpersonmove : MonoBehaviourPun
             activeattack = true;
         else if (set < 1)
             activeattack = false;
+    }
+
+    public void SetKeepActiveAttack(int set)
+    {
+        if (set >= 1)
+            keepactiveattack = true;
+        else if (set < 1)
+            keepactiveattack = false;
     }
 
     public void BasicAttackMove(int num)
@@ -207,11 +221,11 @@ public class thirdpersonmove : MonoBehaviourPun
             }
         }
         
-        if (other.gameObject.tag == "Coin")
-        {
-            playerState.AddPoint(1);
-            Destroy(other.gameObject);
-        }
+        // if (other.gameObject.tag == "Coin")
+        // {
+        //     playerState.AddPoint(1);
+        //     Destroy(other.gameObject);
+        // }
     }
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -235,12 +249,12 @@ public class thirdpersonmove : MonoBehaviourPun
 
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         body.velocity = pushDir * pushPower;
-        //
-        // if (hit.gameObject.tag == "Coin")
-        // {
-        //     playerState.AddPoint(1);
-        //     Destroy(hit.gameObject);
-        // }
+        
+        if (hit.gameObject.tag == "Coin")
+        {
+            playerState.AddPoint(1);
+            Destroy(hit.gameObject);
+        }
     }
 
 }

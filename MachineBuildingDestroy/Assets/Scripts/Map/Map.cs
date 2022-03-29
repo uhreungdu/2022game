@@ -43,6 +43,8 @@ public class Map : MonoBehaviour
     
     [Tooltip("True = 온라인모드, False = 로컬모드")]
     public bool Online = false;
+    [Tooltip("True = 맵에디터모드, False = 플레이모드")]
+    public bool MapEditer = false;
 
 
 
@@ -55,19 +57,22 @@ public class Map : MonoBehaviour
         //if (map.Length > 0)
         //{
 
-        //}
-        RandomMap();
-        string jsonData = ObjectToJson(maptile);
-        Debug.Log(jsonData);
-        CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
-        if (Online)
+        // //}
+        // string jsonData = ObjectToJson(maptile);
+        // Debug.Log(jsonData);
+        // CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
+        if (!MapEditer)
         {
-            if (PhotonNetwork.IsMasterClient)
-                CreateNetworkMap();
+            if (Online)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                    CreateNetworkMap();
+            }
+            else
+                MapLoad();
+
+            GameObject.Find("NetworkManager").GetComponent<NetworkManager>().SpawnPlayer();
         }
-        else
-            MapLoad();
-        GameObject.Find("NetworkManager").GetComponent<NetworkManager>().SpawnPlayer();
         // localMAP not USE NetworkGame
         /*
         var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
@@ -239,7 +244,6 @@ public class Map : MonoBehaviour
             }
             GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, tilepref.transform.rotation);
             temp.name = tilepref.name + i;
-            temp.transform.SetParent(this.transform);
         }
 
     }
@@ -272,8 +276,6 @@ public class Map : MonoBehaviour
                     break;
             }
             GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, tilepref.transform.rotation);
-            temp.name = tilepref.name + i;
-            temp.transform.SetParent(this.transform);
         }
 
         string jsonData = ObjectToJson(maptile);

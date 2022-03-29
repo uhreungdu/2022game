@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Object = UnityEngine.Object;
 
 public class MapEditerOnScreenPoint : MonoBehaviour
 {
     public MapEditerManager mapEditerManager;
     public Map map;
+    public BoxCollider boxCollider;
 
     public Material RadMaterial;
-
     public Material Blue;
 
     // Start is called before the first frame update
     void Start()
     {
         mapEditerManager = MapEditerManager.GetInstance();
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -102,6 +104,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 Point.z = 5 + z * 10;
             }
 
+            transform.position = Point;
             transform.GetChild(0).position = Point;
         }
     }
@@ -110,7 +113,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     {
         if (!mapEditerManager.SaveMode && gameObject.transform.childCount >= 1)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
                 if (!InstallCheck())
                 {
@@ -121,6 +124,13 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                     transform.GetChild(0).parent = map.gameObject.transform;
                 }
             }
+
+            if (Input.GetMouseButton(1))
+            {
+                boxCollider.enabled = true;
+            }
+            else 
+                boxCollider.enabled = false;
         }
     }
 
@@ -181,8 +191,38 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 return true;
             }
         }
-
         return false;
+    }
+    
+    bool InstallCheckRemove()
+    {
+        foreach (var allTile in map.maptile.Tiles)
+        {
+            Vector3 comp1 = new Vector3((int) allTile.position.x, 0,
+                (int) allTile.position.z);
+            Vector3 comp2 = new Vector3((int) transform.GetChild(0).position.x,
+                0, (int) transform.GetChild(0).position.z);
+            if (mapEditerManager.Prefnum == 0 && allTile.kind == 0 && comp1 == comp2)
+            {
+                map.maptile.Tiles.Remove(allTile);
+                return true;
+            }
+            else if (mapEditerManager.Prefnum != 0 && allTile.kind > 0 && comp1 == comp2)
+            {
+                map.maptile.Tiles.Remove(allTile);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    void OnTriggerEnter(Collider other)
+    {
+        if (InstallCheck() && other.transform.parent.name != "Pointer")
+        {
+            InstallCheckRemove();
+            Destroy(other.gameObject);
+        }
     }
     
 }

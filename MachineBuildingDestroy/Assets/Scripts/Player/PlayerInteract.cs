@@ -10,14 +10,13 @@ public class PlayerInteract : MonoBehaviour
     // Start is called before the first frame update
 
 
-    public float timeBet = 3f; // °ø°Ý °£°Ý
-    private float lastTime; // °ø°ÝÀ» ¸¶Áö¸·¿¡ ÇÑ ½ÃÁ¡
+    public float timeBet = 3f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float lastTime; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private bool neargoalpost;
 
     void Start()
     {
         lastTime = -1;
-        neargoalpost = false;
         playerInput = GetComponentInParent<PlayerInput>();
         playerState = GetComponentInParent<PlayerState>();
         gManager = GameManager.GetInstance();
@@ -56,5 +55,4 @@ public class PlayerInteract : MonoBehaviour
             neargoalpost = false;
         }
     }
-    
 }

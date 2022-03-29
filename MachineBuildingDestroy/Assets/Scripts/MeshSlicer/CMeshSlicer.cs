@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class CMeshSlicer : MonoBehaviour
@@ -368,17 +369,21 @@ public class CMeshSlicer : MonoBehaviour
 
         aObject.AddComponent<Rigidbody>();
         bObject.AddComponent<Rigidbody>();
+        aObject.AddComponent<PhotonRigidbodyView>();
+        bObject.AddComponent<PhotonRigidbodyView>();
         aObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         bObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         aObject.AddComponent<MeshCollider>();
         bObject.AddComponent<MeshCollider>();
         aObject.GetComponent<MeshCollider>().convex = true;
         aObject.tag = "DestroyWall";
+        aObject.layer = 9;
         bObject.GetComponent<MeshCollider>().convex = true;
         bObject.tag = "DestroyWall";
+        bObject.layer = 9;
 
         //Create sliced object
-        if (_target.transform.parent.name == "Map")
+        if (_target.transform.parent == null)
         {
             _target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             _target.GetComponent<MeshFilter>().sharedMesh = orinMesh;
