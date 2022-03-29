@@ -374,8 +374,10 @@ public class CMeshSlicer : MonoBehaviour
         bObject.AddComponent<MeshCollider>();
         aObject.GetComponent<MeshCollider>().convex = true;
         aObject.tag = "DestroyWall";
+        aObject.layer = 9;
         bObject.GetComponent<MeshCollider>().convex = true;
         bObject.tag = "DestroyWall";
+        bObject.layer = 9;
 
         //Create sliced object
         if (_target.transform.parent.name == "Map")

@@ -31298,10 +31298,24 @@ AnimationClip:
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
+  - time: 0.13333334
+    functionName: SetLHandCollision
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 9bb040a40ce05a1468b1d2427cb41bb8, type: 3}
+    floatParameter: 0
+    intParameter: 1
+    messageOptions: 0
   - time: 0.3
     functionName: SetActiveAttack
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: 7df7a64e5e7afdb4b8acd55e1e5d72ec, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.3
+    functionName: SetLHandCollision
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 9bb040a40ce05a1468b1d2427cb41bb8, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
