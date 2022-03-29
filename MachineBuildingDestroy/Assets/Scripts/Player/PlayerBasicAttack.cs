@@ -12,11 +12,14 @@ public class PlayerBasicAttack : MonoBehaviourPun
     public PlayerInput playerInput;
     public BoxCollider boxCollider;
     public Material boxmaterial;
-    public GameObject coinprefab; // 디버그용
+    public GameObject coinprefab;
     public PlayerState playerState;
-    public float timeBetAttack = 0.5f; // 공격 간격
-    public float activeAttackTime = 0.1f; // 공격 유지 시간
-    private float lastAttackTime; // 공격을 마지막에 한 시점
+    public PlayerAnimator playeranimator;
+    
+    private float timeBetAttack = 0.3f; // 공격 간격
+    private float activeAttackTime = 0f; // 공격 유지 시간
+    private float lastAttackTime = 0f; // 공격을 마지막에 한 시점
+    
     public bool nowEquip;
     public GameObject getobj;
     public GameObject ItemObj;
@@ -28,24 +31,25 @@ public class PlayerBasicAttack : MonoBehaviourPun
         playerInput = GetComponentInParent<PlayerInput>();
         boxCollider = GetComponentInChildren<BoxCollider>();
         playerState = GetComponentInParent<PlayerState>();
-        
+        playeranimator = GetComponentInChildren <PlayerAnimator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        PressFire();
+    }
+
+    void PressFire()
+    {
         if (!photonView.IsMine) return;
-        parent_qut = gameObject.transform.parent.transform.rotation;
+        // parent_qut = gameObject.transform.parent.transform.rotation;
+        parent_qut = gameObject.transform.rotation;
         if (playerInput.fire)
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
             {
                 //Debug.Log("앞 백터 = " + boxCollider.transform.forward);
-                if (Time.time >= lastAttackTime + timeBetAttack + activeAttackTime)
-                {
-                    lastAttackTime = Time.time;
-                }
-
                 if (nowEquip == true)
                 {
                    //Throw_item();
@@ -53,19 +57,13 @@ public class PlayerBasicAttack : MonoBehaviourPun
                 }
                 else
                 {
-                    boxCollider.enabled = true;
+                    playeranimator.OnComboAttack();
                 }
-                
-            }
-            else
-            {
-                // 코드 너무 이상하게 짠듯 나중에 바꿈
-                boxCollider.enabled = false;
             }
         }
         else
         {
-            boxCollider.enabled = false;
+            playeranimator.OnComboAttack();
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -80,8 +78,6 @@ public class PlayerBasicAttack : MonoBehaviourPun
                 0, 0, 0);
             ItemObj.transform.Rotate(new Vector3(90,0,0));
         }
-
-        Debug.Log(gameObject.transform.parent.transform.parent.name);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -153,7 +149,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             getobj = Resources.Load<GameObject>("potion");
             ItemObj = Instantiate(getobj);
             ItemObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = gameObject.transform.position + (gameObject.transform.up*(-2f));
+            Vector3 tpos = GameObject.Find("Bip001 R Finger0").transform.position + Vector3.up+ Vector3.forward;
             ItemObj.transform.Translate(tpos);
             item_Coll = ItemObj.GetComponent<Collider>();
             item_Rigid = ItemObj.GetComponent<Rigidbody>();
@@ -186,12 +182,12 @@ public class PlayerBasicAttack : MonoBehaviourPun
         if (playerState.Item == item_box_make.item_type.potion)
         {
             item_Coll.enabled = false;
-            gameObject.transform.DetachChildren();
+            ItemObj.transform.parent = null;
             item_Rigid.isKinematic = false;
             item_Coll.enabled = true;
             item_Rigid.useGravity = true;
             Vector3 throw_Angle;
-            throw_Angle = gameObject.transform.up * -10f;
+            throw_Angle = gameObject.transform.forward * 10f;
             throw_Angle.y = 5f;
             item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
             nowEquip = false;

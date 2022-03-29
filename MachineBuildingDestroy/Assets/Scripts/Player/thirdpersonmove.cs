@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 public class thirdpersonmove : MonoBehaviourPun
 {
@@ -28,6 +29,10 @@ public class thirdpersonmove : MonoBehaviourPun
     public bool nowEquip;
     public GameObject getobj;
     public GameObject ItemObj;
+    
+    public bool activeattack { get; private set; }
+
+
     /*
     public float pos_x;
     public float pos_y;
@@ -54,7 +59,7 @@ public class thirdpersonmove : MonoBehaviourPun
         Jump();
         Dash();
         Movement();
-        
+        BasicAttackMove(0);
     }
 
     public void Movement()
@@ -141,6 +146,23 @@ public class thirdpersonmove : MonoBehaviourPun
             {
                 speed = 6f;
             }
+        }
+    }
+
+    public void SetActiveAttack(int set)
+    {
+        if (set >= 1)
+            activeattack = true;
+        else if (set < 1)
+            activeattack = false;
+    }
+
+    public void BasicAttackMove(int num)
+    {
+        if (activeattack == true)
+        {
+            Vector3 attackVector = transform.forward;
+            controller.Move(attackVector * 10f * Time.deltaTime);
         }
     }
 

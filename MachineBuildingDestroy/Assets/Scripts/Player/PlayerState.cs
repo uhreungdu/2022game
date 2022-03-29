@@ -29,10 +29,10 @@ public class PlayerState : LivingEntity,IPunObservable
             team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
             Destroy(info);
         }
-
         gManager = GameManager.GetInstance();
 
         gManager.addTeamcount(team);
+        Item = item_box_make.item_type.potion;
         base.OnEnable();
     }
     protected override void OnEnable()
