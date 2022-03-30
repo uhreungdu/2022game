@@ -48,8 +48,6 @@ MonoBehaviour:
   - Equip_item
   - Throw_item
   - OnDamage
-  - WallDestroy
-  - DeadAct
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

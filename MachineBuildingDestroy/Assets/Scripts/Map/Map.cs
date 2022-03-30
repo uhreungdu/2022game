@@ -47,6 +47,7 @@ public class Map : MonoBehaviour
     public bool MapEditer = false;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +56,7 @@ public class Map : MonoBehaviour
 
         //if (map.Length > 0)
         //{
+
         // //}
         // string jsonData = ObjectToJson(maptile);
         // Debug.Log(jsonData);
@@ -64,15 +66,13 @@ public class Map : MonoBehaviour
             if (Online)
             {
                 if (PhotonNetwork.IsMasterClient)
-                {
                     CreateNetworkMap();
-                    GameObject.Find("NetworkManager").GetComponent<NetworkManager>().SpawnPlayerEvent();
-                }
             }
             else
                 MapLoad();
-        }
 
+            GameObject.Find("NetworkManager").GetComponent<NetworkManager>().SpawnPlayer();
+        }
         // localMAP not USE NetworkGame
         /*
         var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
