@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class WallObject : LivingEntity,IPunObservable
 {
@@ -22,6 +24,11 @@ public class WallObject : LivingEntity,IPunObservable
     void Update()
     {
         
+    }
+
+    private void FixedUpdate()
+    {
+
     }
 
     public void DieAction()
@@ -107,7 +114,6 @@ public class WallObject : LivingEntity,IPunObservable
     public void NetworkOnDamage(float val)
     {
         photonView.RPC("OnDamage",RpcTarget.MasterClient,val);
-        //photonView.RPC("WallDestroy",RpcTarget.All);
     }
     
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -117,16 +123,15 @@ public class WallObject : LivingEntity,IPunObservable
         {
             stream.SendNext(health);
             stream.SendNext(destroyfloor);
-            WallDestroy();
         }
         // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
         else
         {
             health = (float) stream.ReceiveNext();
             destroyfloor = (int) stream.ReceiveNext();
-            OnDamage(0);
-            WallDestroy();
         }
+        base.OnDamage(0);
+        WallDestroy();
     }
 
     void onDestroy()
