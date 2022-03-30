@@ -49,5 +49,15 @@ public class PlayerHandCollision : MonoBehaviour
                 }
             }
         }
+
+        if (other.tag == "Obstcle_Item")
+        {
+            Obstacle_Obj Target = other.GetComponent<Obstacle_Obj>();
+            if (Target != null && !Target.dead)
+            {
+                Target.OnDamage(20);
+                Debug.Log(Target.health);
+            }
+        }
     }
 }
