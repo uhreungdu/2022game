@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disslve_MAt: {fileID: 0}
   temp_t: 0
-  dissolve_switch: 0
 --- !u!1 &4517542861288418438
 GameObject:
   m_ObjectHideFlags: 0
@@ -28,10 +27,9 @@ GameObject:
   - component: {fileID: 620301347818298213}
   - component: {fileID: 2630065645834119582}
   - component: {fileID: 4993077007588765926}
-  - component: {fileID: 422089117374551106}
   m_Layer: 0
   m_Name: Wall_Obstcle_Objs
-  m_TagString: Obstcle_Item
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,8 +98,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 4993077007588765926}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -121,20 +118,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &422089117374551106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4517542861288418438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7a49987de8994e4d987c413a5766af9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingHealth: 100
-  obstacles_list: []
 --- !u!114 &174148908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +132,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disslve_MAt: {fileID: 0}
   temp_t: 0
-  dissolve_switch: 0
 --- !u!114 &1064742341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +146,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disslve_MAt: {fileID: 0}
   temp_t: 0
-  dissolve_switch: 0
 --- !u!1001 &3606583340764772275
 PrefabInstance:
   m_ObjectHideFlags: 0

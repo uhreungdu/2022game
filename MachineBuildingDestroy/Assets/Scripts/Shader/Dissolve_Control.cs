@@ -45,7 +45,7 @@ public class Dissolve_Control : MonoBehaviour
             temp_t -= Time.deltaTime * 5f;
         }
         disslve_MAt.SetFloat("CutOff_Height",temp_t);
-        if (temp_t < -2f)
+        if (temp_t < -2.1f)
         {
             Destroy(gameObject);
         }
