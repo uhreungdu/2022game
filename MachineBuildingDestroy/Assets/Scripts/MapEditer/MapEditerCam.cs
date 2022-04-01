@@ -9,10 +9,8 @@ using UnityEngine.InputSystem;
 public class MapEditerCam : MonoBehaviour
 {
     public MapEditerCamInput mapEditerCamInput; // 플레이어조작을 관리하는 스크립트
-    public float speed = 30f;
-
     public MapEditerManager mapEditerManager;
-    public PlayerInput _playerInput;
+    public float speed = 30f;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +18,7 @@ public class MapEditerCam : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         if (mapEditerManager.SaveMode == false)
         {
@@ -59,10 +57,7 @@ public class MapEditerCam : MonoBehaviour
     }
     public void Rotate()
     {
-        // if (Input.GetKeyDown(KeyCode.Q))
-        //     transform.rotation = Quaternion.Euler(0f, 90, 0f);
-        // if (Input.GetKeyDown(KeyCode.E))
-        //     transform.rotation = Quaternion.Euler(0f, -90, 0f);
+        
     }
 
     public void CameraPoint()

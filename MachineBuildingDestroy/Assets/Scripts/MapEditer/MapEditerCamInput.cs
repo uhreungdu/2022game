@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class MapEditerCamInput : MonoBehaviour
 {
-    public string moveAxisName = "Vertical"; // 앞뒤 움직임을 위한 입력축 이름
-    public string rotateAxisName = "Horizontal"; // 좌우 회전을 위한 입력축 이름
-    public string zoomAxisName = "Mouse ScrollWheel"; // 좌우 회전을 위한 입력축 이름
-
     private PlayerInput _gamePlayerInput;
-
+    public MapEditerManager _mapEditerManager;
+    public MapEditerOnScreenPoint _mapEditerOnScreenPoint;
+    
     // private Joystick _joystick;
 
     void Start()
@@ -64,5 +63,18 @@ public class MapEditerCamInput : MonoBehaviour
             _zoom /= _zoom;
         else if(_zoom < -1)
             _zoom /= -_zoom;
+    }
+    
+    private void OnSwitchBuilding(InputValue value)
+    {
+        if (value.isPressed)
+            _mapEditerOnScreenPoint.PrefnumSet((_mapEditerManager.Prefnum + 1) % 5);
+    }
+    
+    private void OnRotate(InputValue value)
+    {
+        if (value.isPressed)
+            if (_mapEditerManager.Prefnum < 4)
+                _mapEditerOnScreenPoint._rotate = (_mapEditerOnScreenPoint._rotate + 90) % 360;
     }
 }

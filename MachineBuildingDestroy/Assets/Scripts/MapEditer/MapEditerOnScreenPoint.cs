@@ -11,6 +11,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     public Map map;
     public BoxCollider boxCollider;
 
+    public float _rotate = 0;
+
     public Material RadMaterial;
     public Material Blue;
 
@@ -107,6 +109,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
 
             transform.position = Point;
             transform.GetChild(0).position = Point;
+            transform.rotation = Quaternion.Euler(0, _rotate, 0);
         }
     }
 
@@ -163,7 +166,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
         }
     }
 
-    void PrefnumSet(int num)
+    public void PrefnumSet(int num)
     {
         if (mapEditerManager.Prefnum != num)
         {
