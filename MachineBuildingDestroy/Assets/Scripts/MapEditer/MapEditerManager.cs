@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+// using UnityEngine.UI;
 
 public class MapEditerManager : MonoBehaviour
 {
     // 세이브 모드이면 화면이동을 할 수 없게 멈춤
     public bool SaveMode = false;
     // 이름 텍스트가 들어갈 자리
-    public Text PathText;
+    // public Text PathText;
     // 몇번 프리펩을 사용할 것인지
     public int Prefnum = 0;
 

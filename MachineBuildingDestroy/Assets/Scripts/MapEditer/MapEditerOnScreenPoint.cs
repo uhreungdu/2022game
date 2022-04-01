@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
 
 public class MapEditerOnScreenPoint : MonoBehaviour
@@ -31,9 +32,9 @@ public class MapEditerOnScreenPoint : MonoBehaviour
 
     Vector3 GetPoint()
     {
-        Vector3 MouseScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-        Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,
-            Input.mousePosition.y, Camera.main.transform.position.y));
+        Vector3 MouseScreenPoint = new Vector3(Mouse.current.position.x.ReadValue(), Mouse.current.position.x.ReadValue(), 0);
+        Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(Mouse.current.position.x.ReadValue(),
+            Mouse.current.position.y.ReadValue(), Camera.main.transform.position.y));
         // Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Camera.main.pixelHeight-Input.mousePosition.y, -Camera.main.nearClipPlane));
         // point.z += point.y * 0.62348f;
         // point.y -= point.y;
@@ -113,7 +114,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     {
         if (!mapEditerManager.SaveMode && gameObject.transform.childCount >= 1)
         {
-            if (Input.GetMouseButton(0))
+            if (Mouse.current.leftButton.isPressed)
             {
                 if (!InstallCheck())
                 {
@@ -125,7 +126,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 }
             }
 
-            if (Input.GetMouseButton(1))
+            if (Mouse.current.rightButton.isPressed)
             {
                 boxCollider.enabled = true;
             }
@@ -136,27 +137,27 @@ public class MapEditerOnScreenPoint : MonoBehaviour
 
     void BuildingChange()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Keyboard.current.digit1Key.isPressed)
         {
             PrefnumSet(0);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Keyboard.current.digit2Key.isPressed)
         {
             PrefnumSet(1);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Keyboard.current.digit3Key.isPressed)
         {
             PrefnumSet(2);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Keyboard.current.digit4Key.isPressed)
         {
             PrefnumSet(3);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Keyboard.current.digit5Key.isPressed)
         {
             PrefnumSet(4);
         }

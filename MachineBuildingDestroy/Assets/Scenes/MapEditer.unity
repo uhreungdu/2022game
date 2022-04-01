@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SaveMode: 0
-  PathText: {fileID: 1947351860}
   Prefnum: 0
 --- !u!4 &4615873
 Transform:
@@ -484,7 +483,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 1095067450}
+  m_Follow: {fileID: 0}
   m_CommonLens: 1
   m_Lens:
     FieldOfView: 60
@@ -936,6 +935,7 @@ GameObject:
   - component: {fileID: 1095067448}
   - component: {fileID: 1095067447}
   - component: {fileID: 1095067449}
+  - component: {fileID: 1095067451}
   m_Layer: 0
   m_Name: MapEditerController
   m_TagString: Untagged
@@ -970,9 +970,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc177f73705af0644a4ac18a46ba0c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapEditerCamInput: {fileID: 0}
+  mapEditerCamInput: {fileID: 1095067447}
   speed: 30
   mapEditerManager: {fileID: 4615872}
+  _playerInput: {fileID: 1095067451}
 --- !u!54 &1095067449
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1003,6 +1004,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1095067451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095067446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 64228ac500edd5f46a866d71ae539155, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Editer
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 1864324455}
 --- !u!1 &1277819366
 GameObject:
   m_ObjectHideFlags: 3

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System;
+using UnityEngine.Serialization;
 
 public class thirdpersonmove : MonoBehaviourPun
 {
     public CharacterController controller;
-    public PlayerInput playerInput; // �÷��̾������� �����ϴ� ��ũ��Ʈ
+    [FormerlySerializedAs("playerInput")] public GamePlayerInput gamePlayerInput; // �÷��̾������� �����ϴ� ��ũ��Ʈ
     public PlayerState playerState;
     public Transform cam;
     private Animator playeranimator;
@@ -47,7 +48,7 @@ public class thirdpersonmove : MonoBehaviourPun
     {
         controller = GetComponent<CharacterController>();
         cam = GameObject.FindWithTag("CamPos").GetComponent<Transform>();
-        playerInput = GetComponent<PlayerInput>();
+        gamePlayerInput = GetComponent<GamePlayerInput>();
         playeranimator = GetComponentInChildren<Animator>();
         playerState = GetComponent<PlayerState>();
         jumpower = 6f;
@@ -80,8 +81,8 @@ public class thirdpersonmove : MonoBehaviourPun
         float vertical = Input.GetAxis("Vertical");
         //Vector3 direction = new Vector3(horizontal,0f,vertical).normalized;
         //Vector3 jumpmove = new Vector3(horizontal,0f,vertical).normalized;
-        Vector3 direction = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;
-        Vector3 jumpmove = new Vector3(playerInput.rotate, 0f, playerInput.move).normalized;
+        Vector3 direction = new Vector3(gamePlayerInput.rotate, 0f, gamePlayerInput.move).normalized;
+        Vector3 jumpmove = new Vector3(gamePlayerInput.rotate, 0f, gamePlayerInput.move).normalized;
         if (photonView.IsMine)
         {
             if (!keepactiveattack)
@@ -111,7 +112,7 @@ public class thirdpersonmove : MonoBehaviourPun
                 }
 
                 // �ִϸ��̼��� ���� ����
-                Vector3 Origindirection = new Vector3(playerInput.rotate, 0f, playerInput.move);
+                Vector3 Origindirection = new Vector3(gamePlayerInput.rotate, 0f, gamePlayerInput.move);
                 if (Origindirection.magnitude >= 1)
                 {
                     Origindirection.Normalize();
@@ -127,7 +128,7 @@ public class thirdpersonmove : MonoBehaviourPun
 
     public void Jump()
     {
-        if (playerInput.jump && controller.isGrounded)
+        if (gamePlayerInput.jump && controller.isGrounded)
         {
             yvelocity = jumpower;
         }
@@ -135,14 +136,14 @@ public class thirdpersonmove : MonoBehaviourPun
 
     public void Dash()
     {
-        if (playerInput.dash && controller.isGrounded)
+        if (gamePlayerInput.dash && controller.isGrounded)
         {
             if (speed <= Maxspeed)
             {
                 speed += 6f * Time.deltaTime;
             }
         }
-        if (!playerInput.dash && controller.isGrounded)
+        if (!gamePlayerInput.dash && controller.isGrounded)
         {
             if (speed > 6f)
             {

@@ -5,11 +5,12 @@ using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Serialization;
 
 public class PlayerBasicAttack : MonoBehaviourPun
 {
     // Start is called before the first frame update
-    public PlayerInput playerInput;
+    [FormerlySerializedAs("playerInput")] public GamePlayerInput gamePlayerInput;
     public List<BoxCollider> HitBoxColliders;
     public Material boxmaterial;
     public GameObject coinprefab;
@@ -29,7 +30,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
     public Quaternion parent_qut;
     void Start()
     {
-        playerInput = GetComponentInParent<PlayerInput>();
+        gamePlayerInput = GetComponentInParent<GamePlayerInput>();
         playerState = GetComponentInParent<PlayerState>();
         playeranimator = GetComponentInChildren <PlayerAnimator>();
         Thirdpersonmove = GetComponentInChildren <thirdpersonmove>();
@@ -48,7 +49,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
         if (!photonView.IsMine) return;
         // parent_qut = gameObject.transform.parent.transform.rotation;
         parent_qut = gameObject.transform.rotation;
-        if (playerInput.fire)
+        if (gamePlayerInput.fire)
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
             {

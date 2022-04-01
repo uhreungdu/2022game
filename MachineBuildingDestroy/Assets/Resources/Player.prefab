@@ -1087,7 +1087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb040a40ce05a1468b1d2427cb41bb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInput: {fileID: 0}
+  gamePlayerInput: {fileID: 0}
   HitBoxColliders: []
   boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
   coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
@@ -1131,7 +1131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
-  playerInput: {fileID: 0}
+  gamePlayerInput: {fileID: 0}
   playerState: {fileID: 0}
   cam: {fileID: 0}
   speed: 6
@@ -1258,7 +1258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 445914b38a4f085488ea4f5267b64d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInput: {fileID: 0}
+  gamePlayerInput: {fileID: 0}
   playerState: {fileID: 0}
   gManager: {fileID: 0}
   timeBet: 3
@@ -1275,7 +1275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerAnimator: {fileID: 0}
-  playerInput: {fileID: 0}
+  gamePlayerInput: {fileID: 0}
   Thirdpersonmove: {fileID: 0}
   lastAttackTime: 0
   KeepAttackTime: 0.3

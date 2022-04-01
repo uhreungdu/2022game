@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour
+public class GamePlayerInput : MonoBehaviour
 {
     public string moveAxisName = "Vertical"; // 앞뒤 움직임을 위한 입력축 이름
     public string rotateAxisName = "Horizontal"; // 좌우 회전을 위한 입력축 이름
@@ -42,6 +42,7 @@ public class PlayerInput : MonoBehaviour
         move = Input.GetAxis(moveAxisName);
         // rotate에 관한 입력 감지
         rotate = Input.GetAxis(rotateAxisName);
+        
         if (Application.platform == RuntimePlatform.Android)
         {
             move = joystick.moveVector.y;
