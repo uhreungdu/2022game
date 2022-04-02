@@ -12,6 +12,7 @@ public class Map : MonoBehaviour
     {
         public int kind;
         public Vector3 position;
+        public Quaternion rotate;
     }
     public class Maptile
     {
@@ -20,8 +21,8 @@ public class Map : MonoBehaviour
         {
             for (int i = 0; i < Tiles.Count; ++i)
             {
-                //Debug.Log("kind = " + Tiles[i].kind);
-                //Debug.Log("position = " + Tiles[i].position);
+                Debug.Log("kind = " + Tiles[i].kind);
+                Debug.Log("position = " + Tiles[i].position);
             }
         }
     }
@@ -242,8 +243,9 @@ public class Map : MonoBehaviour
                     tilepref = arcadepref;
                     break;
             }
-            GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, tilepref.transform.rotation);
+            GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
             temp.name = tilepref.name + i;
+            temp.transform.parent = transform;
         }
 
     }
@@ -275,7 +277,7 @@ public class Map : MonoBehaviour
                     tilepref = arcadepref;
                     break;
             }
-            GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, tilepref.transform.rotation);
+            GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
         }
 
         string jsonData = ObjectToJson(maptile);

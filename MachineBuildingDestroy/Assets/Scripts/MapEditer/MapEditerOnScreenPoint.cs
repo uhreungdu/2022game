@@ -137,6 +137,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                         Map.Tile tile = new Map.Tile();
                         tile.kind = mapEditerManager.Prefnum;
                         tile.position = transform.GetChild(0).position;
+                        tile.rotate = transform.GetChild(0).rotation;
                         map.maptile.Tiles.Add(tile);
                         transform.GetChild(0).parent = map.gameObject.transform;
                     }
