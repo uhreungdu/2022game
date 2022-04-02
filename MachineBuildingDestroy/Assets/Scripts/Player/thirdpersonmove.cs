@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 public class thirdpersonmove : MonoBehaviourPun
 {
     public CharacterController controller;
-    [FormerlySerializedAs("playerInput")] public GamePlayerInput gamePlayerInput; // �÷��̾������� �����ϴ� ��ũ��Ʈ
+    public GamePlayerInput gamePlayerInput; // �÷��̾������� �����ϴ� ��ũ��Ʈ
     public PlayerState playerState;
     public Transform cam;
     private Animator playeranimator;
@@ -76,9 +76,6 @@ public class thirdpersonmove : MonoBehaviourPun
         ang_y = cam.eulerAngles.y;
         ang_z = cam.eulerAngles.z;
         */
-
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
         //Vector3 direction = new Vector3(horizontal,0f,vertical).normalized;
         //Vector3 jumpmove = new Vector3(horizontal,0f,vertical).normalized;
         Vector3 direction = new Vector3(gamePlayerInput.rotate, 0f, gamePlayerInput.move).normalized;

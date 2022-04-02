@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class PlayerBasicAttack : MonoBehaviourPun
@@ -77,7 +78,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             Thirdpersonmove.SetKeepActiveAttack(0);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Keyboard.current.eKey.isPressed)
         {
             photonView.RPC("Equip_item",RpcTarget.All);
             //Equip_item();

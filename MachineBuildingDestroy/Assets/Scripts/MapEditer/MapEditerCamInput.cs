@@ -53,7 +53,7 @@ public class MapEditerCamInput : MonoBehaviour
 
     private void OnMove(InputValue value)
     {
-        _direction = new Vector3(value.Get<Vector2>().x, _zoom, value.Get<Vector2>().y);
+        _direction = new Vector3(value.Get<Vector2>().x, 0, value.Get<Vector2>().y);
     }
     
     private void OnZoom(InputValue value)

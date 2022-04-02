@@ -996,6 +996,7 @@ GameObject:
   - component: {fileID: 1049520447631437763}
   - component: {fileID: 7086843039662744000}
   - component: {fileID: 2989651931023162392}
+  - component: {fileID: 8474990316345599806}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -1279,6 +1280,36 @@ MonoBehaviour:
   Thirdpersonmove: {fileID: 0}
   lastAttackTime: 0
   KeepAttackTime: 0.3
+--- !u!114 &8474990316345599806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6962304825099367683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: ab5edc6d3cfed97499a07e141bd07258, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: KeyboardMouse
+  m_DefaultActionMap: Game
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &8140157465476988085
 GameObject:
   m_ObjectHideFlags: 0

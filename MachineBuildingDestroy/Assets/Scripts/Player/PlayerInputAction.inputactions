@@ -1,38 +1,46 @@
 {
-    "name": "MapEditerInput",
+    "name": "PlayerInputAction",
     "maps": [
         {
-            "name": "Editer",
-            "id": "d644a832-3395-4ddd-92be-31f962bc60cf",
+            "name": "Game",
+            "id": "ed6e3e75-39d7-4cdd-b562-98dadc349161",
             "actions": [
                 {
                     "name": "Move",
                     "type": "Value",
-                    "id": "1bb57caf-bb98-441a-95d8-61e1fa2cfb79",
-                    "expectedControlType": "Vector3",
+                    "id": "b405fb9a-cdf7-46c6-8639-c071658bcb30",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 },
                 {
-                    "name": "Zoom",
-                    "type": "Value",
-                    "id": "61845675-9d9d-4240-8a7e-9b1aeaca55f2",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SwitchBuilding",
+                    "name": "Fire",
                     "type": "Button",
-                    "id": "b51c94a7-b859-4159-a1b5-0e6f532cc8f1",
+                    "id": "9703d38f-ac2e-406d-bd36-dedc7bcd5713",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 },
                 {
-                    "name": "Rotate",
+                    "name": "Jump",
                     "type": "Button",
-                    "id": "73e821ba-383d-43a5-b9b9-3e535485d4c7",
+                    "id": "92434f51-9288-476a-ae50-45620ec26ae8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "f43fd029-27b7-4d5a-8c5a-d34ab32306a0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Interaction",
+                    "type": "Button",
+                    "id": "5b9b1070-420c-461b-afe4-4e643b4ed49f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -41,7 +49,7 @@
             "bindings": [
                 {
                     "name": "2D Vector",
-                    "id": "ba6e005b-ce7d-48bc-87c2-4c30c2fdfec6",
+                    "id": "0861906e-99d6-4d46-a2c3-b5c2b8baf6bc",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -52,7 +60,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "7f842f33-79c4-4744-bea5-94c64227bf23",
+                    "id": "b5ddb8e5-09c5-4fbf-92d1-036e926a4cd6",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -63,7 +71,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "c8c6bb48-757b-45fa-8327-b232be61504b",
+                    "id": "79822cbc-16ff-49cd-a7ea-8b759739cd33",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -74,7 +82,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "b98b321b-084c-4a51-bcb5-553a129fee55",
+                    "id": "3be0d984-b97c-4045-9ebf-1783dac6023d",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -85,7 +93,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "5a82d1f0-797f-4f81-bbdf-1f04d35b6941",
+                    "id": "a5fc12d2-78b8-491b-94f5-2b6d8f62a054",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -96,62 +104,56 @@
                 },
                 {
                     "name": "",
-                    "id": "23503c4a-1724-4df8-8a2d-f16e62bbb948",
-                    "path": "<Mouse>/scroll/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b206e106-860c-424e-95e2-94ba6ade15e4",
-                    "path": "<Keyboard>/tab",
+                    "id": "48c9bae6-0aa2-444a-b858-c357aa68f59e",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "SwitchBuilding",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "feaaef5e-f00f-42c3-b382-2c68bab39a87",
-                    "path": "<Keyboard>/r",
+                    "id": "eef48fca-0914-4356-9656-60afc7d100d3",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Rotate",
+                    "groups": "KeyboardMouse",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "675aeaec-1242-4bea-8815-4e44e2688618",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b74219d1-bd37-4f43-871f-28a5ce10a869",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Interaction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
-        },
-        {
-            "name": "UI",
-            "id": "aa19232b-1492-4ba0-a51c-32c07626e1e0",
-            "actions": [],
-            "bindings": []
         }
     ],
     "controlSchemes": [
         {
             "name": "KeyboardMouse",
             "bindingGroup": "KeyboardMouse",
-            "devices": [
-                {
-                    "devicePath": "<Keyboard>",
-                    "isOptional": false,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<Mouse>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
+            "devices": []
         }
     ]
 }
