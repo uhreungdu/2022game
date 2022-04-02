@@ -38,6 +38,8 @@ public class Map : MonoBehaviour
     public GameObject itempref;
     public GameObject tankpref;
     public GameObject arcadepref;
+    public GameObject team1Spawner;
+    public GameObject team2Spawner;
 
     private float x = 20;
     private float z = 20;
@@ -207,6 +209,30 @@ public class Map : MonoBehaviour
         CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
     }
 
+    public GameObject SetTilepref(int kind)
+    {
+        GameObject obj;
+        switch (kind)
+        {
+            case 0:
+                return planepref;
+            case 1:
+                return goalpostpref;
+            case 2:
+                return itempref;
+            case 3:
+                return tankpref;
+            case 4:
+                return arcadepref;
+            case 5:
+                return team1Spawner;
+            case 6:
+                return team2Spawner;
+        }
+
+        return null;
+    }
+
     public void MapLoad()
     {
         Transform[] allChildren = GetComponentsInChildren<Transform>();
@@ -224,25 +250,7 @@ public class Map : MonoBehaviour
 
         for (int i = 0; i < maptile.Tiles.Count; ++i)
         {
-            GameObject tilepref = null;
-            switch (maptile.Tiles[i].kind)
-            {
-                case 0:
-                    tilepref = planepref;
-                    break;
-                case 1:
-                    tilepref = goalpostpref;
-                    break;
-                case 2:
-                    tilepref = itempref;
-                    break;
-                case 3:
-                    tilepref = tankpref;
-                    break;
-                case 4:
-                    tilepref = arcadepref;
-                    break;
-            }
+            GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
             GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
             temp.name = tilepref.name + i;
             temp.transform.parent = transform;
@@ -258,28 +266,8 @@ public class Map : MonoBehaviour
 
         for (int i = 0; i < maptile.Tiles.Count; ++i)
         {
-            GameObject tilepref = null;
-            switch (maptile.Tiles[i].kind)
-            {
-                case 0:
-                    tilepref = planepref;
-                    break;
-                case 1:
-                    tilepref = goalpostpref;
-                    break;
-                case 2:
-                    tilepref = itempref;
-                    break;
-                case 3:
-                    tilepref = tankpref;
-                    break;
-                case 4:
-                    tilepref = arcadepref;
-                    break;
-            }
+            GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
             GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
         }
-
-        string jsonData = ObjectToJson(maptile);
     }
 }

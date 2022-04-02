@@ -47,27 +47,10 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     {
         if (_playerinput.currentActionMap.name == "Editer")
         {
-            GameObject tilepref = null;
             if (!mapEditerManager.SaveMode && gameObject.transform.childCount < 1)
             {
-                switch (mapEditerManager.Prefnum)
-                {
-                    case 0:
-                        tilepref = map.planepref;
-                        break;
-                    case 1:
-                        tilepref = map.goalpostpref;
-                        break;
-                    case 2:
-                        tilepref = map.itempref;
-                        break;
-                    case 3:
-                        tilepref = map.tankpref;
-                        break;
-                    case 4:
-                        tilepref = map.arcadepref;
-                        break;
-                }
+                
+                GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
 
                 if (tilepref != null)
                 {
@@ -171,12 +154,10 @@ public class MapEditerOnScreenPoint : MonoBehaviour
             {
                 PrefnumSet(2);
             }
-
             if (Keyboard.current.digit4Key.isPressed)
             {
                 PrefnumSet(3);
             }
-
             if (Keyboard.current.digit5Key.isPressed)
             {
                 PrefnumSet(4);
