@@ -26,35 +26,30 @@ public class WallObject : LivingEntity,IPunObservable
         
     }
 
-    private void FixedUpdate()
-    {
-
-    }
-
     public void DieAction()
     {
-        for (int i = 0; i < 10; ++i)
+        if (PhotonNetwork.IsMasterClient)
         {
-            float radian = (Random.Range(0, 360)) * Mathf.PI / 180;
-            Vector3 coinPosition = transform.position;
-            coinPosition.x = coinPosition.x + (1.5f * Mathf.Cos(radian));
-            coinPosition.z = coinPosition.z + (1.5f * Mathf.Sin(radian));
-            coinPosition.y = coinPosition.y + 3.0f;
-            GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
-            Vector3 coinForward = coin.transform.position - transform.position;
-            coinForward.Normalize();
-            coin.GetComponent<Rigidbody>().AddExplosionForce(500, transform.position, 10f);
+            for (int i = 0; i < 10; ++i)
+            {
+                float radian = (Random.Range(0, 360)) * Mathf.PI / 180;
+                Vector3 coinPosition = transform.position;
+                coinPosition.x = coinPosition.x + (1.5f * Mathf.Cos(radian));
+                coinPosition.z = coinPosition.z + (1.5f * Mathf.Sin(radian));
+                coinPosition.y = coinPosition.y + 3.0f;
+                GameObject coin =
+                    PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, transform.rotation);
+                //Instantiate(coinprefab, coinPosition, transform.rotation);
+                Vector3 coinForward = coin.transform.position - transform.position;
+                coinForward.Normalize();
+                coin.GetComponent<Rigidbody>().AddExplosionForce(500, transform.position, 10f);
+            }
         }
+
         GetComponent<MeshCollider>().enabled = false;
         
         Destroy(gameObject, 5);
-
-        //for (int i = 0; i < transform.childCount; ++i)
-        //{
-        //    transform.GetChild(i).GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        //}
-        // gameObject.SetActive(false);
-        }
+    }
 
     [PunRPC]
     public void WallDestroy()
@@ -109,6 +104,15 @@ public class WallObject : LivingEntity,IPunObservable
     public override void OnDamage(float damage)
     {
         base.OnDamage(damage);
+        photonView.RPC("SetObjectHealth",RpcTarget.Others, health, destroyfloor);
+        photonView.RPC("RefreshHealth",RpcTarget.Others);
+        photonView.RPC("WallDestroy",RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RefreshHealth()
+    {
+        base.OnDamage(0);
     }
 
     public void NetworkOnDamage(float val)
@@ -121,32 +125,20 @@ public class WallObject : LivingEntity,IPunObservable
         // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
         if (stream.IsWriting)
         {
-            stream.SendNext(health);
-            stream.SendNext(destroyfloor);
+
         }
         // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
         else
         {
-            health = (float) stream.ReceiveNext();
-            destroyfloor = (int) stream.ReceiveNext();
+
         }
-        base.OnDamage(0);
-        WallDestroy();
     }
 
-    void onDestroy()
+    [PunRPC]
+    public void SetObjectHealth(float f_health, int f_destroyfloor)
     {
-        
+        health = f_health;
+        destroyfloor = f_destroyfloor;
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Ʈ���� �浹�� ���� ���� ������Ʈ�� ���� ����̶�� ���� ����
-        // if (collision.gameObject.tag == gameObject.tag)
-        // {
-        //     // Debug.Log("������ �浹 ����");
-        //     //gameObject.transform.localScale += new Vector3(0.3f, 0, 0.3f);
-        //     //Destroy(collision.collider.gameObject);
-        //     Destroy(gameObject);
-        // }
-    }
+
 }

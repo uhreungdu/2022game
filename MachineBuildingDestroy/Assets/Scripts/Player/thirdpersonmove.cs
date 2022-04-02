@@ -208,7 +208,7 @@ public class thirdpersonmove : MonoBehaviourPun
         Item_Ridid.AddForce(throw_Angle * 50f, ForceMode.Impulse);
         
     }
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Item")
         {
@@ -220,15 +220,25 @@ public class thirdpersonmove : MonoBehaviourPun
                 //Destroy(other.gameObject);
             }
         }
-        
-        // if (other.gameObject.tag == "Coin")
-        // {
-        //     playerState.AddPoint(1);
-        //     Destroy(other.gameObject);
-        // }
+
+        if (other.gameObject.tag == "Coin")
+        {
+            print("coin");
+            playerState.AddPoint(1);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.Destroy(other.gameObject);
+            }
+            else
+            {
+                other.gameObject.GetComponent<Renderer>().enabled = false;
+                other.gameObject.GetComponent<SphereCollider>().enabled = false;
+            }
+        }
     }
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        /*
         Rigidbody body = hit.collider.attachedRigidbody;
         //
         // if (hit.gameObject.tag == "Item")
@@ -249,12 +259,6 @@ public class thirdpersonmove : MonoBehaviourPun
 
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         body.velocity = pushDir * pushPower;
-        
-        if (hit.gameObject.tag == "Coin")
-        {
-            playerState.AddPoint(1);
-            Destroy(hit.gameObject);
-        }
+        */
     }
-
 }
