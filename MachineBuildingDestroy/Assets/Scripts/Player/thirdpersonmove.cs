@@ -222,11 +222,11 @@ public class thirdpersonmove : MonoBehaviourPun
             }
         }
         
-        // if (other.gameObject.tag == "Coin")
-        // {
-        //     playerState.AddPoint(1);
-        //     Destroy(other.gameObject);
-        // }
+        if (other.gameObject.tag == "Coin")
+        {
+            playerState.AddPoint(1);
+            Destroy(other.gameObject);
+        }
     }
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -251,11 +251,11 @@ public class thirdpersonmove : MonoBehaviourPun
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         body.velocity = pushDir * pushPower;
         
-        if (hit.gameObject.tag == "Coin")
-        {
-            playerState.AddPoint(1);
-            Destroy(hit.gameObject);
-        }
+        // if (hit.gameObject.tag == "Coin")
+        // {
+        //     playerState.AddPoint(1);
+        //     Destroy(hit.gameObject);
+        // }
     }
 
 }
