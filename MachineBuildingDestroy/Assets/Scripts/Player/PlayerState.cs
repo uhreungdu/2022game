@@ -38,8 +38,13 @@ public class PlayerState : LivingEntity,IPunObservable
     protected override void OnEnable()
     {
         // LivingEntity�� OnEnable() ���� (���� �ʱ�ȭ)
-        onDeath += DieAction;
+        // onDeath += DieAction;
         point = 0;
+    }
+    public override void Die() {
+        // LivingEntity의 Die()를 실행하여 기본 사망 처리 실행
+        base.Die();
+        playerAnimator.SetTrigger("Dead");
     }
     public void DieAction()
     {

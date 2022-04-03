@@ -32,6 +32,7 @@ public class thirdpersonmove : MonoBehaviourPun
     public GameObject ItemObj;
     
     public bool activeattack { get; private set; }
+    public bool collidingbuilding = false;
     public bool keepactiveattack { get; private set; }
 
 
@@ -171,7 +172,7 @@ public class thirdpersonmove : MonoBehaviourPun
 
     public void BasicAttackMove(int num)
     {
-        if (activeattack == true)
+        if (activeattack == true && collidingbuilding != true)
         {
             Vector3 attackVector = transform.forward;
             controller.Move(attackVector * 10f * Time.deltaTime);
@@ -223,6 +224,21 @@ public class thirdpersonmove : MonoBehaviourPun
         {
             playerState.AddPoint(1);
             Destroy(other.gameObject);
+        }
+    }
+    
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Building")
+        {
+            collidingbuilding = true;
+        }
+    }
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Building")
+        {
+            collidingbuilding = false;
         }
     }
     void OnControllerColliderHit(ControllerColliderHit hit)
