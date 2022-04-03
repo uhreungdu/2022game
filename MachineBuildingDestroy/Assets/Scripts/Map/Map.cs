@@ -27,6 +27,17 @@ public class Map : MonoBehaviour
         }
     }
 
+    enum tileKind
+    {
+        plane,
+        goalpost,
+        item,
+        tank,
+        arcade,
+        team1Spawner,
+        team2Spawner
+    };
+
     public Maptile maptile = new Maptile();
     private List<GameObject> Buildings = new List<GameObject>();
     private List<GameObject> Planes = new List<GameObject>();

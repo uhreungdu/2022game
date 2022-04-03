@@ -21,7 +21,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private LobbyManager _lobbyManager;
     string networkState;
     public GameObject Player;
-    public GameObject Map;
+    public Map Map;
     [SerializeField]private Player[] _players;
 
     public static NetworkManager GetInstance()
@@ -83,6 +83,40 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void SpawnPlayer()
     {
         Vector3 Pos = new Vector3(Random.Range(0,30), 5.0f, 0);
+        if (Map == null)
+        {
+            Map = FindObjectOfType<Map>();
+        }
+        int playerTeam = Player.GetComponent<PlayerState>().team;
+        
+        if (playerTeam == 0)
+        {
+            foreach (var tiles in Map.maptile.Tiles)
+            {
+                if (tiles.kind == 5)
+                {
+                    Pos = tiles.position;
+                    Pos.x += Random.Range(-8, 8);
+                    Pos.y += 5;
+                    Pos.z += Random.Range(-8, 8);
+                    break;
+                }
+            }
+        }
+        else if (playerTeam == 1)
+        {
+            foreach (var tiles in Map.maptile.Tiles)
+            {
+                if (tiles.kind == 6)
+                {
+                    Pos = tiles.position;
+                    Pos.x += Random.Range(-8, 8);
+                    Pos.y += 5;
+                    Pos.z += Random.Range(-8, 8);
+                    break;
+                }
+            }
+        }
         PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
     }
 
