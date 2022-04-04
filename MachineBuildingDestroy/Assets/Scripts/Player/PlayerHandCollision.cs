@@ -37,14 +37,14 @@ public class PlayerHandCollision : MonoBehaviour
 
         if (other.tag == "Player")
         {
-            // if (other.gameObject != other.transform.root.gameObject)
-            // {
+            if (other.gameObject != transform.root.gameObject)
+            {
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
                 if (other.gameObject != null && !playerState.dead)
                 {
                     playerState.OnDamage(20);
                 }
-            // }
+            }
         }
 
         if (other.tag == "Obstcle_Item")
