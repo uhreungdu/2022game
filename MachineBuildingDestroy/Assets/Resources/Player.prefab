@@ -1145,6 +1145,7 @@ MonoBehaviour:
   pushPower: 2
   getobj: {fileID: 0}
   ItemObj: {fileID: 0}
+  collidingbuilding: 0
 --- !u!114 &8609409231541141928
 MonoBehaviour:
   m_ObjectHideFlags: 0
