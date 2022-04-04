@@ -1145,7 +1145,6 @@ MonoBehaviour:
   pushPower: 2
   getobj: {fileID: 0}
   ItemObj: {fileID: 0}
-  collidingbuilding: 0
 --- !u!114 &8609409231541141928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1163,11 +1162,10 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
+  observableSearch: 0
   ObservedComponents:
-  - {fileID: 6534637129884059492}
-  - {fileID: 884417491566602576}
-  - {fileID: 1049520447631437763}
+  - {fileID: 0}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
