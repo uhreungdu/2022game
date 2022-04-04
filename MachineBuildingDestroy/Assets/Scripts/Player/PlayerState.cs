@@ -41,6 +41,13 @@ public class PlayerState : LivingEntity,IPunObservable
         // onDeath += DieAction;
         point = 0;
     }
+
+    public override void OnDamage(float damage)
+    {
+        base.OnDamage(damage);
+        playerAnimator.SetTrigger("Stiffen");
+    }
+
     public override void Die() {
         // LivingEntity의 Die()를 실행하여 기본 사망 처리 실행
         base.Die();

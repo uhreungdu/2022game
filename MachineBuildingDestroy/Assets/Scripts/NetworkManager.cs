@@ -96,9 +96,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 if (tiles.kind == 5)
                 {
                     Pos = tiles.position;
-                    Pos.x += Random.Range(-8, 8);
+                    Pos.x += Random.Range(-4, 4);
                     Pos.y += 5;
-                    Pos.z += Random.Range(-8, 8);
+                    Pos.z += Random.Range(-4, 4);
                     break;
                 }
             }
@@ -110,9 +110,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 if (tiles.kind == 6)
                 {
                     Pos = tiles.position;
-                    Pos.x += Random.Range(-8, 8);
+                    Pos.x += Random.Range(-4, 4);
                     Pos.y += 5;
-                    Pos.z += Random.Range(-8, 8);
+                    Pos.z += Random.Range(-4, 4);
                     break;
                 }
             }

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class WallObject : LivingEntity
 {
@@ -34,9 +36,9 @@ public class WallObject : LivingEntity
             coinPosition.z = coinPosition.z + (1.5f * Mathf.Sin(radian));
             coinPosition.y = coinPosition.y + 3.0f;
             GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
-            Vector3 coinForward = coin.transform.position - transform.position;
-            coinForward.Normalize();
-            coin.GetComponent<Rigidbody>().AddExplosionForce(500, transform.position, 10f);
+            Vector3 cointransform = transform.position;
+            cointransform.y -= 5;
+            coin.GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 10f, 20);
         }
         GetComponent<MeshCollider>().enabled = false;
         
@@ -48,6 +50,22 @@ public class WallObject : LivingEntity
         //}
         // gameObject.SetActive(false);
         }
+
+    public override void Die()
+    {
+        base.Die();
+            // Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
+            // rigidbody.constraints = RigidbodyConstraints.None;
+            // foreach (Rigidbody child in allChildren)
+            // {
+            //     child.constraints = RigidbodyConstraints.None;
+            //     Vector3 objectPotision = transform.position;
+            //     objectPotision.y = 3;
+            //     child.AddExplosionForce(250, objectPotision, 50f);
+            // }
+            // Destroy(GetComponent<PhotonRigidbodyView>());
+            // Destroy(rigidbody);
+    }
 
     public void WallDestroy()
     {
