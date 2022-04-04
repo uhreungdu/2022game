@@ -42,7 +42,7 @@ public class WallObject : LivingEntity
                 //Instantiate(coinprefab, coinPosition, transform.rotation);
                 Vector3 coinForward = coin.transform.position - transform.position;
                 coinForward.Normalize();
-                coin.GetComponent<Rigidbody>().AddExplosionForce(500, transform.position, 10f);
+                // coin.GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 10f);
             }
         }
 
@@ -66,7 +66,7 @@ public class WallObject : LivingEntity
             // Destroy(GetComponent<PhotonRigidbodyView>());
             // Destroy(rigidbody);
     }
-
+    [PunRPC]
     public void WallDestroy()
     {
         if (health <= startingHealth / 7f * 6 && destroyfloor <= 0)
@@ -109,7 +109,7 @@ public class WallObject : LivingEntity
                 child.constraints = RigidbodyConstraints.None;
                 Vector3 objectPotision = transform.position;
                 objectPotision.y = 3;
-                child.AddExplosionForce(250, objectPotision, 50f);
+                // child.AddExplosionForce(250, objectPotision, 50f);
             }
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
