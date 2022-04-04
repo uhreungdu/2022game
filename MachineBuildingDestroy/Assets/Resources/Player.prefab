@@ -1142,8 +1142,6 @@ MonoBehaviour:
   turnsmoothTime: 0.1
   jumpower: 5
   pushPower: 2
-  isAimming: 0
-  nowEquip: 0
   getobj: {fileID: 0}
   ItemObj: {fileID: 0}
 --- !u!114 &8609409231541141928

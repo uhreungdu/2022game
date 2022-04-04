@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2453376893638835317}
   - component: {fileID: 3141922076685273789}
   - component: {fileID: 5901488969678932492}
-  - component: {fileID: -6409356618839667136}
   - component: {fileID: 3504724462070272903}
   m_Layer: 0
   m_Name: item_box
@@ -111,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63cdf70bfd3fc9141a56bd915e4285f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effect_On: 0
+  effect_On: 1
   noiseStrength: 0.25
   objectHeight: 1
   Time_temp: 0
@@ -134,29 +133,12 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: -6409356618839667136}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-6409356618839667136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6898718954299880872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!54 &3504724462070272903
 Rigidbody:
   m_ObjectHideFlags: 0

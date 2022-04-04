@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class item_box_make : MonoBehaviour
@@ -10,7 +11,7 @@ public class item_box_make : MonoBehaviour
         no_item,weapon,splash,potion,obstacles
     }
     public item_type now_type {get; private set;}
-    public bool effect_On = false;
+    public bool effect_On = true;
     // Start is called before the first frame update
     [SerializeField] private float noiseStrength = 0.25f;
     [SerializeField] private float objectHeight = 1.0f;
@@ -44,7 +45,8 @@ public class item_box_make : MonoBehaviour
                 SetHeight(move_height);
                 if (move_height <= -1f)
                 {
-                    Destroy(gameObject);
+                    if (PhotonNetwork.IsMasterClient)
+                        PhotonNetwork.Destroy(gameObject);
                 }
             }
             else
@@ -82,7 +84,8 @@ public class item_box_make : MonoBehaviour
         if(col.tag == "Player"){
              if(effect_switch == true)
              {
-                 Destroy(gameObject);
+                 if (PhotonNetwork.IsMasterClient)
+                     PhotonNetwork.Destroy(gameObject);
              }
          }
     }
