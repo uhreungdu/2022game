@@ -15,6 +15,7 @@ TagManager:
   - DestroyWall
   - Item
   - Obstcle_Item
+  - Heal_field
   layers:
   - Default
   - TransparentFX

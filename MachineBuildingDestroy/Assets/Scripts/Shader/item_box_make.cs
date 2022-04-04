@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class item_box_make : MonoBehaviour
 {
-    //¾ÆÀÌÅÛ Å¸ÀÔÀ» ³ªÅ¸³»´Â enum
-    //0:¹«±â, 1:ÅõÃ´, 2:¼Ò¸ğ, 3:¼³Ä¡
+    //ì•„ì´í…œ íƒ€ì…ì„ ë‚˜íƒ€ë‚´ëŠ” enum
+    //0:ë¬´ê¸°, 1:íˆ¬ì²™, 2:ì†Œëª¨, 3:ì„¤ì¹˜
     public enum item_type{
-        weapon,splash,potion,obstacles
+        no_item,weapon,splash,potion,obstacles
     }
     public item_type now_type {get; private set;}
     public bool effect_On = false;
@@ -64,16 +64,16 @@ public class item_box_make : MonoBehaviour
     }
     public void decide_type(int type){
         switch(type){
-            case 0:
+            case 1:
                 now_type = item_type.weapon;
                 break;
-            case 1:
+            case 2:
                 now_type = item_type.splash;
                 break;
-            case 2:
+            case 3:
                 now_type = item_type.potion;
                 break;
-            case 3:
+            case 4:
                 now_type = item_type.obstacles;
                 break;
         }

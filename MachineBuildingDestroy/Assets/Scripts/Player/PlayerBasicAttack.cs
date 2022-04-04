@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -145,6 +146,14 @@ public class PlayerBasicAttack : MonoBehaviourPun
             {
                 playerState.OnDamage(20);
             }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Heal_field")
+        {
+            print("ÈúÀåÆÇÀÌ¶û ºÎµúÈû");
         }
     }
 
