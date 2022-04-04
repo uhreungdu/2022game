@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Random = UnityEngine.Random;
 
 public class PlayerState : LivingEntity,IPunObservable
 {
@@ -33,8 +34,8 @@ public class PlayerState : LivingEntity,IPunObservable
             Destroy(info);
         }
         gManager = GameManager.GetInstance();
-
         gManager.addTeamcount(team);
+        
         Item = item_box_make.item_type.potion;
         base.OnEnable();
     }
