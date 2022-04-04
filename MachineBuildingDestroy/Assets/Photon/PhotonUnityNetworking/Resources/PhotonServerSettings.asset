@@ -50,6 +50,10 @@ MonoBehaviour:
   - OnDamage
   - WallDestroy
   - DeadAct
+  - SetObjectHealth
+  - DestroyCoin
+  - RefreshHealth
+  - SetItemRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

@@ -8,6 +8,9 @@ public class PlayerState : LivingEntity,IPunObservable
 {
     public int team { get; private set; }
     public int point { get; private set; }
+    
+    public bool isAimming{ get;  set; }
+    public bool nowEquip{ get;  set; }
 
     public item_box_make.item_type Item { get; private set; }
     
@@ -53,6 +56,13 @@ public class PlayerState : LivingEntity,IPunObservable
     
     
     public void SetItem(item_box_make.item_type dItemType)
+    {
+        //Item = dItemType;
+        photonView.RPC("SetItemRPC", RpcTarget.All, dItemType);
+    }
+
+    [PunRPC]
+    public void SetItemRPC(item_box_make.item_type dItemType)
     {
         Item = dItemType;
     }
