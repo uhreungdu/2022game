@@ -22,6 +22,7 @@ public class PlayerState : LivingEntity,IPunObservable
 
     private AudioSource playerAudioPlayer; // �÷��̾� �Ҹ� �����
     private Animator playerAnimator; // �÷��̾��� �ִϸ�����
+    public Dmgs_Status P_Dm;
 
     void Start()
     {
@@ -37,6 +38,8 @@ public class PlayerState : LivingEntity,IPunObservable
         gManager.addTeamcount(team);
         
         Item = item_box_make.item_type.potion;
+        P_Dm = new Dmgs_Status();
+        P_Dm.Set_St(20f,0f,1f);
         base.OnEnable();
     }
     protected override void OnEnable()

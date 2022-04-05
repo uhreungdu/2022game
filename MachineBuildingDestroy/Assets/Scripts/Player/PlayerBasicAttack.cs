@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -22,10 +23,16 @@ public class PlayerBasicAttack : MonoBehaviourPun
     private float timeBetAttack = 0.3f; // 공격 간격
     private float activeAttackTime = 0f; // 공격 유지 시간
     private float lastAttackTime = 0f; // 공격을 마지막에 한 시점
+
+    private float timeBetHeal = 0.5f; // 힐 간격
+    private float activeHealTime = 0f; // 힐 유지 시간
+    private float LastHealTime = 0f; // 공격을 마지막에 한 시점
     
     public bool nowEquip;
+    public bool BuffOn;
     public GameObject getobj;
     public GameObject ItemObj;
+    public GameObject BuffObj;
     public Rigidbody item_Rigid;
     public Collider item_Coll;
     public Quaternion parent_qut;
@@ -89,6 +96,8 @@ public class PlayerBasicAttack : MonoBehaviourPun
             ItemObj.transform.rotation = new Quaternion(parent_qut.x,
                 0, 0, 0);
         }
+        BuffCheck();
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -150,6 +159,13 @@ public class PlayerBasicAttack : MonoBehaviourPun
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Heal_field")
+        {
+            photonView.RPC("Receive_Heal",RpcTarget.All);
+        }
+    }
     public void SetLHandCollision(int set)
     {
         if (set > 0)
@@ -196,6 +212,18 @@ public class PlayerBasicAttack : MonoBehaviourPun
             nowEquip = true;
             
         }
+
+        if (playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
+        {
+            getobj = Resources.Load<GameObject>("Buff_Effect");
+            BuffObj = Instantiate(getobj);
+            BuffObj.transform.SetParent(gameObject.transform);
+            Vector3 tpos = gameObject.transform.position + Vector3.up;
+            BuffObj.transform.Translate(tpos);
+            BuffOn = true;
+            //playerState.P_Dm.set_Ite(1.5f);
+        }
+        
     }
 
     [PunRPC]
@@ -231,5 +259,41 @@ public class PlayerBasicAttack : MonoBehaviourPun
             nowEquip = false;
         }
 
+    }
+
+    [PunRPC]
+    public void Receive_Heal()
+    {
+        if (Time.time >= LastHealTime + timeBetHeal)
+        {
+            if (playerState.health + 20 >= 100)
+            {
+                playerState.RestoreHealth(20);
+                LastHealTime = Time.time;
+            }
+            else
+            {
+                float remain_heal = 100 - playerState.health;
+                playerState.RestoreHealth(remain_heal);
+            }
+            print("힐됨");
+        }
+    }
+
+    public void BuffCheck()
+    {
+        if (BuffOn)
+        {
+            playerState.P_Dm.set_Ite(1.5f);
+        }
+        else
+        {
+            playerState.P_Dm.set_Ite(1f);
+        }
+
+        if (BuffObj == null)
+        {
+            BuffOn = false;
+        }
     }
 }

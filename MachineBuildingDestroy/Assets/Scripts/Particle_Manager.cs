@@ -20,7 +20,7 @@ public class Particle_Manager : MonoBehaviour
         if (!Child_effect1.GetComponent<ParticleSystem>().isPlaying &&
             !Child_effect2.GetComponent<ParticleSystem>().isPlaying)
         {
-            effect_acitve = Resources.Load<GameObject>("Heal_Effect");
+            effect_acitve = Resources.Load<GameObject>("New_Heal_Effect");
             Instantiate(effect_acitve, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
