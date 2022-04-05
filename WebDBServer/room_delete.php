@@ -2,7 +2,7 @@
 
 $conn = mysqli_connect("localhost","root","kpu2022project","2022project");
 
-$iname=$_POST['iname'];
+$iname=$_GET['iname'];
 
 // 방 목록에서 방 제거
 mysqli_query($conn,"

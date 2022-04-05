@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using Photon.Hive.Plugin;
 
 namespace MyFirstPlugin
@@ -76,15 +77,12 @@ namespace MyFirstPlugin
 
         public override void OnCloseGame(ICloseGameCallInfo info)
         {
+            string url = "http://127.0.0.1/room_delete.php?iname=" + "\"" + internalRoomName + "\"";
             HttpRequest request = new HttpRequest()
             {
                 Callback = OnHttpResponse,
-                Url = "http://127.0.0.1/room_delete.php",
-                Async = true,
-                CustomHeaders = new Dictionary<string, string>
-                {
-                    {"\"iname\"", "\""+internalRoomName+"\""}
-                }
+                Url = url,
+                Async = true
             };
             PluginHost.HttpRequest(request, info);
         }
