@@ -20,4 +20,5 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Ingame_Android.unity
     guid: 6e2ae789ca149944ab402f641497bd58
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 0267b7bc18e112e4ba49f3ee4d137ebb, type: 2}

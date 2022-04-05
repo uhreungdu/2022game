@@ -12,6 +12,7 @@ public class Map : MonoBehaviour
     {
         public int kind;
         public Vector3 position;
+        public Quaternion rotate;
     }
     public class Maptile
     {
@@ -20,11 +21,22 @@ public class Map : MonoBehaviour
         {
             for (int i = 0; i < Tiles.Count; ++i)
             {
-                //Debug.Log("kind = " + Tiles[i].kind);
-                //Debug.Log("position = " + Tiles[i].position);
+                Debug.Log("kind = " + Tiles[i].kind);
+                Debug.Log("position = " + Tiles[i].position);
             }
         }
     }
+
+    enum tileKind
+    {
+        plane,
+        goalpost,
+        item,
+        tank,
+        arcade,
+        team1Spawner,
+        team2Spawner
+    };
 
     public Maptile maptile = new Maptile();
     private List<GameObject> Buildings = new List<GameObject>();
@@ -37,6 +49,8 @@ public class Map : MonoBehaviour
     public GameObject itempref;
     public GameObject tankpref;
     public GameObject arcadepref;
+    public GameObject team1Spawner;
+    public GameObject team2Spawner;
 
     private float x = 20;
     private float z = 20;
@@ -47,6 +61,7 @@ public class Map : MonoBehaviour
     public bool MapEditer = false;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +70,7 @@ public class Map : MonoBehaviour
 
         //if (map.Length > 0)
         //{
+
         // //}
         // string jsonData = ObjectToJson(maptile);
         // Debug.Log(jsonData);
@@ -71,8 +87,9 @@ public class Map : MonoBehaviour
             }
             else
                 MapLoad();
-        }
 
+            
+        }
         // localMAP not USE NetworkGame
         /*
         var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
@@ -206,6 +223,30 @@ public class Map : MonoBehaviour
         CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
     }
 
+    public GameObject SetTilepref(int kind)
+    {
+        GameObject obj;
+        switch (kind)
+        {
+            case 0:
+                return planepref;
+            case 1:
+                return goalpostpref;
+            case 2:
+                return itempref;
+            case 3:
+                return tankpref;
+            case 4:
+                return arcadepref;
+            case 5:
+                return team1Spawner;
+            case 6:
+                return team2Spawner;
+        }
+
+        return null;
+    }
+
     public void MapLoad()
     {
         Transform[] allChildren = GetComponentsInChildren<Transform>();
@@ -223,27 +264,10 @@ public class Map : MonoBehaviour
 
         for (int i = 0; i < maptile.Tiles.Count; ++i)
         {
-            GameObject tilepref = null;
-            switch (maptile.Tiles[i].kind)
-            {
-                case 0:
-                    tilepref = planepref;
-                    break;
-                case 1:
-                    tilepref = goalpostpref;
-                    break;
-                case 2:
-                    tilepref = itempref;
-                    break;
-                case 3:
-                    tilepref = tankpref;
-                    break;
-                case 4:
-                    tilepref = arcadepref;
-                    break;
-            }
-            GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, tilepref.transform.rotation);
+            GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
+            GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
             temp.name = tilepref.name + i;
+            temp.transform.parent = transform;
         }
 
     }
@@ -256,28 +280,22 @@ public class Map : MonoBehaviour
 
         for (int i = 0; i < maptile.Tiles.Count; ++i)
         {
-            GameObject tilepref = null;
-            switch (maptile.Tiles[i].kind)
-            {
-                case 0:
-                    tilepref = planepref;
-                    break;
-                case 1:
-                    tilepref = goalpostpref;
-                    break;
-                case 2:
-                    tilepref = itempref;
-                    break;
-                case 3:
-                    tilepref = tankpref;
-                    break;
-                case 4:
-                    tilepref = arcadepref;
-                    break;
-            }
-            GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, tilepref.transform.rotation);
+            GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
+            GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
         }
-
-        string jsonData = ObjectToJson(maptile);
+    }
+    
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
+        if (stream.IsWriting)
+        {
+            stream.SendNext(maptile);
+        }
+        // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
+        else
+        {
+            maptile = (Maptile)stream.ReceiveNext();
+        }
     }
 }

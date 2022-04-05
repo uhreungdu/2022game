@@ -14,6 +14,10 @@ TagManager:
   - Slicer
   - DestroyWall
   - Item
+  - Obstcle_Item
+  - Spawner1
+  - Undefined
+  - Spawner2
   layers:
   - Default
   - TransparentFX

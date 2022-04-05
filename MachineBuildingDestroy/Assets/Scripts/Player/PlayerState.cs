@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Random = UnityEngine.Random;
 
 public class PlayerState : LivingEntity,IPunObservable
 {
@@ -33,16 +34,28 @@ public class PlayerState : LivingEntity,IPunObservable
             Destroy(info);
         }
         gManager = GameManager.GetInstance();
-
         gManager.addTeamcount(team);
+        
         Item = item_box_make.item_type.potion;
         base.OnEnable();
     }
     protected override void OnEnable()
     {
         // LivingEntity�� OnEnable() ���� (���� �ʱ�ȭ)
-        onDeath += DieAction;
+        // onDeath += DieAction;
         point = 0;
+    }
+
+    public override void OnDamage(float damage)
+    {
+        base.OnDamage(damage);
+        playerAnimator.SetTrigger("Stiffen");
+    }
+
+    public override void Die() {
+        // LivingEntity의 Die()를 실행하여 기본 사망 처리 실행
+        base.Die();
+        playerAnimator.SetTrigger("Dead");
     }
     public void DieAction()
     {
