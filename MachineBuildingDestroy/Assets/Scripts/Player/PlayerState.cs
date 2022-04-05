@@ -49,10 +49,17 @@ public class PlayerState : LivingEntity,IPunObservable
         point = 0;
     }
 
+    [PunRPC]
     public override void OnDamage(float damage)
     {
         base.OnDamage(damage);
         playerAnimator.SetTrigger("Stiffen");
+    }
+
+    public void NetworkOnDamage(float damage)
+    {
+        //OnDamage(damage);
+        photonView.RPC("OnDamage", RpcTarget.Others, damage);
     }
 
     public override void Die() {
@@ -102,6 +109,7 @@ public class PlayerState : LivingEntity,IPunObservable
             stream.SendNext(team);
             stream.SendNext(Item);
             stream.SendNext(point);
+            stream.SendNext(health);
         }
         // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
         else
@@ -109,6 +117,7 @@ public class PlayerState : LivingEntity,IPunObservable
             team = (int) stream.ReceiveNext();
             Item = (item_box_make.item_type) stream.ReceiveNext();
             point = (int) stream.ReceiveNext();
+            health = (float)stream.ReceiveNext();
         }
     }
 }
