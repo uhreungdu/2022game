@@ -163,7 +163,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
     {
         if (other.tag == "Heal_field")
         {
-            Receive_Heal();
+            photonView.RPC("Receive_Heal",RpcTarget.All);
         }
     }
     public void SetLHandCollision(int set)
@@ -261,6 +261,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
 
     }
 
+    [PunRPC]
     public void Receive_Heal()
     {
         if (Time.time >= LastHealTime + timeBetHeal)
@@ -270,6 +271,12 @@ public class PlayerBasicAttack : MonoBehaviourPun
                 playerState.RestoreHealth(20);
                 LastHealTime = Time.time;
             }
+            else
+            {
+                float remain_heal = 100 - playerState.health;
+                playerState.RestoreHealth(remain_heal);
+            }
+            print("ศ๚ตส");
         }
     }
 
