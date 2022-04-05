@@ -42,7 +42,7 @@ public class PlayerHandCollision : MonoBehaviour
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
                 if (other.gameObject != null && !playerState.dead)
                 {
-                    playerState.OnDamage(20);
+                    playerState.NetworkOnDamage(20);
                 }
             }
         }
