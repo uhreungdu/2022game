@@ -20,7 +20,6 @@ public class Dmgs_Status
         float temp = (Atk_Stats + Weapon_Stat) * Item_Coefficient;
         return temp;
     }
-
     public void set_Atk(float atk)
     {
         Atk_Stats = atk;

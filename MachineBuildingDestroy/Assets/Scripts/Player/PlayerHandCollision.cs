@@ -5,9 +5,10 @@ using UnityEngine;
 public class PlayerHandCollision : MonoBehaviour
 {
     // Start is called before the first frame update
+    public PlayerState P_state;
     void Start()
     {
-        
+        P_state = transform.root.GetComponent<PlayerState>();
     }
 
     // Update is called once per frame
@@ -30,8 +31,8 @@ public class PlayerHandCollision : MonoBehaviour
                     material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
                 }
                 // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
-                attackTarget.NetworkOnDamage(20);
-                Debug.Log(attackTarget.health);
+                attackTarget.NetworkOnDamage(P_state.P_Dm.Damge_formula());
+                Debug.Log(P_state.P_Dm.Damge_formula());
             }
         }
 
@@ -42,7 +43,7 @@ public class PlayerHandCollision : MonoBehaviour
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
                 if (other.gameObject != null && !playerState.dead)
                 {
-                    playerState.OnDamage(20);
+                    playerState.OnDamage(P_state.P_Dm.Damge_formula());
                 }
             }
         }
@@ -52,7 +53,7 @@ public class PlayerHandCollision : MonoBehaviour
             Obstacle_Obj Target = other.GetComponent<Obstacle_Obj>();
             if (Target != null && !Target.dead)
             {
-                Target.OnDamage(20);
+                Target.OnDamage(P_state.P_Dm.Damge_formula());
                 Debug.Log(Target.health);
             }
         }

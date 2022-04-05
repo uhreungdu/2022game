@@ -8,7 +8,7 @@ public class item_box_make : MonoBehaviour
     //아이템 타입을 나타내는 enum
     //0:무기, 1:투척, 2:소모, 3:설치
     public enum item_type{
-        no_item,weapon,splash,potion,obstacles
+        no_item,weapon,Buff,potion,obstacles
     }
     public item_type now_type {get; private set;}
     public bool effect_On = true;
@@ -70,7 +70,7 @@ public class item_box_make : MonoBehaviour
                 now_type = item_type.weapon;
                 break;
             case 2:
-                now_type = item_type.splash;
+                now_type = item_type.Buff;
                 break;
             case 3:
                 now_type = item_type.potion;

@@ -409,6 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  P_state: {fileID: 0}
 --- !u!1 &4126272748829694739
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,6 +818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  P_state: {fileID: 0}
 --- !u!1 &5904294802011440760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1102,8 +1104,10 @@ MonoBehaviour:
   playeranimator: {fileID: 0}
   Thirdpersonmove: {fileID: 0}
   nowEquip: 0
+  BuffOn: 0
   getobj: {fileID: 0}
   ItemObj: {fileID: 0}
+  BuffObj: {fileID: 0}
   item_Rigid: {fileID: 0}
   item_Coll: {fileID: 0}
   parent_qut: {x: 0, y: 0, z: 0, w: 0}
