@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class WallObject : LivingEntity,IPunObservable
+public class WallObject : LivingEntity
 {
     public GameObject coinprefab;     // ������ ������ ���� ������
     public Material boxmaterial;
@@ -42,7 +40,7 @@ public class WallObject : LivingEntity,IPunObservable
                 //Instantiate(coinprefab, coinPosition, transform.rotation);
                 Vector3 coinForward = coin.transform.position - transform.position;
                 coinForward.Normalize();
-                coin.GetComponent<Rigidbody>().AddExplosionForce(500, transform.position, 10f);
+                coin.GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 10f);
             }
         }
 
@@ -51,6 +49,21 @@ public class WallObject : LivingEntity,IPunObservable
         Destroy(gameObject, 5);
     }
 
+    public override void Die()
+    {
+        base.Die();
+            // Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
+            // rigidbody.constraints = RigidbodyConstraints.None;
+            // foreach (Rigidbody child in allChildren)
+            // {
+            //     child.constraints = RigidbodyConstraints.None;
+            //     Vector3 objectPotision = transform.position;
+            //     objectPotision.y = 3;
+            //     child.AddExplosionForce(250, objectPotision, 50f);
+            // }
+            // Destroy(GetComponent<PhotonRigidbodyView>());
+            // Destroy(rigidbody);
+    }
     [PunRPC]
     public void WallDestroy()
     {
@@ -88,6 +101,7 @@ public class WallObject : LivingEntity,IPunObservable
         if (dead)
         {
             Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
+            rigidbody.constraints = RigidbodyConstraints.None;
             foreach (Rigidbody child in allChildren)
             {
                 child.constraints = RigidbodyConstraints.None;
@@ -99,7 +113,6 @@ public class WallObject : LivingEntity,IPunObservable
             Destroy(rigidbody);
         }
     }
-
     [PunRPC]
     public override void OnDamage(float damage)
     {

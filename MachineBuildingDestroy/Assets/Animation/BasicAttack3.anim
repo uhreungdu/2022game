@@ -32925,17 +32925,17 @@ AnimationClip:
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
-  - time: 0.36666667
-    functionName: SetLHandCollision
-    data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 9bb040a40ce05a1468b1d2427cb41bb8, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.36666667
+  - time: 0.2
     functionName: SetActiveAttack
     data: 
     objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.53333336
+    functionName: SetLHandCollision
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 9bb040a40ce05a1468b1d2427cb41bb8, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

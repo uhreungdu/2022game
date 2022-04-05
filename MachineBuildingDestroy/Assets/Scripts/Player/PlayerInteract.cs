@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerInteract : MonoBehaviour
 {
-    public PlayerInput playerInput;
+    [FormerlySerializedAs("playerInput")] public GamePlayerInput gamePlayerInput;
     public PlayerState playerState;
     public GameManager gManager;
     // Start is called before the first frame update
@@ -17,7 +18,7 @@ public class PlayerInteract : MonoBehaviour
     void Start()
     {
         lastTime = -1;
-        playerInput = GetComponentInParent<PlayerInput>();
+        gamePlayerInput = GetComponentInParent<GamePlayerInput>();
         playerState = GetComponentInParent<PlayerState>();
         gManager = GameManager.GetInstance();
     }
@@ -25,7 +26,7 @@ public class PlayerInteract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerInput.Interaction && neargoalpost)
+        if (gamePlayerInput.Interaction && neargoalpost)
         {
             if (lastTime < 0)
                 lastTime = Time.time;
