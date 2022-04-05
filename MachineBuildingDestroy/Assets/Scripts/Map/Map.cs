@@ -80,12 +80,15 @@ public class Map : MonoBehaviour
             if (Online)
             {
                 if (PhotonNetwork.IsMasterClient)
+                {
                     CreateNetworkMap();
+                    GameObject.Find("NetworkManager").GetComponent<NetworkManager>().SpawnPlayerEvent();
+                }
             }
             else
                 MapLoad();
 
-            GameObject.Find("NetworkManager").GetComponent<NetworkManager>().SpawnPlayer();
+            
         }
         // localMAP not USE NetworkGame
         /*
@@ -279,6 +282,20 @@ public class Map : MonoBehaviour
         {
             GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
             GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
+        }
+    }
+    
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
+        if (stream.IsWriting)
+        {
+            stream.SendNext(maptile);
+        }
+        // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
+        else
+        {
+            maptile = (Maptile)stream.ReceiveNext();
         }
     }
 }

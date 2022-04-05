@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1322008324658841383}
   m_Layer: 6
   m_Name: Team2Spawner
-  m_TagString: Spawner
+  m_TagString: Spawner2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

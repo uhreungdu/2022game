@@ -87,7 +87,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void SpawnPlayer()
     {
-        Vector3 Pos = new Vector3(-15, 5.0f, -15);
+        Vector3 Pos = new Vector3(-15, 10.0f, -15);
         
         var info = GameObject.Find("Myroominfo");
         int team = 0;
@@ -96,18 +96,26 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
             Destroy(info);
         }
-        GameObject team1spawner = GameObject.Find("Team1Spawner(Clone)");
-        GameObject team2spawner = GameObject.Find("Team2Spawner(Clone)");
+        GameObject team1spawner = null;
+        GameObject team2spawner = null;
+        while (team1spawner == null)
+        {
+            team1spawner = GameObject.FindWithTag("Spawner1");
+        }
+        while (team2spawner == null)
+        {
+            team2spawner = GameObject.FindWithTag("Spawner2");
+        }
         
         if (team == 0 && team1spawner != null)
         {
             Pos = team1spawner.transform.position;
-            Pos += new Vector3(Random.Range(-4, 4), 5.0f, Random.Range(-4, 4));
+            Pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
         }
         else if (team == 1 && team2spawner != null)
         {
             Pos = team2spawner.transform.position;
-            Pos += new Vector3(Random.Range(-4, 4), 5.0f, Random.Range(-4, 4));
+            Pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
         }
         
         PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
