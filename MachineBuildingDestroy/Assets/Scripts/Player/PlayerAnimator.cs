@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerAnimator : MonoBehaviour
 {
     public Animator playerAnimator;
-    public PlayerInput playerInput;
+    [FormerlySerializedAs("playerInput")] public GamePlayerInput gamePlayerInput;
 
     public thirdpersonmove Thirdpersonmove;
 
@@ -15,7 +16,7 @@ public class PlayerAnimator : MonoBehaviour
     void Start()
     {
         playerAnimator = GetComponentInChildren<Animator>();
-        playerInput = GetComponent<PlayerInput>();
+        gamePlayerInput = GetComponent<GamePlayerInput>();
         Thirdpersonmove = GetComponent<thirdpersonmove>();
     }
 
@@ -29,7 +30,7 @@ public class PlayerAnimator : MonoBehaviour
         // 1안
         //playerAnimator.SetTrigger("OnComboAttack");
         // 2안
-        playerAnimator.SetBool("Combo", playerInput.fire);
+        playerAnimator.SetBool("Combo", gamePlayerInput.fire);
         
     }
 

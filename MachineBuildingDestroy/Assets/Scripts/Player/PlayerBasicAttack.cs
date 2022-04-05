@@ -5,11 +5,13 @@ using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerBasicAttack : MonoBehaviourPun
 {
     // Start is called before the first frame update
-    public PlayerInput playerInput;
+    [FormerlySerializedAs("playerInput")] public GamePlayerInput gamePlayerInput;
     public List<BoxCollider> HitBoxColliders;
     public Material boxmaterial;
     public GameObject coinprefab;
@@ -29,7 +31,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
     public Quaternion parent_qut;
     void Start()
     {
-        playerInput = GetComponentInParent<PlayerInput>();
+        gamePlayerInput = GetComponentInParent<GamePlayerInput>();
         playerState = GetComponentInParent<PlayerState>();
         playeranimator = GetComponentInChildren <PlayerAnimator>();
         Thirdpersonmove = GetComponentInChildren <thirdpersonmove>();
@@ -48,7 +50,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
         if (!photonView.IsMine) return;
         // parent_qut = gameObject.transform.parent.transform.rotation;
         parent_qut = gameObject.transform.rotation;
-        if (playerInput.fire)
+        if (gamePlayerInput.fire)
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
             {
@@ -76,7 +78,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             Thirdpersonmove.SetKeepActiveAttack(0);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Keyboard.current.eKey.isPressed)
         {
             photonView.RPC("Equip_item",RpcTarget.All);
             //Equip_item();
@@ -94,20 +96,21 @@ public class PlayerBasicAttack : MonoBehaviourPun
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Wall")
         {
-            WallObject attackTarget = other.GetComponent<WallObject>();
-            if (attackTarget != null && !attackTarget.dead)
-            {
-                Material material = other.GetComponent<MeshRenderer>().sharedMaterial;
-                if (material == null)
-                {
-                    material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
-                }
-                // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
-                attackTarget.NetworkOnDamage(20);
-                //attackTarget.WallDestroy();
-                
-                Debug.Log(attackTarget.health);
-            }
+            // WallObject attackTarget = other.GetComponent<WallObject>();
+            // if (attackTarget != null && !attackTarget.dead)
+            // {
+            //     Material material = other.GetComponent<MeshRenderer>().sharedMaterial;
+            //     if (material == null)
+            //     {
+            //         material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
+            //     }
+            //     // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
+            //     
+            //     attackTarget.OnDamage(20);
+            //     attackTarget.WallDestroy();
+            //     
+            //     Debug.Log(attackTarget.health);
+            // }
         }
 
         if (other.tag == "DestroyWall")
