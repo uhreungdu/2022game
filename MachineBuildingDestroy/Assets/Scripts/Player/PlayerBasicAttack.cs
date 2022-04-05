@@ -221,7 +221,6 @@ public class PlayerBasicAttack : MonoBehaviourPun
             Vector3 tpos = gameObject.transform.position + Vector3.up;
             BuffObj.transform.Translate(tpos);
             BuffOn = true;
-            //playerState.P_Dm.set_Ite(1.5f);
         }
         
     }
@@ -276,7 +275,6 @@ public class PlayerBasicAttack : MonoBehaviourPun
                 float remain_heal = 100 - playerState.health;
                 playerState.RestoreHealth(remain_heal);
             }
-            print("ศ๚ตส");
         }
     }
 

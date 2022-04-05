@@ -362,6 +362,7 @@ GameObject:
   - component: {fileID: 5918517459939566721}
   - component: {fileID: 6950217055529407943}
   - component: {fileID: 964881188568357225}
+  - component: {fileID: 2830618070430156570}
   m_Layer: 7
   m_Name: Bip001 R Hand
   m_TagString: Untagged
@@ -409,7 +410,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P_state: {fileID: 0}
+  p_state: {fileID: 0}
+--- !u!114 &2830618070430156570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3864567087714883586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84706398a7246b64a88ad63dc72ddd32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hand_Box: {fileID: 0}
+  use_Ef: {fileID: 0}
+  get_Obj: {fileID: 0}
+  effect_obj: {fileID: 0}
+  Hit_VFX: {fileID: 0}
 --- !u!1 &4126272748829694739
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +789,7 @@ GameObject:
   - component: {fileID: 4313752271134156396}
   - component: {fileID: 5125265972744278373}
   - component: {fileID: 9010977314917154756}
+  - component: {fileID: 5156384318108744136}
   m_Layer: 7
   m_Name: Bip001 L Hand
   m_TagString: Untagged
@@ -818,7 +837,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P_state: {fileID: 0}
+  p_state: {fileID: 0}
+--- !u!114 &5156384318108744136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5812270970004276480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84706398a7246b64a88ad63dc72ddd32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hand_Box: {fileID: 0}
+  use_Ef: {fileID: 0}
+  get_Obj: {fileID: 0}
+  effect_obj: {fileID: 0}
+  Hit_VFX: {fileID: 0}
 --- !u!1 &5904294802011440760
 GameObject:
   m_ObjectHideFlags: 0
