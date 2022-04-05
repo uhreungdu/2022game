@@ -76,7 +76,6 @@ public class MapEditerCamInput : MonoBehaviour
     private void OnRotate(InputValue value)
     {
         if (value.isPressed)
-            if (_mapEditerManager.Prefnum < 4)
-                _mapEditerOnScreenPoint._rotate = (_mapEditerOnScreenPoint._rotate + 90) % 360;
+            _mapEditerOnScreenPoint._rotate = (_mapEditerOnScreenPoint._rotate + 90) % 360;
     }
 }
