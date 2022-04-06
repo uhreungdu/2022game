@@ -64,8 +64,15 @@ public class PlayerBasicAttack : MonoBehaviourPun
                 //Debug.Log("앞 백터 = " + boxCollider.transform.forward);
                 if (nowEquip == true)
                 {
-                   //Throw_item();
-                    photonView.RPC("Throw_item",RpcTarget.All);
+                    switch (playerState.Item)
+                    {
+                        case item_box_make.item_type.potion:
+                            Throw_item();
+                            break;
+                        default:
+                            photonView.RPC("Throw_item",RpcTarget.All);
+                            break;
+                    }
                 }
                 else
                 {
@@ -87,8 +94,15 @@ public class PlayerBasicAttack : MonoBehaviourPun
 
         if (Keyboard.current.eKey.isPressed)
         {
-            photonView.RPC("Equip_item",RpcTarget.All);
-            //Equip_item();
+            switch (playerState.Item)
+            {
+                case item_box_make.item_type.potion:
+                    Equip_item();
+                    break;
+                default:
+                    photonView.RPC("Equip_item",RpcTarget.All);
+                    break;
+            }
         }
 
         if (nowEquip == true && ItemObj != null && playerState.Item == item_box_make.item_type.obstacles)
@@ -163,7 +177,8 @@ public class PlayerBasicAttack : MonoBehaviourPun
     {
         if (other.tag == "Heal_field")
         {
-            photonView.RPC("Receive_Heal",RpcTarget.All);
+            //photonView.RPC("Receive_Heal",RpcTarget.All);
+            Receive_Heal();
         }
     }
     public void SetLHandCollision(int set)
@@ -187,16 +202,15 @@ public class PlayerBasicAttack : MonoBehaviourPun
     {
         if (playerState.Item == item_box_make.item_type.potion && nowEquip == false)
         {
-            getobj = Resources.Load<GameObject>("potion");
-            ItemObj = Instantiate(getobj);
+            //getobj = Resources.Load<GameObject>("potion");
+            ItemObj = PhotonNetwork.Instantiate("potion",new Vector3(0,0,0),Quaternion.identity);
             ItemObj.transform.SetParent(gameObject.transform);
+            // 보는 방향 따라서 생성 위치 달라짐
             Vector3 tpos = GameObject.Find("Bip001 R Finger0").transform.position + Vector3.up+ Vector3.forward;
             ItemObj.transform.Translate(tpos);
             item_Coll = ItemObj.GetComponent<Collider>();
             item_Rigid = ItemObj.GetComponent<Rigidbody>();
-            item_Rigid.isKinematic = true;
-            item_Rigid.useGravity = false;
-            item_Coll.enabled = false;
+            ItemObj.GetComponent<PotionState>().SetState("init");
             nowEquip = true;
         }
 
@@ -232,11 +246,8 @@ public class PlayerBasicAttack : MonoBehaviourPun
             return;
         if (playerState.Item == item_box_make.item_type.potion)
         {
-            item_Coll.enabled = false;
             ItemObj.transform.parent = null;
-            item_Rigid.isKinematic = false;
-            item_Coll.enabled = true;
-            item_Rigid.useGravity = true;
+            ItemObj.GetComponent<PotionState>().SetState("throw");
             Vector3 throw_Angle;
             throw_Angle = gameObject.transform.forward * 10f;
             throw_Angle.y = 5f;

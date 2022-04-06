@@ -55,6 +55,8 @@ MonoBehaviour:
   - RefreshHealth
   - SetItemRPC
   - Receive_Heal
+  - Potion_InitializeState
+  - Potion_ThrowState
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

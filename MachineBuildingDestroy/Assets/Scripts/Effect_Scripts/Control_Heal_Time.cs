@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using Photon.Pun;
 
 public class Control_Heal_Time : MonoBehaviour
 {
