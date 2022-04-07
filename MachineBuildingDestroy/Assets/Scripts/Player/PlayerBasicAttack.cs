@@ -67,6 +67,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
                     switch (playerState.Item)
                     {
                         case item_box_make.item_type.potion:
+                        case item_box_make.item_type.obstacles:
                             Throw_item();
                             break;
                         default:
@@ -97,6 +98,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             switch (playerState.Item)
             {
                 case item_box_make.item_type.potion:
+                case item_box_make.item_type.obstacles:
                     Equip_item();
                     break;
                 default:
@@ -260,11 +262,13 @@ public class PlayerBasicAttack : MonoBehaviourPun
             Debug.Log(old_rot);
             Destroy(ItemObj.gameObject);
             ItemObj.transform.parent = null;
-            getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
-            ItemObj = Instantiate(getobj);
+            //getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
+            //ItemObj = Instantiate(getobj);
             Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward*5f);
-            ItemObj.transform.Translate(tpos);
-            ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
+            //ItemObj.transform.Translate(tpos);
+            //ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
+            ItemObj = PhotonNetwork.Instantiate("Wall_Obstcle_Objs", tpos,
+                new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w));
             ItemObj = null;
             nowEquip = false;
         }
