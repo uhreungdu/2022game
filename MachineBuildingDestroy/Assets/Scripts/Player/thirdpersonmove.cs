@@ -63,7 +63,7 @@ public class thirdpersonmove : MonoBehaviourPun
         Vector3 jumpmove = Vector3.zero;
         if (photonView.IsMine)
         {
-            if (direction.magnitude >= 0.1f && !keepactiveattack && !stiffen)
+            if (direction.magnitude >= 0.1f && !keepactiveattack && !stiffen && !playerState.dead)
             {
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnsmoothvelocity,
@@ -111,7 +111,7 @@ public class thirdpersonmove : MonoBehaviourPun
 
     public void Dash()
     {
-        if (gamePlayerInput.dash && controller.isGrounded && !stiffen)
+        if (gamePlayerInput.dash && controller.isGrounded && !stiffen && !playerState.dead)
         {
             if (speed <= Maxspeed)
             {
@@ -119,7 +119,7 @@ public class thirdpersonmove : MonoBehaviourPun
             }
         }
 
-        if (!gamePlayerInput.dash && controller.isGrounded || stiffen)
+        if (!gamePlayerInput.dash && controller.isGrounded || stiffen || playerState.dead)
         {
             if (speed > 6f)
             {
