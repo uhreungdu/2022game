@@ -13,6 +13,8 @@ public class PlayerState : LivingEntity,IPunObservable
     public bool isAimming{ get;  set; }
     public bool nowEquip{ get;  set; }
 
+    private Vector3 reSpawnTransform;
+
     public item_box_make.item_type Item { get; private set; }
     
     // Start is called before the first frame update
@@ -22,12 +24,14 @@ public class PlayerState : LivingEntity,IPunObservable
 
     private AudioSource playerAudioPlayer; // �÷��̾� �Ҹ� �����
     private Animator playerAnimator; // �÷��̾��� �ִϸ�����
+    private CharacterController _characterController;
     public Dmgs_Status P_Dm;
 
     void Start()
     {
         playerAnimator = GetComponent<Animator>();          // ���� �ȵ�
         playerAudioPlayer = GetComponent<AudioSource>();    // ���� �ȵ�
+        _characterController = GetComponent<CharacterController>();
         var info = GameObject.Find("Myroominfo");
         if (info != null)
         {
@@ -36,17 +40,45 @@ public class PlayerState : LivingEntity,IPunObservable
         }
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
-        
+
+        reSpawnTransform = transform.position;
+
+        reSpawnTransform.x = ReSpawnTransformSet(reSpawnTransform.x);
+        reSpawnTransform.y = ReSpawnTransformSet(reSpawnTransform.y);
+        reSpawnTransform.z = ReSpawnTransformSet(reSpawnTransform.z);
+
         Item = item_box_make.item_type.potion;
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);
         base.OnEnable();
     }
+    
     protected override void OnEnable()
     {
         // LivingEntity�� OnEnable() ���� (���� �ʱ�ȭ)
         // onDeath += DieAction;
         point = 0;
+    }
+
+    public float ReSpawnTransformSet(float value)
+    {
+        if (value <= -1)
+        {
+            value /= 10;
+            value = (int) value;
+            value *= 10;
+            value -= 5;
+        }
+        else if (value >= 1)
+        {
+            value /= (int)10;
+            value = (int) value;
+            value *= 10;
+            value += 5;
+        }
+        else
+            value = 0;
+        return value;
     }
 
     [PunRPC]
@@ -66,6 +98,15 @@ public class PlayerState : LivingEntity,IPunObservable
         // LivingEntity의 Die()를 실행하여 기본 사망 처리 실행
         base.Die();
         playerAnimator.SetTrigger("Dead");
+        Invoke("Respawn", 10f);
+    }
+
+    public void Respawn()
+    {
+        _characterController.enabled = false;
+        transform.position = reSpawnTransform + new Vector3(Random.Range(-4, 4), 0.0f, Random.Range(-4, 4));
+        _characterController.enabled = true;
+        playerAnimator.Rebind();
     }
     public void DieAction()
     {
