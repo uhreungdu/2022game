@@ -57,6 +57,7 @@ MonoBehaviour:
   - Receive_Heal
   - Potion_InitializeState
   - Potion_ThrowState
+  - SetOnHeadName
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
