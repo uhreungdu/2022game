@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -41,6 +42,7 @@ public class PlayerInteract : MonoBehaviour
         {
             lastTime = -1;
         }
+        playerState.update_stat();
     }
     private void OnTriggerEnter(Collider other)
     {

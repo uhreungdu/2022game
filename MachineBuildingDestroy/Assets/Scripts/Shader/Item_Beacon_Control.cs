@@ -28,7 +28,7 @@ public class Item_Beacon_Control : MonoBehaviourPun
         {
             if (Item_get == true)
             {
-                int rand = Random.Range(0, 3 + 1);
+                int rand = Random.Range(2, 5);
                 photonView.RPC("CreateItem", RpcTarget.MasterClient, rand);
             }
         }
@@ -48,7 +48,7 @@ public class Item_Beacon_Control : MonoBehaviourPun
             new Quaternion(0, 0, 0, 0));
         box_obj.transform.SetParent(gameObject.transform);
         //box_obj.transform.Translate(gameObject.transform.position);
-        box_obj.GetComponent<item_box_make>().decide_type(3);
+        box_obj.GetComponent<item_box_make>().decide_type(type);
         Item_get = false;
     }
 }
