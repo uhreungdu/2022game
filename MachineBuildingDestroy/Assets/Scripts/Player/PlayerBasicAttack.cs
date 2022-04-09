@@ -30,6 +30,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
     
     public bool nowEquip;
     public bool BuffOn;
+    public float buff_Time;
     public GameObject getobj;
     public GameObject ItemObj;
     public GameObject BuffObj;
@@ -44,6 +45,13 @@ public class PlayerBasicAttack : MonoBehaviourPun
         Thirdpersonmove = GetComponentInChildren <thirdpersonmove>();
         HitBoxColliders.Add(GameObject.Find("Bip001 L Hand").GetComponent<BoxCollider>());
         HitBoxColliders.Add(GameObject.Find("Bip001 R Hand").GetComponent<BoxCollider>());
+        getobj = Resources.Load<GameObject>("Buff_Effect");
+        BuffObj = Instantiate(getobj);
+        BuffObj.transform.SetParent(gameObject.transform);
+        Vector3 tpos = gameObject.transform.position + Vector3.up;
+        BuffObj.transform.Translate(tpos);
+        BuffObj.SetActive(false);
+        buff_Time = 10f;
     }
 
     // Update is called once per frame
@@ -215,11 +223,6 @@ public class PlayerBasicAttack : MonoBehaviourPun
 
         if (playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
         {
-            getobj = Resources.Load<GameObject>("Buff_Effect");
-            BuffObj = Instantiate(getobj);
-            BuffObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = gameObject.transform.position + Vector3.up;
-            BuffObj.transform.Translate(tpos);
             BuffOn = true;
         }
         
@@ -283,15 +286,20 @@ public class PlayerBasicAttack : MonoBehaviourPun
         if (BuffOn)
         {
             playerState.P_Dm.set_Ite(1.5f);
+            buff_Time -= Time.deltaTime;
         }
         else
         {
             playerState.P_Dm.set_Ite(1f);
+            
         }
 
-        if (BuffObj == null)
+        if (buff_Time <= 0 && BuffOn == true)
         {
             BuffOn = false;
+            buff_Time = 10f;
         }
+        BuffObj.SetActive(BuffOn);
+        print(BuffOn);
     }
 }
