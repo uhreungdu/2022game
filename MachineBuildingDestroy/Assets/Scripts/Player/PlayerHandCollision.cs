@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 
 public class PlayerHandCollision : MonoBehaviour
 {
     // Start is called before the first frame update
     public PlayerState p_state;
+    public 
     void Start()
     {
         p_state = transform.root.GetComponent<PlayerState>();
@@ -45,6 +47,7 @@ public class PlayerHandCollision : MonoBehaviour
                 if (other.gameObject != null && !playerState.dead)
                 {
                     playerState.NetworkOnDamage(p_state.P_Dm.Damge_formula());
+                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
                 }
             }
         }

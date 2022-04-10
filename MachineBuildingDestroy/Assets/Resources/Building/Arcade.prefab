@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 185c7e8e2d3833540ad04b7eb9ce53e1, type: 2}
+  - {fileID: 2100000, guid: 45e408b7d47eca34b91b8e602a278f4a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -172,7 +172,9 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: -5099739311843779227}
   - {fileID: -8843706162784481365}
+  - {fileID: -8121115065416740893}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
