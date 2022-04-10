@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class WallObject : LivingEntity
+public class WallObject : LivingEntity, IPunObservable
 {
     public GameObject coinprefab;     // ������ ������ ���� ������
     public Material boxmaterial;
     public Rigidbody rigidbody;
     public int destroyfloor = 0;
     public int destroyTime = 5;
+    
+    public float _reSpawnTime = 10.0f;
+    public float _reSpawnTimer = 0.0f;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +25,7 @@ public class WallObject : LivingEntity
     // Update is called once per frame
     void Update()
     {
-        
+        DeathTimer();
     }
 
     public void DieAction()
@@ -42,27 +46,44 @@ public class WallObject : LivingEntity
                 coinForward.Normalize();
                 coin.GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 10f);
             }
+            Invoke("RespawnBuilding", 10);
         }
-
         GetComponent<MeshCollider>().enabled = false;
-        
-        Destroy(gameObject, 5);
+
+        //Destroy(gameObject, destroyTime);
     }
 
+    void RespawnBuilding()
+    {
+        string objectName = gameObject.name;
+        objectName = objectName.Remove(objectName.Length - 7, 7);
+        PhotonNetwork.InstantiateRoomObject(objectName, transform.position, transform.rotation);
+        print("리스폰진짜됨");
+    }
+
+    public void DeathTimer()
+    {
+        if (dead && Time.time > _reSpawnTimer + _reSpawnTime)
+        {
+            print("리스폰됨");
+        }
+    }
+    
     public override void Die()
     {
         base.Die();
-            // Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
-            // rigidbody.constraints = RigidbodyConstraints.None;
-            // foreach (Rigidbody child in allChildren)
-            // {
-            //     child.constraints = RigidbodyConstraints.None;
-            //     Vector3 objectPotision = transform.position;
-            //     objectPotision.y = 3;
-            //     child.AddExplosionForce(250, objectPotision, 50f);
-            // }
-            // Destroy(GetComponent<PhotonRigidbodyView>());
-            // Destroy(rigidbody);
+        _reSpawnTimer = Time.time;
+        // Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
+        // rigidbody.constraints = RigidbodyConstraints.None;
+        // foreach (Rigidbody child in allChildren)
+        // {
+        //     child.constraints = RigidbodyConstraints.None;
+        //     Vector3 objectPotision = transform.position;
+        //     objectPotision.y = 3;
+        //     child.AddExplosionForce(250, objectPotision, 50f);
+        // }
+        // Destroy(GetComponent<PhotonRigidbodyView>());
+        // Destroy(rigidbody);
     }
     [PunRPC]
     public void WallDestroy()
@@ -138,12 +159,14 @@ public class WallObject : LivingEntity
         // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
         if (stream.IsWriting)
         {
-
+            stream.SendNext(_reSpawnTime);
+            stream.SendNext(_reSpawnTimer);
         }
         // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
         else
         {
-
+            _reSpawnTime = (float)stream.ReceiveNext();
+            _reSpawnTimer = (float)stream.ReceiveNext();
         }
     }
 
