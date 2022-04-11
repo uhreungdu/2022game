@@ -100,8 +100,8 @@ public class PlayerState : LivingEntity,IPunObservable
 
     public void NetworkOnDamage(float damage)
     {
-        OnDamage(damage);
-        // photonView.RPC("OnDamage", RpcTarget.Others, damage);
+        // OnDamage(damage);
+        photonView.RPC("OnDamage", RpcTarget.Others, damage);
     }
 
     public override void Die() {

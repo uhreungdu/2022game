@@ -13,7 +13,7 @@ public class PlayerImpact : MonoBehaviour
     }
          
     // Update is called once per frame
-    void Update () {
+    void FixedUpdate () {
         // apply the impact force:
         if (impact.magnitude > 0.2F) character.Move(impact * Time.deltaTime);
         // consumes the impact energy each cycle:

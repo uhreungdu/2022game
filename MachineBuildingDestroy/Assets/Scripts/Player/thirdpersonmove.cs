@@ -52,7 +52,6 @@ public class thirdpersonmove : MonoBehaviourPun
         Jump();
         Dash();
         Movement();
-        BasicAttackMove(0);
     }
 
     public void Movement()
@@ -154,15 +153,6 @@ public class thirdpersonmove : MonoBehaviourPun
             stiffen = true;
         else if (set < 1)
             stiffen = false;
-    }
-
-    public void BasicAttackMove(int num)
-    {
-        if (activeattack == true && collidingbuilding != true)
-        {
-            Vector3 attackVector = transform.forward;
-            controller.Move(attackVector * 10f * Time.deltaTime);
-        }
     }
 
     public void Equip_item()

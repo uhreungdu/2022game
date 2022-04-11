@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 public class PlayerBasicAttack : MonoBehaviourPun
 {
     // Start is called before the first frame update
-    [FormerlySerializedAs("playerInput")] public GamePlayerInput gamePlayerInput;
+    public GamePlayerInput gamePlayerInput;
     public List<BoxCollider> HitBoxColliders;
     public Material boxmaterial;
     public GameObject coinprefab;
@@ -30,18 +30,23 @@ public class PlayerBasicAttack : MonoBehaviourPun
     
     public bool nowEquip;
     public bool BuffOn;
+    
     public GameObject getobj;
     public GameObject ItemObj;
     public GameObject BuffObj;
     public Rigidbody item_Rigid;
     public Collider item_Coll;
     public Quaternion parent_qut;
+
+    public PlayerHandAttack _PlayerHandAttack;
     void Start()
     {
         gamePlayerInput = GetComponentInParent<GamePlayerInput>();
         playerState = GetComponentInParent<PlayerState>();
         playeranimator = GetComponentInChildren <PlayerAnimator>();
         Thirdpersonmove = GetComponentInChildren <thirdpersonmove>();
+        
+        _PlayerHandAttack = GetComponentInChildren <PlayerHandAttack>();
         HitBoxColliders.Add(GameObject.Find("Bip001 L Hand").GetComponent<BoxCollider>());
         HitBoxColliders.Add(GameObject.Find("Bip001 R Hand").GetComponent<BoxCollider>());
     }

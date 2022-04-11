@@ -1,40 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
-using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 
-public class PlayerHandCollision : MonoBehaviour
+// 손에 직접적으로 들어가는 스크립트 트리거용
+public class PlayerHandAttackTrigger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public PlayerState p_state;
-    public 
+    public PlayerState _playerState;
     void Start()
     {
-        p_state = transform.root.GetComponent<PlayerState>();
-
+        _playerState = transform.root.GetComponent<PlayerState>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
     private void OnTriggerEnter(Collider other)
     {
+        
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Wall")
         {
             WallObject attackTarget = other.GetComponent<WallObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
-                Material material = other.GetComponent<MeshRenderer>().sharedMaterial;
-                if (material == null)
-                {
-                    material = other.GetComponentInChildren<MeshRenderer>().sharedMaterial;
-                }
-                // CMeshSlicer.SlicerWorld(other.gameObject, Upvector, other.ClosestPointOnBounds(boxCollider.transform.position), boxmaterial);
-                attackTarget.NetworkOnDamage(p_state.P_Dm.Damge_formula());
+                attackTarget.NetworkOnDamage(_playerState.P_Dm.Damge_formula());
                 Debug.Log(attackTarget.health);
             }
         }
@@ -46,7 +31,7 @@ public class PlayerHandCollision : MonoBehaviour
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
                 if (other.gameObject != null && !playerState.dead)
                 {
-                    playerState.NetworkOnDamage(p_state.P_Dm.Damge_formula());
+                    playerState.NetworkOnDamage(_playerState.P_Dm.Damge_formula());
                     other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
                 }
             }
@@ -57,7 +42,7 @@ public class PlayerHandCollision : MonoBehaviour
             Obstacle_Obj Target = other.GetComponent<Obstacle_Obj>();
             if (Target != null && !Target.dead)
             {
-                Target.OnDamage(p_state.P_Dm.Damge_formula());
+                Target.OnDamage(_playerState.P_Dm.Damge_formula());
                 Debug.Log(Target.health);
             }
         }
