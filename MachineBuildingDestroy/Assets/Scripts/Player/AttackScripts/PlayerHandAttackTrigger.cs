@@ -5,10 +5,12 @@ using UnityEngine;
 // 손에 직접적으로 들어가는 스크립트 트리거용
 public class PlayerHandAttackTrigger : MonoBehaviour
 {
+    private PlayerHandAttack _playerHandAttack;
     public PlayerState _playerState;
     void Start()
     {
         _playerState = transform.root.GetComponent<PlayerState>();
+        _playerHandAttack = transform.root.GetComponent<PlayerHandAttack>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -19,7 +21,8 @@ public class PlayerHandAttackTrigger : MonoBehaviour
             WallObject attackTarget = other.GetComponent<WallObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
-                attackTarget.NetworkOnDamage(_playerState.P_Dm.Damge_formula());
+                // attackTarget.NetworkOnDamage(_playerHandAttack._damage);
+                attackTarget.OnDamage(_playerHandAttack._damage);
                 Debug.Log(attackTarget.health);
             }
         }
@@ -31,7 +34,8 @@ public class PlayerHandAttackTrigger : MonoBehaviour
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
                 if (other.gameObject != null && !playerState.dead)
                 {
-                    playerState.NetworkOnDamage(_playerState.P_Dm.Damge_formula());
+                    // playerState.NetworkOnDamage(_playerHandAttack._damage);
+                    playerState.OnDamage(_playerHandAttack._damage);
                     other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
                 }
             }

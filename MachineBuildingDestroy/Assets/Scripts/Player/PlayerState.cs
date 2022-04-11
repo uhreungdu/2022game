@@ -100,7 +100,7 @@ public class PlayerState : LivingEntity,IPunObservable
 
     public void NetworkOnDamage(float damage)
     {
-        // OnDamage(damage);
+        //OnDamage(damage);
         photonView.RPC("OnDamage", RpcTarget.Others, damage);
     }
 

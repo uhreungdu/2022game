@@ -20,13 +20,13 @@ public class PlayerBasicAttack : MonoBehaviourPun
     public PlayerAnimator playeranimator;
     public thirdpersonmove Thirdpersonmove;
     
-    private float timeBetAttack = 0.3f; // °ø°Ý °£°Ý
-    private float activeAttackTime = 0f; // °ø°Ý À¯Áö ½Ã°£
-    private float lastAttackTime = 0f; // °ø°ÝÀ» ¸¶Áö¸·¿¡ ÇÑ ½ÃÁ¡
+    private float timeBetAttack = 0.3f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float activeAttackTime = 0f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    private float lastAttackTime = 0f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    private float timeBetHeal = 0.5f; // Èú °£°Ý
-    private float activeHealTime = 0f; // Èú À¯Áö ½Ã°£
-    private float LastHealTime = 0f; // °ø°ÝÀ» ¸¶Áö¸·¿¡ ÇÑ ½ÃÁ¡
+    private float timeBetHeal = 0.5f; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float activeHealTime = 0f; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    private float LastHealTime = 0f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     
     public bool nowEquip;
     public bool BuffOn;
@@ -66,7 +66,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
             {
-                //Debug.Log("¾Õ ¹éÅÍ = " + boxCollider.transform.forward);
+                //Debug.Log("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ = " + boxCollider.transform.forward);
                 if (nowEquip == true)
                 {
                    //Throw_item();
@@ -107,7 +107,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        // Æ®¸®°Å Ãæµ¹ÇÑ »ó´ë¹æ °ÔÀÓ ¿ÀºêÁ§Æ®°¡ ÃßÀû ´ë»óÀÌ¶ó¸é °ø°Ý ½ÇÇà
+        // Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (other.tag == "Wall")
         {
             // WallObject attackTarget = other.GetComponent<WallObject>();

@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     protected string _attackName; // 공격 이름
-    protected float _damage; // 공격력
+    public float _damage { protected set; get; } // 공격력
     
     protected float _timeBetAttack; // 공격 간격
     protected float _activeAttackTime; // 공격 유지 시간
