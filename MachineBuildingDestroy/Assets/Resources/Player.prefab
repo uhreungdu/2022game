@@ -1141,6 +1141,7 @@ MonoBehaviour:
   Thirdpersonmove: {fileID: 0}
   nowEquip: 0
   BuffOn: 0
+  buff_Time: 0
   getobj: {fileID: 0}
   ItemObj: {fileID: 0}
   BuffObj: {fileID: 0}
