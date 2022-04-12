@@ -1,0 +1,24 @@
+<<<<<<< HEAD
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/.idea.MachineBuildingDestroy.iml
+/modules.xml
+/contentModel.xml
+/projectSettingsUpdater.xml
+=======
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/projectSettingsUpdater.xml
+/.idea.MachineBuildingDestroy.iml
+/contentModel.xml
+>>>>>>> main
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml

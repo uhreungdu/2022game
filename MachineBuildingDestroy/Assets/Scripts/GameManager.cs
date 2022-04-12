@@ -39,10 +39,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         
         public void Active_Itembox(){
-            if((int)Ntimer / 90 > 0 && (int)Ntimer % 90 < 10)
+            if((int)Ntimer / 20 > 0 && (int)Ntimer % 20 < 10)
             {
                 itembox_Create = true;
-                //Debug.Log("아이템 생성");
+                // Debug.Log("아이템 생성");
             }
             else
             {
@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 goalpost_Create = false;
-                
             }
         }
         public void Active_landmakr(){
@@ -111,6 +110,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
+        
+        if (PhotonNetwork.IsMasterClient)
+        {
+            now_timer.Ntimer += Time.deltaTime;
+        }
+        
         for(int i = 0;i<2;++i)
         {
             if(gamescore[i] <= 5)
@@ -123,7 +128,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public int getScore(int num){
         return gamescore[num];
     }
-    public int plusScore(int team, int point)
+    public int setScore(int team, int point)
+    {
+        return gamescore[team] = point;
+    }
+    public int addScore(int team, int point)
     {
         return gamescore[team] += point;
     }
@@ -135,10 +144,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         return teamcount[team] += 1;
     }
-    public int setScore(int team, int point)
-    {
-        return gamescore[team] = point;
-    }
+   
     public timer_block getTime()
     {
         return now_timer;
@@ -148,11 +154,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if(now_timer.min < 5)
         {
             // 내가 Master Client(동기화의 주체)이면 시간을 더해줍니다.
-            if (PhotonNetwork.IsMasterClient)
-            {
-                now_timer.Ntimer += Time.deltaTime * 0.5f;
-            }
-
             now_timer.min = (int) now_timer.Ntimer / 60;
             now_timer.sec = ((int)now_timer.Ntimer - now_timer.min * 60) % 60;
             EManager.SetTime(now_timer.Ntimer);
@@ -170,13 +171,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(EManager.Ntimer);
-            //Debug.Log(string.Format("Send time {0}",EManager.Ntimer));
+            stream.SendNext(gamescore[0]);
+            stream.SendNext(gamescore[1]);
         }
         // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
         else
         {
             now_timer.Ntimer = (float) stream.ReceiveNext();
-            //Debug.Log(string.Format("Recieve time {0}",EManager.Ntimer));
+            gamescore[0] = (int) stream.ReceiveNext();
+            gamescore[1] = (int) stream.ReceiveNext();
         }
     }
 }

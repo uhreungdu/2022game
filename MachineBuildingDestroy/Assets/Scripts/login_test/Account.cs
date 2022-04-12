@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -51,17 +53,23 @@ public class Account : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        LogoutAccount();
+    }
+
+    void LogoutAccount()
+    {
         WWWForm form = new WWWForm();
         form.AddField("id", "\""+pID+"\"") ;
-
         UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/logout_account.php", form);
         www.SendWebRequest();
     }
-
+    
     public void WriteAccount(string id, string nickname)
     {
         pID = id;
         pNickname = nickname;
+        PhotonNetwork.NickName = nickname;
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public string GetPlayerID()

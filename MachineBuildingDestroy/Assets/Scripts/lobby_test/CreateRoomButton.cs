@@ -27,6 +27,11 @@ public class CreateRoomButton : MonoBehaviour
 
     public void CreateRoom()
     {
+        if (!PhotonNetwork.IsConnected)
+        {
+            print("ERR: offline");
+            return;
+        }
         gManager.SetExRoomName(_account.GetPlayerNickname()+"ÀÇ ¹æ" + Random.Range(0, 9999));
         gManager.SetInRoomName(gManager.GetExRoomName() + 
                                _account.GetPlayerNickname() + 
@@ -52,9 +57,7 @@ public class CreateRoomButton : MonoBehaviour
         }
         else
         {
-            Debug.Log("Form upload complete!");
             PhotonNetwork.JoinOrCreateRoom(gManager.GetInRoomName(), new RoomOptions { MaxPlayers = 6 }, null);
-            SceneManager.LoadScene("SampleScene");
         }
     }
 }

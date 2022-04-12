@@ -157,10 +157,10 @@ RectTransform:
   m_Father: {fileID: 1284442081}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -180, y: 245}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 281.49997, y: 119.21}
+  m_SizeDelta: {x: 72, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &13313409
 MonoBehaviour:
@@ -279,7 +279,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 124130634}
-  sceneViewId: 1
+  sceneViewId: 4
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &267762035
@@ -390,11 +390,11 @@ MonoBehaviour:
   m_BindingMode: 4
   m_SplineCurvature: 0.2
   m_Orbits:
-  - m_Height: 4
+  - m_Height: 4.5
     m_Radius: 6
-  - m_Height: 1.5
-    m_Radius: 9
-  - m_Height: -2
+  - m_Height: 2.5
+    m_Radius: 8
+  - m_Height: 0.5
     m_Radius: 6
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
@@ -432,7 +432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CollideAgainst:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 513
   m_IgnoreTag: Player
   m_TransparentLayers:
     serializedVersion: 2
@@ -521,7 +521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 3.777028, z: -6.7069716}
+  m_FollowOffset: {x: 0, y: 4.3002286, z: -6.493257}
   m_XDamping: 0.1
   m_YDamping: 0.1
   m_ZDamping: 0.1
@@ -603,8 +603,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547d136b8e626804299320dbc48cb168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapGameObject: {fileID: 0}
   planepref: {fileID: 932610068854459547, guid: f8b0f403836ae414b9e31870b36525c3, type: 3}
-  bulidingpref: {fileID: 1560815743673721885, guid: 239c8fdc05e898f489304149803126eb, type: 3}
+  goalpostpref: {fileID: 3591101973611699780, guid: a0ede66e75badc742a2bf08053beca51, type: 3}
+  itempref: {fileID: 6056022715655027599, guid: 36d6f2e7f8fe0164aa53b264ab5b9d80, type: 3}
+  tankpref: {fileID: 1560815743673721885, guid: 83b93a4d3b8d9c3438e3df58e01ba707, type: 3}
+  arcadepref: {fileID: 2358042896829115922, guid: f10516a1783f53348abf11e920bb8d9f, type: 3}
+  team1Spawner: {fileID: 7239922932976661812, guid: c516951de9b3559458b20048106f4316, type: 3}
+  team2Spawner: {fileID: 6204031295450850405, guid: c78d9798704733f4794b8b043d68f45d, type: 3}
+  Online: 1
+  MapEditer: 0
 --- !u!4 &581632887
 Transform:
   m_ObjectHideFlags: 0
@@ -726,7 +734,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -959,7 +967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 3.777028, z: -6.7069716}
+  m_FollowOffset: {x: 0, y: 4.3002286, z: -6.493257}
   m_XDamping: 0
   m_YDamping: 0.5
   m_ZDamping: 0.5
@@ -1130,8 +1138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96b20537bc55a74e8e14dd781a521c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 686778006457817195, guid: c1b2e2dbde85b1c42ae360fbf06c912b, type: 3}
-  Map: {fileID: 581632885}
+  Player: {fileID: 6962304825099367683, guid: d32ccc424f107b04c964688911a498e0, type: 3}
+  Map: {fileID: 581632886}
 --- !u!4 &1048794425
 Transform:
   m_ObjectHideFlags: 0
@@ -1192,9 +1200,9 @@ RectTransform:
   m_Father: {fileID: 1284442081}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 160.6}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0.000025431, y: 293.73}
   m_SizeDelta: {x: 165, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1078658498
@@ -1233,7 +1241,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 35
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1301,7 +1309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 1
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -1681,7 +1689,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1848,7 +1856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 3.777028, z: -6.7069716}
+  m_FollowOffset: {x: 0, y: 4.3002286, z: -6.493257}
   m_XDamping: 0.1
   m_YDamping: 0.1
   m_ZDamping: 0.1
@@ -1935,10 +1943,10 @@ RectTransform:
   m_Father: {fileID: 1284442081}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 180, y: 245}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -281.49997, y: 119.21}
+  m_SizeDelta: {x: 72, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2067319794
 MonoBehaviour:
@@ -2026,8 +2034,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 245}
-  m_SizeDelta: {x: 165, y: 100}
+  m_AnchoredPosition: {x: 0, y: 119.21}
+  m_SizeDelta: {x: 165, y: 50.9588}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2111600559
 MonoBehaviour:
@@ -2051,10 +2059,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 2
     m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0

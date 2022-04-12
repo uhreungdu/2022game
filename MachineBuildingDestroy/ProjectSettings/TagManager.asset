@@ -11,6 +11,13 @@ TagManager:
   - Goalpost
   - Wall
   - Coin
+  - Slicer
+  - DestroyWall
+  - Item
+  - Obstcle_Item
+  - Spawner1
+  - Undefined
+  - Spawner2
   layers:
   - Default
   - TransparentFX
@@ -20,8 +27,8 @@ TagManager:
   - UI
   - ground
   - Player
-  - 
-  - 
+  - Coin
+  - Building
   - 
   - 
   - 

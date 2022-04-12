@@ -112,12 +112,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gmanager: {fileID: 0}
-  min: 0
-  past_min: 0
-  sec: 0
   box: {fileID: 0}
   box_obj: {fileID: 0}
-  have_box: 0
+  Item_get: 0
   CreateTime: 10
 --- !u!114 &-144346676000884673
 MonoBehaviour:
@@ -135,9 +132,10 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -2379399838407091085}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -155,5 +153,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
   m_UseLocal: 1
