@@ -5,6 +5,11 @@ using System.Text;
 
 namespace Chatserver
 {
+    enum ChatCode : byte
+    {
+        Normal,
+        Exit
+    }
     public class Session
     {
         public const int bufSize = 128;
@@ -104,33 +109,29 @@ namespace Chatserver
 
                 if (recvsize > 0)
                 {
-                    data = Encoding.UTF8.GetString(session.buf, 0, recvsize);
-                    Console.WriteLine(data);
-                    foreach (Session s in _ClientList)
+                    if (session.buf[0] == (byte)ChatCode.Exit)
                     {
-                        Send(s, data);
+                        DisconnectClient(session);
+                        return;
+                    }
+                    else
+                    {
+                        data = Encoding.UTF8.GetString(session.buf, 0, recvsize);
+                        Console.WriteLine(data);
+                        foreach (Session s in _ClientList)
+                        {
+                            Send(s, data);
+                        }
                     }
                 }
                 else
                 {
-                    if (session.is_online)
-                    {
-                        session.is_online = false;
-                        Console.WriteLine("Client Disconnected.");
-                        _ClientList.Remove(session);
-                        session.socket.Close();
-                    }
+                    DisconnectClient(session);
                 }
             }
             catch (Exception ex)
             {
-                if (session.is_online)
-                {
-                    session.is_online = false;
-                    Console.WriteLine("Client Disconnected.");
-                    _ClientList.Remove(session);
-                    session.socket.Close();
-                }
+                DisconnectClient(session);
             }
 
         }
@@ -158,5 +159,16 @@ namespace Chatserver
                 Console.WriteLine(ex.ToString());
             }
         }   
+
+        private static void DisconnectClient(Session session)
+        {
+            if (session.is_online)
+            {
+                session.is_online = false;
+                Console.WriteLine("Client Disconnected.");
+                _ClientList.Remove(session);
+                session.socket.Close();
+            }
+        }
     }
 }
