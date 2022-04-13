@@ -32,4 +32,9 @@ public class ChatClient : MonoBehaviour
     {
         _client.Send(Encoding.UTF8.GetBytes(msg));
     }
+
+    private void OnApplicationQuit()
+    {
+        _client.Close();
+    }
 }

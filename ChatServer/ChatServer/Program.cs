@@ -95,26 +95,22 @@ namespace Chatserver
             Session session = (Session)ar.AsyncState;
             Socket socket = session.socket;
 
-            try
-            {
+
                 int recvsize = socket.EndReceive(ar);
 
                 if (recvsize > 0)
                 {
                     data = Encoding.UTF8.GetString(session.buf, 0, recvsize);
                     Console.WriteLine(data);
-                }
-                else
-                {
                     socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                         new AsyncCallback(ReceiveCallback), session);
                 }
-            }
-            catch(Exception ex)
-            {
-                socket.Close();
-                Console.WriteLine(ex.ToString());
-            }
+                else
+                {
+                Console.WriteLine(socket.RemoteEndPoint.ToString() + " is Disconnected.");
+                }
+            
+           
         }
 
         private static void SendCallback()
