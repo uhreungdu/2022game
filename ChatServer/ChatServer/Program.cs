@@ -10,6 +10,7 @@ namespace Chatserver
         public const int bufSize = 128;
         public byte[] buf = new byte[bufSize];
         public Socket socket = null;
+        public bool is_online = false;
     }
     class Program
     {
@@ -23,11 +24,11 @@ namespace Chatserver
         private const int BufSize = 128;
 
         private static Socket? _ServerSocket;
-        private static List<Socket>? _ClientSocketList;
+        private static List<Session>? _ClientList;
 
         static void Main()
         {
-            _ClientSocketList = new List<Socket>();
+            _ClientList = new List<Session>();
             // 서버 소켓 생성
             _ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint ipep = new IPEndPoint(IPAddress.Any, Port);
@@ -84,6 +85,9 @@ namespace Chatserver
 
             Session session = new Session();
             session.socket = client;
+            session.is_online = true;
+            _ClientList.Add(session);
+
             client.BeginReceive(session.buf, 0, Session.bufSize, 0, 
                 new AsyncCallback(ReceiveCallback), session);
         }
@@ -93,34 +97,66 @@ namespace Chatserver
             String data = String.Empty;
 
             Session session = (Session)ar.AsyncState;
-            Socket socket = session.socket;
 
-
-                int recvsize = socket.EndReceive(ar);
+            try
+            {
+                int recvsize = session.socket.EndReceive(ar);
 
                 if (recvsize > 0)
                 {
                     data = Encoding.UTF8.GetString(session.buf, 0, recvsize);
                     Console.WriteLine(data);
-                    socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
-                        new AsyncCallback(ReceiveCallback), session);
+                    foreach (Session s in _ClientList)
+                    {
+                        Send(s, data);
+                    }
                 }
                 else
                 {
-                Console.WriteLine(socket.RemoteEndPoint.ToString() + " is Disconnected.");
+                    if (session.is_online)
+                    {
+                        session.is_online = false;
+                        Console.WriteLine("Client Disconnected.");
+                        _ClientList.Remove(session);
+                        session.socket.Close();
+                    }
                 }
-            
-           
+            }
+            catch (Exception ex)
+            {
+                if (session.is_online)
+                {
+                    session.is_online = false;
+                    Console.WriteLine("Client Disconnected.");
+                    _ClientList.Remove(session);
+                    session.socket.Close();
+                }
+            }
+
         }
 
-        private static void SendCallback()
+
+        private static void Send(Session session, String data)
         {
-
+            byte[] sendData = Encoding.UTF8.GetBytes(data);
+            session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                new AsyncCallback(SendCallback), session);
         }
 
-        private static void Send()
+        private static void SendCallback(IAsyncResult ar)
         {
+            try
+            {
+                Session session = (Session)ar.AsyncState;
 
-        }
+                int sendsize = session.socket.EndSend(ar);
+                session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                new AsyncCallback(ReceiveCallback), session);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }   
     }
 }

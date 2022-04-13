@@ -22,19 +22,11 @@ public class ChatClient : MonoBehaviour
 
     private void Start()
     {
-
-            _client.Connect(_ipep);
-
-
+        _client.Connect(_ipep);
     }
 
     public void SendChat(string msg)
     {
         _client.Send(Encoding.UTF8.GetBytes(msg));
-    }
-
-    private void OnApplicationQuit()
-    {
-        _client.Close();
     }
 }
