@@ -8,6 +8,9 @@ public class WallObject : LivingEntity, IPunObservable
     public GameObject coinprefab;     // ������ ������ ���� ������
     public Material boxmaterial;
     public Rigidbody rigidbody;
+    public MeshRenderer _MeshRenderer;
+    public MeshCollider _MeshCollider;
+    
     public int destroyfloor = 0;
     public int destroyTime = 5;
     
@@ -19,6 +22,8 @@ public class WallObject : LivingEntity, IPunObservable
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        _MeshRenderer = GetComponent<MeshRenderer>();
+        _MeshCollider = GetComponent<MeshCollider>();
         onDeath += DieAction;
     }
 
@@ -40,17 +45,17 @@ public class WallObject : LivingEntity, IPunObservable
                 coinPosition.z = coinPosition.z + (1.5f * Mathf.Sin(radian));
                 coinPosition.y = coinPosition.y + 3.0f;
                 GameObject coin =
-                    PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, transform.rotation);
+                    PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, coinprefab.transform.rotation);
                 //Instantiate(coinprefab, coinPosition, transform.rotation);
                 Vector3 coinForward = coin.transform.position - transform.position;
                 coinForward.Normalize();
                 coin.GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 10f);
             }
-            Invoke("RespawnBuilding", 10);
+            // Invoke("RespawnBuilding", 10);
         }
         GetComponent<MeshCollider>().enabled = false;
 
-        //Destroy(gameObject, destroyTime);
+        // Destroy(gameObject, destroyTime);
     }
 
     void RespawnBuilding()
@@ -59,6 +64,7 @@ public class WallObject : LivingEntity, IPunObservable
         objectName = objectName.Remove(objectName.Length - 7, 7);
         PhotonNetwork.InstantiateRoomObject(objectName, transform.position, transform.rotation);
         print("리스폰진짜됨");
+        Destroy(gameObject);
     }
 
     public void DeathTimer()
@@ -73,17 +79,6 @@ public class WallObject : LivingEntity, IPunObservable
     {
         base.Die();
         _reSpawnTimer = Time.time;
-        // Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
-        // rigidbody.constraints = RigidbodyConstraints.None;
-        // foreach (Rigidbody child in allChildren)
-        // {
-        //     child.constraints = RigidbodyConstraints.None;
-        //     Vector3 objectPotision = transform.position;
-        //     objectPotision.y = 3;
-        //     child.AddExplosionForce(250, objectPotision, 50f);
-        // }
-        // Destroy(GetComponent<PhotonRigidbodyView>());
-        // Destroy(rigidbody);
     }
     [PunRPC]
     public void WallDestroy()
@@ -121,15 +116,29 @@ public class WallObject : LivingEntity, IPunObservable
 
         if (dead)
         {
-            Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
+            MeshRenderer[] childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+            foreach (MeshRenderer child in childMeshRenderers)
+            {
+                child.enabled = true;
+            }
+            
+            MeshCollider[] childMeshCollider = GetComponentsInChildren<MeshCollider>();
+            foreach (MeshCollider child in childMeshCollider)
+            {
+                child.enabled = true;
+            }
+
+            Rigidbody[] childRigidbodys = GetComponentsInChildren<Rigidbody>();
             rigidbody.constraints = RigidbodyConstraints.None;
-            foreach (Rigidbody child in allChildren)
+            foreach (Rigidbody child in childRigidbodys)
             {
                 child.constraints = RigidbodyConstraints.None;
                 Vector3 objectPotision = transform.position;
-                objectPotision.y = 3;
+                objectPotision.y = 0;
                 child.AddExplosionForce(250, objectPotision, 50f);
             }
+            _MeshRenderer.enabled = false;
+            _MeshCollider.enabled = false;
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
         }

@@ -1333,6 +1333,8 @@ MonoBehaviour:
   keepAttackTime: 0.3
   lastStiffenTime: 0
   keepstiffenTime: 0.3
+  speed: 6
+  Maxspeed: 18
 --- !u!114 &8474990316345599806
 MonoBehaviour:
   m_ObjectHideFlags: 0

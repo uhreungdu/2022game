@@ -15,6 +15,9 @@ public class PlayerAnimator : MonoBehaviour
 
     public float lastStiffenTime;
     public float keepstiffenTime = 0.3f;
+    
+    public float speed = 6f;
+    public float Maxspeed = 18f;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,7 @@ public class PlayerAnimator : MonoBehaviour
     void Update()
     {
         StiffenTimer();
+        AnimationUpdate();
     }
 
     public void OnComboAttack()
@@ -65,5 +69,19 @@ public class PlayerAnimator : MonoBehaviour
                 _animator.SetBool("Stiffen", false);
             }
         }
+    }
+    
+    
+    public void AnimationUpdate()
+    {
+        Vector3 Origindirection = new Vector3(gamePlayerInput.rotate, 0f, gamePlayerInput.move);
+        if (Origindirection.magnitude >= 1)
+        {
+            Origindirection.Normalize();
+        }
+
+        Origindirection = Origindirection * speed / Maxspeed;
+
+        _animator.SetFloat("Move", Origindirection.magnitude);
     }
 }

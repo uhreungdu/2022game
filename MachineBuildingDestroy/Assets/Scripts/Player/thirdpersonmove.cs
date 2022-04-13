@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System;
+using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 
 public class thirdpersonmove : MonoBehaviourPun
@@ -11,7 +12,6 @@ public class thirdpersonmove : MonoBehaviourPun
     public GamePlayerInput gamePlayerInput; // �÷��̾������� �����ϴ� ��ũ��Ʈ
     public PlayerState playerState;
     public Transform cam;
-    private Animator playeranimator;
 
     public float speed = 6f;
     public float Maxspeed = 18f;
@@ -39,7 +39,6 @@ public class thirdpersonmove : MonoBehaviourPun
         controller = GetComponent<CharacterController>();
         cam = GameObject.FindWithTag("CamPos").GetComponent<Transform>();
         gamePlayerInput = GetComponent<GamePlayerInput>();
-        playeranimator = GetComponentInChildren<Animator>();
         playerState = GetComponent<PlayerState>();
         jumpower = 6f;
         Debug.Log(Application.platform);
@@ -47,11 +46,15 @@ public class thirdpersonmove : MonoBehaviourPun
         playerState.nowEquip = false;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Jump();
         Dash();
         Movement();
+    }
+    void Update()
+    {
+        
     }
 
     public void Movement()
@@ -87,15 +90,6 @@ public class thirdpersonmove : MonoBehaviourPun
             }
 
             // �ִϸ��̼��� ���� ����
-            Vector3 Origindirection = new Vector3(gamePlayerInput.rotate, 0f, gamePlayerInput.move);
-            if (Origindirection.magnitude >= 1)
-            {
-                Origindirection.Normalize();
-            }
-
-            Origindirection = Origindirection * speed / Maxspeed;
-
-            playeranimator.SetFloat("Move", Origindirection.magnitude);
             //print(Origindirection.magnitude);
         }
     }
