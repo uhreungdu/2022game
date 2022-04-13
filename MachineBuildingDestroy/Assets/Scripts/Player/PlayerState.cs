@@ -23,15 +23,17 @@ public class PlayerState : LivingEntity,IPunObservable
     public GameManager gManager;
 
     private AudioSource playerAudioPlayer; // �÷��̾� �Ҹ� �����
-    private Animator playerAnimator; // �÷��̾��� �ִϸ�����
+    private Animator _animator; // �÷��̾��� �ִϸ�����
+    private PlayerAnimator _playerAnimator; // �÷��̾��� �ִϸ�����
     private CharacterController _characterController;
     public Dmgs_Status P_Dm;
 
     void Start()
     {
-        playerAnimator = GetComponent<Animator>();          // ���� �ȵ�
+        _animator = GetComponent<Animator>();          // ���� �ȵ�
         playerAudioPlayer = GetComponent<AudioSource>();    // ���� �ȵ�
         _characterController = GetComponent<CharacterController>();
+        _playerAnimator = GetComponent<PlayerAnimator>();
         var info = GameObject.Find("Myroominfo");
         if (info != null)
         {
@@ -85,7 +87,15 @@ public class PlayerState : LivingEntity,IPunObservable
     public override void OnDamage(float damage)
     {
         base.OnDamage(damage);
-        playerAnimator.SetTrigger("Stiffen");
+        _playerAnimator.lastStiffenTime = Time.time;
+        if (!_animator.GetBool("Stiffen"))
+        {
+            _animator.SetBool("Stiffen", true);
+        }
+        else if (_animator.GetBool("Stiffen"))
+        {
+            _animator.SetTrigger("RepeatStiffen");
+        }
     }
 
     public void NetworkOnDamage(float damage)
@@ -97,7 +107,7 @@ public class PlayerState : LivingEntity,IPunObservable
     public override void Die() {
         // LivingEntity의 Die()를 실행하여 기본 사망 처리 실행
         base.Die();
-        playerAnimator.SetTrigger("Dead");
+        _animator.SetTrigger("Dead");
         Invoke("Respawn", 10f);
     }
 
@@ -106,7 +116,9 @@ public class PlayerState : LivingEntity,IPunObservable
         _characterController.enabled = false;
         transform.position = reSpawnTransform + new Vector3(Random.Range(-4, 4), 0.0f, Random.Range(-4, 4));
         _characterController.enabled = true;
-        playerAnimator.Rebind();
+        dead = false;
+        health = startingHealth;
+        _animator.Rebind();
     }
     public void DieAction()
     {

@@ -32912,30 +32912,23 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.1
-    functionName: SetActiveAttack
+    functionName: AttackMovement
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
     floatParameter: 0
-    intParameter: 1
+    intParameter: 2
     messageOptions: 0
   - time: 0.1
     functionName: SetLHandCollision
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 9bb040a40ce05a1468b1d2427cb41bb8, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
     floatParameter: 0
     intParameter: 1
-    messageOptions: 0
-  - time: 0.2
-    functionName: SetActiveAttack
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
     messageOptions: 0
   - time: 0.53333336
     functionName: SetLHandCollision
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 9bb040a40ce05a1468b1d2427cb41bb8, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

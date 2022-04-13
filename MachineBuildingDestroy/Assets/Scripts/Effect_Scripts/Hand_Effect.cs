@@ -5,7 +5,7 @@ using UnityEngine;
 using Unity.Mathematics;
 using UnityEngine.VFX;
 
-public class Hand_Effect_Manager : MonoBehaviour
+public class Hand_Effect : MonoBehaviour
 {
     // Start is called before the first frame update
     public BoxCollider Hand_Box;

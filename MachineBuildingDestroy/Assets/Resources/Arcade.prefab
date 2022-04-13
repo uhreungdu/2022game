@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 185c7e8e2d3833540ad04b7eb9ce53e1, type: 2}
+  - {fileID: 2100000, guid: 45e408b7d47eca34b91b8e602a278f4a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -116,11 +116,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
-  coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
+  coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
   boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
   rigidbody: {fileID: 0}
   destroyfloor: 0
   destroyTime: 5
+  _reSpawnTime: 10
+  _reSpawnTimer: 0
 --- !u!64 &-5729422349932503538
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -170,7 +172,9 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: -5099739311843779227}
   - {fileID: -8843706162784481365}
+  - {fileID: -8121115065416740893}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
