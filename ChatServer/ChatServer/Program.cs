@@ -5,8 +5,16 @@ using System.Text;
 
 namespace Chatserver
 {
+    public class Session
+    {
+        public const int bufSize = 128;
+        public byte[] buf = new byte[bufSize];
+        public Socket socket = null;
+    }
     class Program
     {
+        public static ManualResetEvent allDone = new ManualResetEvent(false);
+
         private const int Port = 9888;
         private const int MaxConnections = 100;
         private const int BufSize = 128;
@@ -27,10 +35,19 @@ namespace Chatserver
 
             while (true)
             {
+                allDone.Reset();
                 Console.WriteLine("접속 대기 중");
-                Socket client = _ServerSocket.Accept();
-                Console.WriteLine(client.RemoteEndPoint.ToString() + " 연결");
-                _ClientSocketList.Add(client);
+                _ServerSocket.BeginAccept(new AsyncCallback(AcceptCallback), _ServerSocket);
+                allDone.WaitOne();
+                //Socket client = _ServerSocket.Accept();
+                
+               // _ClientSocketList.Add(client);
+
+                //SocketAsyncEventArgs args = new SocketAsyncEventArgs();
+               // byte[] buffer = new byte[BufSize];
+               // args.SetBuffer(buffer);
+               // args.Completed+= new EventHandler<SocketAsyncEventArgs>()
+               // client.ReceiveAsync();
             }
 
             /*
@@ -50,20 +67,17 @@ namespace Chatserver
             */
         }
 
-        private static void AcceptCallback(object? sender, SocketAsyncEventArgs ev)
+        private static void AcceptCallback(IAsyncResult ar)
         {
-            Socket? socket = ev.AcceptSocket;
-            if (socket != null)
-            {
-                _ClientSocketList.Add(socket);
-                Console.WriteLine(socket.RemoteEndPoint.ToString()+" 연결");
-                SocketAsyncEventArgs args = new SocketAsyncEventArgs();
-                byte[] buffer = new byte[BufSize];
-                args.SetBuffer(buffer, 0, buffer.Length);
-                socket.ReceiveAsync(args);
-            }
-            ev.AcceptSocket = null;
-            _ServerSocket.AcceptAsync(ev);
+            allDone.Set();
+
+            Socket server = (Socket)ar.AsyncState;
+            Socket client = server.EndAccept(ar);
+            Console.WriteLine(client.RemoteEndPoint.ToString() + " 연결");
+
+            Session session = new Session();
+            session.socket = client;
+
         }
 
         private void ReceiveCallback()
