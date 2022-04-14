@@ -361,8 +361,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5918517459939566721}
   - component: {fileID: 6950217055529407943}
-  - component: {fileID: 964881188568357225}
   - component: {fileID: 2830618070430156570}
+  - component: {fileID: 1182716074646264554}
   m_Layer: 7
   m_Name: Bip001 R Hand
   m_TagString: Untagged
@@ -398,19 +398,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7241039, y: 1.6174656, z: 1.7580135}
   m_Center: {x: -0.7654917, y: -0.08358213, z: 0.086003415}
---- !u!114 &964881188568357225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3864567087714883586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  p_state: {fileID: 0}
 --- !u!114 &2830618070430156570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,6 +415,19 @@ MonoBehaviour:
   get_Obj: {fileID: 0}
   effect_obj: {fileID: 0}
   Hit_VFX: {fileID: 0}
+--- !u!114 &1182716074646264554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3864567087714883586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4932eb7be439474ebc2d45bd205bba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerState: {fileID: 0}
 --- !u!1 &4126272748829694739
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,8 +788,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4313752271134156396}
   - component: {fileID: 5125265972744278373}
-  - component: {fileID: 9010977314917154756}
   - component: {fileID: 5156384318108744136}
+  - component: {fileID: 393594418876665795}
   m_Layer: 7
   m_Name: Bip001 L Hand
   m_TagString: Untagged
@@ -825,19 +825,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7241039, y: 1.6174656, z: 1.7580135}
   m_Center: {x: -0.7654917, y: -0.08358213, z: 0.086003415}
---- !u!114 &9010977314917154756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5812270970004276480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  p_state: {fileID: 0}
 --- !u!114 &5156384318108744136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,6 +842,19 @@ MonoBehaviour:
   get_Obj: {fileID: 0}
   effect_obj: {fileID: 0}
   Hit_VFX: {fileID: 0}
+--- !u!114 &393594418876665795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5812270970004276480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4932eb7be439474ebc2d45bd205bba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerState: {fileID: 0}
 --- !u!1 &5904294802011440760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1035,6 +1035,8 @@ GameObject:
   - component: {fileID: 7086843039662744000}
   - component: {fileID: 2989651931023162392}
   - component: {fileID: 8474990316345599806}
+  - component: {fileID: 4992519352069169611}
+  - component: {fileID: 72112536915484520}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -1117,6 +1119,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: Stiffen
+  - Type: 9
+    SynchronizeType: 0
+    Name: RepeatStiffen
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -1148,6 +1153,7 @@ MonoBehaviour:
   item_Rigid: {fileID: 0}
   item_Coll: {fileID: 0}
   parent_qut: {x: 0, y: 0, z: 0, w: 0}
+  _PlayerHandAttack: {fileID: 0}
 --- !u!143 &362423289143800835
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1321,11 +1327,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4c207b2a5fcd534eb94c09a9f5604e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnimator: {fileID: 0}
+  _animator: {fileID: 0}
   gamePlayerInput: {fileID: 0}
   Thirdpersonmove: {fileID: 0}
   lastAttackTime: 0
-  KeepAttackTime: 0.3
+  keepAttackTime: 0.3
+  lastStiffenTime: 0
+  keepstiffenTime: 0.3
+  speed: 6
+  Maxspeed: 18
 --- !u!114 &8474990316345599806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1356,6 +1366,33 @@ MonoBehaviour:
   m_DefaultActionMap: Game
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &4992519352069169611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6962304825099367683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94fbe36fae53506449019dd6ee50aa90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &72112536915484520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6962304825099367683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitBoxColliders: []
+  _playerState: {fileID: 0}
+  _playerImpact: {fileID: 0}
 --- !u!1 &8140157465476988085
 GameObject:
   m_ObjectHideFlags: 0

@@ -375,10 +375,20 @@ public class CMeshSlicer : MonoBehaviour
         bObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         aObject.AddComponent<MeshCollider>();
         bObject.AddComponent<MeshCollider>();
-        aObject.GetComponent<MeshCollider>().convex = true;
+        
+        MeshCollider aObjectMeshCollider = aObject.GetComponent<MeshCollider>();
+        aObjectMeshCollider.convex = true;
+        aObjectMeshCollider.enabled = false;
+        
+        MeshCollider bObjectMeshCollider = bObject.GetComponent<MeshCollider>();
+        bObjectMeshCollider.convex = true;
+        bObjectMeshCollider.enabled = false;
+
+        aObject.GetComponent<MeshRenderer>().enabled = false;
+        bObject.GetComponent<MeshRenderer>().enabled = false;
+        
         aObject.tag = "DestroyWall";
         aObject.layer = 9;
-        bObject.GetComponent<MeshCollider>().convex = true;
         bObject.tag = "DestroyWall";
         bObject.layer = 9;
 
@@ -389,7 +399,7 @@ public class CMeshSlicer : MonoBehaviour
             _target.GetComponent<MeshFilter>().sharedMesh = orinMesh;
             _target.GetComponent<MeshCollider>().sharedMesh = orinMesh;
             _target.GetComponent<MeshCollider>().convex = true;
-            _target.GetComponent<MeshRenderer>().enabled = false;
+            _target.GetComponent<MeshRenderer>().enabled = true;
 
             aObject.transform.SetParent(_target.transform, true);
 

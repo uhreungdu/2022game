@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System;
+using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 
 public class thirdpersonmove : MonoBehaviourPun
@@ -11,7 +12,6 @@ public class thirdpersonmove : MonoBehaviourPun
     public GamePlayerInput gamePlayerInput; // �÷��̾������� �����ϴ� ��ũ��Ʈ
     public PlayerState playerState;
     public Transform cam;
-    private Animator playeranimator;
 
     public float speed = 6f;
     public float Maxspeed = 18f;
@@ -39,7 +39,6 @@ public class thirdpersonmove : MonoBehaviourPun
         controller = GetComponent<CharacterController>();
         cam = GameObject.FindWithTag("CamPos").GetComponent<Transform>();
         gamePlayerInput = GetComponent<GamePlayerInput>();
-        playeranimator = GetComponentInChildren<Animator>();
         playerState = GetComponent<PlayerState>();
         jumpower = 6f;
         Debug.Log(Application.platform);
@@ -47,12 +46,15 @@ public class thirdpersonmove : MonoBehaviourPun
         playerState.nowEquip = false;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Jump();
         Dash();
         Movement();
-        BasicAttackMove(0);
+    }
+    void Update()
+    {
+        
     }
 
     public void Movement()
@@ -63,7 +65,7 @@ public class thirdpersonmove : MonoBehaviourPun
         Vector3 jumpmove = Vector3.zero;
         if (photonView.IsMine)
         {
-            if (direction.magnitude >= 0.1f && !keepactiveattack && !stiffen)
+            if (direction.magnitude >= 0.1f && !keepactiveattack && !stiffen && !playerState.dead)
             {
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnsmoothvelocity,
@@ -88,15 +90,6 @@ public class thirdpersonmove : MonoBehaviourPun
             }
 
             // �ִϸ��̼��� ���� ����
-            Vector3 Origindirection = new Vector3(gamePlayerInput.rotate, 0f, gamePlayerInput.move);
-            if (Origindirection.magnitude >= 1)
-            {
-                Origindirection.Normalize();
-            }
-
-            Origindirection = Origindirection * speed / Maxspeed;
-
-            playeranimator.SetFloat("Move", Origindirection.magnitude);
             //print(Origindirection.magnitude);
         }
     }
@@ -111,7 +104,7 @@ public class thirdpersonmove : MonoBehaviourPun
 
     public void Dash()
     {
-        if (gamePlayerInput.dash && controller.isGrounded && !stiffen)
+        if (gamePlayerInput.dash && controller.isGrounded && !stiffen && !playerState.dead)
         {
             if (speed <= Maxspeed)
             {
@@ -119,7 +112,7 @@ public class thirdpersonmove : MonoBehaviourPun
             }
         }
 
-        if (!gamePlayerInput.dash && controller.isGrounded || stiffen)
+        if (!gamePlayerInput.dash && controller.isGrounded || stiffen || playerState.dead)
         {
             if (speed > 6f)
             {
@@ -154,15 +147,6 @@ public class thirdpersonmove : MonoBehaviourPun
             stiffen = true;
         else if (set < 1)
             stiffen = false;
-    }
-
-    public void BasicAttackMove(int num)
-    {
-        if (activeattack == true && collidingbuilding != true)
-        {
-            Vector3 attackVector = transform.forward;
-            controller.Move(attackVector * 10f * Time.deltaTime);
-        }
     }
 
     public void Equip_item()
