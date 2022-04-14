@@ -119,6 +119,8 @@ MonoBehaviour:
   coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
   boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
   rigidbody: {fileID: 0}
+  _MeshRenderer: {fileID: 0}
+  _MeshCollider: {fileID: 0}
   destroyfloor: 0
   destroyTime: 5
   _reSpawnTime: 10

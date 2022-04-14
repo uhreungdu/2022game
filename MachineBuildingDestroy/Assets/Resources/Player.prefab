@@ -414,7 +414,10 @@ MonoBehaviour:
   use_Ef: {fileID: 0}
   get_Obj: {fileID: 0}
   effect_obj: {fileID: 0}
+  Tail_obj: {fileID: 0}
   Hit_VFX: {fileID: 0}
+  pos_set: {x: 0, y: 0, z: 0}
+  box_col: {fileID: 0}
 --- !u!114 &1182716074646264554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -841,7 +844,10 @@ MonoBehaviour:
   use_Ef: {fileID: 0}
   get_Obj: {fileID: 0}
   effect_obj: {fileID: 0}
+  Tail_obj: {fileID: 0}
   Hit_VFX: {fileID: 0}
+  pos_set: {x: 0, y: 0, z: 0}
+  box_col: {fileID: 0}
 --- !u!114 &393594418876665795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1153,7 +1159,6 @@ MonoBehaviour:
   item_Rigid: {fileID: 0}
   item_Coll: {fileID: 0}
   parent_qut: {x: 0, y: 0, z: 0, w: 0}
-  _PlayerHandAttack: {fileID: 0}
 --- !u!143 &362423289143800835
 CharacterController:
   m_ObjectHideFlags: 0
