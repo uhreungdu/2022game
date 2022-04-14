@@ -11,7 +11,7 @@ public class ChatClient : MonoBehaviour
     private const string ServerAddress = "127.0.0.1";
     private const int Port = 9888;
     private const int BufSize = 128;
-    public byte[] sendbuf = new byte[BufSize];
+    public byte[] sendbuf = new byte[BufSize-1];
     public byte[] recvbuf = new byte[BufSize];
     private Socket _client;
     private IPEndPoint _ipep;
@@ -37,8 +37,12 @@ public class ChatClient : MonoBehaviour
 
     public void SendChat(string msg)
     {
+        byte[] tempbuf = new byte[BufSize];
+        tempbuf[0] = (byte) ChatCode.Normal;
+        sendbuf.Initialize();
         sendbuf = Encoding.UTF8.GetBytes(msg);
-        _client.Send(sendbuf);
+        Array.Copy(sendbuf, 0, tempbuf, 1, sendbuf.Length);
+        _client.Send(tempbuf);
     }
 
     private void ReceiveCallback(IAsyncResult ar)
