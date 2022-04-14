@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 public class PlayerBasicAttack : MonoBehaviourPun
 {
     // Start is called before the first frame update
-    public GamePlayerInput gamePlayerInput;
+    [FormerlySerializedAs("playerInput")] public GamePlayerInput gamePlayerInput;
     public List<BoxCollider> HitBoxColliders;
     public Material boxmaterial;
     public GameObject coinprefab;
@@ -20,35 +20,38 @@ public class PlayerBasicAttack : MonoBehaviourPun
     public PlayerAnimator playeranimator;
     public thirdpersonmove Thirdpersonmove;
     
-    private float timeBetAttack = 0.3f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-    private float activeAttackTime = 0f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
-    private float lastAttackTime = 0f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float timeBetAttack = 0.3f; // °ø°Ý °£°Ý
+    private float activeAttackTime = 0f; // °ø°Ý À¯Áö ½Ã°£
+    private float lastAttackTime = 0f; // °ø°ÝÀ» ¸¶Áö¸·¿¡ ÇÑ ½ÃÁ¡
 
-    private float timeBetHeal = 0.5f; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-    private float activeHealTime = 0f; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
-    private float LastHealTime = 0f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float timeBetHeal = 0.5f; // Èú °£°Ý
+    private float activeHealTime = 0f; // Èú À¯Áö ½Ã°£
+    private float LastHealTime = 0f; // °ø°ÝÀ» ¸¶Áö¸·¿¡ ÇÑ ½ÃÁ¡
     
     public bool nowEquip;
     public bool BuffOn;
-    
+    public float buff_Time;
     public GameObject getobj;
     public GameObject ItemObj;
     public GameObject BuffObj;
     public Rigidbody item_Rigid;
     public Collider item_Coll;
     public Quaternion parent_qut;
-
-    public PlayerHandAttack _PlayerHandAttack;
     void Start()
     {
         gamePlayerInput = GetComponentInParent<GamePlayerInput>();
         playerState = GetComponentInParent<PlayerState>();
         playeranimator = GetComponentInChildren <PlayerAnimator>();
         Thirdpersonmove = GetComponentInChildren <thirdpersonmove>();
-        
-        _PlayerHandAttack = GetComponentInChildren <PlayerHandAttack>();
         HitBoxColliders.Add(GameObject.Find("Bip001 L Hand").GetComponent<BoxCollider>());
         HitBoxColliders.Add(GameObject.Find("Bip001 R Hand").GetComponent<BoxCollider>());
+        getobj = Resources.Load<GameObject>("Buff_Effect");
+        BuffObj = Instantiate(getobj);
+        BuffObj.transform.SetParent(gameObject.transform);
+        Vector3 tpos = gameObject.transform.position + Vector3.up;
+        BuffObj.transform.Translate(tpos);
+        BuffObj.SetActive(false);
+        buff_Time = 10f;
     }
 
     // Update is called once per frame
@@ -66,7 +69,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
         {
             if (Time.time >= lastAttackTime + timeBetAttack)
             {
-                //Debug.Log("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ = " + boxCollider.transform.forward);
+                //Debug.Log("¾Õ ¹éÅÍ = " + boxCollider.transform.forward);
                 if (nowEquip == true)
                 {
                    //Throw_item();
@@ -107,7 +110,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        // Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // Æ®¸®°Å Ãæµ¹ÇÑ »ó´ë¹æ °ÔÀÓ ¿ÀºêÁ§Æ®°¡ ÃßÀû ´ë»óÀÌ¶ó¸é °ø°Ý ½ÇÇà
         if (other.tag == "Wall")
         {
             // WallObject attackTarget = other.GetComponent<WallObject>();
@@ -220,11 +223,6 @@ public class PlayerBasicAttack : MonoBehaviourPun
 
         if (playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
         {
-            getobj = Resources.Load<GameObject>("Buff_Effect");
-            BuffObj = Instantiate(getobj);
-            BuffObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = gameObject.transform.position + Vector3.up;
-            BuffObj.transform.Translate(tpos);
             BuffOn = true;
         }
         
@@ -288,15 +286,20 @@ public class PlayerBasicAttack : MonoBehaviourPun
         if (BuffOn)
         {
             playerState.P_Dm.set_Ite(1.5f);
+            buff_Time -= Time.deltaTime;
         }
         else
         {
             playerState.P_Dm.set_Ite(1f);
+            
         }
 
-        if (BuffObj == null)
+        if (buff_Time <= 0 && BuffOn == true)
         {
             BuffOn = false;
+            buff_Time = 10f;
         }
+        BuffObj.SetActive(BuffOn);
+        print(BuffOn);
     }
 }

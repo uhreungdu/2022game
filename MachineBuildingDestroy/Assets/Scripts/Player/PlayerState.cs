@@ -173,4 +173,13 @@ public class PlayerState : LivingEntity,IPunObservable
             health = (float)stream.ReceiveNext();
         }
     }
+
+    public void update_stat()
+    {
+        if (photonView.IsMine)
+        {
+            gManager.player_stat.setting(health,Item);
+            print("정보 넘겨줌");
+        }
+    }
 }
