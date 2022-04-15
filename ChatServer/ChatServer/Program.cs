@@ -119,7 +119,7 @@ namespace Chatserver
                     }
                     else if(session.buf[0] == (byte)ChatCode.Normal)
                     {
-                        data = Encoding.UTF8.GetString(session.buf, 1, recvsize-1);
+                        data = session.name + ": " + Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
                         Console.WriteLine(data);
                         foreach (Session s in _ClientList)
                         {
