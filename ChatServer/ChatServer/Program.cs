@@ -16,6 +16,7 @@ namespace Chatserver
         public byte[] buf = new byte[bufSize];
         public Socket socket = null;
         public bool is_online = false;
+        public string name;
     }
     class Program
     {
@@ -83,7 +84,6 @@ namespace Chatserver
         {
             Socket server = (Socket)ar.AsyncState;
             Socket client = server.EndAccept(ar);
-            Console.WriteLine(client.RemoteEndPoint.ToString() + " Connected");
 
             // 접속 됐다고 알려 줌
             allDone.Set();
@@ -91,7 +91,10 @@ namespace Chatserver
             Session session = new Session();
             session.socket = client;
             session.is_online = true;
+            int num = client.Receive(session.buf);
+            session.name = Encoding.UTF8.GetString(session.buf, 0, num);
             _ClientList.Add(session);
+            Console.WriteLine(client.RemoteEndPoint.ToString() + " " + session.name + " Connected");
 
             client.BeginReceive(session.buf, 0, Session.bufSize, 0, 
                 new AsyncCallback(ReceiveCallback), session);

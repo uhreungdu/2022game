@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Photon.Pun;
 using UnityEngine.UI;
 
 public class ChatClient : MonoBehaviour
@@ -15,8 +16,7 @@ public class ChatClient : MonoBehaviour
     private const int BufSize = 128;
     private Socket _client;
     private IPEndPoint _ipep;
-    private Chatlog _Chatlog_func;
-    private Thread _recvThread;
+    private Chatlog _chatlogFunc;
     private string _data;
     private bool _isDataSend = false;
     
@@ -34,14 +34,14 @@ public class ChatClient : MonoBehaviour
     {
         _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         _ipep = new IPEndPoint(IPAddress.Parse(ServerAddress), Port);
-        _Chatlog_func = Chatlog_obj.GetComponent<Chatlog>();
+        _chatlogFunc = Chatlog_obj.GetComponent<Chatlog>();
     }
 
     private void Update()
     {
         if (_isDataSend)
         {
-            _Chatlog_func.AddLine(_data);
+            _chatlogFunc.AddLine(_data);
             _isDataSend = false;
         }
     }
@@ -49,6 +49,8 @@ public class ChatClient : MonoBehaviour
     public void ConnectToChatServer()
     {
         _client.Connect(_ipep);
+        byte[] senddata = Encoding.UTF8.GetBytes(PhotonNetwork.NickName);
+        _client.Send(senddata);
         _client.BeginReceive(recvbuf, 0, BufSize, 0,
             ReceiveCallback, _client);
     }
