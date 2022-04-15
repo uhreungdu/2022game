@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using UnityEngine.UI;
 
 public class ChatClient : MonoBehaviour
 {
@@ -35,14 +36,26 @@ public class ChatClient : MonoBehaviour
             ReceiveCallback, _client);
     }
 
-    public void SendChat(string msg)
+    public void SendChat(GameObject obj)
     {
+        // InputField에서 텍스트 받아오기
+        var inputfield = obj.GetComponent<InputField>();
+        string msg = inputfield.text;
+        
+        // 메세지 코드를 temp에 저장 
         byte[] tempbuf = new byte[BufSize];
         tempbuf[0] = (byte) ChatCode.Normal;
+        
+        // send버퍼 초기화 후 메세지 받아오기
         sendbuf.Initialize();
         sendbuf = Encoding.UTF8.GetBytes(msg);
+        
+        // 메세지를 temp뒤에 병합
         Array.Copy(sendbuf, 0, tempbuf, 1, sendbuf.Length);
+        
+        // 메세지 전송 후 InputField비우기
         _client.Send(tempbuf);
+        inputfield.text = string.Empty;
     }
 
     private void ReceiveCallback(IAsyncResult ar)
