@@ -29,11 +29,17 @@ public class ChatClient : MonoBehaviour
         _ipep = new IPEndPoint(IPAddress.Parse(ServerAddress), Port);
     }
 
-    private void Start()
+    public void ConnectToChatServer()
     {
         _client.Connect(_ipep);
         _client.BeginReceive(recvbuf, 0, BufSize, 0,
             ReceiveCallback, _client);
+    }
+
+    public void DisconnectFromChatServer()
+    {
+        sendbuf[0] = (byte)ChatCode.Exit;
+        _client.Send(sendbuf);
     }
 
     public void SendChat(GameObject obj)
