@@ -15,7 +15,7 @@ public class Chatlog : MonoBehaviour
 
     public void AddLine(string str)
     {
-        _text.text += str;
+        _text.text += str+System.Environment.NewLine;
         //_text.text=_text.text.Replace("\\n", "\n");
     }
     
