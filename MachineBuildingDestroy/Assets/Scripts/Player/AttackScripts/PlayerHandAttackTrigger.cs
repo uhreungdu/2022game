@@ -18,7 +18,7 @@ public class PlayerHandAttackTrigger : MonoBehaviour
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Wall")
         {
-            WallObject attackTarget = other.GetComponent<WallObject>();
+            BulidingObject attackTarget = other.GetComponent<BulidingObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
                 // attackTarget.NetworkOnDamage(_playerHandAttack._damage);
