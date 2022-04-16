@@ -11,7 +11,7 @@ public class MapEditerCamInput : MonoBehaviour
     public MapEditerManager _mapEditerManager;
     public MapEditerOnScreenPoint _mapEditerOnScreenPoint;
 
-    private int Allprefcount = 6;
+    private int Allprefcount = 7;
     
     // private Joystick _joystick;
 
