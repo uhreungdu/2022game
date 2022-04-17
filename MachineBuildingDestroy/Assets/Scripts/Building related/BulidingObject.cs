@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class WallObject : LivingEntity, IPunObservable
+public class BulidingObject : LivingEntity, IPunObservable
 {
     public GameObject coinprefab;     // ������ ������ ���� ������
+    public int point;                // 몇점인지
     public Material boxmaterial;
     public Rigidbody rigidbody;
     public MeshRenderer _MeshRenderer;
@@ -16,10 +17,12 @@ public class WallObject : LivingEntity, IPunObservable
     
     public float _reSpawnTime = 10.0f;
     public float _reSpawnTimer = 0.0f;
-    
+
+    private MeshRenderer[] childMeshRenderers;
+    private MeshCollider[] childMeshCollider;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         _MeshRenderer = GetComponent<MeshRenderer>();
@@ -28,7 +31,7 @@ public class WallObject : LivingEntity, IPunObservable
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         DeathTimer();
     }
@@ -37,21 +40,23 @@ public class WallObject : LivingEntity, IPunObservable
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < point; ++i)
             {
                 float radian = (Random.Range(0, 360)) * Mathf.PI / 180;
+                float radius = Random.Range(0, 3);
                 Vector3 coinPosition = transform.position;
-                coinPosition.x = coinPosition.x + (1.5f * Mathf.Cos(radian));
-                coinPosition.z = coinPosition.z + (1.5f * Mathf.Sin(radian));
+                coinPosition.x = coinPosition.x + (radius * Mathf.Cos(radian));
+                coinPosition.z = coinPosition.z + (radius * Mathf.Sin(radian));
                 coinPosition.y = coinPosition.y + 3.0f;
                 GameObject coin =
                     PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, coinprefab.transform.rotation);
                 //Instantiate(coinprefab, coinPosition, transform.rotation);
-                Vector3 coinForward = coin.transform.position - transform.position;
-                coinForward.Normalize();
-                coin.GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 10f);
+                Vector3 explosionPosition = transform.position;
+                explosionPosition.y += 3.0f;
+                coin.GetComponent<Rigidbody>().AddExplosionForce(400, explosionPosition, 10f);
             }
-            // Invoke("RespawnBuilding", 10);
+            Invoke("HideBuilding", destroyTime);
+            Invoke("RespawnBuilding", _reSpawnTime);
         }
         GetComponent<MeshCollider>().enabled = false;
 
@@ -67,6 +72,27 @@ public class WallObject : LivingEntity, IPunObservable
         Destroy(gameObject);
     }
 
+    void HideBuilding()
+    {
+        if (childMeshRenderers.Length > 0)
+        {
+            childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+            foreach (MeshRenderer child in childMeshRenderers)
+            {
+                child.enabled = true;
+            }
+        }
+
+        if (childMeshCollider.Length > 0)
+        {
+            childMeshCollider = GetComponentsInChildren<MeshCollider>();
+            foreach (MeshCollider child in childMeshCollider)
+            {
+                child.enabled = true;
+            }
+        }
+    }
+
     public void DeathTimer()
     {
         if (dead && Time.time > _reSpawnTimer + _reSpawnTime)
@@ -80,6 +106,7 @@ public class WallObject : LivingEntity, IPunObservable
         base.Die();
         _reSpawnTimer = Time.time;
     }
+    
     [PunRPC]
     public void WallDestroy()
     {
@@ -116,13 +143,13 @@ public class WallObject : LivingEntity, IPunObservable
 
         if (dead)
         {
-            MeshRenderer[] childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+            childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
             foreach (MeshRenderer child in childMeshRenderers)
             {
                 child.enabled = true;
             }
             
-            MeshCollider[] childMeshCollider = GetComponentsInChildren<MeshCollider>();
+            childMeshCollider = GetComponentsInChildren<MeshCollider>();
             foreach (MeshCollider child in childMeshCollider)
             {
                 child.enabled = true;
@@ -135,7 +162,7 @@ public class WallObject : LivingEntity, IPunObservable
                 child.constraints = RigidbodyConstraints.None;
                 Vector3 objectPotision = transform.position;
                 objectPotision.y = 0;
-                child.AddExplosionForce(250, objectPotision, 50f);
+                child.AddExplosionForce(1000, objectPotision, 50f);
             }
             _MeshRenderer.enabled = false;
             _MeshCollider.enabled = false;
