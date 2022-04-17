@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12131162, g: 0.030226976, b: 0.11001597, a: 1}
+  m_IndirectSpecularColor: {r: 0.121330224, g: 0.030302657, b: 0.110023566, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1188,6 +1188,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5279383354855515017, guid: d32ccc424f107b04c964688911a498e0, type: 3}
+      propertyPath: _fieldLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 6962304825099367683, guid: d32ccc424f107b04c964688911a498e0, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1593,6 +1597,7 @@ MonoBehaviour:
   arcadepref: {fileID: 2358042896829115922, guid: f10516a1783f53348abf11e920bb8d9f, type: 3}
   team1Spawner: {fileID: 7239922932976661812, guid: c516951de9b3559458b20048106f4316, type: 3}
   team2Spawner: {fileID: 6204031295450850405, guid: c78d9798704733f4794b8b043d68f45d, type: 3}
+  landMark: {fileID: 0}
   Online: 0
   MapEditer: 0
 --- !u!4 &1729351754

@@ -8,16 +8,17 @@ using UnityEngine.Serialization;
 
 public class thirdpersonmove : MonoBehaviourPun
 {
-    public CharacterController controller;
+    public CharacterController _characterController;
     public GamePlayerInput gamePlayerInput; // �÷��̾������� �����ϴ� ��ũ��Ʈ
     public PlayerState playerState;
     public Transform cam;
+    public LayerMask _fieldLayer;
 
     public float speed = 6f;
     public float Maxspeed = 18f;
     float yvelocity = 0;
     public float Cgravity = 4f;
-    public float tempgravity = -50.0f;
+    private float tempgravity = -10.0f;
     public float gourndgravity = -0.05f;
 
     public float turnsmoothTime = 0.1f;
@@ -34,9 +35,11 @@ public class thirdpersonmove : MonoBehaviourPun
     public bool keepactiveattack { get; private set; }
     public bool stiffen { get; private set; }
 
+    public bool landing { get; private set; }
+
     void Start()
     {
-        controller = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
         cam = GameObject.FindWithTag("CamPos").GetComponent<Transform>();
         gamePlayerInput = GetComponent<GamePlayerInput>();
         playerState = GetComponent<PlayerState>();
@@ -48,13 +51,12 @@ public class thirdpersonmove : MonoBehaviourPun
 
     void FixedUpdate()
     {
-        Jump();
         Dash();
         Movement();
     }
+
     void Update()
     {
-        
     }
 
     public void Movement()
@@ -65,7 +67,10 @@ public class thirdpersonmove : MonoBehaviourPun
         Vector3 jumpmove = Vector3.zero;
         if (photonView.IsMine)
         {
-            if (direction.magnitude >= 0.1f && !keepactiveattack && !stiffen && !playerState.dead)
+            if (direction.magnitude >= 0.1f &&
+                !keepactiveattack && !stiffen &&
+                !playerState.dead && !landing
+               )
             {
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnsmoothvelocity,
@@ -78,33 +83,30 @@ public class thirdpersonmove : MonoBehaviourPun
                 //Debug.Log(realmove.y);
             }
 
+            jumpmove *= speed * Time.deltaTime;
             jumpmove.y = yvelocity;
-
-            controller.Move(jumpmove * speed * Time.deltaTime);
+            _characterController.Move(jumpmove);
 
             yvelocity += tempgravity * Time.deltaTime;
             //Debug.Log(jumpmove);
-            if (controller.isGrounded)
+            if (IsGrounded())
             {
                 yvelocity = 0;
             }
-
-            // �ִϸ��̼��� ���� ����
-            //print(Origindirection.magnitude);
         }
     }
 
     public void Jump()
     {
-        if (gamePlayerInput.jump && controller.isGrounded && !stiffen)
+        if (IsGrounded() && !stiffen && !landing)
         {
-            yvelocity = jumpower;
+            yvelocity = 2;
         }
     }
 
     public void Dash()
     {
-        if (gamePlayerInput.dash && controller.isGrounded && !stiffen && !playerState.dead)
+        if (gamePlayerInput.dash && IsGrounded() && !stiffen && !playerState.dead && !landing)
         {
             if (speed <= Maxspeed)
             {
@@ -112,7 +114,7 @@ public class thirdpersonmove : MonoBehaviourPun
             }
         }
 
-        if (!gamePlayerInput.dash && controller.isGrounded || stiffen || playerState.dead)
+        if (!gamePlayerInput.dash || !IsGrounded() || stiffen || playerState.dead || landing)
         {
             if (speed > 6f)
             {
@@ -147,6 +149,14 @@ public class thirdpersonmove : MonoBehaviourPun
             stiffen = true;
         else if (set < 1)
             stiffen = false;
+    }
+    
+    public void Setlanding(int set)
+    {
+        if (set >= 1)
+            landing = true;
+        else if (set < 1)
+            landing = false;
     }
 
     public void Equip_item()
@@ -217,6 +227,23 @@ public class thirdpersonmove : MonoBehaviourPun
             collidingbuilding = false;
         }
     }
+
+    public bool IsGrounded()
+    {
+        // CharacterController.IsGrounded가 true라면 Raycast를 사용하지 않고 판정 종료
+        if (_characterController.isGrounded) return true;
+        // 발사하는 광선의 초기 위치와 방향
+        // 약간 신체에 박혀 있는 위치로부터 발사하지 않으면 제대로 판정할 수 없을 때가 있다.
+        var ray = new Ray(this.transform.position + Vector3.up * 0.1f, Vector3.down);
+        // 탐색 거리
+        var maxDistance = 1.9f;
+        // 광선 디버그 용도
+        Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector3.down * maxDistance, Color.red);
+        // Raycast의 hit 여부로 판정
+        // 지상에만 충돌로 레이어를 지정
+        return Physics.Raycast(ray, maxDistance, _fieldLayer);
+    }
+
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
