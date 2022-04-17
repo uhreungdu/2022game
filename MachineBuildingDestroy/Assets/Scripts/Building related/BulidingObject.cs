@@ -25,8 +25,8 @@ public class BulidingObject : LivingEntity, IPunObservable
     protected void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        _MeshRenderer = GetComponent<MeshRenderer>();
-        _MeshCollider = GetComponent<MeshCollider>();
+        _MeshRenderer = GetComponentInChildren<MeshRenderer>();
+        _MeshCollider = GetComponentInChildren<MeshCollider>();
         onDeath += DieAction;
     }
 
