@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:MachineBuildingDestroy/Assets/Graphics/test_tank/tank.png.meta
+guid: cbada5c3ef69d074684036c70478cbab
+=======
 guid: 3f05043d703fe2f48b66d1d3a9a7718d
+>>>>>>> main:MachineBuildingDestroy/Assets/Graphics/Building/landmark_uv.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
