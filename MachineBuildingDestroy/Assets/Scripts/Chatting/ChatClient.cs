@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 public class ChatClient : MonoBehaviour
 {
-    private const string ServerAddress = "127.0.0.1";
+    private const string ServerAddress = "121.139.87.70";
     private const int Port = 9888;
     private const int BufSize = 128;
     private Socket _client;
@@ -32,7 +32,6 @@ public class ChatClient : MonoBehaviour
 
     private void Awake()
     {
-        _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         _ipep = new IPEndPoint(IPAddress.Parse(ServerAddress), Port);
         _chatlogFunc = Chatlog_obj.GetComponent<Chatlog>();
     }
@@ -48,6 +47,7 @@ public class ChatClient : MonoBehaviour
 
     public void ConnectToChatServer()
     {
+        _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         _client.Connect(_ipep);
         byte[] senddata = Encoding.UTF8.GetBytes(PhotonNetwork.NickName);
         _client.Send(senddata);
@@ -63,8 +63,10 @@ public class ChatClient : MonoBehaviour
 
     public void DisconnectFromChatServer()
     {
+        if (!_client.Connected) return;
         sendbuf[0] = (byte)ChatCode.Exit;
         _client.Send(sendbuf);
+        _client.Close();
     }
 
     public void SendChat(GameObject obj)
@@ -110,6 +112,7 @@ public class ChatClient : MonoBehaviour
         catch (Exception ex)
         {
             print("Disconnected");
+            DisconnectFromChatServer();
         }
     }
 

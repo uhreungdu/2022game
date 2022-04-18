@@ -12,7 +12,7 @@ public class ChatWindowCloseButton : MonoBehaviour
     public void Onclick()
     {
         ChatWindow.SetActive(false);
-        ChatModule.GetComponent<ChatClient>().DisconnectFromChatServer();
         ChatOpenButton.GetComponent<Button>().interactable = true;
+        ChatModule.GetComponent<ChatClient>().DisconnectFromChatServer();
     }
 }
