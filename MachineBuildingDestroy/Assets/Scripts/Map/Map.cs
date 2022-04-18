@@ -51,6 +51,7 @@ public class Map : MonoBehaviour
     public GameObject arcadepref;
     public GameObject team1Spawner;
     public GameObject team2Spawner;
+    public GameObject landMark;
 
     private float x = 20;
     private float z = 20;
@@ -242,6 +243,8 @@ public class Map : MonoBehaviour
                 return team1Spawner;
             case 6:
                 return team2Spawner;
+            case 7:
+                return landMark;
         }
 
         return null;

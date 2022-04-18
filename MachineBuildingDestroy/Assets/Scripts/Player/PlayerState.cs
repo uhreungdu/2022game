@@ -21,6 +21,7 @@ public class PlayerState : LivingEntity,IPunObservable
     public AudioClip deathClip; // ��� �Ҹ�
     public AudioClip hitClip; // �ǰ� �Ҹ�
     public GameManager gManager;
+    public GameObject nameOnhead;
 
     private AudioSource playerAudioPlayer; // �÷��̾� �Ҹ� �����
     private Animator _animator; // �÷��̾��� �ִϸ�����
@@ -42,14 +43,9 @@ public class PlayerState : LivingEntity,IPunObservable
         }
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
-
-        reSpawnTransform = transform.position;
-
-        reSpawnTransform.x = ReSpawnTransformSet(reSpawnTransform.x);
-        reSpawnTransform.y = ReSpawnTransformSet(reSpawnTransform.y);
-        reSpawnTransform.z = ReSpawnTransformSet(reSpawnTransform.z);
-
-        Item = item_box_make.item_type.potion;
+        photonView.RPC("SetOnHeadName",RpcTarget.All,PhotonNetwork.NickName);
+        
+        Item = item_box_make.item_type.obstacles;
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);
         base.OnEnable();
@@ -146,6 +142,12 @@ public class PlayerState : LivingEntity,IPunObservable
     public void ResetPoint()
     {
         point = 0;
+    }
+
+    [PunRPC]
+    public void SetOnHeadName(string value)
+    {
+        nameOnhead.GetComponent<TextMesh>().text = value;
     }
 
     // Update is called once per frame

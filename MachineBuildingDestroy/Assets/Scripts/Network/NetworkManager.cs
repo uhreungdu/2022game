@@ -34,7 +34,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             instance = FindObjectOfType<NetworkManager>();
             if (instance == null)
             {
-                GameObject container = new GameObject("LobbyManager");
+                GameObject container = new GameObject("NetworkManager");
                 instance = container.AddComponent<NetworkManager>();
             }
         }

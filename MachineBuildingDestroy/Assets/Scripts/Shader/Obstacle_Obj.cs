@@ -20,9 +20,10 @@ public class Obstacle_Obj : LivingEntity, IPunObservable
     // Update is called once per frame
     void Update()
     {
+        if (!photonView.IsMine) return;
         if (gameObject.transform.childCount == 0)
         {
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 
@@ -36,6 +37,12 @@ public class Obstacle_Obj : LivingEntity, IPunObservable
             }
         }
     }
+
+    public void NetworkOnDamage(float damage)
+    {
+        photonView.RPC("OnDamage",RpcTarget.All,damage);
+    }
+    
     [PunRPC]
     public override void OnDamage(float damage)
     {

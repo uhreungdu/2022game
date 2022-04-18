@@ -30,15 +30,7 @@ public class LobbyManager : MonoBehaviour
 
     void Awake()
     {
-        var obj = FindObjectsOfType<LobbyManager>(); 
-        if (obj.Length == 1) 
-        { 
-            DontDestroyOnLoad(gameObject); 
-        } 
-        else 
-        { 
-            Destroy(gameObject); 
-        }
+
     }
     void Start()
     {
