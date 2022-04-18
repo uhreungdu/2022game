@@ -46,7 +46,7 @@ public class PlayerHandAttackTrigger : MonoBehaviour
             Obstacle_Obj Target = other.GetComponent<Obstacle_Obj>();
             if (Target != null && !Target.dead)
             {
-                Target.NetworkOnDamage(p_state.P_Dm.Damge_formula());
+                Target.NetworkOnDamage(_playerState.P_Dm.Damge_formula());
                 Debug.Log(Target.health);
             }
         }
