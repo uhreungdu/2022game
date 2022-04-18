@@ -75,6 +75,19 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         
     }
     public Event_manager EManager = new Event_manager();
+    public class temp_status
+    {
+        public float health { get; private set; }
+        public item_box_make.item_type Item_num { get; private set; }
+
+        public void setting(float hp, item_box_make.item_type Item)
+        {
+            health = hp;
+            Item_num = Item;
+        }
+    }
+
+    public temp_status player_stat = new temp_status();
     void Awake()
     {
         if(instance == null)
