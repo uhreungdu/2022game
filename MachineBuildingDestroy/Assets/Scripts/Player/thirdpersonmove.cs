@@ -13,17 +13,18 @@ public class thirdpersonmove : MonoBehaviourPun
     public PlayerState playerState;
     public Transform cam;
     public LayerMask _fieldLayer;
+    private PlayerAllAttackAfterCast _playerAllAttackAfterCast;
 
     public float speed = 6f;
     public float Maxspeed = 18f;
     float yvelocity = 0;
     public float Cgravity = 4f;
-    private float tempgravity = -10.0f;
+    private float tempgravity = -1.0f;
+    private float jumppower = 0.5f;
     public float gourndgravity = -0.05f;
 
     public float turnsmoothTime = 0.1f;
     float turnsmoothvelocity;
-    public float jumpower = 10f;
 
     public float pushPower = 2.0F;
 
@@ -41,9 +42,9 @@ public class thirdpersonmove : MonoBehaviourPun
     {
         _characterController = GetComponent<CharacterController>();
         cam = GameObject.FindWithTag("CamPos").GetComponent<Transform>();
+        _playerAllAttackAfterCast = GetComponent<PlayerAllAttackAfterCast>();
         gamePlayerInput = GetComponent<GamePlayerInput>();
         playerState = GetComponent<PlayerState>();
-        jumpower = 6f;
         Debug.Log(Application.platform);
         playerState.isAimming = false;
         playerState.nowEquip = false;
@@ -57,6 +58,7 @@ public class thirdpersonmove : MonoBehaviourPun
 
     void Update()
     {
+        
     }
 
     public void Movement()
@@ -68,8 +70,8 @@ public class thirdpersonmove : MonoBehaviourPun
         if (photonView.IsMine)
         {
             if (direction.magnitude >= 0.1f &&
-                !keepactiveattack && !stiffen &&
-                !playerState.dead && !landing
+                !_playerAllAttackAfterCast.PlayerHandAttackAfterCast() && 
+                !stiffen && !playerState.dead && !landing
                )
             {
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -100,7 +102,7 @@ public class thirdpersonmove : MonoBehaviourPun
     {
         if (IsGrounded() && !stiffen && !landing)
         {
-            yvelocity = 2;
+            yvelocity = jumppower;
         }
     }
 
@@ -236,7 +238,7 @@ public class thirdpersonmove : MonoBehaviourPun
         // 약간 신체에 박혀 있는 위치로부터 발사하지 않으면 제대로 판정할 수 없을 때가 있다.
         var ray = new Ray(this.transform.position + Vector3.up * 0.1f, Vector3.down);
         // 탐색 거리
-        var maxDistance = 1.9f;
+        var maxDistance = 0.5f;
         // 광선 디버그 용도
         Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector3.down * maxDistance, Color.red);
         // Raycast의 hit 여부로 판정

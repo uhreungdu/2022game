@@ -21,6 +21,7 @@ public class PlayerState : LivingEntity,IPunObservable
     public AudioClip deathClip; // ��� �Ҹ�
     public AudioClip hitClip; // �ǰ� �Ҹ�
     public GameManager gManager;
+    public GameObject _AttackGameObject;
 
     private AudioSource playerAudioPlayer; // �÷��̾� �Ҹ� �����
     private Animator _animator; // �÷��̾��� �ִϸ�����
@@ -90,6 +91,12 @@ public class PlayerState : LivingEntity,IPunObservable
         _playerAnimator.lastStiffenTime = Time.time;
         if (!_animator.GetBool("Stiffen"))
         {
+            BoxCollider[] _attackboxColliders = _AttackGameObject.GetComponentsInChildren<BoxCollider>();
+            foreach (BoxCollider child in _attackboxColliders)
+            {
+                child.enabled = false;
+            }
+
             _animator.SetBool("Stiffen", true);
         }
         else if (_animator.GetBool("Stiffen"))
