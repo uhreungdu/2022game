@@ -1367,6 +1367,7 @@ MonoBehaviour:
     m_Bits: 576
   speed: 6
   Maxspeed: 18
+  yvelocity: 0
   Cgravity: 9.8
   gourndgravity: -0.05
   turnsmoothTime: 0.1

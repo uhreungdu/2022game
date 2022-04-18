@@ -17,7 +17,7 @@ public class thirdpersonmove : MonoBehaviourPun
 
     public float speed = 6f;
     public float Maxspeed = 18f;
-    float yvelocity = 0;
+    public float yvelocity = 0;
     public float Cgravity = 4f;
     private float tempgravity = -1.0f;
     private float jumppower = 0.5f;
@@ -88,8 +88,11 @@ public class thirdpersonmove : MonoBehaviourPun
             jumpmove *= speed * Time.deltaTime;
             jumpmove.y = yvelocity;
             _characterController.Move(jumpmove);
-
-            yvelocity += tempgravity * Time.deltaTime;
+            
+            if (_playerAllAttackAfterCast.PlayerHandAttackAfterCast())
+                yvelocity += tempgravity / 4.0f * Time.deltaTime;
+            else 
+                yvelocity += tempgravity * Time.deltaTime;
             //Debug.Log(jumpmove);
             if (IsGrounded())
             {
