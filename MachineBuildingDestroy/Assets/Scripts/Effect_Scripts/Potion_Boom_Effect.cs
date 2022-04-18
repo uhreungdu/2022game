@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Potion_Boom_Effect : MonoBehaviour
+public class Potion_Boom_Effect : MonoBehaviourPun
 {
     // Start is called before the first frame update
     public float delay = 3f;
@@ -25,6 +26,7 @@ public class Potion_Boom_Effect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!photonView.IsMine) return;
         countdowm -= Time.deltaTime;
         if (countdowm <= 0f && !check_boom)
         {
@@ -37,11 +39,11 @@ public class Potion_Boom_Effect : MonoBehaviour
     {
         //터지는 이펙트 발동
         Boom_Effect = Resources.Load<GameObject>("BoomEffect");
-        Instantiate(Boom_Effect, transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate(Boom_Effect.name, transform.position, Quaternion.identity);
         //현재 보이는 방향으로 발사
         
         
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 
     private void OnCollisionStay(Collision coll)
