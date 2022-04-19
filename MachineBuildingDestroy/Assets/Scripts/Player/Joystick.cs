@@ -18,6 +18,12 @@ public class Joystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler,IDragH
 
     private void Awake()
     {
+        if (Application.platform != RuntimePlatform.Android)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         _rectTransform = GetComponent<RectTransform>();
         _cs = GetComponentInParent<CanvasScaler>();
 

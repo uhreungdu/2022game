@@ -2,67 +2,86 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Cinemachine;
 
 
 public class Joystick_Cam : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    [SerializeField]
-    private RectTransform joystick;
-    private RectTransform joystickBack;
-
-    [SerializeField, Range(10f, 200f)]
-    private float moveRange;
-
+    private RectTransform _rectTransform;
+    private CanvasScaler _cs;
+    private float _rectSize;
     public Vector2 moveVector;
-    [SerializeField]
-    private bool IsInput;
+
+    private Vector2 _startPoint;
+    private float _lastCamX;
+    private float _lastCamY;
+
+    private bool _isInput;
     public CinemachineFreeLook cinevirtual;
 
     private void Awake()
     {
-        joystickBack = GetComponent<RectTransform>();
+        if (Application.platform != RuntimePlatform.Android)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        _rectTransform = GetComponent<RectTransform>();
+        _cs = GetComponentInParent<CanvasScaler>();
+
+        // Calculate ratio for dynamic screen resolution
+        var wRatio = Screen.width / _cs.referenceResolution.x;
+        var hRatio = Screen.height / _cs.referenceResolution.y;
+        var ratio = wRatio * (1f - _cs.matchWidthOrHeight) + hRatio * _cs.matchWidthOrHeight;
+        // This component is regular quadrilateral, so real width and height are same
+        _rectSize = _rectTransform.rect.width * ratio;
+
+        cinevirtual.m_YAxis.m_InputAxisName = "";
+        cinevirtual.m_XAxis.m_InputAxisName = "";
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        //Debug.Log("BeginDrag");
-
-        MoveJoystick(eventData);
-        IsInput = true;
+        _startPoint = eventData.position;
+        _isInput = true;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnDrag");
         MoveJoystick(eventData);
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        //Debug.Log("EndDrag");
-        joystick.anchoredPosition = Vector2.zero;
+        _lastCamX = cinevirtual.m_XAxis.Value;
+        _lastCamY = cinevirtual.m_YAxis.Value;
         moveVector = Vector2.zero;
-        IsInput = false;
+        _isInput = false;
     }
 
     void Update()
     {
-        cinevirtual.m_XAxis.m_InputAxisValue = moveVector.x;
-        cinevirtual.m_YAxis.m_InputAxisValue = moveVector.y;
-
-
+        if (_isInput)
+        {
+            cinevirtual.m_XAxis.Value = _lastCamX + 180f * moveVector.x;
+            cinevirtual.m_YAxis.Value = _lastCamY + moveVector.y;
+        }
+        else
+        {
+            cinevirtual.m_XAxis.Value = _lastCamX;
+            cinevirtual.m_YAxis.Value = _lastCamY;
+        }
     }
 
     public void MoveJoystick(PointerEventData eventData)
     {
-        var inputDir = eventData.position - joystickBack.anchoredPosition;
+        var inputDir = eventData.position - _startPoint;
         var clampedDir = inputDir;
-        if (inputDir.magnitude > moveRange)
-            clampedDir = inputDir.normalized * moveRange;
-        else
-            clampedDir = inputDir;
-        joystick.anchoredPosition = clampedDir;
-        moveVector = clampedDir / moveRange;
-        //moveVector.x = moveVector.x * 180;
+
+        if (inputDir.magnitude > _rectSize / 2f)
+            clampedDir = inputDir.normalized * (_rectSize / 2f);
+        
+        moveVector = clampedDir / (_rectSize/2f);
+        Debug.Log(moveVector);
     }
 }

@@ -62,6 +62,7 @@ namespace Chatserver
             {
                 Console.WriteLine(ex.ToString());
             }
+            _ServerSocket.Close();
 
             /*
             Socket client = _ServerSocket.Accept();
@@ -75,7 +76,6 @@ namespace Chatserver
 
             client.Close();
             Console.WriteLine("A client disconnect server");
-            _ServerSocket.Close();
             Console.WriteLine("Server end...");
             */
         }
@@ -102,10 +102,9 @@ namespace Chatserver
 
         private static void ReceiveCallback(IAsyncResult ar)
         {
-            String data = String.Empty;
+            string data;
 
             Session session = (Session)ar.AsyncState;
-
             try
             {
                 int recvsize = session.socket.EndReceive(ar);
@@ -132,7 +131,7 @@ namespace Chatserver
                     DisconnectClient(session);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 DisconnectClient(session);
             }
