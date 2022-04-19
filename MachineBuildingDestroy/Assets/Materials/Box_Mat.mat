@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1696054158165418690
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 4
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -7,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: dissolve_mat
-  m_Shader: {fileID: -6465566751694194690, guid: f9543162ead367d4fb109195219de88e, type: 3}
+  m_Name: Box_Mat
+  m_Shader: {fileID: -6465566751694194690, guid: 950e6d4933ab619419de6a0c75426b15, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,8 +32,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_2c879e5883dd428d92ff188ea021446e:
-        m_Texture: {fileID: 2800000, guid: 738f9dfffc4b8a44493e4f98a7a36a0d, type: 3}
+    - Texture2D_c8b8f6fc98e246789d0d59131d350493:
+        m_Texture: {fileID: 2800000, guid: 338014f994673b940a92d9d43cd7f6f9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -80,10 +93,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - CutoffHeight: 1.5
-    - Edge_width: 0.05
-    - Noise_scale: 50
-    - Nosie_strength: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -111,23 +120,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Albedo: {r: 0.9528302, g: 0.84662205, b: 0.6067551, a: 1}
-    - Edge_Color: {r: 0, g: 0.29803923, b: 2.9960785, a: 0}
+    - Color_81d572a4eea347a98a66afb0d3e5c6f5: {r: 1.3350784, g: 1.1144239, b: 0.031487692, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5567127120241091450
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 4
