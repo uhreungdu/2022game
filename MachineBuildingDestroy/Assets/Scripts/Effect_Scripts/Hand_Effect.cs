@@ -16,6 +16,8 @@ public class Hand_Effect : MonoBehaviour
     public VisualEffect Hit_VFX;
     public Vector3 pos_set;
     public BoxCollider box_col;
+    public GameObject _lHandGameObject;
+    public GameObject _RHandGameObject;
     void Start()
     {
         effect_obj = Instantiate(Resources.Load<GameObject>("Hit_Effect"));
