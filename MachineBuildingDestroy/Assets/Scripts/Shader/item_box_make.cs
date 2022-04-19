@@ -20,6 +20,8 @@ public class item_box_make : MonoBehaviour
     public float move_height;
     private Material material;
     public GameManager GManager;
+    public GameObject Spark;
+    public GameObject inbox;
     private void Awake()
     {
         material = GetComponent<Renderer>().material;
@@ -30,6 +32,8 @@ public class item_box_make : MonoBehaviour
         GManager = GameManager.GetInstance();
         move_height = -1f;
         SetHeight(move_height);
+        Spark.SetActive(false);
+        inbox.SetActive(false);
     }
 
     // Update is called once per frame
@@ -39,6 +43,8 @@ public class item_box_make : MonoBehaviour
         {
             if(GManager.EManager.itembox_Create == false)
             {
+                Spark.SetActive(false);
+                inbox.SetActive(false);
                 effect_switch = false;
                 move_height -= Time.deltaTime * 2;
                 // Debug.Log(move_height);
@@ -51,13 +57,15 @@ public class item_box_make : MonoBehaviour
             }
             else
             {
-                if(move_height <= 1.5)
+                if(move_height <= 1.5f)
                 {
                     move_height += Time.deltaTime * 2;
                     SetHeight(move_height);
                 }
                 else
                 {
+                    Spark.SetActive(true);
+                    inbox.SetActive(true);
                     effect_switch = true;
                 }
             }

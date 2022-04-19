@@ -119,6 +119,7 @@ MonoBehaviour:
   destroyTime: 5
   _reSpawnTime: 10
   _reSpawnTimer: 0
+  effect_obj: {fileID: 0}
 --- !u!64 &6988218010845621718
 MeshCollider:
   m_ObjectHideFlags: 0
