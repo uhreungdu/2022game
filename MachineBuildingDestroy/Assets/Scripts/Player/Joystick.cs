@@ -2,62 +2,73 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Joystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler,IDragHandler
 {
     [SerializeField]
     private RectTransform joystick;
-    private RectTransform joystickBack;
+    private RectTransform _rectTransform;
 
-    [SerializeField, Range(10f, 200f)]
-    private float moveRange;
+    private CanvasScaler _cs;
+    private float _rectSize;
 
     public Vector2 moveVector;
-    private bool IsInput;
+    private bool _isInput = false;
 
     private void Awake()
     {
-        joystickBack = GetComponent<RectTransform>();
+        if (Application.platform != RuntimePlatform.Android)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        _rectTransform = GetComponent<RectTransform>();
+        _cs = GetComponentInParent<CanvasScaler>();
+
+        // Calculate ratio for dynamic screen resolution
+        var wRatio = Screen.width / _cs.referenceResolution.x;
+        var hRatio = Screen.height / _cs.referenceResolution.y;
+        var ratio = wRatio * (1f - _cs.matchWidthOrHeight) + hRatio * _cs.matchWidthOrHeight;
+        // This component is regular quadrilateral, so real width and height are same
+        _rectSize = _rectTransform.rect.width * ratio;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        //Debug.Log("BeginDrag");
-
         MoveJoystick(eventData);
-        IsInput = true;
+        _isInput = true;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnDrag");
         MoveJoystick(eventData);    
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        //Debug.Log("EndDrag");
         joystick.anchoredPosition = Vector2.zero;
         moveVector = Vector2.zero;
-        IsInput = false;
+        _isInput = false;
     }
 
-    void Update()
+    private void Update()
     {
-        if (IsInput)
-        {
+        //if (_isInput)
+       // {
             
-        }
+       // }
     }
 
-    public void MoveJoystick(PointerEventData eventData)
+    private void MoveJoystick(PointerEventData eventData)
     {
-        var inputDir = eventData.position - joystickBack.anchoredPosition;
+        var inputDir = eventData.position - (Vector2)_rectTransform.position;
         var clampedDir = inputDir;
-        if (inputDir.magnitude > moveRange)
-            clampedDir = inputDir.normalized * moveRange;
-        else
-            clampedDir = inputDir;
-        joystick.anchoredPosition = clampedDir;
-        moveVector = clampedDir / moveRange;
+
+        if (inputDir.magnitude > _rectSize / 2f)
+            clampedDir = inputDir.normalized * (_rectSize / 2f);
+        
+        moveVector = clampedDir / (_rectSize/2f);
+        joystick.anchoredPosition = moveVector * 200f;
     }
 }
