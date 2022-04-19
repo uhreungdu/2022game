@@ -41,21 +41,24 @@ public class GamePlayerInput : MonoBehaviour
         //    fire = false;
         //    return;
         //}
-        // move에 관한 입력 감지
-        move = Input.GetAxis(moveAxisName);
-        // rotate에 관한 입력 감지
-        rotate = Input.GetAxis(rotateAxisName);
-        
         if (Application.platform == RuntimePlatform.Android)
         {
             move = joystick.moveVector.y;
             rotate = joystick.moveVector.x;
         }
-        // fire에 관한 입력 감지
-        fire = Input.GetButton(fireButtonName);
-        jump = Input.GetButton(JumpButtonName);
-        dash = Input.GetButton(DashButtonName);
-        Interaction = Input.GetButton(InteractionButtonName);
+        else
+        {
+            // move에 관한 입력 감지
+            move = Input.GetAxis(moveAxisName);
+            // rotate에 관한 입력 감지
+            rotate = Input.GetAxis(rotateAxisName);
+            // fire에 관한 입력 감지
+            fire = Input.GetButton(fireButtonName);
+            jump = Input.GetButton(JumpButtonName);
+            dash = Input.GetButton(DashButtonName);
+            Interaction = Input.GetButton(InteractionButtonName);
+        }
+
     }
 
 //     public void OnMove(InputValue value)

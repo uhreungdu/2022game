@@ -21,6 +21,8 @@ public class BulidingObject : LivingEntity, IPunObservable
     private MeshRenderer[] childMeshRenderers;
     private MeshCollider[] childMeshCollider;
 
+    public GameObject effect_obj;
+
     // Start is called before the first frame update
     protected void Start()
     {
@@ -55,7 +57,7 @@ public class BulidingObject : LivingEntity, IPunObservable
                 explosionPosition.y += 3.0f;
                 coin.GetComponent<Rigidbody>().AddExplosionForce(400, explosionPosition, 10f);
             }
-            Invoke("HideBuilding", destroyTime);
+            Invoke("Net_HideBuilding", destroyTime);
             Invoke("RespawnBuilding", _reSpawnTime);
         }
         GetComponent<MeshCollider>().enabled = false;
@@ -69,9 +71,15 @@ public class BulidingObject : LivingEntity, IPunObservable
         objectName = objectName.Remove(objectName.Length - 7, 7);
         PhotonNetwork.InstantiateRoomObject(objectName, transform.position, transform.rotation);
         print("리스폰진짜됨");
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 
+    void Net_HideBuilding()
+    {
+        photonView.RPC("HideBuilding",RpcTarget.All);
+    }
+
+    [PunRPC]
     void HideBuilding()
     {
         if (childMeshRenderers.Length > 0)
@@ -166,6 +174,9 @@ public class BulidingObject : LivingEntity, IPunObservable
             }
             _MeshRenderer.enabled = false;
             _MeshCollider.enabled = false;
+            effect_obj = Instantiate(Resources.Load<GameObject>("Effect/Destory_B"));
+            effect_obj.transform.SetParent(gameObject.transform);
+            effect_obj.transform.Translate(gameObject.transform.position);
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
         }
