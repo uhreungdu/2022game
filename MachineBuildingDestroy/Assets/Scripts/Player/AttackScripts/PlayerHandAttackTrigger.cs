@@ -34,9 +34,11 @@ public class PlayerHandAttackTrigger : MonoBehaviour
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
                 if (other.gameObject != null && !playerState.dead)
                 {
-                    playerState.NetworkOnDamage(_playerHandAttack._damage);
+                    //playerState.NetworkOnDamage(_playerHandAttack._damage);
                     playerState.OnDamage(_playerHandAttack._damage);
                     other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
+                    
+                    
                 }
             }
         }

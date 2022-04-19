@@ -396,10 +396,10 @@ public class CMeshSlicer : MonoBehaviour
         if (_target.transform.parent == null)
         {
             _target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            _target.GetComponent<MeshFilter>().sharedMesh = orinMesh;
-            _target.GetComponent<MeshCollider>().sharedMesh = orinMesh;
-            _target.GetComponent<MeshCollider>().convex = true;
-            _target.GetComponent<MeshRenderer>().enabled = true;
+            // _target.GetComponent<MeshFilter>().sharedMesh = orinMesh;
+            // _target.GetComponent<MeshCollider>().sharedMesh = orinMesh;
+            // _target.GetComponent<MeshCollider>().convex = true;
+            // _target.GetComponent<MeshRenderer>().enabled = true;
 
             aObject.transform.SetParent(_target.transform, true);
 
