@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using Random = UnityEngine.Random;
 
-public class PlayerState : LivingEntity,IPunObservable
+public class PlayerState : LivingEntity, IPunObservable
 {
     public int team { get; private set; }
     public int point { get; private set; }
@@ -21,6 +21,7 @@ public class PlayerState : LivingEntity,IPunObservable
     public AudioClip deathClip; // ��� �Ҹ�
     public AudioClip hitClip; // �ǰ� �Ҹ�
     public GameManager gManager;
+    public GameObject _AttackGameObject;
     public GameObject nameOnhead;
 
     private AudioSource playerAudioPlayer; // �÷��̾� �Ҹ� �����
@@ -86,6 +87,12 @@ public class PlayerState : LivingEntity,IPunObservable
         _playerAnimator.lastStiffenTime = Time.time;
         if (!_animator.GetBool("Stiffen"))
         {
+            BoxCollider[] _attackboxColliders = _AttackGameObject.GetComponentsInChildren<BoxCollider>();
+            foreach (BoxCollider child in _attackboxColliders)
+            {
+                child.enabled = false;
+            }
+
             _animator.SetBool("Stiffen", true);
         }
         else if (_animator.GetBool("Stiffen"))

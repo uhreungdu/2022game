@@ -12,14 +12,14 @@ using UnityEngine.Serialization;
 public class PlayerBasicAttack : MonoBehaviourPun
 {
     // Start is called before the first frame update
-    [FormerlySerializedAs("playerInput")] public GamePlayerInput gamePlayerInput;
+    public GamePlayerInput gamePlayerInput;
     public List<BoxCollider> HitBoxColliders;
     public Material boxmaterial;
     public GameObject coinprefab;
     public PlayerState playerState;
     public PlayerAnimator playeranimator;
-    public thirdpersonmove Thirdpersonmove;
-    
+    public Thirdpersonmove Thirdpersonmove;
+
     private float timeBetAttack = 0.3f; // 공격 간격
     private float activeAttackTime = 0f; // 공격 유지 시간
     private float lastAttackTime = 0f; // 공격을 마지막에 한 시점
@@ -27,7 +27,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
     private float timeBetHeal = 0.5f; // 힐 간격
     private float activeHealTime = 0f; // 힐 유지 시간
     private float LastHealTime = 0f; // 공격을 마지막에 한 시점
-    
+
     public bool nowEquip;
     public bool BuffOn;
     public float buff_Time;
@@ -37,14 +37,13 @@ public class PlayerBasicAttack : MonoBehaviourPun
     public Rigidbody item_Rigid;
     public Collider item_Coll;
     public Quaternion parent_qut;
+
     void Start()
     {
         gamePlayerInput = GetComponentInParent<GamePlayerInput>();
         playerState = GetComponentInParent<PlayerState>();
-        playeranimator = GetComponentInChildren <PlayerAnimator>();
-        Thirdpersonmove = GetComponentInChildren <thirdpersonmove>();
-        HitBoxColliders.Add(GameObject.Find("Bip001 L Hand").GetComponent<BoxCollider>());
-        HitBoxColliders.Add(GameObject.Find("Bip001 R Hand").GetComponent<BoxCollider>());
+        playeranimator = GetComponentInChildren<PlayerAnimator>();
+        Thirdpersonmove = GetComponentInChildren<Thirdpersonmove>();
         getobj = Resources.Load<GameObject>("Buff_Effect");
         BuffObj = Instantiate(getobj);
         BuffObj.transform.SetParent(gameObject.transform);
@@ -67,38 +66,29 @@ public class PlayerBasicAttack : MonoBehaviourPun
         parent_qut = gameObject.transform.rotation;
         if (gamePlayerInput.fire)
         {
-            if (Time.time >= lastAttackTime + timeBetAttack)
+            //Debug.Log("앞 백터 = " + boxCollider.transform.forward);
+            if (nowEquip == true)
             {
-                //Debug.Log("앞 백터 = " + boxCollider.transform.forward);
-                if (nowEquip == true)
+                switch (playerState.Item)
                 {
-                    switch (playerState.Item)
-                    {
-                        case item_box_make.item_type.potion:
-                        case item_box_make.item_type.obstacles:
-                            Throw_item();
-                            break;
-                        default:
-                            photonView.RPC("Throw_item",RpcTarget.All);
-                            break;
-                    }
+                    case item_box_make.item_type.potion:
+                    case item_box_make.item_type.obstacles:
+                        Throw_item();
+                        break;
+                    default:
+                        photonView.RPC("Throw_item", RpcTarget.All);
+                        break;
                 }
-                else
-                {
-                    lastAttackTime = Time.time;
-                    playeranimator.OnComboAttack();
-                    Thirdpersonmove.SetKeepActiveAttack(1);
-                }
+            }
+            else
+            {
+                lastAttackTime = Time.time;
+                playeranimator.OnComboAttack();
             }
         }
         else
         {
             playeranimator.OnComboAttack();
-        }
-        
-        if (Time.time >= lastAttackTime + 0.6f)
-        {
-            Thirdpersonmove.SetKeepActiveAttack(0);
         }
 
         if (Keyboard.current.eKey.isPressed)
@@ -110,7 +100,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
                     Equip_item();
                     break;
                 default:
-                    photonView.RPC("Equip_item",RpcTarget.All);
+                    photonView.RPC("Equip_item", RpcTarget.All);
                     break;
             }
         }
@@ -120,8 +110,8 @@ public class PlayerBasicAttack : MonoBehaviourPun
             ItemObj.transform.rotation = new Quaternion(parent_qut.x,
                 0, 0, 0);
         }
-        BuffCheck();
 
+        BuffCheck();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -187,36 +177,19 @@ public class PlayerBasicAttack : MonoBehaviourPun
     {
         if (other.tag == "Heal_field")
         {
-            //photonView.RPC("Receive_Heal",RpcTarget.All);
-            Receive_Heal();
+            photonView.RPC("Receive_Heal", RpcTarget.All);
         }
     }
-    public void SetLHandCollision(int set)
-    {
-        if (set > 0)
-            HitBoxColliders[0].enabled = true;
-        else if (set <= 0)
-            HitBoxColliders[0].enabled = false;
-    }
-    
-    public void SetRHandCollision(int set)
-    {
-        if (set > 0)
-            HitBoxColliders[1].enabled = true;
-        else if (set <= 0)
-            HitBoxColliders[1].enabled = false;
-    }
-    
+
     [PunRPC]
     public void Equip_item()
     {
         if (playerState.Item == item_box_make.item_type.potion && nowEquip == false)
         {
             //getobj = Resources.Load<GameObject>("potion");
-            ItemObj = PhotonNetwork.Instantiate("potion",new Vector3(0,0,0),Quaternion.identity);
+            ItemObj = PhotonNetwork.Instantiate("potion", new Vector3(0, 0, 0), Quaternion.identity);
             ItemObj.transform.SetParent(gameObject.transform);
-            // 보는 방향 따라서 생성 위치 달라짐
-            Vector3 tpos = GameObject.Find("Bip001 R Finger0").transform.position + Vector3.up+ Vector3.forward;
+            Vector3 tpos = GameObject.Find("Bip001 R Finger0").transform.position + Vector3.up + Vector3.forward;
             ItemObj.transform.Translate(tpos);
             item_Coll = ItemObj.GetComponent<Collider>();
             item_Rigid = ItemObj.GetComponent<Rigidbody>();
@@ -229,19 +202,17 @@ public class PlayerBasicAttack : MonoBehaviourPun
             getobj = Resources.Load<GameObject>("Wall_Obstcle_Frame");
             ItemObj = Instantiate(getobj);
             ItemObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward*5f)+ Vector3.up;
+            Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 5f) + Vector3.up;
             ItemObj.transform.Translate(tpos);
             Quaternion temp_Q = quaternion.identity;
             ItemObj.transform.rotation = temp_Q;
             nowEquip = true;
-            
         }
 
         if (playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
         {
             BuffOn = true;
         }
-        
     }
 
     [PunRPC]
@@ -259,6 +230,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
             nowEquip = false;
         }
+
         if (playerState.Item == item_box_make.item_type.obstacles)
         {
             Quaternion old_rot = gameObject.transform.rotation;
@@ -267,7 +239,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             ItemObj.transform.parent = null;
             //getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
             //ItemObj = Instantiate(getobj);
-            Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward*5f);
+            Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 5f);
             //ItemObj.transform.Translate(tpos);
             //ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
             ItemObj = PhotonNetwork.Instantiate("Wall_Obstcle_Objs", tpos,
@@ -275,7 +247,6 @@ public class PlayerBasicAttack : MonoBehaviourPun
             ItemObj = null;
             nowEquip = false;
         }
-
     }
 
     [PunRPC]
@@ -305,8 +276,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
         }
         else
         {
-            playerState.P_Dm.set_Ite(1f);
-            
+            playerState.P_Dm.set_Ite(1.0f);
         }
 
         if (buff_Time <= 0 && BuffOn == true)
@@ -314,6 +284,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             BuffOn = false;
             buff_Time = 10f;
         }
+
         BuffObj.SetActive(BuffOn);
         print(BuffOn);
     }
