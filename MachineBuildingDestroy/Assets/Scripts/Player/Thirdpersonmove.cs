@@ -70,7 +70,7 @@ public class Thirdpersonmove : MonoBehaviourPun
         if (photonView.IsMine)
         {
             if (direction.magnitude >= 0.1f &&
-                !_playerAllAttackAfterCast.PlayerHandAttackAfterCast() && 
+                !_playerAllAttackAfterCast.AllAfterAfterCast() && 
                 !stiffen && !playerState.dead && !landing
                )
             {
@@ -88,9 +88,12 @@ public class Thirdpersonmove : MonoBehaviourPun
             jumpmove *= speed * Time.deltaTime;
             jumpmove.y = yvelocity;
             _characterController.Move(jumpmove);
-            
-            if (_playerAllAttackAfterCast.PlayerHandAttackAfterCast())
-                yvelocity += tempgravity / 4.0f * Time.deltaTime;
+
+            if (_playerAllAttackAfterCast.PlayerActivejumpColliderCheck())
+            {
+                yvelocity = 0;
+                yvelocity += (tempgravity) * Time.deltaTime;
+            }
             else 
                 yvelocity += tempgravity * Time.deltaTime;
             //Debug.Log(jumpmove);

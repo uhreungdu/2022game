@@ -34,4 +34,11 @@ public class PlayerAllAttackAfterCast : MonoBehaviour
             return true;
         return false;
     }
+
+    public bool PlayerActivejumpColliderCheck()
+    {
+        if (_playerJumpAttack.ActiveColliderCheck())
+            return true;
+        return false;
+    }
 }

@@ -28050,32 +28050,4 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0
-    functionName: SetAffterCast
-    data: 
-    objectReferenceParameter: {fileID: 11500000, guid: c1f28524b3961864b9f86728c1c19f5d, type: 3}
-    floatParameter: 0
-    intParameter: 1
-    messageOptions: 0
-  - time: 0.06666667
-    functionName: SetRHandCollision
-    data: 
-    objectReferenceParameter: {fileID: 11500000, guid: c1f28524b3961864b9f86728c1c19f5d, type: 3}
-    floatParameter: 0
-    intParameter: 1
-    messageOptions: 0
-  - time: 0.06666667
-    functionName: AttackMovement
-    data: 
-    objectReferenceParameter: {fileID: 11500000, guid: c1f28524b3961864b9f86728c1c19f5d, type: 3}
-    floatParameter: 0
-    intParameter: 1
-    messageOptions: 0
-  - time: 0.36666667
-    functionName: SetRHandCollision
-    data: 
-    objectReferenceParameter: {fileID: 11500000, guid: c1f28524b3961864b9f86728c1c19f5d, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []
