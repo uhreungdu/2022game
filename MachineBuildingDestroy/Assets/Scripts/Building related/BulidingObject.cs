@@ -57,7 +57,7 @@ public class BulidingObject : LivingEntity, IPunObservable
                 explosionPosition.y += 3.0f;
                 coin.GetComponent<Rigidbody>().AddExplosionForce(400, explosionPosition, 10f);
             }
-            Invoke("HideBuilding", destroyTime);
+            Invoke("Net_HideBuilding", destroyTime);
             Invoke("RespawnBuilding", _reSpawnTime);
         }
         GetComponent<MeshCollider>().enabled = false;
@@ -71,9 +71,15 @@ public class BulidingObject : LivingEntity, IPunObservable
         objectName = objectName.Remove(objectName.Length - 7, 7);
         PhotonNetwork.InstantiateRoomObject(objectName, transform.position, transform.rotation);
         print("리스폰진짜됨");
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 
+    void Net_HideBuilding()
+    {
+        photonView.RPC("HideBuilding",RpcTarget.All);
+    }
+
+    [PunRPC]
     void HideBuilding()
     {
         if (childMeshRenderers.Length > 0)
