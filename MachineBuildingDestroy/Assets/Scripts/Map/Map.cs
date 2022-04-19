@@ -43,15 +43,7 @@ public class Map : MonoBehaviour
     private List<GameObject> Planes = new List<GameObject>();
 
     public GameObject mapGameObject;
-
-    public GameObject planepref;
-    public GameObject goalpostpref;
-    public GameObject itempref;
-    public GameObject tankpref;
-    public GameObject arcadepref;
-    public GameObject team1Spawner;
-    public GameObject team2Spawner;
-    public GameObject landMark;
+    public GameObject[] Prefs;
 
     private float x = 20;
     private float z = 20;
@@ -227,26 +219,7 @@ public class Map : MonoBehaviour
     public GameObject SetTilepref(int kind)
     {
         GameObject obj;
-        switch (kind)
-        {
-            case 0:
-                return planepref;
-            case 1:
-                return goalpostpref;
-            case 2:
-                return itempref;
-            case 3:
-                return tankpref;
-            case 4:
-                return arcadepref;
-            case 5:
-                return team1Spawner;
-            case 6:
-                return team2Spawner;
-            case 7:
-                return landMark;
-        }
-
+        return Prefs[kind];
         return null;
     }
 
@@ -279,7 +252,7 @@ public class Map : MonoBehaviour
     {
         var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
         maptile = jtc2;
-        jtc2.Print();
+        // jtc2.Print();
 
         for (int i = 0; i < maptile.Tiles.Count; ++i)
         {
