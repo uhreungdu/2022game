@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using Random = UnityEngine.Random;
 
-public class PlayerState : LivingEntity,IPunObservable
+public class PlayerState : LivingEntity, IPunObservable
 {
     public int team { get; private set; }
     public int point { get; private set; }

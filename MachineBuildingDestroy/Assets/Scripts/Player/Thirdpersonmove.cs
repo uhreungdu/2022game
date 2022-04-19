@@ -6,7 +6,7 @@ using System;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 
-public class thirdpersonmove : MonoBehaviourPun
+public class Thirdpersonmove : MonoBehaviourPun
 {
     public CharacterController _characterController;
     public GamePlayerInput gamePlayerInput; // �÷��̾������� �����ϴ� ��ũ��Ʈ
@@ -241,7 +241,7 @@ public class thirdpersonmove : MonoBehaviourPun
         // 약간 신체에 박혀 있는 위치로부터 발사하지 않으면 제대로 판정할 수 없을 때가 있다.
         var ray = new Ray(this.transform.position + Vector3.up * 0.1f, Vector3.down);
         // 탐색 거리
-        var maxDistance = 0.5f;
+        var maxDistance = 0.11f;
         // 광선 디버그 용도
         Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector3.down * maxDistance, Color.red);
         // Raycast의 hit 여부로 판정

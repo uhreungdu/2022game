@@ -10,12 +10,12 @@ public class PlayerJumpAttack : PlayerAttack
     public BoxCollider _rHandBoxCollider;
     public GameObject LHandGameObject;
     public GameObject RHandGameObject;
-    private thirdpersonmove _thirdpersonmove;
+    private Thirdpersonmove _thirdpersonmove;
     void Start()
     {
         _playerState = transform.GetComponent<PlayerState>();
         _playerImpact = transform.GetComponent<PlayerImpact>();
-        _thirdpersonmove = GetComponent<thirdpersonmove>();
+        _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
         _aftercastAttack = 0.1f; // 후딜레이
         _activeAttackTime = 0.4f; // 공격 유지 시간
@@ -29,7 +29,7 @@ public class PlayerJumpAttack : PlayerAttack
     void Update()
     {
         HandTransform();
-        AfterCaseRecovery();
+        AfterCastRecovery();
     }
     
     public void SetRHandCollision(int set)

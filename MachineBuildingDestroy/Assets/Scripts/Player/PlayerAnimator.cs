@@ -8,7 +8,7 @@ public class PlayerAnimator : MonoBehaviour
 {
     public Animator _animator;
     public GamePlayerInput gamePlayerInput;
-    public thirdpersonmove _thirdpersonmove;
+    public Thirdpersonmove _thirdpersonmove;
     private CharacterController _characterController;
 
     public float lastAttackTime;
@@ -28,7 +28,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         _animator = GetComponentInChildren<Animator>();
         gamePlayerInput = GetComponent<GamePlayerInput>();
-        _thirdpersonmove = GetComponent<thirdpersonmove>();
+        _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _characterController = GetComponent<CharacterController>();
     }
 

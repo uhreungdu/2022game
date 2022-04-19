@@ -39,7 +39,7 @@ public class PlayerHandAttack : PlayerAttack
     private void Update()
     {
         HandTransform();
-        AfterCaseRecovery();
+        AfterCastRecovery();
     }
 
     private void HandTransform()
