@@ -12,14 +12,18 @@ public class GamePlayerInput : MonoBehaviour
     public string DashButtonName = "Dash"; // 대쉬를 위한 입력 버튼 이름
     public string InteractionButtonName = "Interaction"; // 상호작용를 위한 입력 버튼 이름
 
-    private Joystick joystick;
+    private Joystick _joystick;
+    private AttackButton _atkButton;
     private PlayerInput _playerInput;
 
     void Start()
     {
         // 에디터 상에서 체크할려면 WindowsEditor로 해야됨
         if (Application.platform == RuntimePlatform.Android)
-            joystick = GameObject.Find("Joystickback").GetComponent<Joystick>();
+        {
+            _joystick = GameObject.Find("Joystickback").GetComponent<Joystick>();
+            _atkButton = GameObject.Find("Button").GetComponent<AttackButton>();
+        }
         _playerInput = GetComponent<PlayerInput>();
     }
 
@@ -43,8 +47,9 @@ public class GamePlayerInput : MonoBehaviour
         //}
         if (Application.platform == RuntimePlatform.Android)
         {
-            move = joystick.moveVector.y;
-            rotate = joystick.moveVector.x;
+            move = _joystick.moveVector.y;
+            rotate = _joystick.moveVector.x;
+            fire = _atkButton.isPressed;
         }
         else
         {
