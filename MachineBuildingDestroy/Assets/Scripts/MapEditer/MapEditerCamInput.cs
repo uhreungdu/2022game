@@ -10,7 +10,7 @@ public class MapEditerCamInput : MonoBehaviour
     private PlayerInput _gamePlayerInput;
     public MapEditerManager _mapEditerManager;
     public MapEditerOnScreenPoint _mapEditerOnScreenPoint;
-
+    public Map _map;
     private int Allprefcount = 7;
     
     // private Joystick _joystick;
@@ -70,7 +70,7 @@ public class MapEditerCamInput : MonoBehaviour
     private void OnSwitchBuilding(InputValue value)
     {
         if (value.isPressed)
-            _mapEditerOnScreenPoint.PrefnumSet((_mapEditerManager.Prefnum + 1) % (Allprefcount + 1));
+            _mapEditerOnScreenPoint.PrefnumSet((_mapEditerManager.Prefnum + 1) % (_map.Prefs.Length));
     }
     
     private void OnRotate(InputValue value)

@@ -20,7 +20,7 @@ public class HammerAttack : PlayerAttack
         _aftercastAttack = 0.3f; // 후딜레이
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
         _lastAttackTime = 0f; // 공격을 마지막에 한 시점
-        SetAffterCast(0);
+        SetHammerAffterCast(0);
         _damage = 25;
         
         _hitBoxColliders.Add(_hammerBoxCollider);
@@ -54,10 +54,10 @@ public class HammerAttack : PlayerAttack
         else if (set <= 0)
         {
             _hitBoxColliders[0].enabled = false;
-            print("해머 콜라이더 지속시간 " + (_lastColliderActiveTime + _lastColliderOnTime - Time.time) + "초");
+            // print("해머 콜라이더 지속시간 " + (_lastColliderActiveTime + _lastColliderOnTime - Time.time) + "초");
         }
     }
-    public void SetAffterCast(int set)
+    public void SetHammerAffterCast(int set)
     {
         base.SetAffterCast(set);      // 애니메이션 이벤트에서 이래야 받음
     }
