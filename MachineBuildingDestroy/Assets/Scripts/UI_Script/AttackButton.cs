@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,14 @@ using UnityEngine;
 public class AttackButton : MonoBehaviour
 {
     public bool isPressed;
+
+    private void Awake()
+    {
+        if (Application.platform != RuntimePlatform.Android)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 
     public void ButtonUp()
     {
