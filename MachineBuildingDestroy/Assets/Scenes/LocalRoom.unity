@@ -227,7 +227,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 70
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 70
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -1341,7 +1341,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 60
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1418,7 +1418,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 70
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -1536,7 +1536,7 @@ MonoBehaviour:
   - {fileID: 2358042896829115922, guid: 614c6c54b2542464a8e289b9f62b53cf, type: 3}
   - {fileID: 2358042896829115922, guid: 9501ee61c1aef2d46bfd8737ec494ad3, type: 3}
   - {fileID: 2358042896829115922, guid: 13b6010d644313a45be698d983da13cc, type: 3}
-  Online: 1
+  Online: 0
   MapEditer: 0
 --- !u!4 &1729351754
 Transform:
@@ -1921,7 +1921,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_CommonLens: 1
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 70
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000

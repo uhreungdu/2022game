@@ -69,13 +69,13 @@ public class PlayerHandAttack : PlayerAttack
     {
         if (set > 0)
         {
-            _hitBoxColliders[0].enabled = true;
-            SetActiveAttack();
+            _rHandBoxCollider.enabled = true;
             _lastColliderOnTime = Time.time;
         }
         else if (set <= 0)
         {
-            _hitBoxColliders[0].enabled = false;
+            _rHandBoxCollider.enabled = false;
+            _lastLColliderOffTime = Time.time;
         }
     }
 
