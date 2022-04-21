@@ -44,11 +44,15 @@ public class PlayerState : LivingEntity, IPunObservable
         }
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
-        photonView.RPC("SetOnHeadName",RpcTarget.All,PhotonNetwork.NickName);
         
         Item = item_box_make.item_type.obstacles;
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);
+        reSpawnTransform = new Vector3(ReSpawnTransformSet(transform.position.x), 
+            ReSpawnTransformSet(transform.position.y), 
+            ReSpawnTransformSet(transform.position.z));
+        photonView.RPC("SetOnHeadName",RpcTarget.All,PhotonNetwork.NickName);
+        
         base.OnEnable();
     }
     

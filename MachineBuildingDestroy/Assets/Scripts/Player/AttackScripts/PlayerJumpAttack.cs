@@ -17,8 +17,8 @@ public class PlayerJumpAttack : PlayerAttack
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
-        _aftercastAttack = 0.1f; // 후딜레이
-        _activeAttackTime = 0.4f; // 공격 유지 시간
+        _aftercastAttack = 0.6f; // 후딜레이
+        _lastColliderActiveTime = 0.4f; // 공격 유지 시간
         _lastAttackTime = 0f; // 공격을 마지막에 한 시점
         SetAffterCast(0);
         _damage = 15;
@@ -32,12 +32,17 @@ public class PlayerJumpAttack : PlayerAttack
         AfterCastRecovery();
     }
     
-    public void SetRHandCollision(int set)
+    public void SetHandCollision(int set)
     {
         if (set > 0)
+        {
             _hitBoxColliders[0].enabled = true;
+            SetActiveAttack();
+        }
         else if (set <= 0)
+        {
             _hitBoxColliders[0].enabled = false;
+        }
     }
 
     private void HandTransform()
@@ -46,14 +51,14 @@ public class PlayerJumpAttack : PlayerAttack
         _rHandBoxCollider.transform.position = WorldRHandPosition;
     }
     
-    public void AttackMovement()
+    public void JumpAttackMovement()
     {
         Transform rootTransform = transform.root;
         _playerImpact.AddImpact(rootTransform.forward, 20);
         _thirdpersonmove.yvelocity = 0;
     }
     
-    public void SetAffterCast(int set)
+    public void SetJumpAffterCast(int set)
     {
         base.SetAffterCast(set);      // 애니메이션 이벤트에서 이래야 받음
     }

@@ -26,7 +26,7 @@ public class BulidingObject : LivingEntity, IPunObservable
     // Start is called before the first frame update
     protected void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rigidbody = GetComponentInChildren<Rigidbody>();
         _MeshRenderer = GetComponentInChildren<MeshRenderer>();
         _MeshCollider = GetComponentInChildren<MeshCollider>();
         onDeath += DieAction;
@@ -67,7 +67,13 @@ public class BulidingObject : LivingEntity, IPunObservable
 
     void RespawnBuilding()
     {
-        string objectName = gameObject.name;
+        string objectName;
+        if (gameObject.transform.parent != null)
+        {
+            objectName = gameObject.transform.parent.name;
+        }  
+        else
+            objectName = gameObject.name;
         objectName = objectName.Remove(objectName.Length - 7, 7);
         PhotonNetwork.InstantiateRoomObject(objectName, transform.position, transform.rotation);
         print("리스폰진짜됨");
@@ -85,7 +91,7 @@ public class BulidingObject : LivingEntity, IPunObservable
         if (childMeshRenderers.Length > 0)
         {
             childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer child in childMeshRenderers)
+            foreach (var child in childMeshRenderers)
             {
                 child.enabled = true;
             }
@@ -94,7 +100,7 @@ public class BulidingObject : LivingEntity, IPunObservable
         if (childMeshCollider.Length > 0)
         {
             childMeshCollider = GetComponentsInChildren<MeshCollider>();
-            foreach (MeshCollider child in childMeshCollider)
+            foreach (var child in childMeshCollider)
             {
                 child.enabled = true;
             }
@@ -123,27 +129,27 @@ public class BulidingObject : LivingEntity, IPunObservable
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1);
         }
-        else if (health <= startingHealth / 7f * 5  && destroyfloor <= 1)
+        if (health <= startingHealth / 7f * 5  && destroyfloor <= 1)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
         }
-        else if (health <= startingHealth / 7f * 4  && destroyfloor <= 2)
+        if (health <= startingHealth / 7f * 4  && destroyfloor <= 2)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
         }
-        else if (health <= startingHealth / 7f * 3 && destroyfloor <= 3)
+        if (health <= startingHealth / 7f * 3 && destroyfloor <= 3)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1);
         }
-        else if (health <= startingHealth / 7f * 2  && destroyfloor <= 4)
+        if (health <= startingHealth / 7f * 2  && destroyfloor <= 4)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
         }
-        else if (health <= startingHealth / 7f * 1  && destroyfloor <= 5)
+        if (health <= startingHealth / 7f * 1  && destroyfloor <= 5)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
@@ -152,13 +158,13 @@ public class BulidingObject : LivingEntity, IPunObservable
         if (dead)
         {
             childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer child in childMeshRenderers)
+            foreach (var child in childMeshRenderers)
             {
                 child.enabled = true;
             }
             
             childMeshCollider = GetComponentsInChildren<MeshCollider>();
-            foreach (MeshCollider child in childMeshCollider)
+            foreach (var child in childMeshCollider)
             {
                 child.enabled = true;
             }
@@ -169,8 +175,8 @@ public class BulidingObject : LivingEntity, IPunObservable
             {
                 child.constraints = RigidbodyConstraints.None;
                 Vector3 objectPotision = transform.position;
-                objectPotision.y = 0;
-                child.AddExplosionForce(1000, objectPotision, 50f);
+                objectPotision.y = 1;
+                child.AddExplosionForce(500, objectPotision, 20f);
             }
             _MeshRenderer.enabled = false;
             _MeshCollider.enabled = false;

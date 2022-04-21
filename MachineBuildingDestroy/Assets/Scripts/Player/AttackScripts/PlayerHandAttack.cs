@@ -26,8 +26,8 @@ public class PlayerHandAttack : PlayerAttack
         _playerState = transform.GetComponent<PlayerState>();
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _attackName = "기본공격";
-        _aftercastAttack = 0.3f; // 공격 간격
-        _activeAttackTime = 0f; // 공격 유지 시간
+        _aftercastAttack = 0.5f; // 후딜레이
+        _activeAttackTime = 0.3f; // 공격 유지 시간
         _lastAttackTime = 0f; // 공격을 마지막에 한 시점
         SetAffterCast(0);
         _damage = 10;
@@ -54,14 +54,14 @@ public class PlayerHandAttack : PlayerAttack
     {
         if (set > 0)
         {
-            _hitBoxColliders[0].enabled = true;
+            _lHandBoxCollider.enabled = true;
             _lastLColliderOnTime = Time.time;
         }
         else if (set <= 0)
         {
-            _hitBoxColliders[0].enabled = false;
+            _lHandBoxCollider.enabled = false;
             _lastLColliderOffTime = Time.time;
-            print("왼손 지속시간" + (_lastLColliderOffTime - _lastLColliderOnTime) + "초");
+            // print("왼손 지속시간" + (_lastLColliderOffTime - _lastLColliderOnTime) + "초");
         }
     }
 
@@ -69,14 +69,13 @@ public class PlayerHandAttack : PlayerAttack
     {
         if (set > 0)
         {
-            _hitBoxColliders[1].enabled = true;
-            _lastRColliderOnTime = Time.time;
+            _rHandBoxCollider.enabled = true;
+            _lastColliderOnTime = Time.time;
         }
         else if (set <= 0)
         {
-            _hitBoxColliders[1].enabled = false;
-            _lastRColliderOffTime = Time.time;
-            print("오른손 지속시간" + (_lastRColliderOffTime - _lastRColliderOnTime) + "초");
+            _rHandBoxCollider.enabled = false;
+            _lastLColliderOffTime = Time.time;
         }
     }
 
@@ -100,7 +99,7 @@ public class PlayerHandAttack : PlayerAttack
         }
     }
 
-    public void SetAffterCast(int set)
+    public void SetHandAffterCast(int set)
     {
         base.SetAffterCast(set);      // 애니메이션 이벤트에서 이래야 받음
     }

@@ -43,6 +43,7 @@ public class Hand_Effect : MonoBehaviour
     {
         if (box_col.enabled == true)
         {
+            pos_set = gameObject.transform.position;
             Tail_obj.SetActive(true);
         }
         else

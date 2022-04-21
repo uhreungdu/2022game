@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -383,6 +384,14 @@ public class CMeshSlicer : MonoBehaviour
         MeshCollider bObjectMeshCollider = bObject.GetComponent<MeshCollider>();
         bObjectMeshCollider.convex = true;
         bObjectMeshCollider.enabled = false;
+        // aObject.AddComponent<BoxCollider>();
+        // bObject.AddComponent<BoxCollider>();
+        //
+        // BoxCollider aObjectMeshCollider = aObject.GetComponent<BoxCollider>();
+        // aObjectMeshCollider.enabled = false;
+        //
+        // BoxCollider bObjectMeshCollider = bObject.GetComponent<BoxCollider>();
+        // bObjectMeshCollider.enabled = false;
 
         aObject.GetComponent<MeshRenderer>().enabled = false;
         bObject.GetComponent<MeshRenderer>().enabled = false;
@@ -393,16 +402,14 @@ public class CMeshSlicer : MonoBehaviour
         bObject.layer = 9;
 
         //Create sliced object
-        if (_target.transform.parent == null)
+        if (_target.transform.parent == null || _target.transform.name == "Object")
         {
             _target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             // _target.GetComponent<MeshFilter>().sharedMesh = orinMesh;
             // _target.GetComponent<MeshCollider>().sharedMesh = orinMesh;
             // _target.GetComponent<MeshCollider>().convex = true;
             // _target.GetComponent<MeshRenderer>().enabled = true;
-
             aObject.transform.SetParent(_target.transform, true);
-
             bObject.transform.SetParent(_target.transform, true);
 
             _target.tag = "Wall";

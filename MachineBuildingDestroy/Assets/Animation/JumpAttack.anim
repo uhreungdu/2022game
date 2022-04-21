@@ -28052,30 +28052,30 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: SetAffterCast
+    functionName: SetJumpAffterCast
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: c1f28524b3961864b9f86728c1c19f5d, type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
   - time: 0.06666667
-    functionName: SetRHandCollision
+    functionName: SetHandCollision
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: c1f28524b3961864b9f86728c1c19f5d, type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
   - time: 0.06666667
-    functionName: AttackMovement
+    functionName: JumpAttackMovement
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: c1f28524b3961864b9f86728c1c19f5d, type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
   - time: 0.36666667
-    functionName: SetRHandCollision
+    functionName: SetHandCollision
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: c1f28524b3961864b9f86728c1c19f5d, type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

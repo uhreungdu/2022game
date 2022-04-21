@@ -17,7 +17,7 @@ public class PlayerAttack : MonoBehaviour
     public List<BoxCollider> _hitBoxColliders; // 히드박스가 공격에 필요한개 하나가 아닐 수 있음
     
     protected float _lastColliderOnTime; // 콜라이더가 켜진 시점
-    protected float _lastColliderActiveTime; // 공격을 마지막에 한 시점
+    protected float _lastColliderActiveTime; // 공격 켜져있는 시간
 
     public void AfterCastRecovery()
     {
