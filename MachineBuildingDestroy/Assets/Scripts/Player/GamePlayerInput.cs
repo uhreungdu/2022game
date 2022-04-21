@@ -14,6 +14,7 @@ public class GamePlayerInput : MonoBehaviour
 
     private Joystick _joystick;
     private AttackButton _atkButton;
+    private JumpButton _jmpButton;
     private PlayerInput _playerInput;
 
     void Start()
@@ -22,7 +23,8 @@ public class GamePlayerInput : MonoBehaviour
         if (Application.platform == RuntimePlatform.Android)
         {
             _joystick = GameObject.Find("Joystickback").GetComponent<Joystick>();
-            _atkButton = GameObject.Find("Button").GetComponent<AttackButton>();
+            _atkButton = GameObject.Find("AttackButton").GetComponent<AttackButton>();
+            _jmpButton = GameObject.Find("JumpButton").GetComponent<JumpButton>();
         }
         _playerInput = GetComponent<PlayerInput>();
     }
@@ -50,6 +52,7 @@ public class GamePlayerInput : MonoBehaviour
             move = _joystick.moveVector.y;
             rotate = _joystick.moveVector.x;
             fire = _atkButton.isPressed;
+            jump = _jmpButton.isPressed;
         }
         else
         {
