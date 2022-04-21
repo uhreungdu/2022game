@@ -4168,8 +4168,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96b20537bc55a74e8e14dd781a521c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkState: 
   Player: {fileID: 6962304825099367683, guid: d32ccc424f107b04c964688911a498e0, type: 3}
   Map: {fileID: 0}
+  ErrWindow: {fileID: 1077563448467974805, guid: aae3e81f4bf5fb74b91b41b10c868c44, type: 3}
 --- !u!4 &2018934612
 Transform:
   m_ObjectHideFlags: 0
