@@ -20,9 +20,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private static NetworkManager instance;
     private Account _account;
     private LobbyManager _lobbyManager;
-    string networkState;
+    public string networkState;
     public GameObject Player;
     public Map Map;
+    public GameObject ErrWindow;
     private GameObject team1spawner;
     private GameObject team2spawner;
     [SerializeField] private Player[] _players;
@@ -60,10 +61,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         _account = Account.GetInstance();
         _players = PhotonNetwork.PlayerList;
+        ConnectPhotonServer();
     }
-
-    public override void OnConnectedToMaster() =>
-        PhotonNetwork.JoinLobby();
 
     public override void OnJoinedLobby()
     {
@@ -128,6 +127,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
+        Instantiate(ErrWindow, new Vector3(Screen.width/2f,Screen.height/2f,0), 
+            Quaternion.identity, GameObject.Find("Canvas").transform);
+        ErrWindow.SetActive(true);
+        ErrWindow.GetComponentInChildren<Text>().text = cause.ToString();
+        print(cause.ToString());
         ExitRoom(_account.GetPlayerID(), _lobbyManager.GetInRoomName());
     }
 

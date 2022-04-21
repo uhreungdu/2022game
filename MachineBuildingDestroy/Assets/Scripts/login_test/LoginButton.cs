@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -14,6 +17,7 @@ public class LoginButton : MonoBehaviour
     [FormerlySerializedAs("ErrText")] public GameObject errText;
     public GameObject nManager;
     [SerializeField] private string[] accountVal;
+    private bool _doLogin = false;
     
     // Start is called before the first frame update
     void Start()
@@ -26,9 +30,20 @@ public class LoginButton : MonoBehaviour
         
     }
 
+    private void FixedUpdate()
+    {
+        if (_doLogin)
+        {
+            GetComponent<Button>().interactable = false;
+            return;
+        }
+        GetComponent<Button>().interactable = PhotonNetwork.NetworkClientState == ClientState.ConnectedToMasterServer;
+    }
+
     public void OnClick()
     {
         // 로그인 창 비활성화
+        _doLogin = true;
         GetComponent<Button>().interactable = false;
         idInput.GetComponent<InputField>().interactable = false;
         pwInput.GetComponent<InputField>().interactable = false;
@@ -70,7 +85,7 @@ public class LoginButton : MonoBehaviour
                 GameObject.Find("Account").GetComponent<Account>().WriteAccount(
                     GetStringDataValue(accountVal[0],"account_id:"),
                     GetStringDataValue(accountVal[0],"character_name:"));
-                nManager.GetComponent<NetworkManager>().ConnectPhotonServer();
+                PhotonNetwork.JoinLobby();
                 SceneManager.LoadScene("lobby_test");
 
             }
