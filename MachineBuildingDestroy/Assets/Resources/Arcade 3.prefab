@@ -127,7 +127,7 @@ MonoBehaviour:
   destroyTime: 5
   _reSpawnTime: 10
   _reSpawnTimer: 0
-  effect_obj: {fileID: 0}
+  effect_obj: {fileID: 8022832438632908100, guid: 6bbc1fbbcbf7d474faba91e6f5b02b19, type: 3}
 --- !u!64 &-5729422349932503538
 MeshCollider:
   m_ObjectHideFlags: 0
