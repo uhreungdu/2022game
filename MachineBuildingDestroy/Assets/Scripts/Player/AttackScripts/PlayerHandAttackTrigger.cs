@@ -32,7 +32,7 @@ public class PlayerHandAttackTrigger : MonoBehaviour
             if (other.gameObject != transform.root.gameObject)
             {
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
-                if (other.gameObject != null && !playerState.dead)
+                if (other.gameObject != null && !playerState.dead && playerState.team != _playerState.team)
                 {
                     //playerState.NetworkOnDamage(_playerHandAttack._damage);
                     playerState.OnDamage(_playerHandAttack._damage);

@@ -183,7 +183,7 @@ public class Thirdpersonmove : MonoBehaviourPun
         }
     }
 
-    public void Throw_item()
+    public void ThrowPotion()
     {
         if (ItemObj == null)
             return;
