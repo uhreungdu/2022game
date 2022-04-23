@@ -9,15 +9,15 @@ using Photon.Pun;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public class PlayerBasicAttack : MonoBehaviourPun
+public class PlayerKeySystem : MonoBehaviourPun
 {
     // Start is called before the first frame update
-    public GamePlayerInput gamePlayerInput;
+    public GamePlayerInput _gamePlayerInput;
     public List<BoxCollider> HitBoxColliders;
     public Material boxmaterial;
     public GameObject coinprefab;
-    public PlayerState playerState;
-    public PlayerAnimator playeranimator;
+    public PlayerState _playerState;
+    public PlayerAnimator _playeranimator;
     public Thirdpersonmove Thirdpersonmove;
 
     private float timeBetAttack = 0.3f; // 공격 간격
@@ -40,9 +40,9 @@ public class PlayerBasicAttack : MonoBehaviourPun
 
     void Start()
     {
-        gamePlayerInput = GetComponentInParent<GamePlayerInput>();
-        playerState = GetComponentInParent<PlayerState>();
-        playeranimator = GetComponentInChildren<PlayerAnimator>();
+        _gamePlayerInput = GetComponentInParent<GamePlayerInput>();
+        _playerState = GetComponentInParent<PlayerState>();
+        _playeranimator = GetComponentInChildren<PlayerAnimator>();
         Thirdpersonmove = GetComponentInChildren<Thirdpersonmove>();
         getobj = Resources.Load<GameObject>("Buff_Effect");
         BuffObj = Instantiate(getobj);
@@ -53,10 +53,11 @@ public class PlayerBasicAttack : MonoBehaviourPun
         buff_Time = 10f;
     }
 
-    // Update is called once per frame
+    // 프레임 단위로 호출됩니다.
     void Update()
     {
         PressFire();
+        PressItem();
     }
 
     void PressFire()
@@ -64,12 +65,12 @@ public class PlayerBasicAttack : MonoBehaviourPun
         if (!photonView.IsMine) return;
         // parent_qut = gameObject.transform.parent.transform.rotation;
         parent_qut = gameObject.transform.rotation;
-        if (gamePlayerInput.fire)
+        if (_gamePlayerInput.fire)
         {
             //Debug.Log("앞 백터 = " + boxCollider.transform.forward);
             if (nowEquip == true)
             {
-                switch (playerState.Item)
+                switch (_playerState.Item)
                 {
                     case item_box_make.item_type.potion:
                     case item_box_make.item_type.obstacles:
@@ -83,17 +84,20 @@ public class PlayerBasicAttack : MonoBehaviourPun
             else
             {
                 lastAttackTime = Time.time;
-                playeranimator.OnComboAttack();
+                _playeranimator.OnComboAttack();
             }
         }
         else
         {
-            playeranimator.OnComboAttack();
+            _playeranimator.OnComboAttack();
         }
+    }
 
-        if (Keyboard.current.eKey.isPressed)
+    private void PressItem()
+    {
+        if (_gamePlayerInput.item)
         {
-            switch (playerState.Item)
+            switch (_playerState.Item)
             {
                 case item_box_make.item_type.potion:
                 case item_box_make.item_type.obstacles:
@@ -105,7 +109,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             }
         }
 
-        if (nowEquip == true && ItemObj != null && playerState.Item == item_box_make.item_type.obstacles)
+        if (nowEquip == true && ItemObj != null && _playerState.Item == item_box_make.item_type.obstacles)
         {
             ItemObj.transform.rotation = new Quaternion(parent_qut.x,
                 0, 0, 0);
@@ -172,7 +176,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             }
         }
     }
-
+    
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Heal_field")
@@ -184,7 +188,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
     [PunRPC]
     public void Equip_item()
     {
-        if (playerState.Item == item_box_make.item_type.potion && nowEquip == false)
+        if (_playerState.Item == item_box_make.item_type.potion && nowEquip == false)
         {
             //getobj = Resources.Load<GameObject>("potion");
             ItemObj = PhotonNetwork.Instantiate("potion", new Vector3(0, 0, 0), Quaternion.identity);
@@ -197,7 +201,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             nowEquip = true;
         }
 
-        if (playerState.Item == item_box_make.item_type.obstacles && nowEquip == false)
+        if (_playerState.Item == item_box_make.item_type.obstacles && nowEquip == false)
         {
             getobj = Resources.Load<GameObject>("Wall_Obstcle_Frame");
             ItemObj = Instantiate(getobj);
@@ -209,7 +213,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             nowEquip = true;
         }
 
-        if (playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
+        if (_playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
         {
             BuffOn = true;
         }
@@ -220,7 +224,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
     {
         if (ItemObj == null)
             return;
-        if (playerState.Item == item_box_make.item_type.potion)
+        if (_playerState.Item == item_box_make.item_type.potion)
         {
             ItemObj.transform.parent = null;
             ItemObj.GetComponent<PotionState>().SetState("throw");
@@ -231,7 +235,7 @@ public class PlayerBasicAttack : MonoBehaviourPun
             nowEquip = false;
         }
 
-        if (playerState.Item == item_box_make.item_type.obstacles)
+        if (_playerState.Item == item_box_make.item_type.obstacles)
         {
             Quaternion old_rot = gameObject.transform.rotation;
             Debug.Log(old_rot);
@@ -254,15 +258,15 @@ public class PlayerBasicAttack : MonoBehaviourPun
     {
         if (Time.time >= LastHealTime + timeBetHeal)
         {
-            if (playerState.health + 20 >= 100)
+            if (_playerState.health + 20 >= 100)
             {
-                playerState.RestoreHealth(20);
+                _playerState.RestoreHealth(20);
                 LastHealTime = Time.time;
             }
             else
             {
-                float remain_heal = 100 - playerState.health;
-                playerState.RestoreHealth(remain_heal);
+                float remain_heal = 100 - _playerState.health;
+                _playerState.RestoreHealth(remain_heal);
             }
         }
     }
@@ -271,12 +275,12 @@ public class PlayerBasicAttack : MonoBehaviourPun
     {
         if (BuffOn)
         {
-            playerState.P_Dm.set_Ite(1.5f);
+            _playerState.P_Dm.set_Ite(1.5f);
             buff_Time -= Time.deltaTime;
         }
         else
         {
-            playerState.P_Dm.set_Ite(1.0f);
+            _playerState.P_Dm.set_Ite(1.0f);
         }
 
         if (buff_Time <= 0 && BuffOn == true)

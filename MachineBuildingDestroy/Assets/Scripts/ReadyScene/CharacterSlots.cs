@@ -80,6 +80,7 @@ public class CharacterSlots : MonoBehaviourPun
             if (target.Nickname != "") continue;
             target.Nickname = nickname;
             target.IsReady = false;
+            target.Platform = Application.platform.ToString();
             break;
 
         }

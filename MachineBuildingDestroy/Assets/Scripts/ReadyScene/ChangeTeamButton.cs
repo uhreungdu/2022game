@@ -71,7 +71,9 @@ public class ChangeTeamButton : MonoBehaviourPun
         if (target.Nickname == "")
         {
             target.Nickname = nickname;
+            target.Platform = Application.platform.ToString();
             slots.slots[from].GetComponent<Slot>().Nickname = "";
+            slots.slots[from].GetComponent<Slot>().Platform = "";
             return;
         }
     }
