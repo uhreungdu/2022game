@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private static GameManager instance;
     private int[] gamescore = new int[2];
     private int[] teamcount = new int[2];
+    public bool gameStart { get; private set; }
     public static GameManager GetInstance()
     {
         if(instance == null)
@@ -118,6 +119,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         now_timer.min = 0;
         now_timer.sec = 0;
         now_timer.Ntimer = 0f;
+
+        gameStart = false;
     }
 
     // Update is called once per frame
@@ -156,6 +159,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public int addTeamcount(int team)
     {
         return teamcount[team] += 1;
+    }
+
+    public void SetGameStart(bool start)
+    {
+        gameStart = start;
     }
    
     public timer_block getTime()
