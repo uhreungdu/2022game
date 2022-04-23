@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Random = UnityEngine.Random;
+// using static item_box_make.item_type;
 
 public class PlayerState : LivingEntity, IPunObservable
 {

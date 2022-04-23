@@ -17,7 +17,6 @@ public class GamePlayerInput : MonoBehaviour
     private AttackButton _atkButton;
     private JumpButton _jmpButton;
     private DashButton _dshButton;
-    private PlayerInput _playerInput;
 
     void Start()
     {
@@ -29,7 +28,6 @@ public class GamePlayerInput : MonoBehaviour
             _jmpButton = GameObject.Find("JumpButton").GetComponent<JumpButton>();
             _dshButton = GameObject.Find("DashButton").GetComponent<DashButton>();
         }
-        _playerInput = GetComponent<PlayerInput>();
     }
 
     // 값 할당은 내부에서만 가능
