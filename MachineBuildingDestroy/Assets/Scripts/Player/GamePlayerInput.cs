@@ -11,6 +11,7 @@ public class GamePlayerInput : MonoBehaviour
     public string JumpButtonName = "Jump"; // 점프를 위한 입력 버튼 이름
     public string DashButtonName = "Dash"; // 대쉬를 위한 입력 버튼 이름
     public string InteractionButtonName = "Interaction"; // 상호작용를 위한 입력 버튼 이름
+    public string ItemButtonName = "Item"; // 상호작용를 위한 입력 버튼 이름
 
     private Joystick _joystick;
     private AttackButton _atkButton;
@@ -38,6 +39,7 @@ public class GamePlayerInput : MonoBehaviour
     public bool jump { get; private set; } // 감지된 발사 입력값
     public bool dash { get; private set; } // 감지된 발사 입력값
     public bool Interaction { get; private set; } // 감지된 발사 입력값
+    public bool item { get; private set; }
     // Update is called once per frame
     void Update()
     {
@@ -68,6 +70,7 @@ public class GamePlayerInput : MonoBehaviour
             jump = Input.GetButton(JumpButtonName);
             dash = Input.GetButton(DashButtonName);
             Interaction = Input.GetButton(InteractionButtonName);
+            item = Input.GetButton(ItemButtonName);
         }
 
     }
