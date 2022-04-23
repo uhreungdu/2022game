@@ -17,6 +17,9 @@ public class GamePlayerInput : MonoBehaviour
     private AttackButton _atkButton;
     private JumpButton _jmpButton;
     private DashButton _dshButton;
+    private InterractButton _itrButton;
+    private ItemButton _itmButton;
+    private PlayerInput _playerInput;
 
     void Start()
     {
@@ -27,6 +30,8 @@ public class GamePlayerInput : MonoBehaviour
             _atkButton = GameObject.Find("AttackButton").GetComponent<AttackButton>();
             _jmpButton = GameObject.Find("JumpButton").GetComponent<JumpButton>();
             _dshButton = GameObject.Find("DashButton").GetComponent<DashButton>();
+            _itrButton = GameObject.Find("InteractButton").GetComponent<InterractButton>();
+            _itmButton = GameObject.Find("ItemButton").GetComponent<ItemButton>();
         }
     }
 
@@ -56,6 +61,8 @@ public class GamePlayerInput : MonoBehaviour
             fire = _atkButton.isPressed;
             jump = _jmpButton.isPressed;
             dash = _dshButton.isPressed;
+            Interaction = _itrButton.isPressed;
+            item = _itmButton.isPressed;
         }
         else
         {

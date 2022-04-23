@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 997077913555807600}
   m_Layer: 9
-  m_Name: Landmark
+  m_Name: LandMark
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
