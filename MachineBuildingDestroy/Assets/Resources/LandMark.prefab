@@ -163,7 +163,6 @@ MonoBehaviour:
   destroyfloor: 0
   destroyTime: 5
   _reSpawnTime: 10
-  _reSpawnTimer: 0
   effect_obj: {fileID: 0}
 --- !u!114 &6542954356232124453
 MonoBehaviour:

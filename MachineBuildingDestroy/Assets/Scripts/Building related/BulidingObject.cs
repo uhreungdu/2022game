@@ -16,7 +16,7 @@ public class BulidingObject : LivingEntity, IPunObservable
     public int destroyTime = 5;
     
     public float _reSpawnTime = 10.0f;
-    public float _reSpawnTimer = 0.0f;
+    private float _reSpawnTimer = 0.0f;
 
     private MeshRenderer[] childMeshRenderers;
     private MeshCollider[] childMeshCollider;
