@@ -8,6 +8,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+// using static item_box_make.item_type;
 
 public class PlayerKeySystem : MonoBehaviourPun
 {
@@ -20,13 +21,13 @@ public class PlayerKeySystem : MonoBehaviourPun
     public PlayerAnimator _playeranimator;
     public Thirdpersonmove Thirdpersonmove;
 
-    private float timeBetAttack = 0.3f; // °ø°Ý °£°Ý
-    private float activeAttackTime = 0f; // °ø°Ý À¯Áö ½Ã°£
-    private float lastAttackTime = 0f; // °ø°ÝÀ» ¸¶Áö¸·¿¡ ÇÑ ½ÃÁ¡
+    private float timeBetAttack = 0.3f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float activeAttackTime = 0f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    private float lastAttackTime = 0f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    private float timeBetHeal = 0.5f; // Èú °£°Ý
-    private float activeHealTime = 0f; // Èú À¯Áö ½Ã°£
-    private float LastHealTime = 0f; // °ø°ÝÀ» ¸¶Áö¸·¿¡ ÇÑ ½ÃÁ¡
+    private float timeBetHeal = 0.5f; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float activeHealTime = 0f; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    private float LastHealTime = 0f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     public bool nowEquip;
     public bool BuffOn;
@@ -53,7 +54,7 @@ public class PlayerKeySystem : MonoBehaviourPun
         buff_Time = 10f;
     }
 
-    // ÇÁ·¹ÀÓ ´ÜÀ§·Î È£ÃâµË´Ï´Ù.
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½Ë´Ï´ï¿½.
     void Update()
     {
         PressFire();
@@ -67,7 +68,7 @@ public class PlayerKeySystem : MonoBehaviourPun
         parent_qut = gameObject.transform.rotation;
         if (_gamePlayerInput.fire)
         {
-            //Debug.Log("¾Õ ¹éÅÍ = " + boxCollider.transform.forward);
+            //Debug.Log("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ = " + boxCollider.transform.forward);
             if (nowEquip == true)
             {
                 switch (_playerState.Item)
@@ -120,7 +121,7 @@ public class PlayerKeySystem : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        // Æ®¸®°Å Ãæµ¹ÇÑ »ó´ë¹æ °ÔÀÓ ¿ÀºêÁ§Æ®°¡ ÃßÀû ´ë»óÀÌ¶ó¸é °ø°Ý ½ÇÇà
+        // Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (other.tag == "Wall")
         {
             // WallObject attackTarget = other.GetComponent<WallObject>();
@@ -170,7 +171,7 @@ public class PlayerKeySystem : MonoBehaviourPun
         if (other.tag == "Player")
         {
             PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
-            if (other.gameObject != null && !playerState.dead)
+            if (other.gameObject != null && !playerState.dead && playerState.team != _playerState.team)
             {
                 playerState.OnDamage(20);
             }
