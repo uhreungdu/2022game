@@ -12,9 +12,8 @@ namespace MyFirstPlugin
     {
         Test = 0,
         SpawnPlayer,
-        CreateItem,
-        GetItem,
-        RenewScore
+        StartGame,
+        SetTeamOnServer
     }
 
     class PlayerInfo
@@ -30,6 +29,7 @@ namespace MyFirstPlugin
         private int[] score = new int[2];
         private float time = 300.0f;
         private string internalRoomName;
+        private bool inGame = false;
         public override string Name => "MyFirstPlugin";
 
         public override void OnCreateGame(ICreateGameCallInfo info)
@@ -41,14 +41,20 @@ namespace MyFirstPlugin
         }
         public override void OnJoin(IJoinGameCallInfo info)
         {
-            playerInfo.Add(new PlayerInfo() { name = info.Nickname, team = -1 });
+            if (!inGame)
+            {
+                playerInfo.Add(new PlayerInfo() { name = info.Nickname, team = -1 });
+            }
             PluginHost.LogInfo($"User {info.Nickname} join room {internalRoomName}");
             base.OnJoin(info);
         }
 
         public override void OnLeave(ILeaveGameCallInfo info)
         {
-            playerInfo.Remove(playerInfo.Find(x => x.name == info.Nickname));
+            if (!inGame)
+            {
+                playerInfo.Remove(playerInfo.Find(x => x.name == info.Nickname));
+            }
             PluginHost.LogInfo($"User {info.Nickname} exit room {internalRoomName}");
             base.OnLeave(info);
         }
@@ -70,12 +76,16 @@ namespace MyFirstPlugin
                     info.Request.Data = new object[] { "이 이벤트는", "몰?루가 지배했다", 555, "HOOK", "TEST" };
                     break;
 
-                // 점수갱신
-                case (byte)EventCode.RenewScore:                   
-                    int team = (int)data[0];
-                    int point = (int)data[1];
-                    score[team] = score[team] + point;
-                    info.Request.Data = new object[] { score[0], score[1] };
+                // 게임 시작
+                case (byte)EventCode.StartGame:
+                    inGame = true;
+                    break;
+               // 플레이어 정보 세팅
+                case (byte)EventCode.SetTeamOnServer:
+                    var index = playerInfo.FindIndex(x => x.name == (string)data[0]);
+                    var tempPlayerinfo = playerInfo[index];
+                    tempPlayerinfo.team=(int)data[1];
+                    playerInfo[index] = tempPlayerinfo; 
                     break;
 
                 default:

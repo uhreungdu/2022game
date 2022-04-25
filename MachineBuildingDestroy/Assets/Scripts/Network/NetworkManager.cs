@@ -14,7 +14,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     enum EventCode : byte
     {
         Test,
-        SpawnPlayer
+        SpawnPlayer,
+        StartGame,
+        SetTeamOnServer
     }
 
     private static NetworkManager instance;
@@ -73,15 +75,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.LoadLevel("ReadyRoom");
-        /*
-        Map = GameObject.Find("Map");
-        Vector3 Pos = new Vector3(0, 10, 0);
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Map.GetComponent<Map>().CreateNetworkMap();
-        }
-        PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
-        */
+
     }
 
     public void SpawnPlayer()
@@ -188,6 +182,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
+    public void StartGameEvent()
+    {
+        byte evCode = (byte) EventCode.StartGame;
+        object[] data = new object[] { };
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
+
+    public void SetTeamNumOnServerEvent(string name, int num)
+    {
+        byte evCode = (byte) EventCode.SetTeamOnServer;
+        object[] data = new object[] {name, num};
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
 
     public void ConnectPhotonServer()
     {
