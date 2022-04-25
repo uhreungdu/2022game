@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,9 @@ public class RcvEvent : MonoBehaviourPun
     enum EventCode : byte
     {
         Test,
-        SpawnPlayer
+        SpawnPlayer,
+        StartGame,
+        SetTeamOnServer
     }
     
     [SerializeField]
@@ -39,6 +42,15 @@ public class RcvEvent : MonoBehaviourPun
                 break;
             case (byte)EventCode.SpawnPlayer:
                 transform.GetComponent<NetworkManager>().SpawnPlayer();
+                break;
+            case(byte)EventCode.StartGame:
+                var info = GameObject.Find("Myroominfo");
+                int team = -2;
+                if (info != null)
+                {
+                    team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
+                }
+                transform.GetComponent<NetworkManager>().SetTeamNumOnServerEvent(PhotonNetwork.NickName, team);
                 break;
         }
         // Debug.Log("EVENTCALL");

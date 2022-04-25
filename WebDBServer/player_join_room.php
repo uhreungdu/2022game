@@ -14,12 +14,17 @@ if($resultval == 0){
 }
 // 인원수 체크
 $result = mysqli_query($conn,"
-SELECT now_playernum, max_playernum FROM room 
+SELECT now_playernum, max_playernum, ingame FROM room 
 WHERE internal_name = $iname;
 ");
 $resultval = $result->fetch_array();
 if($resultval[0] >= $resultval[1]){
     echo('인원이 꽉 찼습니다.');
+    exit();
+}
+
+if(true == $resultval[2]){
+    echo('이미 게임이 시작되었습니다.');
     exit();
 }
 

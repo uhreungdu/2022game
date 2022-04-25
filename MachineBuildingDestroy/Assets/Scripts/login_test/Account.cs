@@ -51,22 +51,11 @@ public class Account : MonoBehaviour
         
     }
 
-    private void OnApplicationQuit()
-    {
-        LogoutAccount();
-    }
-
-    void LogoutAccount()
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("id", "\""+pID+"\"") ;
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/logout_account.php", form);
-        www.SendWebRequest();
-    }
-    
     public void WriteAccount(string id, string nickname)
     {
-        pID = id;
+        var m_id = id.Remove(id.Length - 1, 1);
+        m_id = m_id.Remove(0, 1);
+        pID = m_id;
         pNickname = nickname;
         PhotonNetwork.NickName = nickname;
         PhotonNetwork.AutomaticallySyncScene = true;
