@@ -126,7 +126,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         ErrWindow.SetActive(true);
         ErrWindow.GetComponentInChildren<Text>().text = cause.ToString();
         print(cause.ToString());
-        ExitRoom(_account.GetPlayerID(), _lobbyManager.GetInRoomName());
+        Logout(_account.GetPlayerID());
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -141,7 +141,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void OnApplicationQuit()
     {
-        ExitRoom(_account.GetPlayerID(), _lobbyManager.GetInRoomName());
+        Logout(_account.GetPlayerID());
     }
 
     // Update is called once per frame
@@ -161,6 +161,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         form.AddField("Pname", "\"" + id + "\"");
         form.AddField("iname", "\"" + roomname + "\"");
         UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/player_exit_room.php", form);
+        www.SendWebRequest();
+    }
+
+    void Logout(string id)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", "\"" + id + "\"");
+        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/logout_account.php", form);
         www.SendWebRequest();
     }
 
