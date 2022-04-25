@@ -89,6 +89,16 @@ public class LoginButton : MonoBehaviour
                 SceneManager.LoadScene("lobby_test");
 
             }
+            else if (GetStringDataValue(accountVal[0],"Msg:") == "INGAME")
+            {
+                errText.SetActive(true);
+                errText.GetComponent<Text>().text = "게임이 진행중입니다. 재접속을 시도합니다.";
+                GameObject.Find("Account").GetComponent<Account>().WriteAccount(
+                    GetStringDataValue(accountVal[0],"account_id:"),
+                    GetStringDataValue(accountVal[0],"character_name:"));
+                PhotonNetwork.JoinRoom(GetStringDataValue(accountVal[0],"room_name:"));
+
+            }
             else if (GetStringDataValue(accountVal[0],"Msg:") == "Need Character")
             {
                 // 캐릭터 미보유, 설정 필요

@@ -9,18 +9,19 @@ using Photon.Realtime;
 
 public class RoomBlock : MonoBehaviour
 {
-    public string iname;
-    public string ename;
-    public int nowP;
-    public int maxP;
+    private string _iname;
+    private string _ename;
+    private int _nowP;
+    private int _maxP;
+    private bool _ingame;
 
-    private LobbyManager gManager;
+    private LobbyManager _lobbyManager;
     private Account _account;
 
     // Start is called before the first frame update
     void Start()
     {
-        gManager = LobbyManager.GetInstance();
+        _lobbyManager = LobbyManager.GetInstance();
         _account = Account.GetInstance();
     }
 
@@ -30,30 +31,27 @@ public class RoomBlock : MonoBehaviour
         
     }
 
-    public void SetVariables(string internal_name, string external_name, int nowPlayerNum, int maxPlayerNum)
+    public void SetVariables(string internalName, string externalName, int nowPlayerNum, int maxPlayerNum, bool ingame)
     {
-        iname = internal_name;
-        ename = external_name;
-        nowP = nowPlayerNum;   
-        maxP = maxPlayerNum;
+        _iname = internalName;
+        _ename = externalName;
+        _nowP = nowPlayerNum;   
+        _maxP = maxPlayerNum;
+        _ingame = ingame;
         SetText();
     }
 
     void SetText()
     {
-        if (iname != "")
+        if (_iname != "")
         {
             transform.Find("Text").gameObject.GetComponent<Text>().text =
-                ename + "\n인원: " + nowP + "/" + maxP;
-            GetComponent<Button>().interactable = true;
+                _ename + "\n인원: " + _nowP + "/" + _maxP;
+            GetComponent<Button>().interactable = _ingame == false;
         }
         else
         {
             transform.Find("Text").gameObject.GetComponent<Text>().text = "";
-            GetComponent<Button>().interactable = false;
-        }
-        if(GameObject.Find("CreateRoomButton").GetComponent<Button>().interactable == false)
-        {
             GetComponent<Button>().interactable = false;
         }
     }
@@ -66,7 +64,7 @@ public class RoomBlock : MonoBehaviour
     IEnumerator WebRequest()
     {
         WWWForm form = new WWWForm();
-        form.AddField("iname", "\"" + iname + "\"");
+        form.AddField("iname", "\"" + _iname + "\"");
         form.AddField("Pname", "\"" + _account.GetPlayerNickname() + "\"");
 
         UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/player_join_room.php", form);
@@ -78,10 +76,11 @@ public class RoomBlock : MonoBehaviour
         }
         else
         {
-            Debug.Log("Form upload complete!");
-            gManager.SetInRoomName(iname);
-            gManager.SetExRoomName(ename);
-            PhotonNetwork.JoinRoom(iname);
+            string results = www.downloadHandler.text;
+            Debug.Log(results);
+            _lobbyManager.SetInRoomName(_iname);
+            _lobbyManager.SetExRoomName(_ename);
+            PhotonNetwork.JoinRoom(_iname);
             //SceneManager.LoadScene("SampleScene");
         }
     }
