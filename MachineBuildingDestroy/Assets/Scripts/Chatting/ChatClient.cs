@@ -118,6 +118,7 @@ public class ChatClient : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        if (_client == null) return;
         if (!_client.Connected) return;
         sendbuf[0] = (byte) ChatCode.Exit;
         _client.Send(sendbuf);

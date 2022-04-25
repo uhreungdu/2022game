@@ -46,7 +46,6 @@ public class CreateRoomButton : MonoBehaviour
         form.AddField("ename", "\"" + gManager.GetExRoomName() + "\"");
         form.AddField("nowPnum", 1);
         form.AddField("maxPnum", 6);
-        form.AddField("Pname", "\"" + _account.GetPlayerNickname() + "\"");
 
         UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/room_make.php", form);
         yield return www.SendWebRequest();
