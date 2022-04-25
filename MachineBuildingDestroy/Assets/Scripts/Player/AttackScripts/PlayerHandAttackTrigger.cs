@@ -32,13 +32,21 @@ public class PlayerHandAttackTrigger : MonoBehaviour
             if (other.gameObject != transform.root.gameObject)
             {
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+                Animator otherAnimator = other.GetComponent<Animator>();
                 if (other.gameObject != null && !playerState.dead && playerState.team != _playerState.team)
                 {
                     //playerState.NetworkOnDamage(_playerHandAttack._damage);
                     playerState.OnDamage(_playerHandAttack._damage);
                     other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
                     
-                    
+                    if (!otherAnimator.GetBool("Stiffen"))
+                    {
+                        otherAnimator.SetBool("Stiffen", true);
+                    }
+                    else if (otherAnimator.GetBool("Stiffen"))
+                    {
+                        otherAnimator.SetTrigger("RepeatStiffen");
+                    }
                 }
             }
         }

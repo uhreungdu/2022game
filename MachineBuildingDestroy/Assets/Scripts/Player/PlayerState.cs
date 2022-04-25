@@ -11,8 +11,15 @@ public class PlayerState : LivingEntity, IPunObservable
     public int team { get; private set; }
     public int point { get; private set; }
     
-    public bool isAimming{ get;  set; }
-    public bool nowEquip{ get;  set; }
+    public bool isAimming{ get; set; }
+    public bool nowEquip{ get; set; }
+
+    public float _aftercastAttack { get; set; }
+    public float _lastAttackTime { get; set; }
+    public bool aftercast { get; set; } // 움직일 수 없는 시간
+    
+    public bool stiffen { get; private set; }
+    public bool falldown { get; private set; }
 
     private Vector3 reSpawnTransform;
 
@@ -30,6 +37,7 @@ public class PlayerState : LivingEntity, IPunObservable
     private PlayerAnimator _playerAnimator; // �÷��̾��� �ִϸ�����
     private CharacterController _characterController;
     public Dmgs_Status P_Dm;
+    
 
     void Start()
     {
@@ -90,19 +98,11 @@ public class PlayerState : LivingEntity, IPunObservable
     {
         base.OnDamage(damage);
         _playerAnimator.lastStiffenTime = Time.time;
-        if (!_animator.GetBool("Stiffen"))
-        {
-            BoxCollider[] _attackboxColliders = _AttackGameObject.GetComponentsInChildren<BoxCollider>();
-            foreach (BoxCollider child in _attackboxColliders)
-            {
-                child.enabled = false;
-            }
-
-            _animator.SetBool("Stiffen", true);
-        }
-        else if (_animator.GetBool("Stiffen"))
-        {
-            _animator.SetTrigger("RepeatStiffen");
+        _playerAnimator.lastFalldownTime = Time.time;
+        BoxCollider[] _attackboxColliders = _AttackGameObject.GetComponentsInChildren<BoxCollider>();
+        foreach (BoxCollider child in _attackboxColliders)
+        { 
+            child.enabled = false;
         }
     }
 
@@ -128,6 +128,31 @@ public class PlayerState : LivingEntity, IPunObservable
         health = startingHealth;
         _animator.Rebind();
     }
+    
+    public void SetStiffen(int set)
+    {
+        if (set >= 1)
+            stiffen = true;
+        else if (set < 1)
+            stiffen = false;
+    }
+    public void SetFalldown(int set)
+    {
+        if (set >= 1)
+            falldown = true;
+        else if (set < 1)
+            falldown = false;
+    }
+
+    public bool IsCrowdControl()
+    {
+        if (stiffen)
+            return true;
+        if (falldown)
+            return true;
+        return false;
+    }
+    
     public void DieAction()
     {
         gameObject.SetActive(false);
@@ -137,7 +162,6 @@ public class PlayerState : LivingEntity, IPunObservable
     {
         point += Point;
     }
-    
     
     public void SetItem(item_box_make.item_type dItemType)
     {
