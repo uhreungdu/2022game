@@ -17,10 +17,16 @@ namespace MyFirstPlugin
         RenewScore
     }
 
+    class PlayerInfo
+    {
+        public string name { get; set; }
+        public int team { get; set; }
+    }
+
 
     class MyFirstPlugin : PluginBase
-    {      
-        private int variableTest = 0;
+    {
+        private List<PlayerInfo> playerInfo = new List<PlayerInfo>();
         private int[] score = new int[2];
         private float time = 300.0f;
         private string internalRoomName;
@@ -28,14 +34,23 @@ namespace MyFirstPlugin
 
         public override void OnCreateGame(ICreateGameCallInfo info)
         {
+            playerInfo.Add(new PlayerInfo() { name = info.Nickname, team = 0 });
             PluginHost.LogInfo($"OnCreateGame {info.Request.GameId} by user {info.UserId}");
             internalRoomName = info.Request.GameId;
             info.Continue(); // base.OnCreateGame(info) 와 같다.
         }
         public override void OnJoin(IJoinGameCallInfo info)
         {
-            variableTest++;
+            playerInfo.Add(new PlayerInfo() { name = info.Nickname, team = -1 });
+            PluginHost.LogInfo($"User {info.Nickname} join room {internalRoomName}");
             base.OnJoin(info);
+        }
+
+        public override void OnLeave(ILeaveGameCallInfo info)
+        {
+            playerInfo.Remove(playerInfo.Find(x => x.name == info.Nickname));
+            PluginHost.LogInfo($"User {info.Nickname} exit room {internalRoomName}");
+            base.OnLeave(info);
         }
 
         public override void OnRaiseEvent(IRaiseEventCallInfo info)
@@ -52,7 +67,7 @@ namespace MyFirstPlugin
             {
                 // 테스트용
                 case (byte)EventCode.Test:
-                    info.Request.Data = new object[] { "이 이벤트는", "몰?루가 지배했다", variableTest, "HOOK", "TEST" };
+                    info.Request.Data = new object[] { "이 이벤트는", "몰?루가 지배했다", 555, "HOOK", "TEST" };
                     break;
 
                 // 점수갱신
@@ -68,11 +83,6 @@ namespace MyFirstPlugin
             }
 
             info.Continue();
-        }
-
-        public override void OnLeave(ILeaveGameCallInfo info)
-        {
-            base.OnLeave(info);
         }
 
         public override void OnCloseGame(ICloseGameCallInfo info)
