@@ -78,7 +78,7 @@ namespace MyFirstPlugin
 
                 // 게임 시작
                 case (byte)EventCode.StartGame:
-                    inGame = true;
+                    StartGame(info);
                     break;
                // 플레이어 정보 세팅
                 case (byte)EventCode.SetTeamOnServer:
@@ -98,6 +98,19 @@ namespace MyFirstPlugin
         public override void OnCloseGame(ICloseGameCallInfo info)
         {
             string url = "http://127.0.0.1/room_delete.php?iname=" + "\"" + internalRoomName + "\"";
+            HttpRequest request = new HttpRequest()
+            {
+                Callback = OnHttpResponse,
+                Url = url,
+                Async = true
+            };
+            PluginHost.HttpRequest(request, info);
+        }
+
+        private void StartGame(IRaiseEventCallInfo info)
+        {
+            inGame = true;
+            string url = "http://127.0.0.1/game_start.php?iname=" + "\"" + internalRoomName + "\"";
             HttpRequest request = new HttpRequest()
             {
                 Callback = OnHttpResponse,
