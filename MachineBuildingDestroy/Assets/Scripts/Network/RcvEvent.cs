@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using ExitGames.Client.Photon;
+using UnityEngine.SceneManagement;
 
 public class RcvEvent : MonoBehaviourPun
 {
@@ -12,7 +13,8 @@ public class RcvEvent : MonoBehaviourPun
         Test,
         SpawnPlayer,
         StartGame,
-        SetTeamOnServer
+        SetTeamOnServer,
+        RespawnForReconnect
     }
     
     [SerializeField]
@@ -32,7 +34,8 @@ public class RcvEvent : MonoBehaviourPun
     {
         // 사용자지정 Event가 아니면 return합니다.
         if (Evdata.Code > System.Enum.GetValues(typeof(EventCode)).Length) return;
-        
+
+        ParameterDictionary parameters = Evdata.Parameters;
         object[] data = (object[])Evdata.CustomData;
         switch (Evdata.Code)
         {
@@ -52,10 +55,28 @@ public class RcvEvent : MonoBehaviourPun
                 }
                 transform.GetComponent<NetworkManager>().SetTeamNumOnServerEvent(PhotonNetwork.NickName, team);
                 break;
+            case (byte)EventCode.RespawnForReconnect:
+                if ((string) parameters[0] != PhotonNetwork.NickName) break;
+                StartCoroutine(SpawnPlayerForReconnect((int) parameters[1]));
+                //transform.GetComponent<NetworkManager>().SpawnPlayer((int) parameters[1]);
+                break;
         }
-        // Debug.Log("EVENTCALL");
     }
 
+    IEnumerator SpawnPlayerForReconnect(int team)
+    {
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(5f);
+            Scene scene = SceneManager.GetActiveScene();
+            if (scene.name == "SampleScene")
+            {
+                transform.GetComponent<NetworkManager>().SpawnPlayer(team);
+                break;
+            }
+        }
+    }
+    
     public void OnEnable()
     {
         PhotonNetwork.NetworkingClient.EventReceived += OnEvent;

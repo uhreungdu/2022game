@@ -16,7 +16,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Test,
         SpawnPlayer,
         StartGame,
-        SetTeamOnServer
+        SetTeamOnServer,
+        RespawnForReconnect
     }
 
     private static NetworkManager instance;
@@ -26,8 +27,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject Player;
     public Map Map;
     public GameObject ErrWindow;
-    private GameObject team1spawner;
-    private GameObject team2spawner;
+    private GameObject _team1Spawner;
+    private GameObject _team2Spawner;
     [SerializeField] private Player[] _players;
 
     public static NetworkManager GetInstance()
@@ -80,7 +81,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void SpawnPlayer()
     {
-        Vector3 Pos = new Vector3(-15, 10.0f, -15);
+        Vector3 pos = new Vector3(-15, 10.0f, -15);
         
         var info = GameObject.Find("Myroominfo");
         int team = 0;
@@ -89,29 +90,54 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
             Destroy(info);
         }
-        GameObject team1spawner = null;
-        GameObject team2spawner = null;
-        while (team1spawner == null)
+        while (_team1Spawner == null)
         {
-            team1spawner = GameObject.FindWithTag("Spawner1");
+            _team1Spawner = GameObject.FindWithTag("Spawner1");
         }
-        while (team2spawner == null)
+        while (_team2Spawner == null)
         {
-            team2spawner = GameObject.FindWithTag("Spawner2");
+            _team2Spawner = GameObject.FindWithTag("Spawner2");
         }
         
-        if (team == 0 && team1spawner != null)
+        if (team == 0 && _team1Spawner != null)
         {
-            Pos = team1spawner.transform.position;
-            Pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
+            pos = _team1Spawner.transform.position;
+            pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
         }
-        else if (team == 1 && team2spawner != null)
+        else if (team == 1 && _team2Spawner != null)
         {
-            Pos = team2spawner.transform.position;
-            Pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
+            pos = _team2Spawner.transform.position;
+            pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
         }
         
-        PhotonNetwork.Instantiate(Player.name, Pos, Quaternion.identity);
+        PhotonNetwork.Instantiate(Player.name, pos, Quaternion.identity);
+    }
+
+    public void SpawnPlayer(int team)
+    {
+        Vector3 pos = new Vector3(-15, 10.0f, -15);
+        
+        while (_team1Spawner == null)
+        {
+            _team1Spawner = GameObject.FindWithTag("Spawner1");
+        }
+        while (_team2Spawner == null)
+        {
+            _team2Spawner = GameObject.FindWithTag("Spawner2");
+        }
+        
+        if (team == 0 && _team1Spawner != null)
+        {
+            pos = _team1Spawner.transform.position;
+            pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
+        }
+        else if (team == 1 && _team2Spawner != null)
+        {
+            pos = _team2Spawner.transform.position;
+            pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
+        }
+        
+        PhotonNetwork.Instantiate(Player.name, pos, Quaternion.identity);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
