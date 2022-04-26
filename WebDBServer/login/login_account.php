@@ -41,12 +41,26 @@ $result = mysqli_query($conn,
 FROM `character` 
 WHERE binary(account_id)=$id;");
 
+$charname;
+while($row = mysqli_fetch_array($result)){
+    $charname = $row['character_name'];
+}
+
 // 마지막 로그인 시간 기록
 mysqli_query($conn,
 "UPDATE account as A, `character` as C
 SET A.last_login = current_timestamp(), C.online_status='online'
 WHERE binary(A.account_id)=$id and binary(C.account_id)=$id;");
 
-while($row = mysqli_fetch_array($result)){
-    echo "Msg:OK|"."character_name:".$row['character_name']."|account_id:".$row['account_id'].";";
+// 플레이중인지 체크
+$result = mysqli_query($conn,
+"SELECT COUNT(*), room_internal_name FROM `playingchar` 
+WHERE binary(character_name)='$charname';");
+$data = mysqli_fetch_array($result);
+if( $data[0] != 0){
+    echo('Msg:INGAME|'."character_name:".$charname."|account_id:".$id.
+    "|room_name:". $data[1].";");
+    exit();
 }
+
+echo "Msg:OK|"."character_name:".$charname."|account_id:".$id.";";
