@@ -9,11 +9,13 @@ using UnityEngine.SceneManagement;
 public class StartButton : MonoBehaviourPun
 {
     public GameObject Info;
+
+    private GameObject _NetworkManager;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        _NetworkManager = GameObject.Find("NetworkManager");
     }
 
     // Update is called once per frame
@@ -52,6 +54,7 @@ public class StartButton : MonoBehaviourPun
                     return;
                 }
             }
+            _NetworkManager.GetComponent<NetworkManager>().StartGameEvent();
             PhotonNetwork.LoadLevel("SampleScene");
         }
         else

@@ -34,9 +34,10 @@ public class RoomList : MonoBehaviour
             string ename = GetStringDataValue(rooms[i], "external_name:");
             int nowP = GetIntDataValue(rooms[i], "now_playernum:");
             int maxP = GetIntDataValue(rooms[i], "max_playernum:");
+            bool ingame = GetBoolDataValue(rooms[i], "ingame:");
 
             RoomBlocks[i].GetComponent<RoomBlock>().
-                SetVariables(iname,ename,nowP,maxP);
+                SetVariables(iname,ename,nowP,maxP, ingame);
                 
         }
         for (int i = rooms.Length-1; i < 6; i++)
@@ -45,9 +46,9 @@ public class RoomList : MonoBehaviour
             string ename = "";
             int nowP = 0;
             int maxP = 0;
+            bool ingame = false;
 
-            RoomBlocks[i].GetComponent<RoomBlock>().
-                SetVariables(iname, ename, nowP, maxP);
+            RoomBlocks[i].GetComponent<RoomBlock>().SetVariables(iname, ename, nowP, maxP, ingame);
 
         }
     }
@@ -64,5 +65,12 @@ public class RoomList : MonoBehaviour
         string value = data.Substring(data.IndexOf(index) + index.Length);
         if (value.Contains("|")) value = value.Remove(value.IndexOf("|"));
         return int.Parse(value);
+    }
+
+    bool GetBoolDataValue(string data, string index)
+    {
+        string value = data.Substring(data.IndexOf(index) + index.Length);
+        if (value.Contains("|")) value = value.Remove(value.IndexOf("|"));
+        return value == "1";
     }
 }

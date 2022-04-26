@@ -22,15 +22,13 @@ INSERT IGNORE INTO room (
     internal_name,
     external_name,
     now_playernum,
-    max_playernum,
-    host_name
+    max_playernum
     ) 
     VALUE (
         $iname,
         $ename,
         $nowPnum,
-        $maxPnum,
-        $Pname
+        $maxPnum
         );
         "
     );
