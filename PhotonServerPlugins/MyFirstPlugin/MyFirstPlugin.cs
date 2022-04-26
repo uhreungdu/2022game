@@ -13,7 +13,8 @@ namespace MyFirstPlugin
         Test = 0,
         SpawnPlayer,
         StartGame,
-        SetTeamOnServer
+        SetTeamOnServer,
+        RespawnForReconnect
     }
 
     class PlayerInfo
@@ -41,7 +42,15 @@ namespace MyFirstPlugin
         }
         public override void OnJoin(IJoinGameCallInfo info)
         {
-            if (!inGame)
+            if (inGame)
+            {
+                byte evCode = (byte)EventCode.RespawnForReconnect;
+                Dictionary<byte, object> data = new Dictionary<byte, object>();
+                data.Add(0, info.Nickname);
+                data.Add(1, playerInfo.Find(x => x.name == info.Nickname).team);
+                BroadcastEvent(evCode, data);
+            }
+            else
             {
                 playerInfo.Add(new PlayerInfo() { name = info.Nickname, team = -1 });
             }
@@ -78,16 +87,19 @@ namespace MyFirstPlugin
 
                 // 게임 시작
                 case (byte)EventCode.StartGame:
-                    StartGame(info);
-                    break;
+                    {
+                        StartGame(info);
+                        break;
+                    }
                // 플레이어 정보 세팅
                 case (byte)EventCode.SetTeamOnServer:
-                    var index = playerInfo.FindIndex(x => x.name == (string)data[0]);
-                    var tempPlayerinfo = playerInfo[index];
-                    tempPlayerinfo.team=(int)data[1];
-                    playerInfo[index] = tempPlayerinfo; 
-                    break;
-
+                    {
+                        var index = playerInfo.FindIndex(x => x.name == (string)data[0]);
+                        var tempPlayerinfo = playerInfo[index];
+                        tempPlayerinfo.team = (int)data[1];
+                        playerInfo[index] = tempPlayerinfo;
+                        break;
+                    }
                 default:
                     break;
             }
