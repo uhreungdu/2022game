@@ -60,8 +60,12 @@ public class PlayerState : LivingEntity, IPunObservable
         reSpawnTransform = new Vector3(ReSpawnTransformSet(transform.position.x), 
             ReSpawnTransformSet(transform.position.y), 
             ReSpawnTransformSet(transform.position.z));
-        photonView.RPC("SetOnHeadName",RpcTarget.All,PhotonNetwork.NickName);
         Dead_Effect.SetActive(false);
+        if (photonView.IsMine)
+        {
+            photonView.RPC("SetOnHeadName", RpcTarget.All, PhotonNetwork.NickName);
+        }
+
         base.OnEnable();
     }
     

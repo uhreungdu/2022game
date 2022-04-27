@@ -214,7 +214,7 @@ public class BulidingObject : LivingEntity, IPunObservable
 
     public void NetworkOnDamage(float val)
     {
-        photonView.RPC("OnDamage",RpcTarget.AllViaServer,val);
+        photonView.RPC("OnDamage",RpcTarget.All,val);
     }
     
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
