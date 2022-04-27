@@ -8,6 +8,7 @@ public class Goalpost : MonoBehaviourPun
 {
     private GameManager _gameManager;
     private MeshRenderer _meshRenderer;
+    private Rigidbody _rigidbody;
     private Collider[] _Colliders;
     // Start is called before the first frame update
     void Start()
@@ -15,6 +16,7 @@ public class Goalpost : MonoBehaviourPun
         _gameManager = GameManager.GetInstance();
         _meshRenderer = GetComponent<MeshRenderer>();
         _Colliders = GetComponents<Collider>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -32,6 +34,7 @@ public class Goalpost : MonoBehaviourPun
             {
                 transform.position += new Vector3(0, 30, 0);
                 _meshRenderer.enabled = true;
+                _rigidbody.useGravity = true;
             }
 
             foreach (var colliders in _Colliders)
@@ -43,7 +46,10 @@ public class Goalpost : MonoBehaviourPun
         else
         {
             if (_meshRenderer.enabled)
+            {
                 _meshRenderer.enabled = false;
+                _rigidbody.useGravity = true;
+            }
             foreach (var colliders in _Colliders)
             {
                 if (colliders.enabled)
