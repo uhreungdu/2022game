@@ -26,23 +26,23 @@ public class PlayerState : LivingEntity, IPunObservable
     public item_box_make.item_type Item { get; private set; }
     
     // Start is called before the first frame update
-    public AudioClip deathClip; // ��� �Ҹ�
-    public AudioClip hitClip; // �ǰ� �Ҹ�
+    public AudioClip deathClip;
+    public AudioClip hitClip;
     public GameManager gManager;
     public GameObject _AttackGameObject;
     public GameObject nameOnhead;
 
-    private AudioSource playerAudioPlayer; // �÷��̾� �Ҹ� �����
-    private Animator _animator; // �÷��̾��� �ִϸ�����
-    private PlayerAnimator _playerAnimator; // �÷��̾��� �ִϸ�����
+    private AudioSource playerAudioPlayer;
+    private Animator _animator;
+    private PlayerAnimator _playerAnimator;
     private CharacterController _characterController;
     public Dmgs_Status P_Dm;
     
 
     void Start()
     {
-        _animator = GetComponent<Animator>();          // ���� �ȵ�
-        playerAudioPlayer = GetComponent<AudioSource>();    // ���� �ȵ�
+        _animator = GetComponent<Animator>();
+        playerAudioPlayer = GetComponent<AudioSource>();
         _characterController = GetComponent<CharacterController>();
         _playerAnimator = GetComponent<PlayerAnimator>();
         var info = GameObject.Find("Myroominfo");
@@ -67,7 +67,7 @@ public class PlayerState : LivingEntity, IPunObservable
     
     protected override void OnEnable()
     {
-        // LivingEntity�� OnEnable() ���� (���� �ʱ�ȭ)
+        // LivingEntity�� OnEnable()
         // onDeath += DieAction;
         point = 0;
     }

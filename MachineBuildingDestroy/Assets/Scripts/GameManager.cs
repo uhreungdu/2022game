@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
         public void Active_landmakr(){
-            if((int)Ntimer / 240 > 0)
+            if((int)Ntimer / 1 > 0)
             {
                 landmakr_Create = true;
                 //Debug.Log("아이템 생성");
