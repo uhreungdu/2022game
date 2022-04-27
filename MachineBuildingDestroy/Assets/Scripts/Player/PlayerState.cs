@@ -30,7 +30,7 @@ public class PlayerState : LivingEntity, IPunObservable
     private PlayerAnimator _playerAnimator; // �÷��̾��� �ִϸ�����
     private CharacterController _characterController;
     public Dmgs_Status P_Dm;
-
+    public GameObject deadEffect;
     void Start()
     {
         _animator = GetComponent<Animator>();          // ���� �ȵ�
@@ -53,7 +53,7 @@ public class PlayerState : LivingEntity, IPunObservable
             ReSpawnTransformSet(transform.position.y), 
             ReSpawnTransformSet(transform.position.z));
         photonView.RPC("SetOnHeadName",RpcTarget.All,PhotonNetwork.NickName);
-        
+        deadEffect.SetActive(false);
         base.OnEnable();
     }
     
@@ -116,6 +116,7 @@ public class PlayerState : LivingEntity, IPunObservable
         // LivingEntity의 Die()를 실행하여 기본 사망 처리 실행
         base.Die();
         _animator.SetTrigger("Dead");
+        deadEffect.SetActive(true);
         Invoke("Respawn", 10f);
     }
 
@@ -126,6 +127,7 @@ public class PlayerState : LivingEntity, IPunObservable
         _characterController.enabled = true;
         dead = false;
         health = startingHealth;
+        deadEffect.SetActive(false);
         _animator.Rebind();
     }
     public void DieAction()

@@ -128,7 +128,7 @@ MonoBehaviour:
   _reSpawnTime: 10
   _reSpawnTimer: 0
   effect_obj: {fileID: 0}
-  prefeb_effect: {fileID: 8022832438632908100, guid: 6bbc1fbbcbf7d474faba91e6f5b02b19, type: 3}
+  prefeb_effect: {fileID: 43508311127239940, guid: 84309fdd9219f1d43b57248b43322cbc, type: 3}
 --- !u!64 &-5729422349932503538
 MeshCollider:
   m_ObjectHideFlags: 0
