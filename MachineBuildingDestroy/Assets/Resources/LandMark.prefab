@@ -43,11 +43,11 @@ GameObject:
   - component: {fileID: 3019753991902499048}
   - component: {fileID: 2330852677118209759}
   - component: {fileID: 1206804268489161657}
-  - component: {fileID: 3387689248442759669}
   - component: {fileID: 6542954356232124453}
   - component: {fileID: 972696993845191032}
   - component: {fileID: 8817305425580677449}
   - component: {fileID: 3287810068403289433}
+  - component: {fileID: 8488467233062269902}
   m_Layer: 9
   m_Name: Object
   m_TagString: Wall
@@ -141,31 +141,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
---- !u!114 &3387689248442759669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2530926999318412299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ef489d263be7ee4aad66292ab68b262, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingHealth: 100
-  coinprefab: {fileID: 7759637799624331632, guid: 951368a1388db4340b9807ab9aa1d1c5, type: 3}
-  point: 50
-  boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
-  rigidbody: {fileID: 1206804268489161657}
-  _MeshRenderer: {fileID: 2330852677118209759}
-  _MeshCollider: {fileID: 0}
-  destroyfloor: 0
-  destroyTime: 5
-  _reSpawnTime: 10
-  _ExplosionForce: 400
-  effect_obj: {fileID: 0}
-  prefeb_effect: {fileID: 0}
 --- !u!114 &6542954356232124453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,9 +176,9 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 3387689248442759669}
   - {fileID: 6542954356232124453}
   - {fileID: 8817305425580677449}
+  - {fileID: 8488467233062269902}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -237,3 +212,27 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: -1
   m_Mesh: {fileID: -3531946766418785785, guid: 389315124c5555a4badc142cdf172054, type: 3}
+--- !u!114 &8488467233062269902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2530926999318412299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ddc86a391ea48fc8325fd926d837b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
+  coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
+  point: 0
+  boxmaterial: {fileID: 0}
+  rigidbody: {fileID: 0}
+  _MeshRenderer: {fileID: 0}
+  _MeshCollider: {fileID: 0}
+  destroyfloor: 0
+  destroyTime: 5
+  _reSpawnTime: 10
+  _ExplosionForce: 1000
+  effect_obj: {fileID: 0}
