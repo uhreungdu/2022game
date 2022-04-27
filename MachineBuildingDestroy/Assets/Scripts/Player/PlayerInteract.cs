@@ -24,7 +24,7 @@ public class PlayerInteract : MonoBehaviour
         gamePlayerInput = GetComponentInParent<GamePlayerInput>();
         playerState = GetComponentInParent<PlayerState>();
         gManager = GameManager.GetInstance();
-        _GameUIObject = GameObject.Find("gameUI");
+        _GameUIObject = GameObject.Find("Canvas");
         
         for (int i = 0; i < _GameUIObject.transform.childCount; ++i)
         {
