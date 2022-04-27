@@ -120,6 +120,7 @@ MonoBehaviour:
   _reSpawnTime: 10
   _ExplosionForce: 1000
   effect_obj: {fileID: 0}
+  prefeb_effect: {fileID: 0}
 --- !u!64 &6988218010845621718
 MeshCollider:
   m_ObjectHideFlags: 0

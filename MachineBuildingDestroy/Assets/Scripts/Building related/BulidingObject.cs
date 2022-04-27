@@ -24,6 +24,7 @@ public class BulidingObject : LivingEntity, IPunObservable
     private MeshCollider[] childMeshCollider;
 
     public GameObject effect_obj;
+    public GameObject prefeb_effect;
 
     // Start is called before the first frame update
     protected void Start()
@@ -188,9 +189,9 @@ public class BulidingObject : LivingEntity, IPunObservable
 
             _MeshRenderer.enabled = false;
             _MeshCollider.enabled = false;
-            effect_obj = Instantiate(Resources.Load<GameObject>("Effect/Destory_B"));
+            effect_obj = Instantiate(prefeb_effect);
             effect_obj.transform.SetParent(gameObject.transform);
-            effect_obj.transform.Translate(gameObject.transform.position);
+            effect_obj.transform.Translate(gameObject.transform.position - Vector3.back);
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
         }

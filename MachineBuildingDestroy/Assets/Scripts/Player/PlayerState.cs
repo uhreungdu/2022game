@@ -16,7 +16,7 @@ public class PlayerState : LivingEntity, IPunObservable
 
     public float _aftercastAttack { get; set; }
     public float _lastAttackTime { get; set; }
-    public bool aftercast { get; set; } // 움직일 수 없는 시간
+    public bool aftercast { get; set; } // ???직일 ?�� ?��?�� ?���?
     
     public bool stiffen { get; private set; }
     public bool falldown { get; private set; }
@@ -26,18 +26,18 @@ public class PlayerState : LivingEntity, IPunObservable
     public item_box_make.item_type Item { get; private set; }
     
     // Start is called before the first frame update
-    public AudioClip deathClip; // ��� �Ҹ�
+    public AudioClip deathClip; // ���? �Ҹ�
     public AudioClip hitClip; // �ǰ� �Ҹ�
     public GameManager gManager;
     public GameObject _AttackGameObject;
     public GameObject nameOnhead;
 
-    private AudioSource playerAudioPlayer; // �÷��̾� �Ҹ� �����
+    private AudioSource playerAudioPlayer; // �÷��̾� �Ҹ� �����?
     private Animator _animator; // �÷��̾��� �ִϸ�����
     private PlayerAnimator _playerAnimator; // �÷��̾��� �ִϸ�����
     private CharacterController _characterController;
     public Dmgs_Status P_Dm;
-    
+    public GameObject Dead_Effect;
 
     void Start()
     {
@@ -61,7 +61,7 @@ public class PlayerState : LivingEntity, IPunObservable
             ReSpawnTransformSet(transform.position.y), 
             ReSpawnTransformSet(transform.position.z));
         photonView.RPC("SetOnHeadName",RpcTarget.All,PhotonNetwork.NickName);
-        
+        Dead_Effect.SetActive(false);
         base.OnEnable();
     }
     
@@ -113,9 +113,10 @@ public class PlayerState : LivingEntity, IPunObservable
     }
 
     public override void Die() {
-        // LivingEntity의 Die()를 실행하여 기본 사망 처리 실행
+        // LivingEntity?�� Die()�? ?��?��?��?�� 기본 ?���? 처리 ?��?��
         base.Die();
         _animator.SetTrigger("Dead");
+        Dead_Effect.SetActive(true);
         Invoke("Respawn", 10f);
     }
 
@@ -126,6 +127,7 @@ public class PlayerState : LivingEntity, IPunObservable
         _characterController.enabled = true;
         dead = false;
         health = startingHealth;
+        Dead_Effect.SetActive(false);
         _animator.Rebind();
     }
     
@@ -194,7 +196,7 @@ public class PlayerState : LivingEntity, IPunObservable
     
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
+        // 로컬 ?��브젝?��?���? ?���? �?분이 ?��?��?��?��?��.
         if (stream.IsWriting)
         {
             stream.SendNext(team);
@@ -202,7 +204,7 @@ public class PlayerState : LivingEntity, IPunObservable
             stream.SendNext(point);
             stream.SendNext(health);
         }
-        // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
+        // 리모?�� ?��브젝?��?���? ?���? �?분이 ?��?��?��?��?��.
         else
         {
             team = (int) stream.ReceiveNext();
