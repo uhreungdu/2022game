@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 // 손에 직접적으로 들어가는 스크립트 트리거용
@@ -14,7 +15,7 @@ public class PlayerHandAttackTrigger : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        
+        if (!PhotonNetwork.IsMasterClient) return;
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Wall")
         {

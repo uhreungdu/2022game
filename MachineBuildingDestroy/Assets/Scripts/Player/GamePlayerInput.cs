@@ -34,7 +34,6 @@ public class GamePlayerInput : MonoBehaviour
             _itrButton = GameObject.Find("InteractButton").GetComponent<InterractButton>();
             _itmButton = GameObject.Find("ItemButton").GetComponent<ItemButton>();
         }
-
         _gameManager = GameManager.GetInstance();
     }
 

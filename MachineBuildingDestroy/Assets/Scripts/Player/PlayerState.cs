@@ -60,8 +60,12 @@ public class PlayerState : LivingEntity, IPunObservable
         reSpawnTransform = new Vector3(ReSpawnTransformSet(transform.position.x), 
             ReSpawnTransformSet(transform.position.y), 
             ReSpawnTransformSet(transform.position.z));
-        photonView.RPC("SetOnHeadName",RpcTarget.All,PhotonNetwork.NickName);
         Dead_Effect.SetActive(false);
+        if (photonView.IsMine)
+        {
+            photonView.RPC("SetOnHeadName", RpcTarget.All, PhotonNetwork.NickName);
+        }
+
         base.OnEnable();
     }
     
@@ -219,7 +223,7 @@ public class PlayerState : LivingEntity, IPunObservable
         if (photonView.IsMine)
         {
             gManager.player_stat.setting(health,Item);
-            print("?���? ?��겨줌");
+            //print("정보 넘겨줌");
         }
     }
 }
