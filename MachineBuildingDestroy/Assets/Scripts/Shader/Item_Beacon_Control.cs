@@ -32,7 +32,6 @@ public class Item_Beacon_Control : MonoBehaviourPun
                 int rand = Random.Range(1, itemkindLength);
                 rand = 5;
                 photonView.RPC("CreateItem", RpcTarget.MasterClient, rand);
-                
             }
         }
 

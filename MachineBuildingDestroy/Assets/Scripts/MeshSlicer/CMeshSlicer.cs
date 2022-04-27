@@ -68,8 +68,7 @@ public class CMeshSlicer : MonoBehaviour
             //     }
             //     SliceMesh_list.Remove(gameObjectlist);
             // }
-
-            Transform _DestroyObjecttransform = _target.transform.root.Find("DestroyObject");
+            Transform _DestroyObjecttransform = _target.transform.Find("DestroyObjects");
 
             if (_DestroyObjecttransform == null)
             {
@@ -409,12 +408,17 @@ public class CMeshSlicer : MonoBehaviour
         aObject.layer = 9;
         bObject.tag = "DestroyWall";
         bObject.layer = 9;
-        Transform _DestroyObjecttransform = _target.transform.root.Find("DestroyObject");
 
-        //Create sliced object
-        if (_DestroyObjecttransform == null)
+        Transform _DestroyObjecttransform = null;
+        if (_target.transform.parent)
         {
-            GameObject _DestroyObject = new GameObject("DestroyObject");
+            _DestroyObjecttransform = _target.transform.parent;
+        }
+        
+        //Create sliced object
+        if (_DestroyObjecttransform == null || _DestroyObjecttransform.name != "DestroyObjects")
+        {
+            GameObject _DestroyObject = new GameObject("DestroyObjects");
             _DestroyObject.transform.SetParent(_target.transform, false);
             _target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             _DestroyObjecttransform = _DestroyObject.transform;

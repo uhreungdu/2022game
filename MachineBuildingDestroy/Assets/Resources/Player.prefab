@@ -1580,6 +1580,7 @@ MonoBehaviour:
   playerState: {fileID: 0}
   gManager: {fileID: 0}
   timeBet: 3
+  _GameUIObject: {fileID: 0}
 --- !u!114 &2989651931023162392
 MonoBehaviour:
   m_ObjectHideFlags: 0
