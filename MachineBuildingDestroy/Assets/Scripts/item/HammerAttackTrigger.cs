@@ -31,11 +31,16 @@ public class HammerAttackTrigger : MonoBehaviour
             if (other.gameObject != transform.root.gameObject)
             {
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+                Animator otherAnimator = other.GetComponent<Animator>();
                 if (other.gameObject != null && !playerState.dead)
                 {
                     //playerState.NetworkOnDamage(_playerHandAttack._damage);
                     playerState.OnDamage(_hammerAttack._damage);
                     other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
+                }
+                if (!otherAnimator.GetBool("Falldown"))
+                {
+                    otherAnimator.SetBool("Falldown", true);
                 }
             }
         }

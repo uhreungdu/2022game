@@ -10,7 +10,6 @@ using UnityEngine;
 public class PlayerHandAttack : PlayerAttack
 {
     // Start is called before the first frame update
-    public PlayerState _playerState;
     public PlayerImpact _playerImpact;
     public BoxCollider _lHandBoxCollider;
     public BoxCollider _rHandBoxCollider;
@@ -23,12 +22,8 @@ public class PlayerHandAttack : PlayerAttack
     protected float _lastRColliderOffTime; // 공격을 마지막에 한 시점
     void Start()
     {
-        _playerState = transform.GetComponent<PlayerState>();
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _attackName = "기본공격";
-        _aftercastAttack = 0.5f; // 후딜레이
-        _activeAttackTime = 0.3f; // 공격 유지 시간
-        _lastAttackTime = 0f; // 공격을 마지막에 한 시점
         SetAffterCast(0);
         _damage = 10;
         

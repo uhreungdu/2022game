@@ -125,8 +125,8 @@ MonoBehaviour:
   _MeshCollider: {fileID: 0}
   destroyfloor: 0
   destroyTime: 5
-  _reSpawnTime: 10
-  _reSpawnTimer: 0
+  _reSpawnTime: 30
+  _ExplosionForce: 400
   effect_obj: {fileID: 0}
   prefeb_effect: {fileID: 8022832438632908100, guid: 6bbc1fbbcbf7d474faba91e6f5b02b19, type: 3}
 --- !u!64 &-5729422349932503538

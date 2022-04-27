@@ -16,7 +16,9 @@ public class BulidingObject : LivingEntity, IPunObservable
     public int destroyTime = 5;
     
     public float _reSpawnTime = 10.0f;
-    public float _reSpawnTimer = 0.0f;
+    private float _reSpawnTimer = 0.0f;
+
+    public float _ExplosionForce = 1000.0f;
 
     private MeshRenderer[] childMeshRenderers;
     private MeshCollider[] childMeshCollider;
@@ -46,23 +48,21 @@ public class BulidingObject : LivingEntity, IPunObservable
             for (int i = 0; i < point; ++i)
             {
                 float radian = (Random.Range(0, 360)) * Mathf.PI / 180;
-                float radius = Random.Range(0, 3);
+                float radius = Random.value * 3.0f;
                 Vector3 coinPosition = transform.position;
                 coinPosition.x = coinPosition.x + (radius * Mathf.Cos(radian));
                 coinPosition.z = coinPosition.z + (radius * Mathf.Sin(radian));
-                coinPosition.y = coinPosition.y + 3.0f;
+                coinPosition.y = coinPosition.y;
                 GameObject coin =
                     PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, coinprefab.transform.rotation);
                 //Instantiate(coinprefab, coinPosition, transform.rotation);
                 Vector3 explosionPosition = transform.position;
-                explosionPosition.y += 3.0f;
-                coin.GetComponent<Rigidbody>().AddExplosionForce(400, explosionPosition, 10f);
+                coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f, _ExplosionForce / 2);
+                coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f);
             }
             Invoke("Net_HideBuilding", destroyTime);
             Invoke("RespawnBuilding", _reSpawnTime);
         }
-        GetComponent<MeshCollider>().enabled = false;
-
         // Destroy(gameObject, destroyTime);
     }
 
@@ -72,11 +72,13 @@ public class BulidingObject : LivingEntity, IPunObservable
         if (gameObject.transform.parent != null)
         {
             objectName = gameObject.transform.parent.name;
-        }  
+        }
         else
             objectName = gameObject.name;
         objectName = objectName.Remove(objectName.Length - 7, 7);
-        PhotonNetwork.InstantiateRoomObject(objectName, transform.position, transform.rotation);
+        Vector3 position = transform.position;
+        position.y += 30;
+        PhotonNetwork.InstantiateRoomObject(objectName, position, transform.rotation);
         print("리스폰진짜됨");
         PhotonNetwork.Destroy(gameObject);
     }
@@ -94,7 +96,8 @@ public class BulidingObject : LivingEntity, IPunObservable
             childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
             foreach (var child in childMeshRenderers)
             {
-                child.enabled = true;
+                if (child != null && child != _MeshRenderer)
+                    child.enabled = false;
             }
         }
 
@@ -103,7 +106,8 @@ public class BulidingObject : LivingEntity, IPunObservable
             childMeshCollider = GetComponentsInChildren<MeshCollider>();
             foreach (var child in childMeshCollider)
             {
-                child.enabled = true;
+                if (child != null && child != _MeshCollider)
+                    child.enabled = false;
             }
         }
     }
@@ -161,13 +165,15 @@ public class BulidingObject : LivingEntity, IPunObservable
             childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
             foreach (var child in childMeshRenderers)
             {
-                child.enabled = true;
+                if (child != _MeshRenderer)
+                    child.enabled = true;
             }
             
             childMeshCollider = GetComponentsInChildren<MeshCollider>();
             foreach (var child in childMeshCollider)
             {
-                child.enabled = true;
+                if (child != _MeshRenderer)
+                    child.enabled = true;
             }
 
             Rigidbody[] childRigidbodys = GetComponentsInChildren<Rigidbody>();
@@ -177,8 +183,10 @@ public class BulidingObject : LivingEntity, IPunObservable
                 child.constraints = RigidbodyConstraints.None;
                 Vector3 objectPotision = transform.position;
                 objectPotision.y = 1;
-                child.AddExplosionForce(500, objectPotision, 20f);
+                child.AddExplosionForce(_ExplosionForce, objectPotision, 40f, _ExplosionForce / 2.0f);
+                child.AddExplosionForce(_ExplosionForce, objectPotision, 40f);
             }
+
             _MeshRenderer.enabled = false;
             _MeshCollider.enabled = false;
             effect_obj = Instantiate(prefeb_effect);

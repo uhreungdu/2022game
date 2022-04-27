@@ -18,12 +18,16 @@ public class PlayerHandAttackTrigger : MonoBehaviour
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Wall")
         {
-            BulidingObject attackTarget = other.GetComponent<BulidingObject>();
-            if (attackTarget != null && !attackTarget.dead)
+            BulidingObject attackTarget;
+            attackTarget = other.GetComponent<BulidingObject>();
+            if (attackTarget != null)
             {
-                // attackTarget.NetworkOnDamage(_playerHandAttack._damage);
-                attackTarget.OnDamage(_playerHandAttack._damage);
-                Debug.Log(attackTarget.health);
+                if (!attackTarget.dead)
+                {
+                    // attackTarget.NetworkOnDamage(_playerHandAttack._damage);
+                    attackTarget.OnDamage(_playerHandAttack._damage);
+                    Debug.Log(attackTarget.health);
+                }
             }
         }
 
@@ -32,13 +36,21 @@ public class PlayerHandAttackTrigger : MonoBehaviour
             if (other.gameObject != transform.root.gameObject)
             {
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+                Animator otherAnimator = other.GetComponent<Animator>();
                 if (other.gameObject != null && !playerState.dead && playerState.team != _playerState.team)
                 {
                     //playerState.NetworkOnDamage(_playerHandAttack._damage);
                     playerState.OnDamage(_playerHandAttack._damage);
                     other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
                     
-                    
+                    if (!otherAnimator.GetBool("Stiffen"))
+                    {
+                        otherAnimator.SetBool("Stiffen", true);
+                    }
+                    else if (otherAnimator.GetBool("Stiffen"))
+                    {
+                        otherAnimator.SetTrigger("RepeatStiffen");
+                    }
                 }
             }
         }

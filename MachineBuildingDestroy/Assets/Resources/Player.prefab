@@ -1408,6 +1408,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: IsGrounded
+  - Type: 4
+    SynchronizeType: 0
+    Name: Falldown
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -1462,13 +1465,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterController: {fileID: 0}
   gamePlayerInput: {fileID: 0}
-  playerState: {fileID: 0}
+  _playerState: {fileID: 0}
   cam: {fileID: 0}
   _fieldLayer:
     serializedVersion: 2
     m_Bits: 576
-  speed: 6
-  Maxspeed: 18
+  speed: 12
+  Maxspeed: 12
+  Minspeed: 12
   yvelocity: 0
   Cgravity: 9.8
   gourndgravity: -0.05
@@ -1578,6 +1582,7 @@ MonoBehaviour:
   playerState: {fileID: 0}
   gManager: {fileID: 0}
   timeBet: 3
+  _GameUIObject: {fileID: 0}
 --- !u!114 &2989651931023162392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1591,12 +1596,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
+  _PlayerState: {fileID: 0}
   gamePlayerInput: {fileID: 0}
   _thirdpersonmove: {fileID: 0}
   lastAttackTime: 0
   keepAttackTime: 0.3
   lastStiffenTime: 0
   keepstiffenTime: 0.3
+  lastFalldownTime: 0
+  keepFalldownTime: 1.5
   speed: 6
   Maxspeed: 18
 --- !u!114 &4992519352069169611
@@ -1623,8 +1631,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerState: {fileID: 1049520447631437763}
   _hitBoxColliders: []
-  _playerState: {fileID: 0}
   _playerImpact: {fileID: 0}
   _lHandBoxCollider: {fileID: 2269437314533771540}
   _rHandBoxCollider: {fileID: 5422654084887330523}
@@ -1642,8 +1650,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f28524b3961864b9f86728c1c19f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerState: {fileID: 1049520447631437763}
   _hitBoxColliders: []
-  _playerState: {fileID: 0}
   _playerImpact: {fileID: 0}
   _rHandBoxCollider: {fileID: 8672237015352126555}
   LHandGameObject: {fileID: 8817763877579381279}
@@ -1672,8 +1680,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e7e81113760a242a3f1de8590c98df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerState: {fileID: 1049520447631437763}
   _hitBoxColliders: []
-  _playerState: {fileID: 0}
   _playerImpact: {fileID: 0}
   _hammerBoxCollider: {fileID: 4902290467363021745}
   RHandGameObject: {fileID: 3864567087714883586}
@@ -1748,8 +1756,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2.87, y: 1.724104, z: 1.724104}
-  m_Center: {x: -0.6, y: 0, z: -0.36}
+  m_Size: {x: 2.87, y: 1.724104, z: 4.27}
+  m_Center: {x: -0.6, y: 0, z: 0.84}
 --- !u!114 &835893139915555490
 MonoBehaviour:
   m_ObjectHideFlags: 0

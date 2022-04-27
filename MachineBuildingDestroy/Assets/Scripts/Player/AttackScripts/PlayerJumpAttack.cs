@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerJumpAttack : PlayerAttack
 {
     // Start is called before the first frame update
-    public PlayerState _playerState;
     public PlayerImpact _playerImpact;
     public BoxCollider _rHandBoxCollider;
     public GameObject LHandGameObject;
@@ -13,13 +12,11 @@ public class PlayerJumpAttack : PlayerAttack
     private Thirdpersonmove _thirdpersonmove;
     void Start()
     {
-        _playerState = transform.GetComponent<PlayerState>();
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
-        _aftercastAttack = 0.6f; // 후딜레이
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
-        _lastAttackTime = 0f; // 공격을 마지막에 한 시점
+        _aftercastAttack = 1.0f;
         SetAffterCast(0);
         _damage = 15;
         
@@ -54,8 +51,7 @@ public class PlayerJumpAttack : PlayerAttack
     public void JumpAttackMovement()
     {
         Transform rootTransform = transform.root;
-        _playerImpact.AddImpact(rootTransform.forward, 20);
-        _thirdpersonmove.yvelocity = 0;
+        _playerImpact.AddImpact(rootTransform.forward, 100);
     }
     
     public void SetJumpAffterCast(int set)
