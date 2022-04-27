@@ -217,7 +217,7 @@ public class PlayerState : LivingEntity, IPunObservable
         if (photonView.IsMine)
         {
             gManager.player_stat.setting(health,Item);
-            print("정보 넘겨줌");
+            //print("정보 넘겨줌");
         }
     }
 }

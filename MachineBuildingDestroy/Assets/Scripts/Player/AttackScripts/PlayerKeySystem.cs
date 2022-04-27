@@ -291,6 +291,6 @@ public class PlayerKeySystem : MonoBehaviourPun
         }
 
         BuffObj.SetActive(BuffOn);
-        print(BuffOn);
+        //print(BuffOn);
     }
 }
