@@ -10,17 +10,18 @@ public class Thirdpersonmove : MonoBehaviourPun
 {
     public CharacterController _characterController;
     public GamePlayerInput gamePlayerInput; // �÷��̾������� �����ϴ� ��ũ��Ʈ
-    public PlayerState playerState;
+    public PlayerState _playerState;
     public Transform cam;
     public LayerMask _fieldLayer;
     private PlayerAllAttackAfterCast _playerAllAttackAfterCast;
 
-    public float speed = 6f;
-    public float Maxspeed = 18f;
+    public float speed = 12f;
+    public float Maxspeed = 12f;
+    public float Minspeed = 12f;
     public float yvelocity = 0;
     public float Cgravity = 4f;
     private float tempgravity = -1.0f;
-    private float jumppower = 0.5f;
+    private float jumppower = 1.0f;
     public float gourndgravity = -0.05f;
 
     public float turnsmoothTime = 0.1f;
@@ -34,8 +35,6 @@ public class Thirdpersonmove : MonoBehaviourPun
     public bool activeattack { get; private set; }
     public bool collidingbuilding = false;
     public bool keepactiveattack { get; private set; }
-    public bool stiffen { get; private set; }
-
     public bool landing { get; private set; }
 
     void Start()
@@ -44,10 +43,10 @@ public class Thirdpersonmove : MonoBehaviourPun
         cam = GameObject.FindWithTag("CamPos").GetComponent<Transform>();
         _playerAllAttackAfterCast = GetComponent<PlayerAllAttackAfterCast>();
         gamePlayerInput = GetComponent<GamePlayerInput>();
-        playerState = GetComponent<PlayerState>();
+        _playerState = GetComponent<PlayerState>();
         Debug.Log(Application.platform);
-        playerState.isAimming = false;
-        playerState.nowEquip = false;
+        _playerState.isAimming = false;
+        _playerState.nowEquip = false;
     }
 
     void FixedUpdate()
@@ -69,9 +68,9 @@ public class Thirdpersonmove : MonoBehaviourPun
         Vector3 jumpmove = Vector3.zero;
         if (photonView.IsMine)
         {
-            if (direction.magnitude >= 0.1f &&
-                !_playerAllAttackAfterCast.AllAfterAfterCast() && 
-                !stiffen && !playerState.dead && !landing
+            if (direction.magnitude >= 0.1f && 
+                !_playerState.aftercast && 
+                !_playerState.IsCrowdControl() && !_playerState.dead && !landing
                )
             {
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -92,9 +91,7 @@ public class Thirdpersonmove : MonoBehaviourPun
             if (_playerAllAttackAfterCast.PlayerActivejumpColliderCheck())
             {
                 yvelocity = 0;
-                yvelocity += (tempgravity) * Time.deltaTime;
             }
-            else 
                 yvelocity += tempgravity * Time.deltaTime;
             //Debug.Log(jumpmove);
             if (IsGrounded())
@@ -106,7 +103,7 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     public void Jump()
     {
-        if (IsGrounded() && !stiffen && !landing)
+        if (IsGrounded() && !_playerState.stiffen && !landing)
         {
             yvelocity = jumppower;
         }
@@ -114,7 +111,7 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     public void Dash()
     {
-        if (gamePlayerInput.dash && IsGrounded() && !stiffen && !playerState.dead && !landing)
+        if (gamePlayerInput.dash && IsGrounded() && !_playerState.IsCrowdControl() && !_playerState.dead && !landing)
         {
             if (speed <= Maxspeed)
             {
@@ -122,15 +119,15 @@ public class Thirdpersonmove : MonoBehaviourPun
             }
         }
 
-        if (!gamePlayerInput.dash || !IsGrounded() || stiffen || playerState.dead || landing)
+        if (!gamePlayerInput.dash || !IsGrounded() || _playerState.IsCrowdControl() || _playerState.dead || landing)
         {
-            if (speed > 6f)
+            if (speed > Minspeed)
             {
                 speed -= 9f * Time.deltaTime;
             }
             else
             {
-                speed = 6f;
+                speed = Minspeed;
             }
         }
     }
@@ -150,14 +147,6 @@ public class Thirdpersonmove : MonoBehaviourPun
         else if (set < 1)
             keepactiveattack = false;
     }
-
-    public void SetStiffen(int set)
-    {
-        if (set >= 1)
-            stiffen = true;
-        else if (set < 1)
-            stiffen = false;
-    }
     
     public void Setlanding(int set)
     {
@@ -169,9 +158,9 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     public void Equip_item()
     {
-        if (!playerState.isAimming)
+        if (!_playerState.isAimming)
             return;
-        if (playerState.Item == item_box_make.item_type.potion)
+        if (_playerState.Item == item_box_make.item_type.potion)
         {
             getobj = Resources.Load<GameObject>("potion");
             ItemObj = Instantiate(getobj);
@@ -179,7 +168,7 @@ public class Thirdpersonmove : MonoBehaviourPun
             Vector3 move_item = gameObject.transform.position + new Vector3(3, 5, 0);
             Debug.Log(move_item);
             ItemObj.transform.Translate(move_item);
-            playerState.nowEquip = true;
+            _playerState.nowEquip = true;
         }
     }
 
@@ -201,13 +190,13 @@ public class Thirdpersonmove : MonoBehaviourPun
         {
             item_box_make itemBoxMake = other.gameObject.GetComponent<item_box_make>();
             if (PhotonNetwork.IsMasterClient)
-                playerState.SetItem(itemBoxMake.now_type);
-            playerState.isAimming = true;
+                _playerState.SetItem(itemBoxMake.now_type);
+            _playerState.isAimming = true;
         }
         else if (other.gameObject.tag == "Coin")
         {
             print("coin");
-            playerState.AddPoint(1);
+            _playerState.AddPoint(1);
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.Destroy(other.gameObject);

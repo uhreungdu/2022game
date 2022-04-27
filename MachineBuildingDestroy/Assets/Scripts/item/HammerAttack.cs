@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HammerAttack : PlayerAttack
 {
-    public PlayerState _playerState;
     public PlayerImpact _playerImpact;
     public BoxCollider _hammerBoxCollider;
     public GameObject RHandGameObject;
@@ -13,13 +12,10 @@ public class HammerAttack : PlayerAttack
     // Start is called before the first frame update
     void Start()
     {
-        _playerState = transform.GetComponent<PlayerState>();
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "해머기본공격";
-        _aftercastAttack = 0.3f; // 후딜레이
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
-        _lastAttackTime = 0f; // 공격을 마지막에 한 시점
         SetHammerAffterCast(0);
         _damage = 25;
         

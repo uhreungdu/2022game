@@ -9,7 +9,7 @@ public class PlayerJumpAttackTrigger : MonoBehaviour
     void Start()
     {
         _playerState = transform.root.GetComponent<PlayerState>();
-        _playerJumpAttack = transform.root.GetComponent<PlayerJumpAttack>();
+        _playerJumpAttack = transform.root.GetComponent<PlayerJumpAttack>(); 
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -30,14 +30,22 @@ public class PlayerJumpAttackTrigger : MonoBehaviour
         {
             if (other.gameObject != transform.root.gameObject)
             {
-                PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
-                if (other.gameObject != null && !playerState.dead && playerState.team != _playerState.team)
+                PlayerState otherPlayerState = other.gameObject.GetComponent<PlayerState>();
+                Animator otherAnimator = other.GetComponent<Animator>();
+                if (other.gameObject != null && !otherPlayerState.dead)
                 {
+                    // && otherPlayerState.team != _playerState.team
                     //playerState.NetworkOnDamage(_playerHandAttack._damage);
-                    playerState.OnDamage(_playerJumpAttack._damage);
-                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
-                    
-                    
+                    otherPlayerState.OnDamage(_playerJumpAttack._damage);
+                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 40);
+                    if (!otherAnimator.GetBool("Stiffen"))
+                    {
+                        otherAnimator.SetBool("Stiffen", true);
+                    }
+                    else if (otherAnimator.GetBool("Stiffen"))
+                    {
+                        otherAnimator.SetTrigger("RepeatStiffen");
+                    }
                 }
             }
         }

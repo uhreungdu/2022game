@@ -19,6 +19,7 @@ public class GamePlayerInput : MonoBehaviour
     private DashButton _dshButton;
     private InterractButton _itrButton;
     private ItemButton _itmButton;
+    private GameManager _gameManager;
     private PlayerInput _playerInput;
 
     void Start()
@@ -33,6 +34,8 @@ public class GamePlayerInput : MonoBehaviour
             _itrButton = GameObject.Find("InteractButton").GetComponent<InterractButton>();
             _itmButton = GameObject.Find("ItemButton").GetComponent<ItemButton>();
         }
+
+        _gameManager = GameManager.GetInstance();
     }
 
     // 값 할당은 내부에서만 가능
@@ -46,14 +49,6 @@ public class GamePlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 게임오버 상태에서는 사용자 입력을 감지하지 않는다
-        //if (GameManager.GetInstance() != null)
-        //{
-        //    move = 0;
-        //    rotate = 0;
-        //    fire = false;
-        //    return;
-        //}
         if (Application.platform == RuntimePlatform.Android)
         {
             move = _joystick.moveVector.y;
@@ -78,6 +73,19 @@ public class GamePlayerInput : MonoBehaviour
             item = Input.GetButton(ItemButtonName);
         }
 
+        if (_gameManager.gameStart == false)
+        {
+            // move에 관한 입력 감지
+            move = 0;
+            // rotate에 관한 입력 감지
+            rotate = 0;
+            // fire에 관한 입력 감지
+            fire = false;
+            jump = false;
+            dash = false;
+            Interaction = false;
+            item = false;
+        }
     }
 
 //     public void OnMove(InputValue value)

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class CountDown : MonoBehaviour
 {
     private Text _text;
+    public GameManager _gameManager;
+    
     private float gameStartTime;    // 게임 시작 시간
     private int startfontSize = 200;             // 처음 사이즈
     private int lastfontSize = 40;              // 마지막 사이즈
@@ -24,6 +26,8 @@ public class CountDown : MonoBehaviour
         _text.text = "3";
         fontSizeVar = startfontSize;
         _text.fontSize = (int)fontSizeVar;
+        
+        _gameManager = GameManager.GetInstance();
         
         // textAlphaVar = starttextAlpha;
         // fontColor.a = starttextAlpha;
@@ -45,6 +49,7 @@ public class CountDown : MonoBehaviour
         else if (Time.time >= gameStartTime + 3.0f && _text.text == "1")
         {
             _text.text = "Start!";
+            _gameManager.SetGameStart(true);
             ResetFontSize();
         }
         else if (Time.time >= gameStartTime + 2.0f && _text.text == "2")

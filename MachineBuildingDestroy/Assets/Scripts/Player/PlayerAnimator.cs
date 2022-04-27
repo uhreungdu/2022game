@@ -8,6 +8,7 @@ using UniRx;
 public class PlayerAnimator : MonoBehaviourPun
 {
     public Animator _animator;
+    public PlayerState _PlayerState;
     public GamePlayerInput gamePlayerInput;
     public Thirdpersonmove _thirdpersonmove;
     private CharacterController _characterController;
@@ -17,6 +18,9 @@ public class PlayerAnimator : MonoBehaviourPun
 
     public float lastStiffenTime;
     public float keepstiffenTime = 0.3f;
+    
+    public float lastFalldownTime;
+    public float keepFalldownTime = 1.5f;
     
     public float speed = 6f;
     public float Maxspeed = 18f;
@@ -31,13 +35,15 @@ public class PlayerAnimator : MonoBehaviourPun
         gamePlayerInput = GetComponent<GamePlayerInput>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _characterController = GetComponent<CharacterController>();
+        _PlayerState = GetComponent<PlayerState>();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-            StiffenTimer();
-            AnimationUpdate();
+        StiffenTimer();
+        FalldownTimer();
+        AnimationUpdate();
     }
 
     public void OnComboAttack()
@@ -67,13 +73,15 @@ public class PlayerAnimator : MonoBehaviourPun
             }
         }
     }
-    public void StiffenMove()
+    
+    
+    public void FalldownTimer()
     {
-        if (_animator.GetBool("Stiffen"))
+        if (_animator.GetBool("Falldown"))
         {
-            if (Time.time >= lastStiffenTime + keepstiffenTime)
+            if (Time.time >= lastFalldownTime + keepFalldownTime)
             {
-                _animator.SetBool("Stiffen", false);
+                _animator.SetBool("Falldown", false);
             }
         }
     }
@@ -94,12 +102,12 @@ public class PlayerAnimator : MonoBehaviourPun
 
             _animator.SetFloat("Move", Origindirection.magnitude);
 
-            if (gamePlayerInput.jump && _thirdpersonmove.IsGrounded() && !_thirdpersonmove.stiffen &&
+            if (gamePlayerInput.jump && _thirdpersonmove.IsGrounded() && !_PlayerState.stiffen &&
                 !_thirdpersonmove.landing)
             {
                 _animator.SetBool("Jump", true);
             }
-            else if (!gamePlayerInput.jump || !_thirdpersonmove.IsGrounded() || !_thirdpersonmove.stiffen ||
+            else if (!gamePlayerInput.jump || !_thirdpersonmove.IsGrounded() || !_PlayerState.stiffen ||
                      !_thirdpersonmove.landing)
             {
                 _animator.SetBool("Jump", false);
