@@ -165,6 +165,7 @@ MonoBehaviour:
   _reSpawnTime: 10
   _ExplosionForce: 400
   effect_obj: {fileID: 0}
+  prefeb_effect: {fileID: 0}
 --- !u!114 &6542954356232124453
 MonoBehaviour:
   m_ObjectHideFlags: 0
