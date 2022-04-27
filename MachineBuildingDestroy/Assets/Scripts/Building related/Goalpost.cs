@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class Goalpost : MonoBehaviourPun
@@ -20,22 +21,15 @@ public class Goalpost : MonoBehaviourPun
     private void OnEvent()
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        if (box_obj == null && Gmanager.EManager.itembox_Create == true)
+        if (_gameManager.EManager.goalpost_Create)
         {
-            if (Item_get == true)
+            if (gameObject.activeSelf)
             {
-                int itemkindLength = System.Enum.GetValues(typeof(item_box_make.item_type)).Length;
-                int rand = Random.Range(1, itemkindLength);
-                rand = 5;
-                photonView.RPC("CreateItem", RpcTarget.MasterClient, rand);
+                gameObject.SetActive(true);
             }
         }
     }
 
-    if (Gmanager.EManager.itembox_Create == false)
-{
-    Item_get = true;
-}
     private void OnTriggerEnter(Collider other)
     {
 
