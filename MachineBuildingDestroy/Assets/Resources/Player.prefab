@@ -1450,7 +1450,7 @@ MonoBehaviour:
   gManager: {fileID: 0}
   _AttackGameObject: {fileID: 8041448678384610568}
   nameOnhead: {fileID: 3417985307305165095}
-  deadEffect: {fileID: 7488789173918327245}
+  Dead_Effect: {fileID: 7488789173918327245}
 --- !u!114 &5279383354855515017
 MonoBehaviour:
   m_ObjectHideFlags: 0
