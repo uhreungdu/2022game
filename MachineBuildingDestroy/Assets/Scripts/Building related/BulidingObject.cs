@@ -176,7 +176,7 @@ public class BulidingObject : LivingEntity, IPunObservable
             }
 
             Rigidbody[] childRigidbodys = GetComponentsInChildren<Rigidbody>();
-            rigidbody.constraints = RigidbodyConstraints.None;
+            //rigidbody.constraints = RigidbodyConstraints.None;
             foreach (Rigidbody child in childRigidbodys)
             {
                 child.constraints = RigidbodyConstraints.None;
@@ -199,9 +199,10 @@ public class BulidingObject : LivingEntity, IPunObservable
     public override void OnDamage(float damage)
     {
         base.OnDamage(damage);
-        photonView.RPC("SetObjectHealth",RpcTarget.Others, health, destroyfloor);
-        photonView.RPC("RefreshHealth",RpcTarget.Others);
-        photonView.RPC("WallDestroy",RpcTarget.All);
+        //photonView.RPC("SetObjectHealth",RpcTarget.Others, health, destroyfloor);
+        //photonView.RPC("RefreshHealth",RpcTarget.Others);
+        //photonView.RPC("WallDestroy",RpcTarget.All);
+        WallDestroy();
     }
 
     [PunRPC]
@@ -212,7 +213,7 @@ public class BulidingObject : LivingEntity, IPunObservable
 
     public void NetworkOnDamage(float val)
     {
-        photonView.RPC("OnDamage",RpcTarget.MasterClient,val);
+        photonView.RPC("OnDamage",RpcTarget.AllViaServer,val);
     }
     
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
