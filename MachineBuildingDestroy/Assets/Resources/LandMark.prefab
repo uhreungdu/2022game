@@ -96,14 +96,14 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6436591170870349062, guid: b5286e9df4584c94a91fa3b4bf8b3ad2, type: 3}
-  - {fileID: 5521483987218250665, guid: b5286e9df4584c94a91fa3b4bf8b3ad2, type: 3}
-  - {fileID: 8622231856638578679, guid: b5286e9df4584c94a91fa3b4bf8b3ad2, type: 3}
-  - {fileID: -5567897635444601682, guid: b5286e9df4584c94a91fa3b4bf8b3ad2, type: 3}
-  - {fileID: 934714567791821240, guid: b5286e9df4584c94a91fa3b4bf8b3ad2, type: 3}
-  - {fileID: -281532656570955083, guid: b5286e9df4584c94a91fa3b4bf8b3ad2, type: 3}
-  - {fileID: 6718947497816898733, guid: b5286e9df4584c94a91fa3b4bf8b3ad2, type: 3}
-  - {fileID: -621184621979588601, guid: b5286e9df4584c94a91fa3b4bf8b3ad2, type: 3}
+  - {fileID: 2100000, guid: b60fbb110e0d22f4192dc96a4090462d, type: 2}
+  - {fileID: 2100000, guid: d36bcc11b8edd8f4fa095b4354faa15c, type: 2}
+  - {fileID: 2100000, guid: d58abf1d06c355142a9796fb788a0947, type: 2}
+  - {fileID: 2100000, guid: d36bcc11b8edd8f4fa095b4354faa15c, type: 2}
+  - {fileID: 2100000, guid: 4d1d0e14c3678aa478976c5d5a4c0eb8, type: 2}
+  - {fileID: 2100000, guid: bb9169c6c00c6fe45bf9964b6261722a, type: 2}
+  - {fileID: 2100000, guid: ef19cf7c8842ca447824d35780c98ba6, type: 2}
+  - {fileID: 2100000, guid: 7c60ea76815a5884c880359e8b701d9e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -227,12 +227,13 @@ MonoBehaviour:
   startingHealth: 100
   coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
   point: 0
-  boxmaterial: {fileID: 0}
+  boxmaterial: {fileID: 2100000, guid: 548599b3251fd1448b496f84f4f3e3fa, type: 2}
   rigidbody: {fileID: 0}
   _MeshRenderer: {fileID: 0}
   _MeshCollider: {fileID: 0}
   destroyfloor: 0
   destroyTime: 5
-  _reSpawnTime: 10
+  _reSpawnTime: 9999
   _ExplosionForce: 1000
   effect_obj: {fileID: 0}
+  prefeb_effect: {fileID: 43508311127239940, guid: 84309fdd9219f1d43b57248b43322cbc, type: 3}

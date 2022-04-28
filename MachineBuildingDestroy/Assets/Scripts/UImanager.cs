@@ -9,6 +9,7 @@ public class UImanager : MonoBehaviour
     private static UImanager instance;
     public GameManager gmanager;
     public List<GameObject> Score_UI = new List<GameObject>();
+    public GameObject Canvas;
     public static UImanager GetInstance()
     {
         if(instance == null)
@@ -50,6 +51,7 @@ public class UImanager : MonoBehaviour
         gmanager = GameManager.GetInstance();
         Score_UI.Add(GameObject.Find("Team_Blue_Score"));
         Score_UI.Add(GameObject.Find("Team_Red_Score"));
+        Canvas = GameObject.Find("Canvas");
     }
 
     // Update is called once per frame

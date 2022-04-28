@@ -1582,7 +1582,7 @@ MonoBehaviour:
   playerState: {fileID: 0}
   gManager: {fileID: 0}
   timeBet: 3
-  _GameUIObject: {fileID: 0}
+  _UImanager: {fileID: 0}
 --- !u!114 &2989651931023162392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1876,7 +1876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1546464832069960486, guid: 8a007f42c9ff807419067deebfecf2da, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2719827184005029010, guid: 8a007f42c9ff807419067deebfecf2da, type: 3}
       propertyPath: m_Enabled

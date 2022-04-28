@@ -15,8 +15,8 @@ public class PlayerInteract : MonoBehaviour
     public float timeBet = 3f; // ���� ����
     private float lastTime; // ������ �������� �� ����
     private bool neargoalpost;
-
-    public GameObject _GameUIObject;
+    
+    public UImanager _UImanager;
     private Slider _Progressbar;
     void Start()
     {
@@ -24,13 +24,13 @@ public class PlayerInteract : MonoBehaviour
         gamePlayerInput = GetComponentInParent<GamePlayerInput>();
         playerState = GetComponentInParent<PlayerState>();
         gManager = GameManager.GetInstance();
-        _GameUIObject = GameObject.Find("Canvas");
+        _UImanager = UImanager.GetInstance();
         
-        for (int i = 0; i < _GameUIObject.transform.childCount; ++i)
+        for (int i = 0; i < _UImanager.Canvas.transform.childCount; ++i)
         {
-            if (_GameUIObject.transform.GetChild(i).name == "Goalprogression")
+            if (_UImanager.Canvas.transform.GetChild(i).name == "Goalprogression")
             {
-                _Progressbar = _GameUIObject.transform.GetChild(i).GetComponent<Slider>();
+                _Progressbar = _UImanager.Canvas.transform.GetChild(i).GetComponent<Slider>();
                 break;
             }
         }

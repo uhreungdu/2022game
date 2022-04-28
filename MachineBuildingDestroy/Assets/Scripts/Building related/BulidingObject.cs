@@ -16,12 +16,12 @@ public class BulidingObject : LivingEntity, IPunObservable
     public int destroyTime = 5;
     
     public float _reSpawnTime = 10.0f;
-    private float _reSpawnTimer = 0.0f;
-
+    protected float _reSpawnTimer = 0.0f;
+    protected GameManager _Gamemanager;
     public float _ExplosionForce = 1000.0f;
 
-    private MeshRenderer[] childMeshRenderers;
-    private MeshCollider[] childMeshCollider;
+    protected MeshRenderer[] childMeshRenderers;
+    protected MeshCollider[] childMeshCollider;
 
     public GameObject effect_obj;
     public GameObject prefeb_effect;
@@ -32,13 +32,17 @@ public class BulidingObject : LivingEntity, IPunObservable
         rigidbody = GetComponentInChildren<Rigidbody>();
         _MeshRenderer = GetComponentInChildren<MeshRenderer>();
         _MeshCollider = GetComponentInChildren<MeshCollider>();
+        _Gamemanager = GameManager.GetInstance();
         onDeath += DieAction;
     }
 
     // Update is called once per frame
     protected void Update()
     {
-        DeathTimer();
+        if (!_Gamemanager.EManager.gameSet)
+        {
+            DeathTimer();
+        }
     }
 
     public void DieAction()

@@ -12,6 +12,9 @@ public class LandMarkObject : BulidingObject
     private Rigidbody _rigidbody;
     private float appearY = -30;
     private Vector3 originTransform;
+
+    private bool appear = false;
+    private bool appearTransform = false;
     void Start()
     {
         base.Start();
@@ -25,8 +28,14 @@ public class LandMarkObject : BulidingObject
     void Update()
     {
         base.Update();
-        OnEvent();
-        AppearLandmark();
+        if (!_gameManager.EManager.gameSet) 
+        {
+            if (!dead)
+            {
+                OnEvent();
+                AppearLandmark();
+            }
+        }
     }
     
     private void OnEvent()
@@ -34,23 +43,25 @@ public class LandMarkObject : BulidingObject
         if (!PhotonNetwork.IsMasterClient) return;
         if (_gameManager.EManager.landmakr_Create)
         {
-            if (_meshRenderer.enabled == false)
+            if (appear == false)
             {
+                appear = true;
+                appearTransform = false;
                 Vector3 position = originTransform;
                 position.y += appearY;
                 transform.position = position;
                 _meshRenderer.enabled = true;
                 _rigidbody.useGravity = false;
-            }
-
-            foreach (var colliders in _Colliders)
-            {
-                if (colliders.enabled == false)
-                    colliders.enabled = true;
+                foreach (var colliders in _Colliders)
+                {
+                    if (colliders.enabled == false)
+                        colliders.enabled = true;
+                }
             }
         }
         else
         {
+            appear = false;
             if (_meshRenderer.enabled)
                 _meshRenderer.enabled = false;
             foreach (var colliders in _Colliders)
@@ -62,19 +73,46 @@ public class LandMarkObject : BulidingObject
     }
     void AppearLandmark()
     {
-        if (transform.position.y < originTransform.y && _meshRenderer.enabled)
+        if (_gameManager.EManager.landmakr_Create)
         {
-            Vector3 position = originTransform;
-            appearY += Time.deltaTime * (30 / 3.0f);
-            position.y += appearY;
-            transform.position = position;
+            if (transform.position.y < originTransform.y && appear && !appearTransform)
+            {
+                Vector3 position = originTransform;
+                appearY += Time.deltaTime * (30 / 3.0f);
+                position.y += appearY;
+                transform.position = position;
+            }
+            if (transform.position.y >= originTransform.y)
+            {
+                appearTransform = true;
+                if (_rigidbody.useGravity == false)
+                {
+                    _rigidbody.useGravity = true;
+                }
+            }
+        }
+    }
+    
+    [PunRPC]
+    void HideBuilding()
+    {
+        if (childMeshRenderers.Length > 0)
+        {
+            childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+            foreach (var child in childMeshRenderers)
+            {
+                if (child != null && child != _MeshRenderer)
+                    child.enabled = false;
+            }
         }
 
-        if (transform.position.y >= originTransform.y)
+        if (childMeshCollider.Length > 0)
         {
-            if (_rigidbody.useGravity == false)
+            childMeshCollider = GetComponentsInChildren<MeshCollider>();
+            foreach (var child in childMeshCollider)
             {
-                _rigidbody.useGravity = true;
+                if (child != null && child != _MeshCollider)
+                    child.enabled = false;
             }
         }
     }
