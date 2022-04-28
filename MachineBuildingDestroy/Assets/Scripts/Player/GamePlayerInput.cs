@@ -71,8 +71,7 @@ public class GamePlayerInput : MonoBehaviour
             Interaction = Input.GetButton(InteractionButtonName);
             item = Input.GetButton(ItemButtonName);
         }
-
-        if (_gameManager.gameStart == false)
+        if (_gameManager.gameStart == false || _gameManager.EManager.gameSet)
         {
             // move에 관한 입력 감지
             move = 0;

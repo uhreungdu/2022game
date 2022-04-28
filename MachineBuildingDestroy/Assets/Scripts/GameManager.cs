@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         public bool itembox_Create;
         public bool goalpost_Create;
         public bool landmakr_Create;
+        public bool gameSet;
         public void SetTime(float val3){
             Ntimer = val3;
         }
@@ -63,7 +64,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
         public void Active_landmakr(){
-            if((int)Ntimer / 1 > 0)
+            if((int)Ntimer / 240 > 0)
             {
                 landmakr_Create = true;
                 //Debug.Log("아이템 생성");
@@ -71,6 +72,19 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 landmakr_Create = false;
+            }
+        }
+
+        public void Active_gameSet()
+        {
+            if((int)Ntimer / 300 > 0)
+            {
+                gameSet = true;
+                //Debug.Log("아이템 생성");
+            }
+            else
+            {
+                gameSet = false;
             }
         }
         
@@ -172,7 +186,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void Time_check()
     {
-        if(now_timer.min < 5)
+        if(now_timer.min < 5 && !EManager.gameSet)
         {
             // 내가 Master Client(동기화의 주체)이면 시간을 더해줍니다.
             now_timer.min = (int) now_timer.Ntimer / 60;
@@ -181,6 +195,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             EManager.Active_Itembox();
             EManager.Active_Goalopost();
             EManager.Active_landmakr();
+            EManager.Active_gameSet();
         }
         
         //Debug.Log(now_timer.min);
