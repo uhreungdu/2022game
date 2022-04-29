@@ -6,6 +6,7 @@ using UnityEngine;
 public class HammerAttackTrigger : MonoBehaviour
 {
     private HammerAttack _hammerAttack;
+    public Hammer _Hammer;
     public PlayerState _playerState;
     void Start()
     {
@@ -23,6 +24,7 @@ public class HammerAttackTrigger : MonoBehaviour
             {
                 //attackTarget.NetworkOnDamage(_hammerAttack._damage);
                 attackTarget.OnDamage(_hammerAttack._damage);
+                _Hammer.Durability--;
                 Debug.Log(attackTarget.health);
             }
         }
@@ -38,6 +40,7 @@ public class HammerAttackTrigger : MonoBehaviour
                     //playerState.NetworkOnDamage(_playerHandAttack._damage);
                     playerState.OnDamage(_hammerAttack._damage);
                     other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
+                    _Hammer.Durability--;
                 }
                 if (!otherAnimator.GetBool("Falldown"))
                 {
@@ -53,6 +56,7 @@ public class HammerAttackTrigger : MonoBehaviour
             {
                 Target.NetworkOnDamage(_playerState.P_Dm.Damge_formula());
                 Debug.Log(Target.health);
+                _Hammer.Durability--;
             }
         }
     }

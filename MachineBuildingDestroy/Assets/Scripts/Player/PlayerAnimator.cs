@@ -9,9 +9,10 @@ public class PlayerAnimator : MonoBehaviourPun
 {
     public Animator _animator;
     public PlayerState _PlayerState;
-    public GamePlayerInput gamePlayerInput;
+    public GamePlayerInput _gamePlayerInput;
     public Thirdpersonmove _thirdpersonmove;
     private CharacterController _characterController;
+    public PlayerEquipitem _PlayerEquipitem;
 
     public float lastAttackTime;
     public float keepAttackTime = 0.3f;
@@ -32,10 +33,11 @@ public class PlayerAnimator : MonoBehaviourPun
     void Start()
     {
         _animator = GetComponentInChildren<Animator>();
-        gamePlayerInput = GetComponent<GamePlayerInput>();
+        _gamePlayerInput = GetComponent<GamePlayerInput>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _characterController = GetComponent<CharacterController>();
         _PlayerState = GetComponent<PlayerState>();
+        _PlayerEquipitem = GetComponent<PlayerEquipitem>();
     }
 
     // Update is called once per frame
@@ -46,12 +48,17 @@ public class PlayerAnimator : MonoBehaviourPun
         AnimationUpdate();
     }
 
-    public void OnComboAttack()
+    public void OnAttack()
     {
         // 1안
         //playerAnimator.SetTrigger("OnComboAttack");
         // 2안
-        _animator.SetBool("Combo", gamePlayerInput.fire);
+            _animator.SetBool("Combo", _gamePlayerInput.fire);
+    }
+
+    public void HammerAttack()
+    {
+        _animator.SetBool("HammerAttack", _gamePlayerInput.fire);
         
     }
 
@@ -92,7 +99,7 @@ public class PlayerAnimator : MonoBehaviourPun
         if (photonView.IsMine)
         {
             
-            Vector3 Origindirection = new Vector3(gamePlayerInput.rotate, 0f, gamePlayerInput.move);
+            Vector3 Origindirection = new Vector3(_gamePlayerInput.rotate, 0f, _gamePlayerInput.move);
             if (Origindirection.magnitude >= 1)
             {
                 Origindirection.Normalize();
@@ -102,12 +109,12 @@ public class PlayerAnimator : MonoBehaviourPun
 
             _animator.SetFloat("Move", Origindirection.magnitude);
 
-            if (gamePlayerInput.jump && _thirdpersonmove.IsGrounded() && !_PlayerState.stiffen &&
+            if (_gamePlayerInput.jump && _thirdpersonmove.IsGrounded() && !_PlayerState.stiffen &&
                 !_thirdpersonmove.landing)
             {
                 _animator.SetBool("Jump", true);
             }
-            else if (!gamePlayerInput.jump || !_thirdpersonmove.IsGrounded() || !_PlayerState.stiffen ||
+            else if (!_gamePlayerInput.jump || !_thirdpersonmove.IsGrounded() || !_PlayerState.stiffen ||
                      !_thirdpersonmove.landing)
             {
                 _animator.SetBool("Jump", false);

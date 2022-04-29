@@ -25,9 +25,6 @@ public class HP_Text_Display : MonoBehaviour
             case item_box_make.item_type.no_item:
                 text_Item.text = " ";
                 break;
-            case item_box_make.item_type.weapon:
-                text_Item.text = "Weapon";
-                break;
             case item_box_make.item_type.potion:
                 text_Item.text = "Potion";
                 break;
@@ -36,6 +33,9 @@ public class HP_Text_Display : MonoBehaviour
                 break;
             case item_box_make.item_type.Buff:
                 text_Item.text = "Buff";
+                break;
+            case item_box_make.item_type.Hammer:
+                text_Item.text = "Hammer";
                 break;
             
                     

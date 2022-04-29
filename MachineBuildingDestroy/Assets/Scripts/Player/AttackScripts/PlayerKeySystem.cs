@@ -20,6 +20,7 @@ public class PlayerKeySystem : MonoBehaviourPun
     public PlayerState _playerState;
     public PlayerAnimator _playeranimator;
     public Thirdpersonmove Thirdpersonmove;
+    private PlayerEquipitem _playerEquipitem;
 
     private float timeBetAttack = 0.3f; // ���� ����
     private float activeAttackTime = 0f; // ���� ���� �ð�
@@ -29,7 +30,6 @@ public class PlayerKeySystem : MonoBehaviourPun
     private float activeHealTime = 0f; // �� ���� �ð�
     private float LastHealTime = 0f; // ������ �������� �� ����
 
-    public bool nowEquip;
     public bool BuffOn;
     public float buff_Time;
     public GameObject getobj;
@@ -45,13 +45,8 @@ public class PlayerKeySystem : MonoBehaviourPun
         _playerState = GetComponentInParent<PlayerState>();
         _playeranimator = GetComponentInChildren<PlayerAnimator>();
         Thirdpersonmove = GetComponentInChildren<Thirdpersonmove>();
-        getobj = Resources.Load<GameObject>("Buff_Effect");
-        BuffObj = Instantiate(getobj);
-        BuffObj.transform.SetParent(gameObject.transform);
-        Vector3 tpos = gameObject.transform.position + Vector3.up;
-        BuffObj.transform.Translate(tpos);
-        BuffObj.SetActive(false);
-        buff_Time = 10f;
+        _playerEquipitem = GetComponent<PlayerEquipitem>();
+        
     }
 
     // ������ ������ ȣ��˴ϴ�.
@@ -65,17 +60,19 @@ public class PlayerKeySystem : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
         // parent_qut = gameObject.transform.parent.transform.rotation;
-        parent_qut = gameObject.transform.rotation;
         if (_gamePlayerInput.fire)
         {
             //Debug.Log("�� ���� = " + boxCollider.transform.forward);
-            if (nowEquip == true)
+            if (_playerState.nowEquip == true)
             {
                 switch (_playerState.Item)
                 {
                     case item_box_make.item_type.potion:
                     case item_box_make.item_type.obstacles:
                         Throw_item();
+                        break;
+                    case item_box_make.item_type.Hammer:
+                        _playeranimator.HammerAttack();
                         break;
                     default:
                         photonView.RPC("Throw_item", RpcTarget.All);
@@ -85,12 +82,13 @@ public class PlayerKeySystem : MonoBehaviourPun
             else
             {
                 lastAttackTime = Time.time;
-                _playeranimator.OnComboAttack();
+                _playeranimator.OnAttack();
             }
         }
         else
         {
-            _playeranimator.OnComboAttack();
+            _playeranimator.HammerAttack();
+            _playeranimator.OnAttack();
         }
     }
 
@@ -110,8 +108,9 @@ public class PlayerKeySystem : MonoBehaviourPun
             }
         }
 
-        if (nowEquip == true && ItemObj != null && _playerState.Item == item_box_make.item_type.obstacles)
+        if (_playerState.nowEquip == true && _playerEquipitem._ItemObject != null && _playerState.Item == item_box_make.item_type.obstacles)
         {
+            parent_qut = gameObject.transform.rotation;
             ItemObj.transform.rotation = new Quaternion(parent_qut.x,
                 0, 0, 0);
         }
@@ -189,108 +188,23 @@ public class PlayerKeySystem : MonoBehaviourPun
     [PunRPC]
     public void Equip_item()
     {
-        if (_playerState.Item == item_box_make.item_type.potion && nowEquip == false)
-        {
-            //getobj = Resources.Load<GameObject>("potion");
-            ItemObj = PhotonNetwork.Instantiate("potion", new Vector3(0, 0, 0), Quaternion.identity);
-            ItemObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = GameObject.Find("Bip001 R Finger0").transform.position + Vector3.up + Vector3.forward;
-            ItemObj.transform.Translate(tpos);
-            item_Coll = ItemObj.GetComponent<Collider>();
-            item_Rigid = ItemObj.GetComponent<Rigidbody>();
-            ItemObj.GetComponent<PotionState>().SetState("init");
-            nowEquip = true;
-        }
-
-        if (_playerState.Item == item_box_make.item_type.obstacles && nowEquip == false)
-        {
-            getobj = Resources.Load<GameObject>("Wall_Obstcle_Frame");
-            ItemObj = Instantiate(getobj);
-            ItemObj.transform.SetParent(gameObject.transform);
-            Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 5f) + Vector3.up;
-            ItemObj.transform.Translate(tpos);
-            Quaternion temp_Q = quaternion.identity;
-            ItemObj.transform.rotation = temp_Q;
-            nowEquip = true;
-        }
-
-        if (_playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
-        {
-            BuffOn = true;
-        }
+        _playerEquipitem.Equip_item();
     }
 
     [PunRPC]
     public void Throw_item()
     {
-        if (ItemObj == null)
-            return;
-        if (_playerState.Item == item_box_make.item_type.potion)
-        {
-            ItemObj.transform.parent = null;
-            ItemObj.GetComponent<PotionState>().SetState("throw");
-            Vector3 throw_Angle;
-            throw_Angle = gameObject.transform.forward * 10f;
-            throw_Angle.y = 5f;
-            item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
-            nowEquip = false;
-        }
-
-        if (_playerState.Item == item_box_make.item_type.obstacles)
-        {
-            Quaternion old_rot = gameObject.transform.rotation;
-            Debug.Log(old_rot);
-            Destroy(ItemObj.gameObject);
-            ItemObj.transform.parent = null;
-            //getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
-            //ItemObj = Instantiate(getobj);
-            Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 5f);
-            //ItemObj.transform.Translate(tpos);
-            //ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
-            ItemObj = PhotonNetwork.Instantiate("Wall_Obstcle_Objs", tpos,
-                new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w));
-            ItemObj = null;
-            nowEquip = false;
-        }
+        _playerEquipitem.Throw_item();
     }
 
     [PunRPC]
     public void Receive_Heal()
     {
-        if (Time.time >= LastHealTime + timeBetHeal)
-        {
-            if (_playerState.health + 20 >= 100)
-            {
-                _playerState.RestoreHealth(20);
-                LastHealTime = Time.time;
-            }
-            else
-            {
-                float remain_heal = 100 - _playerState.health;
-                _playerState.RestoreHealth(remain_heal);
-            }
-        }
+        _playerEquipitem.Receive_Heal();
     }
 
     public void BuffCheck()
     {
-        if (BuffOn)
-        {
-            _playerState.P_Dm.set_Ite(1.5f);
-            buff_Time -= Time.deltaTime;
-        }
-        else
-        {
-            _playerState.P_Dm.set_Ite(1.0f);
-        }
-
-        if (buff_Time <= 0 && BuffOn == true)
-        {
-            BuffOn = false;
-            buff_Time = 10f;
-        }
-
-        BuffObj.SetActive(BuffOn);
-        //print(BuffOn);
+        _playerEquipitem.BuffCheck();
     }
 }
