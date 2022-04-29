@@ -9,7 +9,6 @@ public class item_box_make : MonoBehaviour
     //0:무기, 1:투척, 2:소모, 3:설치
     public enum item_type{
         no_item,
-        weapon,
         Buff,
         potion,
         obstacles,

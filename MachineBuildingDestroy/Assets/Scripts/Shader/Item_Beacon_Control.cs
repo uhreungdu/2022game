@@ -30,7 +30,6 @@ public class Item_Beacon_Control : MonoBehaviourPun
             {
                 int itemkindLength = System.Enum.GetValues(typeof(item_box_make.item_type)).Length;
                 int rand = Random.Range(1, itemkindLength);
-                rand = 5;
                 photonView.RPC("CreateItem", RpcTarget.MasterClient, rand);
             }
         }

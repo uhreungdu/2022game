@@ -23,7 +23,7 @@ public class PlayerState : LivingEntity, IPunObservable
 
     private Vector3 reSpawnTransform;
 
-    public item_box_make.item_type Item { get; private set; }
+    public item_box_make.item_type Item { get; set; }
     
     // Start is called before the first frame update
     public AudioClip deathClip;
@@ -54,7 +54,8 @@ public class PlayerState : LivingEntity, IPunObservable
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
         
-        Item = item_box_make.item_type.obstacles;
+        Item = item_box_make.item_type.Hammer;
+        
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);
         reSpawnTransform = new Vector3(ReSpawnTransformSet(transform.position.x), 

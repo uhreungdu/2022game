@@ -28,6 +28,9 @@ public class UImanager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
+            Score_UI.Add(GameObject.Find("Team_Blue_Score"));
+            Score_UI.Add(GameObject.Find("Team_Red_Score"));
+            Canvas = GameObject.Find("Canvas");
         }
         else if( instance != this)
         {
@@ -49,9 +52,6 @@ public class UImanager : MonoBehaviour
 		}
         DontDestroyOnLoad(instance);
         gmanager = GameManager.GetInstance();
-        Score_UI.Add(GameObject.Find("Team_Blue_Score"));
-        Score_UI.Add(GameObject.Find("Team_Red_Score"));
-        Canvas = GameObject.Find("Canvas");
     }
 
     // Update is called once per frame
