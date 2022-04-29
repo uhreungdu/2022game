@@ -203,10 +203,8 @@ public class BulidingObject : LivingEntity, IPunObservable
     [PunRPC]
     public override void OnDamage(float damage)
     {
-        base.OnDamage(damage);
-        //photonView.RPC("SetObjectHealth",RpcTarget.Others, health, destroyfloor);
-        //photonView.RPC("RefreshHealth",RpcTarget.Others);
-        //photonView.RPC("WallDestroy",RpcTarget.All);
+        SetObjectHealth(health - damage);
+        base.OnDamage(0);
         WallDestroy();
     }
 
@@ -218,7 +216,7 @@ public class BulidingObject : LivingEntity, IPunObservable
 
     public void NetworkOnDamage(float val)
     {
-        photonView.RPC("OnDamage",RpcTarget.All,val);
+        photonView.RPC("OnDamage",RpcTarget.AllViaServer,val);
     }
     
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -228,20 +226,23 @@ public class BulidingObject : LivingEntity, IPunObservable
         {
             stream.SendNext(_reSpawnTime);
             stream.SendNext(_reSpawnTimer);
+            stream.SendNext(health);
+            stream.SendNext(dead);
         }
         // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
         else
         {
             _reSpawnTime = (float)stream.ReceiveNext();
             _reSpawnTimer = (float)stream.ReceiveNext();
+            health = (float) stream.ReceiveNext();
+            dead = (bool) stream.ReceiveNext();
         }
     }
 
     [PunRPC]
-    public void SetObjectHealth(float f_health, int f_destroyfloor)
+    public void SetObjectHealth(float fHealth)
     {
-        health = f_health;
-        destroyfloor = f_destroyfloor;
+        health = fHealth;
     }
 
 }

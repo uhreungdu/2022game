@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HammerAttackTrigger : MonoBehaviour
 {
@@ -35,8 +36,15 @@ public class HammerAttackTrigger : MonoBehaviour
                 Animator otherAnimator = other.GetComponent<Animator>();
                 if (other.gameObject != null && !playerState.dead)
                 {
-                    //playerState.NetworkOnDamage(_playerHandAttack._damage);
-                    playerState.OnDamage(_hammerAttack._damage);
+                    if (SceneManager.GetActiveScene().name == "LocalRoom")
+                    {
+                        playerState.OnDamage(_hammerAttack._damage);
+                    }
+                    else
+                    {
+                        playerState.NetworkOnDamage(_hammerAttack._damage);
+                    }
+
                     other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
                 }
                 if (!otherAnimator.GetBool("Falldown"))
