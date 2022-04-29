@@ -18,7 +18,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         StartGame,
         SetTeamOnServer,
         RespawnForReconnect,
-        BuildingCreate
+        CreateBuildingFromClient,
+        DestroyBuildingFromClient,
+        CreateBuildingFromServer,
+        DestroyBuildingFromServer
     }
 
     private static NetworkManager instance;

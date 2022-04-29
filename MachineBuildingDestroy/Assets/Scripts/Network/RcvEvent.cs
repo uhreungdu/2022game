@@ -51,6 +51,25 @@ public class RcvEvent : MonoBehaviourPun
                 StartCoroutine(SpawnPlayerForReconnect((int) parameters[1]));
                 //transform.GetComponent<NetworkManager>().SpawnPlayer((int) parameters[1]);
                 break;
+            case (byte)NetworkManager.EventCode.CreateBuildingFromServer:
+                if (!PhotonNetwork.IsMasterClient) break;
+                var prefabName = (string)parameters[0];
+                var position = new Vector3((float) parameters[1], (float) parameters[2] + 30f, (float) parameters[3]);
+                var rotation = new Quaternion((float) parameters[4], (float) parameters[5], (float) parameters[6],
+                    (float) parameters[7]);
+                PhotonNetwork.InstantiateRoomObject(prefabName, position, rotation);
+                break;
+            case (byte)NetworkManager.EventCode.DestroyBuildingFromServer:
+                if (!PhotonNetwork.IsMasterClient) break;
+                var objectList = GameObject.FindGameObjectsWithTag("Wall");
+                foreach (var target in objectList)
+                {
+                    var view = target.GetComponent<PhotonView>();
+                    if (view == null) continue;
+                    if (view.ViewID != (int) parameters[0]) continue;
+                    PhotonNetwork.Destroy(target);
+                }
+                break;
         }
     }
 

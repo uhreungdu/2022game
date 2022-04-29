@@ -33,7 +33,7 @@ public class BulidingObject : LivingEntity, IPunObservable
     {
         var objectName = gameObject.transform.root.name;
          objectName = objectName.Remove(objectName.Length - 7, 7);
-        BuildingCreateEvent(photonView.ViewID, objectName, transform.position, transform.rotation, _reSpawnTime);
+         AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation, _reSpawnTime);
         
         rigidbody = GetComponentInChildren<Rigidbody>();
         _MeshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -70,8 +70,9 @@ public class BulidingObject : LivingEntity, IPunObservable
                 coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f, _ExplosionForce / 2);
                 coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f);
             }
-            Invoke("Net_HideBuilding", destroyTime);
-            Invoke("RespawnBuilding", _reSpawnTime);
+            BuildingDestroyEvent(photonView.ViewID);
+            //Invoke("Net_HideBuilding", destroyTime);
+            //Invoke("RespawnBuilding", _reSpawnTime);
         }
         // Destroy(gameObject, destroyTime);
     }
@@ -247,15 +248,24 @@ public class BulidingObject : LivingEntity, IPunObservable
         health = fHealth;
     }
     
-    public void BuildingCreateEvent(int viewId, string type, Vector3 pos, Quaternion rotate, float respawnTime)
+    private void AddBuildingToServerEvent(int viewID, string type, Vector3 pos, Quaternion rotate, float respawnTime)
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        byte evCode = (byte) NetworkManager.EventCode.BuildingCreate;
+        byte evCode = (byte) NetworkManager.EventCode.CreateBuildingFromClient;
         object[] data = new object[]
-            {viewId, type, pos.x, pos.y, pos.z, rotate.x, rotate.y, rotate.z, rotate.w, respawnTime};
+            {viewID, type, pos.x, pos.y, pos.z, rotate.x, rotate.y, rotate.z, rotate.w, respawnTime};
         RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.MasterClient};
         SendOptions sendOpt = new SendOptions {Reliability = true};
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
+    private void BuildingDestroyEvent(int viewID)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        byte evCode = (byte) NetworkManager.EventCode.DestroyBuildingFromClient;
+        object[] data = new object[] {viewID};
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.MasterClient};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
 }
