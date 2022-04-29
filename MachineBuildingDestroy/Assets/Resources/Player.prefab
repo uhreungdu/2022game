@@ -296,8 +296,8 @@ MonoBehaviour:
   Hit_VFX: {fileID: 0}
   pos_set: {x: 0, y: 0, z: 0}
   box_col: {fileID: 0}
-  _lHandGameObject: {fileID: 0}
-  _RHandGameObject: {fileID: 0}
+  _lHandGameObject: {fileID: 5812270970004276480}
+  _RHandGameObject: {fileID: 3864567087714883586}
 --- !u!65 &5422654084887330523
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -309,8 +309,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2.87, y: 1.724104, z: 1.724104}
-  m_Center: {x: -0.6, y: 0, z: -0.36}
+  m_Size: {x: 2.87, y: 1.724104, z: 4.02}
+  m_Center: {x: -0.6, y: 0, z: 0.84}
 --- !u!1 &3087900171332664315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1188,8 +1188,8 @@ MonoBehaviour:
   Hit_VFX: {fileID: 0}
   pos_set: {x: 0, y: 0, z: 0}
   box_col: {fileID: 0}
-  _lHandGameObject: {fileID: 0}
-  _RHandGameObject: {fileID: 0}
+  _lHandGameObject: {fileID: 5812270970004276480}
+  _RHandGameObject: {fileID: 3864567087714883586}
 --- !u!65 &2269437314533771540
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1201,8 +1201,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2.87, y: 1.724104, z: 1.724104}
-  m_Center: {x: 0.6, y: 0, z: -0.36}
+  m_Size: {x: 2.87, y: 1.724104, z: 4.02}
+  m_Center: {x: 0.6, y: 0, z: 0.84}
 --- !u!1 &6211671220587268348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,8 +1598,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
   _PlayerState: {fileID: 0}
-  gamePlayerInput: {fileID: 0}
+  _gamePlayerInput: {fileID: 0}
   _thirdpersonmove: {fileID: 0}
+  _PlayerEquipitem: {fileID: 0}
   lastAttackTime: 0
   keepAttackTime: 0.3
   lastStiffenTime: 0
@@ -1867,6 +1868,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26bc760020ef8ef46a11f90c39ef9bc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Durability: 10
+  _PlayerState: {fileID: 0}
 --- !u!1 &8817763877579381279
 GameObject:
   m_ObjectHideFlags: 0

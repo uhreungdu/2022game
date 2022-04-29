@@ -26,11 +26,11 @@ public class Hand_Effect : MonoBehaviour
         Tail_obj.transform.SetParent(gameObject.transform);
         if (gameObject.transform.name == "Bip001 L Hand")
         {
-            pos_set = gameObject.transform.position + (Vector3.down * 0.25f) + (Vector3.left * 0.25f);
+            pos_set = _lHandGameObject.transform.position;
         }
         else if (gameObject.transform.name == "Bip001 R Hand")
         {
-            pos_set = gameObject.transform.position + (Vector3.down * 0.25f) + (Vector3.right * 0.25f);
+            pos_set = _RHandGameObject.transform.position;
         }
         
         Tail_obj.transform.Translate(pos_set);

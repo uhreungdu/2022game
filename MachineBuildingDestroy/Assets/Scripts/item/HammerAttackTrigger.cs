@@ -35,7 +35,8 @@ public class HammerAttackTrigger : MonoBehaviour
             {
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
                 Animator otherAnimator = other.GetComponent<Animator>();
-                if (other.gameObject != null && !playerState.dead)
+                if (other.gameObject != null && !playerState.dead 
+                    /*&& otherPlayerState.team != _playerState.team*/)
                 {
                     //playerState.NetworkOnDamage(_playerHandAttack._damage);
                     playerState.OnDamage(_hammerAttack._damage);
