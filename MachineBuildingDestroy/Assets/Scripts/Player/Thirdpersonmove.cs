@@ -21,7 +21,7 @@ public class Thirdpersonmove : MonoBehaviourPun
     public float yvelocity = 0;
     public float Cgravity = 4f;
     private float tempgravity = -1.0f;
-    private float jumppower = 1.0f;
+    private float jumppower = 0.7f;
     public float gourndgravity = -0.05f;
 
     public float turnsmoothTime = 0.1f;
@@ -31,7 +31,6 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     public GameObject getobj;
     public GameObject ItemObj;
-
     public bool activeattack { get; private set; }
     public bool collidingbuilding = false;
     public bool keepactiveattack { get; private set; }

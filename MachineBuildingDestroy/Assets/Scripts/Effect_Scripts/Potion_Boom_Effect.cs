@@ -17,10 +17,10 @@ public class Potion_Boom_Effect : MonoBehaviourPun
     {
         countdowm = delay;
         check_boom = true;
-        Getobj = Resources.Load<GameObject>("Throw_Tail");
-        Tail_obj = Instantiate(Getobj);
-        Tail_obj.transform.SetParent(gameObject.transform);
-        Tail_obj.transform.Translate(gameObject.transform.position);
+        // Getobj = Resources.Load<GameObject>("Throw_Tail");
+        // Tail_obj = Instantiate(Getobj);
+        // Tail_obj.transform.SetParent(gameObject.transform);
+        // Tail_obj.transform.Translate(gameObject.transform.position);
     }
 
     // Update is called once per frame
@@ -38,11 +38,8 @@ public class Potion_Boom_Effect : MonoBehaviourPun
     public void Boom()
     {
         //터지는 이펙트 발동
-        Boom_Effect = Resources.Load<GameObject>("BoomEffect");
         PhotonNetwork.Instantiate(Boom_Effect.name, transform.position, Quaternion.identity);
         //현재 보이는 방향으로 발사
-        
-        
         PhotonNetwork.Destroy(gameObject);
     }
 
