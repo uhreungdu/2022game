@@ -24,15 +24,8 @@ public class Hand_Effect : MonoBehaviour
         effect_obj.transform.SetParent(gameObject.transform);
         Tail_obj = Instantiate(Resources.Load<GameObject>("Attack_Tail"));
         Tail_obj.transform.SetParent(gameObject.transform);
-        if (gameObject.transform.name == "Bip001 L Hand")
-        {
-            pos_set = gameObject.transform.position + (Vector3.down * 0.25f) + (Vector3.left * 0.25f);
-        }
-        else if (gameObject.transform.name == "Bip001 R Hand")
-        {
-            pos_set = gameObject.transform.position + (Vector3.down * 0.25f) + (Vector3.right * 0.25f);
-        }
         
+        pos_set = gameObject.transform.position;
         Tail_obj.transform.Translate(pos_set);
         Hit_VFX = effect_obj.GetComponent<VisualEffect>();
         box_col = gameObject.GetComponent<BoxCollider>();
