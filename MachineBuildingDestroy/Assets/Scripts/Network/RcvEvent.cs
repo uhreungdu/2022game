@@ -8,15 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class RcvEvent : MonoBehaviourPun
 {
-    enum EventCode : byte
-    {
-        Test,
-        SpawnPlayer,
-        StartGame,
-        SetTeamOnServer,
-        RespawnForReconnect
-    }
-    
     [SerializeField]
     private GameManager gManager;
     // Start is called before the first frame update
@@ -33,20 +24,20 @@ public class RcvEvent : MonoBehaviourPun
     public void OnEvent(EventData Evdata)
     {
         // 사용자지정 Event가 아니면 return합니다.
-        if (Evdata.Code > System.Enum.GetValues(typeof(EventCode)).Length) return;
+        if (Evdata.Code > System.Enum.GetValues(typeof(NetworkManager.EventCode)).Length) return;
 
         ParameterDictionary parameters = Evdata.Parameters;
         object[] data = (object[])Evdata.CustomData;
         switch (Evdata.Code)
         {
-            case (byte)EventCode.Test:
+            case (byte)NetworkManager.EventCode.Test:
                 for (int i = 0; i < data.Length; i++)
                     Debug.Log(data[i]);
                 break;
-            case (byte)EventCode.SpawnPlayer:
+            case (byte)NetworkManager.EventCode.SpawnPlayer:
                 transform.GetComponent<NetworkManager>().SpawnPlayer();
                 break;
-            case(byte)EventCode.StartGame:
+            case(byte)NetworkManager.EventCode.StartGame:
                 var info = GameObject.Find("Myroominfo");
                 int team = -2;
                 if (info != null)
@@ -55,7 +46,7 @@ public class RcvEvent : MonoBehaviourPun
                 }
                 transform.GetComponent<NetworkManager>().SetTeamNumOnServerEvent(PhotonNetwork.NickName, team);
                 break;
-            case (byte)EventCode.RespawnForReconnect:
+            case (byte)NetworkManager.EventCode.RespawnForReconnect:
                 if ((string) parameters[0] != PhotonNetwork.NickName) break;
                 StartCoroutine(SpawnPlayerForReconnect((int) parameters[1]));
                 //transform.GetComponent<NetworkManager>().SpawnPlayer((int) parameters[1]);

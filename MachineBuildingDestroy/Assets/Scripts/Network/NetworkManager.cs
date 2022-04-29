@@ -11,13 +11,14 @@ using Random = UnityEngine.Random;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    enum EventCode : byte
+    public enum EventCode : byte
     {
         Test,
         SpawnPlayer,
         StartGame,
         SetTeamOnServer,
-        RespawnForReconnect
+        RespawnForReconnect,
+        BuildingCreate
     }
 
     private static NetworkManager instance;
@@ -224,6 +225,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SendOptions sendOpt = new SendOptions {Reliability = true};
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
+    
+    
 
     public void SetTeamNumOnServerEvent(string name, int num)
     {

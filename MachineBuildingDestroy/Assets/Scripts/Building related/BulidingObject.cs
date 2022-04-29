@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 using UnityEngine;
 
 public class BulidingObject : LivingEntity, IPunObservable
@@ -29,6 +31,10 @@ public class BulidingObject : LivingEntity, IPunObservable
     // Start is called before the first frame update
     protected void Start()
     {
+        var objectName = gameObject.transform.root.name;
+         objectName = objectName.Remove(objectName.Length - 7, 7);
+        BuildingCreateEvent(photonView.ViewID, objectName, transform.position, transform.rotation, _reSpawnTime);
+        
         rigidbody = GetComponentInChildren<Rigidbody>();
         _MeshRenderer = GetComponentInChildren<MeshRenderer>();
         _MeshCollider = GetComponentInChildren<MeshCollider>();
@@ -226,16 +232,12 @@ public class BulidingObject : LivingEntity, IPunObservable
         {
             stream.SendNext(_reSpawnTime);
             stream.SendNext(_reSpawnTimer);
-            stream.SendNext(health);
-            stream.SendNext(dead);
         }
         // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
         else
         {
             _reSpawnTime = (float)stream.ReceiveNext();
             _reSpawnTimer = (float)stream.ReceiveNext();
-            health = (float) stream.ReceiveNext();
-            dead = (bool) stream.ReceiveNext();
         }
     }
 
@@ -243,6 +245,17 @@ public class BulidingObject : LivingEntity, IPunObservable
     public void SetObjectHealth(float fHealth)
     {
         health = fHealth;
+    }
+    
+    public void BuildingCreateEvent(int viewId, string type, Vector3 pos, Quaternion rotate, float respawnTime)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        byte evCode = (byte) NetworkManager.EventCode.BuildingCreate;
+        object[] data = new object[]
+            {viewId, type, pos.x, pos.y, pos.z, rotate.x, rotate.y, rotate.z, rotate.w, respawnTime};
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.MasterClient};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
 }
