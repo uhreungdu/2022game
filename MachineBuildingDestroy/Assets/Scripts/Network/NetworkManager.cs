@@ -21,7 +21,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         CreateBuildingFromClient,
         DestroyBuildingFromClient,
         CreateBuildingFromServer,
-        DestroyBuildingFromServer
+        DestroyBuildingFromServer,
+        HideBuildingFragments
     }
 
     private static NetworkManager instance;

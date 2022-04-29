@@ -100,7 +100,7 @@ public class BulidingObject : LivingEntity, IPunObservable
     }
 
     [PunRPC]
-    void HideBuilding()
+    public void HideBuilding()
     {
         if (childMeshRenderers.Length > 0)
         {

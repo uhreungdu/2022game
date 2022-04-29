@@ -19,7 +19,8 @@ namespace MyFirstPlugin
         CreateBuildingFromClient,
         DestroyBuildingFromClient,
         CreateBuildingFromServer,
-        DestroyBuildingFromServer
+        DestroyBuildingFromServer,
+        HideBuildingFragments
     }
 
     class PlayerInfo
@@ -188,6 +189,9 @@ namespace MyFirstPlugin
             // 오브젝트 쿨타임 찾아서 그 시간 지나면 없애고 새거 나오라고 신호보냄
             var target = buildings[key];
             var timer = new Timer(DestroyBuilding, key, (int)(target.RespawnTime * 1000), System.Threading.Timeout.Infinite);
+
+            // 약 5초뒤 파편 숨기기 이벤트 전송
+            var timer2 = new Timer(HideBuildingFragments, key, 5500, System.Threading.Timeout.Infinite);
         }
 
         private void DestroyBuilding(Object sender)
@@ -216,6 +220,14 @@ namespace MyFirstPlugin
             data.Add(5, target.Rotate[1]);
             data.Add(6, target.Rotate[2]);
             data.Add(7, target.Rotate[3]);
+            BroadcastEvent(evCode, data);
+        }
+
+        private void HideBuildingFragments(Object sender)
+        {
+            byte evCode = (byte)EventType.HideBuildingFragments;
+            Dictionary<byte, object> data = new Dictionary<byte, object>();
+            data.Add(0, (int)sender);
             BroadcastEvent(evCode, data);
         }
 
