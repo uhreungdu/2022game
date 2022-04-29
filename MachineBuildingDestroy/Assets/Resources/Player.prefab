@@ -296,8 +296,8 @@ MonoBehaviour:
   Hit_VFX: {fileID: 0}
   pos_set: {x: 0, y: 0, z: 0}
   box_col: {fileID: 0}
-  _lHandGameObject: {fileID: 0}
-  _RHandGameObject: {fileID: 0}
+  _lHandGameObject: {fileID: 5812270970004276480}
+  _RHandGameObject: {fileID: 3864567087714883586}
 --- !u!65 &5422654084887330523
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -309,8 +309,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2.87, y: 1.724104, z: 1.724104}
-  m_Center: {x: -0.6, y: 0, z: -0.36}
+  m_Size: {x: 2.87, y: 1.724104, z: 4.02}
+  m_Center: {x: -0.6, y: 0, z: 0.84}
 --- !u!1 &3087900171332664315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1188,8 +1188,8 @@ MonoBehaviour:
   Hit_VFX: {fileID: 0}
   pos_set: {x: 0, y: 0, z: 0}
   box_col: {fileID: 0}
-  _lHandGameObject: {fileID: 0}
-  _RHandGameObject: {fileID: 0}
+  _lHandGameObject: {fileID: 5812270970004276480}
+  _RHandGameObject: {fileID: 3864567087714883586}
 --- !u!65 &2269437314533771540
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1201,8 +1201,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2.87, y: 1.724104, z: 1.724104}
-  m_Center: {x: 0.6, y: 0, z: -0.36}
+  m_Size: {x: 2.87, y: 1.724104, z: 4.02}
+  m_Center: {x: 0.6, y: 0, z: 0.84}
 --- !u!1 &6211671220587268348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,6 +1326,7 @@ GameObject:
   - component: {fileID: 2706241037041186718}
   - component: {fileID: 4927367153462618409}
   - component: {fileID: 1290992014350222031}
+  - component: {fileID: 8129253800326850349}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -1426,9 +1427,9 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 5.4
-  m_Radius: 0.97
+  m_Radius: 2
   m_SlopeLimit: 30
-  m_StepOffset: 0
+  m_StepOffset: 1
   m_SkinWidth: 0.05
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 2.86, z: 0.42}
@@ -1597,8 +1598,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
   _PlayerState: {fileID: 0}
-  gamePlayerInput: {fileID: 0}
+  _gamePlayerInput: {fileID: 0}
   _thirdpersonmove: {fileID: 0}
+  _PlayerEquipitem: {fileID: 0}
   lastAttackTime: 0
   keepAttackTime: 0.3
   lastStiffenTime: 0
@@ -1704,7 +1706,6 @@ MonoBehaviour:
   _playerState: {fileID: 0}
   _playeranimator: {fileID: 0}
   Thirdpersonmove: {fileID: 0}
-  nowEquip: 0
   BuffOn: 0
   buff_Time: 0
   getobj: {fileID: 0}
@@ -1712,6 +1713,28 @@ MonoBehaviour:
   BuffObj: {fileID: 0}
   item_Rigid: {fileID: 0}
   item_Coll: {fileID: 0}
+  parent_qut: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8129253800326850349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6962304825099367683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8338258b314e51d4dbb1305bffc8e7a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ItemObject: {fileID: 0}
+  _RFingerTransform: {fileID: 2547313967614434488}
+  BuffOn: 0
+  buff_Time: 0
+  ItemObj: {fileID: 0}
+  Wall_Obstcle_Frame: {fileID: 0}
+  BuffObj: {fileID: 1347558823746406271, guid: 57137b22efc4d53419c8802a9c91b7cf, type: 3}
+  HammerObj: {fileID: 8412881124590418949}
+  item_Rigid: {fileID: 0}
   parent_qut: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &7087518006386043167
 GameObject:
@@ -1833,6 +1856,20 @@ Transform:
   m_Father: {fileID: 9159868952383856593}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1372253202123403987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412881124590418949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26bc760020ef8ef46a11f90c39ef9bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Durability: 10
+  _PlayerState: {fileID: 0}
 --- !u!1 &8817763877579381279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1870,6 +1907,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4326110342471254314}
     m_Modifications:
+    - target: {fileID: -3561289735778092478, guid: 8a007f42c9ff807419067deebfecf2da, type: 3}
+      propertyPath: _Hammer
+      value: 
+      objectReference: {fileID: 1372253202123403987}
     - target: {fileID: 1546464832069960486, guid: 8a007f42c9ff807419067deebfecf2da, type: 3}
       propertyPath: m_Name
       value: Hammer
@@ -1948,6 +1989,11 @@ Transform:
 --- !u!65 &4902290467363021745 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 2719827184005029010, guid: 8a007f42c9ff807419067deebfecf2da, type: 3}
+  m_PrefabInstance: {fileID: 7041003483459682083}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8412881124590418949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1546464832069960486, guid: 8a007f42c9ff807419067deebfecf2da, type: 3}
   m_PrefabInstance: {fileID: 7041003483459682083}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8457473745175996082

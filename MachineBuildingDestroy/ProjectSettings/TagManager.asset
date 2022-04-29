@@ -18,6 +18,7 @@ TagManager:
   - Spawner1
   - Undefined
   - Spawner2
+  - Heal_field
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Player
   - Coin
   - Building
-  - 
+  - PostProcess
   - 
   - 
   - 
