@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // 손에 직접적으로 들어가는 스크립트 트리거용
 public class PlayerHandAttackTrigger : MonoBehaviour
@@ -25,8 +26,14 @@ public class PlayerHandAttackTrigger : MonoBehaviour
             {
                 if (!attackTarget.dead)
                 {
-                    // attackTarget.NetworkOnDamage(_playerHandAttack._damage);
-                    attackTarget.OnDamage(_playerHandAttack._damage);
+                    if (SceneManager.GetActiveScene().name == "LocalRoom")
+                    {
+                        attackTarget.OnDamage(_playerHandAttack._damage);
+                    }
+                    else
+                    {
+                        attackTarget.NetworkOnDamage(_playerHandAttack._damage); 
+                    }
                     Debug.Log(attackTarget.health);
                 }
             }
@@ -38,10 +45,17 @@ public class PlayerHandAttackTrigger : MonoBehaviour
             {
                 PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
                 Animator otherAnimator = other.GetComponent<Animator>();
-                if (other.gameObject != null && !playerState.dead && playerState.team != _playerState.team)
+                if (other.gameObject != null && !playerState.dead /*&& otherPlayerState.team != _playerState.team*/)
                 {
-                    //playerState.NetworkOnDamage(_playerHandAttack._damage);
-                    playerState.OnDamage(_playerHandAttack._damage);
+                    if (SceneManager.GetActiveScene().name == "LocalRoom")
+                    {
+                        playerState.OnDamage(_playerHandAttack._damage);
+                    }
+                    else
+                    {
+                        playerState.NetworkOnDamage(_playerHandAttack._damage);
+                    }
+
                     other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
                     
                     if (!otherAnimator.GetBool("Stiffen"))
