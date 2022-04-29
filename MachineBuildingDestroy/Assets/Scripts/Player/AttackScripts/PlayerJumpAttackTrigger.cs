@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerJumpAttackTrigger : MonoBehaviour
 {
@@ -20,8 +21,15 @@ public class PlayerJumpAttackTrigger : MonoBehaviour
             BulidingObject attackTarget = other.GetComponent<BulidingObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
-                // attackTarget.NetworkOnDamage(_playerHandAttack._damage);
-                attackTarget.OnDamage(_playerJumpAttack._damage);
+                if (SceneManager.GetActiveScene().name == "LocalRoom")
+                {
+                    attackTarget.OnDamage(_playerJumpAttack._damage);
+                }
+                else
+                {
+                    attackTarget.NetworkOnDamage(_playerJumpAttack._damage); 
+                }
+
                 Debug.Log(attackTarget.health);
             }
         }
@@ -35,8 +43,14 @@ public class PlayerJumpAttackTrigger : MonoBehaviour
                 if (other.gameObject != null && !otherPlayerState.dead)
                 {
                     // && otherPlayerState.team != _playerState.team
-                    //playerState.NetworkOnDamage(_playerHandAttack._damage);
-                    otherPlayerState.OnDamage(_playerJumpAttack._damage);
+                    if (SceneManager.GetActiveScene().name == "LocalRoom")
+                    {
+                        otherPlayerState.OnDamage(_playerJumpAttack._damage);
+                    }
+                    else
+                    {
+                        otherPlayerState.NetworkOnDamage(_playerJumpAttack._damage);  
+                    }
                     other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 40);
                     if (!otherAnimator.GetBool("Stiffen"))
                     {

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 using UnityEngine;
 
 public class BulidingObject : LivingEntity, IPunObservable
@@ -29,6 +31,10 @@ public class BulidingObject : LivingEntity, IPunObservable
     // Start is called before the first frame update
     protected void Start()
     {
+        var objectName = gameObject.transform.root.name;
+         objectName = objectName.Remove(objectName.Length - 7, 7);
+         AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation, _reSpawnTime);
+        
         rigidbody = GetComponentInChildren<Rigidbody>();
         _MeshRenderer = GetComponentInChildren<MeshRenderer>();
         _MeshCollider = GetComponentInChildren<MeshCollider>();
@@ -64,8 +70,9 @@ public class BulidingObject : LivingEntity, IPunObservable
                 coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f, _ExplosionForce / 2);
                 coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f);
             }
-            Invoke("Net_HideBuilding", destroyTime);
-            Invoke("RespawnBuilding", _reSpawnTime);
+            BuildingDestroyEvent(photonView.ViewID);
+            //Invoke("Net_HideBuilding", destroyTime);
+            //Invoke("RespawnBuilding", _reSpawnTime);
         }
         // Destroy(gameObject, destroyTime);
     }
@@ -93,7 +100,7 @@ public class BulidingObject : LivingEntity, IPunObservable
     }
 
     [PunRPC]
-    void HideBuilding()
+    public void HideBuilding()
     {
         if (childMeshRenderers.Length > 0)
         {
@@ -203,10 +210,8 @@ public class BulidingObject : LivingEntity, IPunObservable
     [PunRPC]
     public override void OnDamage(float damage)
     {
-        base.OnDamage(damage);
-        //photonView.RPC("SetObjectHealth",RpcTarget.Others, health, destroyfloor);
-        //photonView.RPC("RefreshHealth",RpcTarget.Others);
-        //photonView.RPC("WallDestroy",RpcTarget.All);
+        SetObjectHealth(health - damage);
+        base.OnDamage(0);
         WallDestroy();
     }
 
@@ -218,7 +223,7 @@ public class BulidingObject : LivingEntity, IPunObservable
 
     public void NetworkOnDamage(float val)
     {
-        photonView.RPC("OnDamage",RpcTarget.All,val);
+        photonView.RPC("OnDamage",RpcTarget.AllViaServer,val);
     }
     
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -238,10 +243,29 @@ public class BulidingObject : LivingEntity, IPunObservable
     }
 
     [PunRPC]
-    public void SetObjectHealth(float f_health, int f_destroyfloor)
+    public void SetObjectHealth(float fHealth)
     {
-        health = f_health;
-        destroyfloor = f_destroyfloor;
+        health = fHealth;
+    }
+    
+    private void AddBuildingToServerEvent(int viewID, string type, Vector3 pos, Quaternion rotate, float respawnTime)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        byte evCode = (byte) NetworkManager.EventCode.CreateBuildingFromClient;
+        object[] data = new object[]
+            {viewID, type, pos.x, pos.y, pos.z, rotate.x, rotate.y, rotate.z, rotate.w, respawnTime};
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.MasterClient};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
+    private void BuildingDestroyEvent(int viewID)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        byte evCode = (byte) NetworkManager.EventCode.DestroyBuildingFromClient;
+        object[] data = new object[] {viewID};
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.MasterClient};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
 }

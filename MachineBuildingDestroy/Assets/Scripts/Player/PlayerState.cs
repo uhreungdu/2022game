@@ -114,7 +114,7 @@ public class PlayerState : LivingEntity, IPunObservable
     public void NetworkOnDamage(float damage)
     {
         //OnDamage(damage);
-        photonView.RPC("OnDamage", RpcTarget.Others, damage);
+        photonView.RPC("OnDamage", RpcTarget.AllViaServer, damage);
     }
 
     public override void Die() {

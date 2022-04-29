@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DisconnectByClientLogic
+  m_Text: ClientTimeout
 --- !u!1 &1077563448467974805
 GameObject:
   m_ObjectHideFlags: 0
