@@ -1455,6 +1455,8 @@ MonoBehaviour:
   _AttackGameObject: {fileID: 8041448678384610568}
   nameOnhead: {fileID: 3417985307305165095}
   Dead_Effect: {fileID: 7488789173918327245}
+  coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
+  explosionForce: 400
 --- !u!114 &5279383354855515017
 MonoBehaviour:
   m_ObjectHideFlags: 0
