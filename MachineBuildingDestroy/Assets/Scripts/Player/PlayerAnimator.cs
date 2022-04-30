@@ -124,4 +124,9 @@ public class PlayerAnimator : MonoBehaviourPun
 
         _animator.SetBool("IsGrounded", _thirdpersonmove.IsGrounded());
     }
+
+    public void OnDashAttack()
+    {
+        _animator.SetBool("DashAttack", _gamePlayerInput.fire);
+    }
 }

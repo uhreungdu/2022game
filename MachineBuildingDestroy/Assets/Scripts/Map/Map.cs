@@ -242,8 +242,7 @@ public class Map : MonoBehaviour
         {
             GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
             GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
-            temp.name = tilepref.name + i;
-            temp.transform.parent = transform;
+            // temp.transform.parent = transform;
         }
 
     }
