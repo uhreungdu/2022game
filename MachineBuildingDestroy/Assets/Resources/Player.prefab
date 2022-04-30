@@ -1525,7 +1525,7 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: Falldown
-  - Type: 9
+  - Type: 4
     SynchronizeType: 0
     Name: HammerAttack
   m_SynchronizeLayers:

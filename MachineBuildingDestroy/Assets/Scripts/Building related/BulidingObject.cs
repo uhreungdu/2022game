@@ -5,7 +5,7 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using UnityEngine;
 
-public class BulidingObject : LivingEntity, IPunObservable
+public class BulidingObject : LivingEntity
 {
     public GameObject coinprefab;     // ������ ������ ���� ������
     public int point;                // 몇점인지
@@ -71,10 +71,7 @@ public class BulidingObject : LivingEntity, IPunObservable
                 coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f);
             }
             BuildingDestroyEvent(photonView.ViewID);
-            //Invoke("Net_HideBuilding", destroyTime);
-            //Invoke("RespawnBuilding", _reSpawnTime);
         }
-        // Destroy(gameObject, destroyTime);
     }
 
     void RespawnBuilding()
@@ -93,15 +90,10 @@ public class BulidingObject : LivingEntity, IPunObservable
         print("리스폰진짜됨");
         PhotonNetwork.Destroy(gameObject);
     }
-
-    void Net_HideBuilding()
+    
+    public void HideBuildingFragments()
     {
-        photonView.RPC("HideBuilding",RpcTarget.All);
-    }
-
-    [PunRPC]
-    public void HideBuilding()
-    {
+        if (childMeshRenderers == null) return;
         if (childMeshRenderers.Length > 0)
         {
             childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
@@ -121,6 +113,12 @@ public class BulidingObject : LivingEntity, IPunObservable
                     child.enabled = false;
             }
         }
+    }
+
+    public void HideBuilding()
+    {
+        _MeshRenderer.enabled = false;
+        _MeshCollider.enabled = false;
     }
 
     public void DeathTimer()
@@ -224,22 +222,6 @@ public class BulidingObject : LivingEntity, IPunObservable
     public void NetworkOnDamage(float val)
     {
         photonView.RPC("OnDamage",RpcTarget.AllViaServer,val);
-    }
-    
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        // 로컬 오브젝트이면 쓰기 부분이 실행됩니다.
-        if (stream.IsWriting)
-        {
-            stream.SendNext(_reSpawnTime);
-            stream.SendNext(_reSpawnTimer);
-        }
-        // 리모트 오브젝트이면 읽기 부분이 실행됩니다.
-        else
-        {
-            _reSpawnTime = (float)stream.ReceiveNext();
-            _reSpawnTimer = (float)stream.ReceiveNext();
-        }
     }
 
     [PunRPC]
