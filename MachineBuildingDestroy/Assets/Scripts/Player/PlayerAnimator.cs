@@ -64,7 +64,6 @@ public class PlayerAnimator : MonoBehaviourPun
     {
         if (_Animator.GetBool("IsGrounded"))
         {
-            _PlayerHandAttack.SetAffterCast(1);
             _Animator.SetBool("Combo", true);
         }
         else

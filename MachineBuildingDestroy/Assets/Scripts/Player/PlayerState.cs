@@ -162,9 +162,9 @@ public class PlayerState : LivingEntity, IPunObservable
 
     public bool IsCrowdControl()
     {
-        if (stiffen)
+        if (_animator.GetBool("Stiffen"))
             return true;
-        if (falldown)
+        if (_animator.GetBool("Falldown"))
             return true;
         return false;
     }

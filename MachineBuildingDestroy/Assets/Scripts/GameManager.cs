@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         public bool goalpost_Create;
         public bool landmakr_Create;
         public bool gameSet;
+        public float gameSetTime;
         public void SetTime(float val3){
             Ntimer = val3;
         }
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             if((int)Ntimer / 300 > 0)
             {
+                gameSetTime = Ntimer;
                 gameSet = true;
                 //Debug.Log("아이템 생성");
             }
@@ -148,6 +150,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             now_timer.Ntimer += Time.deltaTime;
+            if (EManager.gameSet && now_timer.Ntimer >= EManager.gameSetTime + 7)
+            {
+                PhotonNetwork.LoadLevel("GameResultScene");
+                Destroy(UImanager.GetInstance().gameObject);
+                Destroy(gameObject);
+            }
         }
         
         for(int i = 0;i<2;++i)
@@ -157,6 +165,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 Time_check();
             }
         }
+        
         
     }
     public int getScore(int num){
