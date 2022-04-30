@@ -6,20 +6,11 @@ using UnityEngine.UI;
 public class CloseButton : MonoBehaviour
 {
     public GameObject window;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject darkBackground;
 
     public void OnClick()
     {
         window.SetActive(false);
+        darkBackground.SetActive(false);
     }
 }

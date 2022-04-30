@@ -15,7 +15,9 @@
     <file url="file://$PROJECT_DIR$/Assets/Scripts/lobby_test/CreateRoomButton.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/lobby_test/RoomBlock.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/login_test/CharMakeButton.cs" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/login_test/IDCheckButton.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/login_test/LoginButton.cs" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/login_test/SignupButton.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/thirdpersonmove.cs" charset="x-windows-949" />
     <file url="PROJECT" charset="UTF-8" />
   </component>

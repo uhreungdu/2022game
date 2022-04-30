@@ -44,9 +44,6 @@ public class CharMakeButton : MonoBehaviour
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
-            // 로그인 창 활성화
-            GetComponent<Button>().interactable = true;
-            nameInput.GetComponent<InputField>().interactable = true;
         }
         else
         {
