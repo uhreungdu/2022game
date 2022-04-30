@@ -5,10 +5,13 @@ using System.Text;
 
 namespace Chatserver
 {
-    enum ChatCode : byte
+    enum ChatType : byte
     {
-        Normal,
-        Exit
+        NormalChat,
+        Exit,
+        EnterRoom,
+        RoomChat,
+        ExitRoom
     }
     public class Session
     {
@@ -18,6 +21,7 @@ namespace Chatserver
         public bool is_online = false;
         public string name;
     }
+
     class Program
     {
         // 이벤트로 While문 제어
@@ -111,19 +115,23 @@ namespace Chatserver
 
                 if (recvsize > 0)
                 {
-                    if (session.buf[0] == (byte)ChatCode.Exit)
+                    switch (session.buf[0])
                     {
-                        DisconnectClient(session);
-                        return;
-                    }
-                    else if(session.buf[0] == (byte)ChatCode.Normal)
-                    {
-                        data = session.name + ": " + Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
-                        Console.WriteLine(data);
-                        foreach (Session s in _ClientList)
-                        {
-                            Send(s, data);
-                        }
+                        case (byte)ChatType.Exit:
+                            {
+                                DisconnectClient(session);
+                                return;
+                            }
+                        case (byte)ChatType.NormalChat:
+                            {
+                                data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
+                                Console.WriteLine(data);
+                                foreach (Session s in _ClientList)
+                                {
+                                    Send(s, data);
+                                }
+                                break;
+                            }
                     }
                 }
                 else
@@ -141,7 +149,14 @@ namespace Chatserver
 
         private static void Send(Session session, String data)
         {
-            byte[] sendData = Encoding.UTF8.GetBytes(data);
+            byte[] name = Encoding.UTF8.GetBytes(session.name);
+            byte[] chatData = Encoding.UTF8.GetBytes(data);
+            byte[] sendData = new byte[3 + name.Length + chatData.Length];
+            sendData[0] = (byte)ChatType.NormalChat;
+            sendData[1] = (byte)name.Length;
+            sendData[2] = (byte)chatData.Length;
+            Array.Copy(name, 0, sendData, 3 ,name.Length);
+            Array.Copy(chatData, 0, sendData, 3 + name.Length, chatData.Length);
             session.socket.BeginSend(sendData, 0, sendData.Length, 0,
                 new AsyncCallback(SendCallback), session);
         }

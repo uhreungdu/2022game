@@ -16,6 +16,7 @@ public class LoginButton : MonoBehaviour
     [FormerlySerializedAs("MakeCharWindow")] public GameObject makeCharWindow;
     [FormerlySerializedAs("ErrText")] public GameObject errText;
     public GameObject nManager;
+    public GameObject chatClient;
     [SerializeField] private string[] accountVal;
     private bool _doLogin = false;
     
@@ -86,6 +87,7 @@ public class LoginButton : MonoBehaviour
                     GetStringDataValue(accountVal[0],"account_id:"),
                     GetStringDataValue(accountVal[0],"character_name:"));
                 PhotonNetwork.JoinLobby();
+                chatClient.GetComponent<ChatClient>().ConnectToChatServer();
                 SceneManager.LoadScene("lobby_test");
 
             }

@@ -16,33 +16,39 @@ public class ChatClient : MonoBehaviour
     private const int BufSize = 128;
     private Socket _client;
     private IPEndPoint _ipep;
-    private Chatlog _chatlogFunc;
-    private string _data;
     private bool _isDataSend = false;
     
     public byte[] sendbuf = new byte[BufSize-1];
     public byte[] recvbuf = new byte[BufSize];
-    public GameObject Chatlog_obj;
+    public Chatlog chatLog;
 
-    enum ChatCode : byte
+    public enum ChatCode : byte
     {
         Normal,
-        Exit
+        Exit,
+        EnterRoom,
+        RoomChat,
+        ExitRoom
     }
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         _ipep = new IPEndPoint(IPAddress.Parse(ServerAddress), Port);
-        _chatlogFunc = Chatlog_obj.GetComponent<Chatlog>();
     }
 
     private void Update()
     {
         if (_isDataSend)
         {
-            _chatlogFunc.AddLine(_data);
+            chatLog.AddLine(recvbuf);
             _isDataSend = false;
         }
+    }
+
+    public Socket GetClientSocket()
+    {
+        return _client;
     }
 
     public void ConnectToChatServer()
@@ -69,31 +75,8 @@ public class ChatClient : MonoBehaviour
         _client.Close();
     }
 
-    public void SendChat(GameObject obj)
-    {
-        // InputField에서 텍스트 받아오기
-        var inputfield = obj.GetComponent<InputField>();
-        string msg = inputfield.text;
-        
-        // send버퍼 초기화 후 메세지 받아오기
-        sendbuf.Initialize();
-        sendbuf = Encoding.UTF8.GetBytes(msg);
-        
-        // 메세지 코드를 temp에 저장 
-        byte[] tempbuf = new byte[sendbuf.Length + 1];
-        tempbuf[0] = (byte) ChatCode.Normal;
-
-        // 메세지를 temp뒤에 병합
-        Array.Copy(sendbuf, 0, tempbuf, 1, sendbuf.Length);
-        
-        // 메세지 전송 후 InputField비우기
-        _client.Send(tempbuf);
-        inputfield.text = string.Empty;
-    }
-
     private void ReceiveCallback(IAsyncResult ar)
     {
-        _data = string.Empty;
         Socket socket = (Socket) ar.AsyncState;
 
         try
@@ -102,8 +85,6 @@ public class ChatClient : MonoBehaviour
 
             if (recvsize > 0)
             {
-                _data = Encoding.UTF8.GetString(recvbuf, 0, recvsize);
-                print(_data);
                 _isDataSend = true;
                 _client.BeginReceive(recvbuf, 0, BufSize, 0,
                     ReceiveCallback, _client);
