@@ -25,6 +25,8 @@ public class PlayerHandAttack : PlayerAttack
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _attackName = "기본공격";
         SetAffterCast(0);
+        _lastColliderActiveTime = 0.23f; // 공격 유지 시간
+        _aftercastAttack = 0.467f;
         _damage = 10;
         
         _hitBoxColliders.Add(_lHandBoxCollider);
@@ -35,6 +37,31 @@ public class PlayerHandAttack : PlayerAttack
     {
         HandTransform();
         AfterCastRecovery();
+        ActiveLAttack();
+        ActiveRAttack();
+    }
+    public void ActiveLAttack()
+    {
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck())
+        {
+            return;
+        }
+        else if (_hitBoxColliders[0].enabled)
+        {
+            SetLHandCollision(0);
+        }
+    }
+    
+    public void ActiveRAttack()
+    {
+        if (_hitBoxColliders[1].enabled && ActiveColliderCheck())
+        {
+            return;
+        }
+        else if (_hitBoxColliders[1].enabled)
+        {
+            SetRHandCollision(0);
+        }
     }
 
     private void HandTransform()
@@ -50,12 +77,11 @@ public class PlayerHandAttack : PlayerAttack
         if (set > 0)
         {
             _lHandBoxCollider.enabled = true;
-            _lastLColliderOnTime = Time.time;
+            _lastColliderOnTime = Time.time;
         }
         else if (set <= 0)
         {
             _lHandBoxCollider.enabled = false;
-            _lastLColliderOffTime = Time.time;
             // print("왼손 지속시간" + (_lastLColliderOffTime - _lastLColliderOnTime) + "초");
         }
     }
@@ -70,7 +96,6 @@ public class PlayerHandAttack : PlayerAttack
         else if (set <= 0)
         {
             _rHandBoxCollider.enabled = false;
-            _lastLColliderOffTime = Time.time;
         }
     }
 

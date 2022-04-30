@@ -91,6 +91,7 @@ public class Thirdpersonmove : MonoBehaviourPun
             {
                 yvelocity = 0;
             }
+            else
                 yvelocity += tempgravity * Time.deltaTime;
             //Debug.Log(jumpmove);
             if (IsGrounded())
