@@ -18,7 +18,7 @@ public class PlayerKeySystem : MonoBehaviourPun
     public Material boxmaterial;
     public GameObject coinprefab;
     public PlayerState _playerState;
-    public PlayerAnimator _playeranimator;
+    public PlayerAnimator _playerAnimator;
     public Thirdpersonmove Thirdpersonmove;
     private PlayerEquipitem _playerEquipitem;
 
@@ -43,7 +43,7 @@ public class PlayerKeySystem : MonoBehaviourPun
     {
         _gamePlayerInput = GetComponentInParent<GamePlayerInput>();
         _playerState = GetComponentInParent<PlayerState>();
-        _playeranimator = GetComponentInChildren<PlayerAnimator>();
+        _playerAnimator = GetComponentInChildren<PlayerAnimator>();
         Thirdpersonmove = GetComponentInChildren<Thirdpersonmove>();
         _playerEquipitem = GetComponent<PlayerEquipitem>();
         
@@ -70,30 +70,32 @@ public class PlayerKeySystem : MonoBehaviourPun
                     case item_box_make.item_type.potion:
                     case item_box_make.item_type.obstacles:
                         Throw_item();
+                        _playerAnimator.Throw();
                         break;
                     case item_box_make.item_type.Hammer:
-                        _playeranimator.HammerAttack();
+                        _playerAnimator.HammerAttack();
                         break;
                     default:
                         photonView.RPC("Throw_item", RpcTarget.All);
                         break;
                 }
             }
-            else if (_gamePlayerInput.dash)
+            else if (_gamePlayerInput.dash && !_gamePlayerInput.fireKeyDown)
             {
-                _playeranimator.OnDashAttack();
+                _playerAnimator.OnDashAttack();
             }
-            else
+            else if (!_gamePlayerInput.fireKeyDown)
             {
                 lastAttackTime = Time.time;
-                _playeranimator.OnAttack();
+                _playerAnimator.OnAttack();
             }
         }
         else
         {
-            _playeranimator.OnDashAttack();
-            _playeranimator.HammerAttack();
-            _playeranimator.OnAttack();
+            _playerAnimator._Animator.SetBool("DashAttack", false);
+            _playerAnimator._Animator.SetBool("HammerAttack", false);
+            _playerAnimator._Animator.SetBool("Combo", false);
+            _playerAnimator._Animator.SetBool("Throw", false);
         }
     }
 
