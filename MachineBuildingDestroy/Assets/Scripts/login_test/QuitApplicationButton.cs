@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class QuitApplicationButton : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   public GameObject window;
+   public GameObject darkBackground;
+   public void OnClickQuit()
+   {
+      Application.Quit();
+   }
+   
+   public void OnClickCancel()
+   {
+      window.SetActive(false);
+      darkBackground.SetActive(false);
+   }
 }
