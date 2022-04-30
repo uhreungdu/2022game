@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
@@ -29,9 +30,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private Account _account;
     private LobbyManager _lobbyManager;
     public string networkState;
-    public GameObject Player;
-    public Map Map;
-    public GameObject ErrWindow;
+    public GameObject player;
+    public GameObject errWindow;
     private GameObject _team1Spawner;
     private GameObject _team2Spawner;
     [SerializeField] private Player[] _players;
@@ -115,7 +115,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
         }
         
-        PhotonNetwork.Instantiate(Player.name, pos, Quaternion.identity);
+        PhotonNetwork.Instantiate(player.name, pos, Quaternion.identity);
     }
 
     public void SpawnPlayer(int team)
@@ -142,7 +142,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
         }
         
-        PhotonNetwork.Instantiate(Player.name, pos, Quaternion.identity);
+        PhotonNetwork.Instantiate(player.name, pos, Quaternion.identity);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -152,10 +152,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Instantiate(ErrWindow, new Vector3(Screen.width/2f,Screen.height/2f,0), 
+        Instantiate(errWindow, new Vector3(Screen.width/2f,Screen.height/2f,0), 
             Quaternion.identity, GameObject.Find("Canvas").transform);
-        ErrWindow.SetActive(true);
-        ErrWindow.GetComponentInChildren<Text>().text = cause.ToString();
+        errWindow.SetActive(true);
+        errWindow.GetComponentInChildren<Text>().text = cause.ToString();
         print(cause.ToString());
         Logout(_account.GetPlayerID());
     }

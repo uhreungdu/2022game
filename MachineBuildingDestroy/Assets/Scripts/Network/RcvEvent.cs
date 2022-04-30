@@ -5,11 +5,13 @@ using UnityEngine;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class RcvEvent : MonoBehaviourPun
 {
     [SerializeField]
     private GameManager gManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +55,6 @@ public class RcvEvent : MonoBehaviourPun
             {
                 if ((string) parameters[0] != PhotonNetwork.NickName) break;
                 StartCoroutine(SpawnPlayerForReconnect(Evdata.Parameters));
-                //transform.GetComponent<NetworkManager>().SpawnPlayer((int) parameters[1]);
                 break;
             }
             case (byte) NetworkManager.EventCode.CreateBuildingFromServer:
@@ -123,6 +124,8 @@ public class RcvEvent : MonoBehaviourPun
             }
         }
     }
+
+    
     
     public void OnEnable()
     {
