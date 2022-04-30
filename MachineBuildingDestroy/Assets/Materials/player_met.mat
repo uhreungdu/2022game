@@ -93,7 +93,7 @@ Material:
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _FalloffAmount: 0.01
-    - _FresnelSize: 0.05
+    - _FresnelSize: 0.15
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
