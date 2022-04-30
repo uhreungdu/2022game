@@ -48,7 +48,6 @@ namespace MyFirstPlugin
         private List<PlayerInfo> playerInfo = new List<PlayerInfo>();
         private Dictionary<int, Building> buildings = new Dictionary<int, Building>();
         private int[] score = new int[2];
-        private float time = 300.0f;
         private string internalRoomName;
         private bool inGame = false;
         public override string Name => "MyFirstPlugin";
@@ -64,11 +63,7 @@ namespace MyFirstPlugin
         {
             if (inGame)
             {
-                byte evCode = (byte)EventType.RespawnForReconnect;
-                Dictionary<byte, object> data = new Dictionary<byte, object>();
-                data.Add(0, info.Nickname);
-                data.Add(1, playerInfo.Find(x => x.name == info.Nickname).team);
-                BroadcastEvent(evCode, data);
+                ReConnectPlayer(info);
             }
             else
             {
@@ -76,6 +71,24 @@ namespace MyFirstPlugin
             }
             PluginHost.LogInfo($"User {info.Nickname} join room {internalRoomName}");
             base.OnJoin(info);
+        }
+
+        private void ReConnectPlayer(IJoinGameCallInfo info)
+        {
+            byte evCode = (byte)EventType.RespawnForReconnect;
+            Dictionary<byte, object> data = new Dictionary<byte, object>();
+            byte index = 0;
+            data.Add(index, info.Nickname);
+            index++;
+            data.Add(index, playerInfo.Find(x => x.name == info.Nickname).team);
+            index++;
+            foreach (KeyValuePair<int, Building> kvp in buildings)
+            {
+                if (!kvp.Value.Dead) continue;
+                data.Add(index, kvp.Key);
+                index++;
+            }
+            BroadcastEvent(evCode, data);
         }
 
         public override void OnLeave(ILeaveGameCallInfo info)
@@ -191,7 +204,7 @@ namespace MyFirstPlugin
             var timer = new Timer(DestroyBuilding, key, (int)(target.RespawnTime * 1000), System.Threading.Timeout.Infinite);
 
             // 약 5초뒤 파편 숨기기 이벤트 전송
-            var timer2 = new Timer(HideBuildingFragments, key, 5500, System.Threading.Timeout.Infinite);
+            var timer2 = new Timer(HideBuildingFragments, key, 5000, System.Threading.Timeout.Infinite);
         }
 
         private void DestroyBuilding(Object sender)
@@ -202,6 +215,7 @@ namespace MyFirstPlugin
         }
         private void DestroyBuildingFromServer(int viewID)
         {
+            buildings.Remove(viewID);
             byte evCode = (byte)EventType.DestroyBuildingFromServer;
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add(0, viewID);

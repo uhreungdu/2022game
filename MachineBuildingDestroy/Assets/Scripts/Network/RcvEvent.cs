@@ -52,7 +52,7 @@ public class RcvEvent : MonoBehaviourPun
             case (byte) NetworkManager.EventCode.RespawnForReconnect:
             {
                 if ((string) parameters[0] != PhotonNetwork.NickName) break;
-                StartCoroutine(SpawnPlayerForReconnect((int) parameters[1]));
+                StartCoroutine(SpawnPlayerForReconnect(Evdata.Parameters));
                 //transform.GetComponent<NetworkManager>().SpawnPlayer((int) parameters[1]);
                 break;
             }
@@ -88,15 +88,14 @@ public class RcvEvent : MonoBehaviourPun
                     var view = target.GetComponent<PhotonView>();
                     if (view == null) continue;
                     if (view.ViewID != (int) parameters[0]) continue;
-                    target.GetComponent<BulidingObject>().HideBuilding();
+                    target.GetComponent<BulidingObject>().HideBuildingFragments();
                 }
-
                 break;
             }
         }
     }
 
-    IEnumerator SpawnPlayerForReconnect(int team)
+    IEnumerator SpawnPlayerForReconnect(ParameterDictionary parameters)
     {
         while (true)
         {
@@ -104,7 +103,22 @@ public class RcvEvent : MonoBehaviourPun
             Scene scene = SceneManager.GetActiveScene();
             if (scene.name == "SampleScene")
             {
-                transform.GetComponent<NetworkManager>().SpawnPlayer(team);
+                var objectList = GameObject.FindGameObjectsWithTag("Wall");
+                byte buildingIndex = 2;
+                if (parameters.Count > buildingIndex)
+                {
+                    foreach (var target in objectList)
+                    {
+                        if (buildingIndex >= parameters.Count) break;
+                        if (target == null) continue;
+                        var view = target.GetComponent<PhotonView>();
+                        if (view == null) continue;
+                        if (view.ViewID != (int) parameters[buildingIndex]) continue;
+                        target.GetComponent<BulidingObject>().HideBuilding();
+                        buildingIndex++;
+                    }
+                }
+                transform.GetComponent<NetworkManager>().SpawnPlayer((int)parameters[1]);
                 break;
             }
         }
