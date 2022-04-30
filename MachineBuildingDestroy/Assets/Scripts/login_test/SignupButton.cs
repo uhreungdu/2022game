@@ -7,24 +7,30 @@ using UnityEngine.Serialization;
 
 public class SignupButton : MonoBehaviour
 {
-    [FormerlySerializedAs("IDInput")] public GameObject idInput;
-    [FormerlySerializedAs("PWInput")] public GameObject pwInput;
-    [FormerlySerializedAs("ParentWindow")] public GameObject parentWindow;
-    [FormerlySerializedAs("ErrText")] public GameObject errText;
+    public GameObject idInput;
+    public GameObject pwInput;
+    public GameObject nameInput;
+    public GameObject parentWindow;
+    public GameObject darkBackground;
+
+    public GameObject idButton;
+    public GameObject nameButton;
 
     private bool _working = false;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        var idok = idButton.GetComponent<IDCheckButton>().GetOK();
+        var nameok = nameButton.GetComponent<NameCheckButton>().GetOK();
+
+        if (idok == false || nameok == false)
+        {
+            GetComponent<Button>().interactable = false;
+            return;
+        }
         if (!_working && pwInput.GetComponent<InputField>().text.Length != 0)
         {
-            GetComponent<Button>().interactable = true;    
+            GetComponent<Button>().interactable = true;
         }
         else
         {
@@ -38,7 +44,8 @@ public class SignupButton : MonoBehaviour
         GetComponent<Button>().interactable = false;
         idInput.GetComponent<InputField>().interactable = false;
         pwInput.GetComponent<InputField>().interactable = false;
-        
+        nameInput.GetComponent<InputField>().interactable = false;
+
         // 가입 요청
         _working = true;
         StartCoroutine(RegisterRequest());
@@ -49,6 +56,7 @@ public class SignupButton : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("id", "\"" + idInput.GetComponent<InputField>().text + "\"");
         form.AddField("pw", "\"" + pwInput.GetComponent<InputField>().text + "\"");
+        form.AddField("name", "\"" + nameInput.GetComponent<InputField>().text + "\"");
 
         UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/make_account.php", form);
         yield return www.SendWebRequest();
@@ -56,31 +64,12 @@ public class SignupButton : MonoBehaviour
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
-            // 가입 활성화
-            GetComponent<Button>().interactable = true;
-            idInput.GetComponent<InputField>().interactable = true;
-            pwInput.GetComponent<InputField>().interactable = true;
-            _working = false;
         }
         else
         {
             string results = www.downloadHandler.text;
-            Debug.Log(results);
-            // 가입 활성화
-            GetComponent<Button>().interactable = true;
-            idInput.GetComponent<InputField>().interactable = true;
-            pwInput.GetComponent<InputField>().interactable = true;
-            if (results == "OK")
-            {
-                parentWindow.SetActive(false);
-                errText.SetActive(false);
-            }
-            else
-            {
-                errText.GetComponent<Text>().text = results;
-                errText.SetActive(true);
-            }
-            _working = false;
+            parentWindow.SetActive(false);
+            darkBackground.SetActive(false);
         }
     }
 }

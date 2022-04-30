@@ -96,11 +96,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         public float health { get; private set; }
         public item_box_make.item_type Item_num { get; private set; }
+        public float Coin_Count{get; private set;}
+        public float MaxHealth{get; private set;}
 
-        public void setting(float hp, item_box_make.item_type Item)
+        public void setting(float hp, item_box_make.item_type Item, float coin, float m_Health)
         {
             health = hp;
             Item_num = Item;
+            Coin_Count = coin;
+            MaxHealth = m_Health;
         }
     }
 
