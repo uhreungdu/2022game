@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HP_Text_Display : MonoBehaviour
+public class Item_image_Display : MonoBehaviour
 {
-    // Start is called before the first frame update
     public GameManager gManager;
-    public Text text_H;
-    public Image Hp_Bar;
-    public Text text_Item;
-    public Text Coin_text;
+
+    public Image item_icon;
+
+    public Sprite image;
+
+    public Sprite HammerImage;
+    public Sprite PotionImage;
+    public Sprite BuffImage;
+    public Sprite obstacles;
     public item_box_make.item_type item_typ;
+    // Start is called before the first frame update
     void Start()
     {
         gManager = GameManager.GetInstance();
@@ -20,26 +25,23 @@ public class HP_Text_Display : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text_H.text = "HP: "+gManager.player_stat.health;
-        Hp_Bar.fillAmount = gManager.player_stat.health / gManager.player_stat.MaxHealth;
         item_typ = gManager.player_stat.Item_num;
-        Coin_text.text = ""+gManager.player_stat.Coin_Count;
         switch (item_typ)
         {
             case item_box_make.item_type.no_item:
-                text_Item.text = " ";
+                item_icon.sprite = image;
                 break;
             case item_box_make.item_type.potion:
-                text_Item.text = "Potion";
+                item_icon.sprite = PotionImage;
                 break;
             case item_box_make.item_type.obstacles:
-                text_Item.text = "obstacles";
+                item_icon.sprite = obstacles;
                 break;
             case item_box_make.item_type.Buff:
-                text_Item.text = "Buff";
+                item_icon.sprite = BuffImage;
                 break;
             case item_box_make.item_type.Hammer:
-                text_Item.text = "Hammer";
+                item_icon.sprite = HammerImage;
                 break;
             
                     

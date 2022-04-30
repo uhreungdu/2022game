@@ -27,10 +27,11 @@ public class PlayerEquipitem : MonoBehaviourPun
     void Start()
     {
         _playerState = GetComponent<PlayerState>();
-        BuffObj = Instantiate(BuffObj);
+        GameObject buffobj = Resources.Load<GameObject>("Buff_Effect");
+        BuffObj = Instantiate(buffobj);
         BuffObj.transform.SetParent(gameObject.transform);
         Vector3 tpos = gameObject.transform.position + Vector3.up;
-        BuffObj.transform.Translate(tpos);
+        BuffObj.transform.position = tpos;
         BuffObj.SetActive(false);
         buff_Time = 10f;
     }

@@ -1476,7 +1476,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6962304825099367683}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 67f4c3a56e334244981a3d5ee5814031, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 9f599a726256c174a9e37f10f93451f9, type: 3}
   m_Controller: {fileID: 9100000, guid: 7e71cfddc794259468ce7e5808fc6791, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -1528,9 +1528,17 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: HammerAttack
+  - Type: 4
+    SynchronizeType: 0
+    Name: DashAttack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Throw
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
 --- !u!143 &362423289143800835
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1714,11 +1722,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4c207b2a5fcd534eb94c09a9f5604e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _Animator: {fileID: 0}
   _PlayerState: {fileID: 0}
   _gamePlayerInput: {fileID: 0}
   _thirdpersonmove: {fileID: 0}
   _PlayerEquipitem: {fileID: 0}
+  _PlayerDashAttack: {fileID: 0}
+  _PlayerHandAttack: {fileID: 0}
+  _PlayerJumpAttack: {fileID: 0}
+  _HammerAttack: {fileID: 0}
   lastAttackTime: 0
   keepAttackTime: 0.3
   lastStiffenTime: 0
@@ -1822,7 +1834,7 @@ MonoBehaviour:
   boxmaterial: {fileID: 0}
   coinprefab: {fileID: 0}
   _playerState: {fileID: 0}
-  _playeranimator: {fileID: 0}
+  _playerAnimator: {fileID: 0}
   Thirdpersonmove: {fileID: 0}
   BuffOn: 0
   buff_Time: 0
@@ -1850,7 +1862,7 @@ MonoBehaviour:
   buff_Time: 0
   ItemObj: {fileID: 0}
   Wall_Obstcle_Frame: {fileID: 0}
-  BuffObj: {fileID: 1347558823746406271, guid: 57137b22efc4d53419c8802a9c91b7cf, type: 3}
+  BuffObj: {fileID: 0}
   HammerObj: {fileID: 8412881124590418949}
   item_Rigid: {fileID: 0}
   parent_qut: {x: 0, y: 0, z: 0, w: 0}

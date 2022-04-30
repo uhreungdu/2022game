@@ -41,6 +41,7 @@ public class GamePlayerInput : MonoBehaviour
     public float move { get; private set; } // 감지된 움직임 입력값
     public float rotate { get; private set; } // 감지된 회전 입력값
     public bool fire { get; private set; } // 감지된 발사 입력값
+    public bool fireKeyDown { get; private set; }
     public bool jump { get; private set; } // 감지된 발사 입력값
     public bool dash { get; private set; } // 감지된 발사 입력값
     public bool Interaction { get; private set; } // 감지된 발사 입력값
@@ -65,6 +66,10 @@ public class GamePlayerInput : MonoBehaviour
             // rotate에 관한 입력 감지
             rotate = Input.GetAxis(rotateAxisName);
             // fire에 관한 입력 감지
+            if (fire == true)
+                fireKeyDown = true;
+            else
+                fireKeyDown = false;
             fire = Input.GetButton(fireButtonName);
             jump = Input.GetButton(JumpButtonName);
             dash = Input.GetButton(DashButtonName);

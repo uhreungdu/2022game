@@ -62,7 +62,7 @@ public class PlayerState : LivingEntity, IPunObservable
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
         
-        Item = item_box_make.item_type.Hammer;
+        Item = item_box_make.item_type.Buff;
         
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);
@@ -257,7 +257,7 @@ public class PlayerState : LivingEntity, IPunObservable
     {
         if (photonView.IsMine)
         {
-            gManager.player_stat.setting(health,Item);
+            gManager.player_stat.setting(health,Item,point,startingHealth);
             //print("정보 넘겨줌");
         }
     }
