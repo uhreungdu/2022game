@@ -79,6 +79,10 @@ public class PlayerKeySystem : MonoBehaviourPun
                         break;
                 }
             }
+            else if (_gamePlayerInput.dash)
+            {
+                _playeranimator.OnDashAttack();
+            }
             else
             {
                 lastAttackTime = Time.time;
@@ -87,6 +91,7 @@ public class PlayerKeySystem : MonoBehaviourPun
         }
         else
         {
+            _playeranimator.OnDashAttack();
             _playeranimator.HammerAttack();
             _playeranimator.OnAttack();
         }

@@ -12,9 +12,9 @@ public class Hammer : MonoBehaviour
     {
         if (Durability <= 0)
         {
-            gameObject.SetActive(false);
             _PlayerState.nowEquip = false;
             _PlayerState.Item = item_box_make.item_type.no_item;
+            gameObject.SetActive(false);
         }
     }
 }

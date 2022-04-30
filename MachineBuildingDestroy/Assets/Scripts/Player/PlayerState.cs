@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
+using Photon.Realtime;
 using Random = UnityEngine.Random;
 // using static item_box_make.item_type;
 
@@ -39,6 +42,11 @@ public class PlayerState : LivingEntity, IPunObservable
     public Dmgs_Status P_Dm;
     public GameObject Dead_Effect;
 
+    public GameObject coinprefab;
+    [SerializeField]
+    private float explosionForce;
+    private GameObject _networkManager;
+
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -67,6 +75,7 @@ public class PlayerState : LivingEntity, IPunObservable
             photonView.RPC("SetOnHeadName", RpcTarget.All, PhotonNetwork.NickName);
         }
 
+        _networkManager = GameObject.Find("NetworkManager");
         base.OnEnable();
     }
     
@@ -198,7 +207,32 @@ public class PlayerState : LivingEntity, IPunObservable
     {
         
     }
+
+    private void OnDestroy()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        if (PhotonNetwork.PlayerList.Length < 2) return;
+        DropCoins(point, transform.position);
+    }
     
+    private void DropCoins(int num, Vector3 pos)
+    {
+        for (int i = 0; i < num; ++i)
+        {
+            float radian = (Random.Range(0, 360)) * Mathf.PI / 180;
+            float radius = Random.value * 3.0f;
+            Vector3 coinPosition = transform.position;
+            coinPosition.x = coinPosition.x + (radius * Mathf.Cos(radian));
+            coinPosition.z = coinPosition.z + (radius * Mathf.Sin(radian));
+            coinPosition.y = coinPosition.y + 10f;
+            GameObject coin =
+                PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, coinprefab.transform.rotation);
+            Vector3 explosionPosition = transform.position;
+            coin.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionPosition, 10f, explosionForce / 2);
+            coin.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionPosition, 10f);
+        }
+    } 
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         // 로컬 ?��브젝?��?���? ?���? �?분이 ?��?��?��?��?��.
@@ -226,5 +260,9 @@ public class PlayerState : LivingEntity, IPunObservable
             gManager.player_stat.setting(health,Item);
             //print("정보 넘겨줌");
         }
+    }
+
+    private void OnApplicationQuit()
+    {
     }
 }

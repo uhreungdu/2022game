@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerJumpAttack : PlayerAttack
+public class PlayerDashAttack : PlayerAttack
 {
     // Start is called before the first frame update
     public PlayerImpact _playerImpact;
-    public BoxCollider _rHandBoxCollider;
+    public BoxCollider _HandBoxCollider;
     public GameObject LHandGameObject;
-    public GameObject RHandGameObject;
     private Thirdpersonmove _thirdpersonmove;
     void Start()
     {
@@ -16,24 +15,33 @@ public class PlayerJumpAttack : PlayerAttack
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
-        _aftercastAttack = 1.0f;
+        _aftercastAttack = 0.8f;
         SetAffterCast(0);
-        _damage = 15;
+        _damage = 20;
         
-        _hitBoxColliders.Add(_rHandBoxCollider);
+        _hitBoxColliders.Add(_HandBoxCollider);
     }
 
     void Update()
     {
         HandTransform();
         AfterCastRecovery();
-        if (_hitBoxColliders[0].enabled && _thirdpersonmove.IsGrounded())
-        {
-            _hitBoxColliders[0].enabled = false;
-        }
+        ActiveLAttack();
     }
     
-    public void SetHandCollision(int set)
+    public void ActiveLAttack()
+    {
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck())
+        {
+            return;
+        }
+        else if (_hitBoxColliders[0].enabled)
+        {
+            SetDashAttackCollision(0);
+        }
+    }
+
+    public void SetDashAttackCollision(int set)
     {
         if (set > 0)
         {
@@ -48,17 +56,17 @@ public class PlayerJumpAttack : PlayerAttack
 
     private void HandTransform()
     {
-        Vector3 WorldRHandPosition = RHandGameObject.transform.position;
-        _rHandBoxCollider.transform.position = WorldRHandPosition;
+        Vector3 WorldRHandPosition = LHandGameObject.transform.position;
+        _HandBoxCollider.transform.position = WorldRHandPosition;
     }
     
-    public void JumpAttackMovement()
+    public void DashAttackMovement()
     {
         Transform rootTransform = transform.root;
-        _playerImpact.AddImpact(rootTransform.forward, 100);
+        _playerImpact.AddImpact(rootTransform.forward, 200);
     }
     
-    public void SetJumpAffterCast(int set)
+    public void SetDashAttackAffterCast(int set)
     {
         base.SetAffterCast(set);      // 애니메이션 이벤트에서 이래야 받음
     }

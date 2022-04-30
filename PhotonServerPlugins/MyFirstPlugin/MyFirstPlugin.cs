@@ -25,8 +25,14 @@ namespace MyFirstPlugin
 
     class PlayerInfo
     {
-        public string name { get; set; }
-        public int team { get; set; }
+        public string Name { get; set; }
+        public int Team { get; set; }
+
+        public bool isConnected = true;
+
+        public float[] Position;
+
+        public int coin { get; set; }
     }
 
     class Building
@@ -54,7 +60,7 @@ namespace MyFirstPlugin
 
         public override void OnCreateGame(ICreateGameCallInfo info)
         {
-            playerInfo.Add(new PlayerInfo() { name = info.Nickname, team = 0 });
+            playerInfo.Add(new PlayerInfo() { Name = info.Nickname, Team = 0, Position = new float[3] });
             PluginHost.LogInfo($"OnCreateGame {info.Request.GameId} by user {info.UserId}");
             internalRoomName = info.Request.GameId;
             info.Continue(); // base.OnCreateGame(info) 와 같다.
@@ -67,7 +73,7 @@ namespace MyFirstPlugin
             }
             else
             {
-                playerInfo.Add(new PlayerInfo() { name = info.Nickname, team = -1 });
+                playerInfo.Add(new PlayerInfo() { Name = info.Nickname, Team = -1, Position = new float[3] });
             }
             PluginHost.LogInfo($"User {info.Nickname} join room {internalRoomName}");
             base.OnJoin(info);
@@ -80,7 +86,7 @@ namespace MyFirstPlugin
             byte index = 0;
             data.Add(index, info.Nickname);
             index++;
-            data.Add(index, playerInfo.Find(x => x.name == info.Nickname).team);
+            data.Add(index, playerInfo.Find(x => x.Name == info.Nickname).Team);
             index++;
             foreach (KeyValuePair<int, Building> kvp in buildings)
             {
@@ -93,9 +99,14 @@ namespace MyFirstPlugin
 
         public override void OnLeave(ILeaveGameCallInfo info)
         {
-            if (!inGame)
+            SerializableGameState d = PluginHost.GetSerializableGameState();
+            if (inGame)
             {
-                playerInfo.Remove(playerInfo.Find(x => x.name == info.Nickname));
+                
+            }
+            else
+            {
+                playerInfo.Remove(playerInfo.Find(x => x.Name == info.Nickname));
             }
             PluginHost.LogInfo($"User {info.Nickname} exit room {internalRoomName}");
             base.OnLeave(info);
@@ -124,12 +135,11 @@ namespace MyFirstPlugin
                         StartGame(info);
                         break;
                     }
-               // 플레이어 정보 세팅
                 case (byte)EventType.SetTeamOnServer:
                     {
-                        var index = playerInfo.FindIndex(x => x.name == (string)data[0]);
+                        var index = playerInfo.FindIndex(x => x.Name == (string)data[0]);
                         var tempPlayerinfo = playerInfo[index];
-                        tempPlayerinfo.team = (int)data[1];
+                        tempPlayerinfo.Team = (int)data[1];
                         playerInfo[index] = tempPlayerinfo;
                         break;
                     }
@@ -142,7 +152,7 @@ namespace MyFirstPlugin
                     {
                         SetDestroyBuildingTimer(info);
                         break;
-                    }
+                    }             
                 default:
                     break;
             }
@@ -152,6 +162,7 @@ namespace MyFirstPlugin
 
         public override void OnCloseGame(ICloseGameCallInfo info)
         {
+            GC.Collect();
             string url = "http://127.0.0.1/room_delete.php?iname=" + "\"" + internalRoomName + "\"";
             HttpRequest request = new HttpRequest()
             {
