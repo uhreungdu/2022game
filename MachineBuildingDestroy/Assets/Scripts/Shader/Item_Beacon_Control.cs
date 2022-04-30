@@ -45,7 +45,7 @@ public class Item_Beacon_Control : MonoBehaviourPun
     {
         box = Resources.Load<GameObject>("item_box");
         box_obj = PhotonNetwork.InstantiateRoomObject(box.name, 
-            gameObject.transform.position+new Vector3(0,0.7f,0), 
+            gameObject.transform.position+new Vector3(0,1.4f,0), 
             new Quaternion(0, 0, 0, 0));
         box_obj.transform.SetParent(gameObject.transform);
         //box_obj.transform.Translate(gameObject.transform.position);
