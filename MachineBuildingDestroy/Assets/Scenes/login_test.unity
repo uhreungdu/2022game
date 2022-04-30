@@ -2568,6 +2568,52 @@ MonoBehaviour:
   pwInput: {fileID: 280544712}
   resultText: {fileID: 802945740}
   nameInput: {fileID: 1766887307}
+--- !u!1 &706941541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 706941543}
+  - component: {fileID: 706941542}
+  m_Layer: 0
+  m_Name: ChatClient
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &706941542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706941541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03cc35e43258f2940be37a06de7d0ee7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendbuf: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  recvbuf: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  Chatlog_obj: {fileID: 0}
+--- !u!4 &706941543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706941541}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1084.4391, y: 529.035, z: -567.26086}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &731219211
 GameObject:
   m_ObjectHideFlags: 0
@@ -5146,6 +5192,7 @@ MonoBehaviour:
   makeCharWindow: {fileID: 478063207}
   errText: {fileID: 474667648}
   nManager: {fileID: 2018934610}
+  chatClient: {fileID: 706941541}
   accountVal: []
 --- !u!1 &1476043563
 GameObject:

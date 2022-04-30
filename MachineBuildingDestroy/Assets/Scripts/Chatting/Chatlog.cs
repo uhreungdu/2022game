@@ -1,31 +1,32 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Chatlog : MonoBehaviour
 {
-    private Text _text;
-    public GameObject logWindow;
+    private GameObject _chatClient;
+    public GameObject textObject;
     public GameObject gScrollbar;
 
     private void Awake()
     {
-        _text = GetComponent<Text>();
+        _chatClient = GameObject.Find("ChatClient");
+        _chatClient.GetComponent<ChatClient>().chatLog = gameObject.GetComponent<Chatlog>();
     }
 
-    public void AddLine(string str)
+    public void AddLine(byte[] data)
     {
-        _text.text += str+System.Environment.NewLine;
-        var enterNum = Regex.Matches(_text.text, "\n").Count;
-        logWindow.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 20.2f * enterNum);
-        var mScrollbar = gScrollbar.GetComponent<Scrollbar>();
-        if (mScrollbar.enabled)
-        {
-            mScrollbar.value = 0;
-        }
+        var name = Encoding.UTF8.GetString(data, 3, data[1]);
+        var chat = Encoding.UTF8.GetString(data, 3 + data[1], data[2]);
+        var printData = name + ": " + chat;
+        
+        print(printData);
+        var obj = Instantiate(textObject, transform);
+        obj.GetComponent<Text>().text = printData;
     }
     
     
