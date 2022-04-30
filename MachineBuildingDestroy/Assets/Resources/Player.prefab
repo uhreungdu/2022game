@@ -2003,7 +2003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Durability: 10
-  _PlayerState: {fileID: 0}
+  _PlayerState: {fileID: 1049520447631437763}
 --- !u!1 &8817763877579381279
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,6 +2045,10 @@ PrefabInstance:
       propertyPath: _Hammer
       value: 
       objectReference: {fileID: 1372253202123403987}
+    - target: {fileID: -3561289735778092478, guid: 8a007f42c9ff807419067deebfecf2da, type: 3}
+      propertyPath: _playerState
+      value: 
+      objectReference: {fileID: 1049520447631437763}
     - target: {fileID: 1546464832069960486, guid: 8a007f42c9ff807419067deebfecf2da, type: 3}
       propertyPath: m_Name
       value: Hammer
