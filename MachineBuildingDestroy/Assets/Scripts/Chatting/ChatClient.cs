@@ -27,7 +27,10 @@ public class ChatClient : MonoBehaviour
     enum ChatCode : byte
     {
         Normal,
-        Exit
+        Exit,
+        EnterRoom,
+        RoomChat,
+        ExitRoom
     }
 
     private void Awake()
@@ -102,7 +105,9 @@ public class ChatClient : MonoBehaviour
 
             if (recvsize > 0)
             {
-                _data = Encoding.UTF8.GetString(recvbuf, 0, recvsize);
+                var name = Encoding.UTF8.GetString(recvbuf, 3, recvbuf[1]);
+                var chat = Encoding.UTF8.GetString(recvbuf, 3 + recvbuf[1], recvbuf[2]);
+                _data = name + ": " + chat;
                 print(_data);
                 _isDataSend = true;
                 _client.BeginReceive(recvbuf, 0, BufSize, 0,
