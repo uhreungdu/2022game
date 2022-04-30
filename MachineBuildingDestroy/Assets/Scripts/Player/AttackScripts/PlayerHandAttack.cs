@@ -106,15 +106,15 @@ public class PlayerHandAttack : PlayerAttack
         switch (combo)
         {
             case 0:
-                _playerImpact.AddImpact(rootTransform.forward, 10);
+                _playerImpact.AddImpact(rootTransform.forward, 40);
                 break;
             
             case 1:
-                _playerImpact.AddImpact(rootTransform.forward, 10);
+                _playerImpact.AddImpact(rootTransform.forward, 40);
                 break;
             
             case 2:
-                _playerImpact.AddImpact(rootTransform.forward, 15);
+                _playerImpact.AddImpact(rootTransform.forward, 40);
                 break;
         }
     }
