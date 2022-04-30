@@ -65,7 +65,7 @@ public class LoginButton : MonoBehaviour
         {
             Debug.Log(www.error);
             // 로그인 창 활성화
-            GetComponent<Button>().interactable = true;
+            _doLogin = false;
             idInput.GetComponent<InputField>().interactable = true;
             pwInput.GetComponent<InputField>().interactable = true;
         }
@@ -107,8 +107,11 @@ public class LoginButton : MonoBehaviour
             else
             {
                 // 로그인 오류
+                _doLogin = false;
                 errText.SetActive(true);
                 errText.GetComponent<Text>().text = GetStringDataValue(accountVal[0],"Msg:");
+                idInput.GetComponent<InputField>().text = "";
+                pwInput.GetComponent<InputField>().text = "";
             }
         }
     }

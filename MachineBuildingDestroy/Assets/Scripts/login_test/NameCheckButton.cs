@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,33 +5,30 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
 
-public class IDCheckButton : MonoBehaviour
+public class NameCheckButton : MonoBehaviour
 {
-    public GameObject idInput;
-    public GameObject pwInput;
-    public GameObject resultText;
     public GameObject nameInput;
+    public GameObject resultText;
 
     private bool _working = false;
     private bool _ok = false;
-    private string _id;
+    private string _nickname;
 
     public void ResetValues()
     {
         _working = false;
         _ok = false;
-        _id = "";
-        idInput.GetComponent<InputField>().text = "";
-        pwInput.GetComponent<InputField>().text = "";
-        pwInput.GetComponent<InputField>().interactable = false;
+        _nickname = "";
+        nameInput.GetComponent<InputField>().text = "";
+        nameInput.GetComponent<InputField>().interactable = false;
         resultText.GetComponent<Text>().text = "";
     }
-
+    
     public bool GetOK()
     {
         return _ok;
     }
-    
+
     private void OnDisable()
     {
         ResetValues();
@@ -40,7 +36,7 @@ public class IDCheckButton : MonoBehaviour
     
     void Update()
     {
-        if (!_working && idInput.GetComponent<InputField>().text.Length != 0)
+        if (!_working && nameInput.GetComponent<InputField>().text.Length != 0)
         {
             GetComponent<Button>().interactable = true;    
         }
@@ -48,7 +44,8 @@ public class IDCheckButton : MonoBehaviour
         {
             GetComponent<Button>().interactable = false;
         }
-        if (_ok && idInput.GetComponent<InputField>().text != _id)
+
+        if (_ok && nameInput.GetComponent<InputField>().text != _nickname)
         {
             GetComponent<Button>().interactable = false;
             _ok = false;
@@ -57,49 +54,48 @@ public class IDCheckButton : MonoBehaviour
 
     public void OnClick()
     {
-        // IDCheck ∫Ò»∞º∫»≠
+        // NameCheck ÎπÑÌôúÏÑ±Ìôî
         GetComponent<Button>().interactable = false;
-        idInput.GetComponent<InputField>().interactable = false;
+        nameInput.GetComponent<InputField>().interactable = false;
 
-        // ID ∞À¡ı ø‰√ª
+        // Name Í≤ÄÏ¶ù ÏöîÏ≤≠
         _working = true;
-        StartCoroutine(IDCheckRequest());
+        StartCoroutine(NameCheckRequest());
     }
 
-    IEnumerator IDCheckRequest()
+    IEnumerator NameCheckRequest()
     {
         WWWForm form = new WWWForm();
-        var id = idInput.GetComponent<InputField>().text;
-        form.AddField("id", "\"" + id + "\"");
+        var nickname = nameInput.GetComponent<InputField>().text;
+        form.AddField("name", "\"" + nickname + "\"");
 
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/id_check.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/name_check.php", form);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
+            // NameCheck ÌôúÏÑ±Ìôî
+            GetComponent<Button>().interactable = true;
+            nameInput.GetComponent<InputField>().interactable = true;
         }
         else
         {
             string results = www.downloadHandler.text;
-            // IDCheck »∞º∫»≠
+            // NameCheck ÌôúÏÑ±Ìôî
             GetComponent<Button>().interactable = true;
-            idInput.GetComponent<InputField>().interactable = true;
+            nameInput.GetComponent<InputField>().interactable = true;
             if (results == "OK")
             {
-                _id = id;
-                pwInput.GetComponent<InputField>().interactable = true;
-                nameInput.GetComponent<InputField>().interactable = true;
-                resultText.GetComponent<Text>().text = "ID ªÁøÎ ∞°¥…";
+                _nickname = nickname;
+                resultText.GetComponent<Text>().text = "ÎãâÎÑ§ÏûÑ ÏÇ¨Ïö© Í∞ÄÎä•";
                 resultText.GetComponent<Text>().color = new Color(0, 0, 1);
                 resultText.SetActive(true);
                 _ok = true;
             }
             else
             {
-                pwInput.GetComponent<InputField>().interactable = false;
-                nameInput.GetComponent<InputField>().interactable = false;
-                resultText.GetComponent<Text>().text = "ID ªÁøÎ ∫“∞°";
+                resultText.GetComponent<Text>().text = "ÎãâÎÑ§ÏûÑ ÏÇ¨Ïö© Î∂àÍ∞Ä";
                 resultText.GetComponent<Text>().color = new Color(1, 0, 0);
                 resultText.SetActive(true);
                 _ok = false;
