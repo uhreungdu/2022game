@@ -22,7 +22,7 @@ public class PlayerKeySystem : MonoBehaviourPun
     public Thirdpersonmove Thirdpersonmove;
     private PlayerEquipitem _playerEquipitem;
 
-    private float timeBetAttack = 0.3f; // ���� ����
+    private float timeBetAttack = 0.467f; // ���� ����
     private float activeAttackTime = 0f; // ���� ���� �ð�
     private float lastAttackTime = 0f; // ������ �������� �� ����
 
@@ -84,7 +84,8 @@ public class PlayerKeySystem : MonoBehaviourPun
             {
                 _playerAnimator.OnDashAttack();
             }
-            else if (!_gamePlayerInput.fireKeyDown)
+            else if (!_gamePlayerInput.fireKeyDown || 
+                     (_gamePlayerInput.fireKeyDown && Time.time >= lastAttackTime + timeBetAttack ))
             {
                 lastAttackTime = Time.time;
                 _playerAnimator.OnAttack();
