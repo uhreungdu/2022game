@@ -1860,7 +1860,7 @@ MonoBehaviour:
   buff_Time: 0
   ItemObj: {fileID: 0}
   Wall_Obstcle_Frame: {fileID: 0}
-  BuffObj: {fileID: 1347558823746406271, guid: 57137b22efc4d53419c8802a9c91b7cf, type: 3}
+  BuffObj: {fileID: 0}
   HammerObj: {fileID: 8412881124590418949}
   item_Rigid: {fileID: 0}
   parent_qut: {x: 0, y: 0, z: 0, w: 0}
