@@ -93,27 +93,4 @@ public class LandMarkObject : BulidingObject
         }
     }
     
-    [PunRPC]
-    void HideBuilding()
-    {
-        if (childMeshRenderers.Length > 0)
-        {
-            childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
-            foreach (var child in childMeshRenderers)
-            {
-                if (child != null && child != _MeshRenderer)
-                    child.enabled = false;
-            }
-        }
-
-        if (childMeshCollider.Length > 0)
-        {
-            childMeshCollider = GetComponentsInChildren<MeshCollider>();
-            foreach (var child in childMeshCollider)
-            {
-                if (child != null && child != _MeshCollider)
-                    child.enabled = false;
-            }
-        }
-    }
 }
