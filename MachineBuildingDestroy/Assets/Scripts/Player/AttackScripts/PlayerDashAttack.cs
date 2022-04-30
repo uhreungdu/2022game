@@ -63,7 +63,7 @@ public class PlayerDashAttack : PlayerAttack
     public void DashAttackMovement()
     {
         Transform rootTransform = transform.root;
-        _playerImpact.AddImpact(rootTransform.forward, 200);
+        _playerImpact.AddImpact(rootTransform.forward, 150);
     }
     
     public void SetDashAttackAffterCast(int set)

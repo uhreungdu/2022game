@@ -55,8 +55,8 @@ public class PlayerHandAttackTrigger : MonoBehaviour
                     {
                         playerState.NetworkOnDamage(_playerHandAttack._damage);
                     }
-
-                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
+                    
+                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 40);
                     
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
