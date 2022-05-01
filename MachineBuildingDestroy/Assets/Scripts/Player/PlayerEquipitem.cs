@@ -12,11 +12,13 @@ public class PlayerEquipitem : MonoBehaviourPun
     public Transform _RFingerTransform;
     
     public bool BuffOn;
+    public bool can_put_Obs;
     public float buff_Time;
     public GameObject ItemObj;
     public GameObject Wall_Obstcle_Frame;
     public GameObject BuffObj;
     public GameObject HammerObj;
+    public GameObject Frame_Obj;
     public Rigidbody item_Rigid;
     public Quaternion parent_qut;
     
@@ -26,14 +28,8 @@ public class PlayerEquipitem : MonoBehaviourPun
 
     void Start()
     {
-        _playerState = GetComponent<PlayerState>();
-        GameObject buffobj = Resources.Load<GameObject>("Buff_Effect");
-        BuffObj = Instantiate(buffobj);
-        BuffObj.transform.SetParent(gameObject.transform);
-        Vector3 tpos = gameObject.transform.position + Vector3.up;
-        BuffObj.transform.position = tpos;
-        BuffObj.SetActive(false);
-        buff_Time = 10f;
+        setObj();
+
     }
 
     private void Update()
@@ -98,21 +94,27 @@ public class PlayerEquipitem : MonoBehaviourPun
 
         if (_playerState.Item == item_box_make.item_type.obstacles)
         {
-            Quaternion old_rot = gameObject.transform.rotation;
-            Debug.Log(old_rot);
-            Destroy(ItemObj.gameObject);
-            ItemObj.transform.parent = null;
-            //getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
-            //ItemObj = Instantiate(getobj);
-            Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 5f);
-            //ItemObj.transform.Translate(tpos);
-            //ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
-            ItemObj = PhotonNetwork.Instantiate("Wall_Obstcle_Objs", tpos,
-                new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w));
-            ItemObj = null;
-            _playerState.nowEquip = false;
-            //던지고 나면 아이템 사라짐
-            // _playerState.Item = item_box_make.item_type.no_item;
+            can_put_Obs = ItemObj.GetComponent<Obstcle_put_down>().can_put_down;
+            print("들어옴");
+            if (can_put_Obs == true)
+            {
+                Quaternion old_rot = gameObject.transform.rotation;
+                //Debug.Log(old_rot);
+                Destroy(ItemObj.gameObject);
+                ItemObj.transform.parent = null;
+                //getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
+                //ItemObj = Instantiate(getobj);
+                Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 5f);
+                //ItemObj.transform.Translate(tpos);
+                //ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
+                ItemObj = PhotonNetwork.Instantiate("Wall_Obstcle_Objs", tpos,
+                    new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w));
+                ItemObj = null;
+                Frame_Obj.SetActive(false);
+                _playerState.nowEquip = false;
+                //던지고 나면 아이템 사라짐
+                // _playerState.Item = item_box_make.item_type.no_item;
+            }
         }
     }
 
@@ -133,7 +135,26 @@ public class PlayerEquipitem : MonoBehaviourPun
             }
         }
     }
-
+    public void setObj()
+    {
+        _playerState = GetComponent<PlayerState>();
+        GameObject getobj = Resources.Load<GameObject>("Buff_Effect");
+        BuffObj = Instantiate(getobj);
+        BuffObj.transform.SetParent(gameObject.transform);
+        Vector3 tpos = gameObject.transform.position + Vector3.up;
+        BuffObj.transform.position = tpos;
+        BuffObj.SetActive(false);
+        buff_Time = 10f;
+        /*
+        getobj = Resources.Load<GameObject>("Wall_Obstcle_Frame");
+        Frame_Obj = Instantiate(getobj);
+        Frame_Obj.transform.SetParent(gameObject.transform, true);
+        tpos = gameObject.transform.position + (gameObject.transform.forward * 5f) + Vector3.up;
+        Frame_Obj.transform.Translate(tpos);
+        Frame_Obj.transform.localRotation = Quaternion.identity;
+        Frame_Obj.SetActive(false);
+        */
+    }
     public void BuffCheck()
     {
         if (BuffOn)
@@ -155,4 +176,6 @@ public class PlayerEquipitem : MonoBehaviourPun
         BuffObj.SetActive(BuffOn);
         //print(BuffOn);
     }
+
+    
 }

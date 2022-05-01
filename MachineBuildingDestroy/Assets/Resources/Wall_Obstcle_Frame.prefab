@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disslve_MAt: {fileID: 0}
   temp_t: 0
+  dissolve_switch: 0
 --- !u!114 &5932192212763589883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,6 +29,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disslve_MAt: {fileID: 0}
   temp_t: 0
+  dissolve_switch: 0
 --- !u!114 &5932192214120826754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,6 +44,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disslve_MAt: {fileID: 0}
   temp_t: 0
+  dissolve_switch: 0
 --- !u!1 &7846088790816941608
 GameObject:
   m_ObjectHideFlags: 0
@@ -53,6 +56,7 @@ GameObject:
   - component: {fileID: 7140823909272829492}
   - component: {fileID: 1430781435290845548}
   - component: {fileID: 9215656531983646935}
+  - component: {fileID: 4523336324735380985}
   m_Layer: 0
   m_Name: Wall_Obstcle_Frame
   m_TagString: Untagged
@@ -106,6 +110,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &4523336324735380985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7846088790816941608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b70488195d102204bbb77de31bd8292c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &697969594581432546
 PrefabInstance:
   m_ObjectHideFlags: 0
