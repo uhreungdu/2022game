@@ -14,6 +14,7 @@ public class item_box_make : MonoBehaviour
         obstacles,
         Hammer
     }
+    
     public item_type now_type {get; private set;}
     public bool effect_On = true;
     // Start is called before the first frame update
