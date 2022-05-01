@@ -27,7 +27,7 @@ public class Thirdpersonmove : MonoBehaviourPun
     public float turnsmoothTime = 0.1f;
     float turnsmoothvelocity;
 
-    public float pushPower = 2.0F;
+    public float pushPower = 10.0F;
 
     public GameObject getobj;
     public GameObject ItemObj;
@@ -244,7 +244,7 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        /*
+        
         Rigidbody body = hit.collider.attachedRigidbody;
         //
         // if (hit.gameObject.tag == "Item")
@@ -260,10 +260,10 @@ public class Thirdpersonmove : MonoBehaviourPun
         if (body == null || body.isKinematic)
             return;
 
-        if (hit.moveDirection.y < -0.3F)
-            return;
+        // if (hit.moveDirection.y < -0.3F)
+        //     return;
 
-        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, hit.moveDirection.y, hit.moveDirection.z);
         body.velocity = pushDir * pushPower;
         
         // if (hit.gameObject.tag == "Coin")
@@ -271,6 +271,6 @@ public class Thirdpersonmove : MonoBehaviourPun
         //     playerState.AddPoint(1);
         //     Destroy(hit.gameObject);
         // }
-        */
+        
     }
 }

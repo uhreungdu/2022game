@@ -1604,7 +1604,7 @@ MonoBehaviour:
   Cgravity: 9.8
   gourndgravity: -0.05
   turnsmoothTime: 0.1
-  pushPower: 2
+  pushPower: 10
   getobj: {fileID: 0}
   ItemObj: {fileID: 0}
   collidingbuilding: 0
