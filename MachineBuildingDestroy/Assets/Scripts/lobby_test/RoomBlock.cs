@@ -55,7 +55,8 @@ public class RoomBlock : MonoBehaviour
         }
         else
         {
-            transform.Find("Text").gameObject.GetComponent<Text>().text = "";
+            roomName.GetComponent<Text>().text = "";
+            playerNum.GetComponent<Text>().text = "";
             GetComponent<Button>().interactable = false;
         }
     }
