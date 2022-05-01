@@ -4,6 +4,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UniRx;
+using UnityEngine.InputSystem;
 
 public class PlayerAnimator : MonoBehaviourPun
 {
@@ -16,6 +17,7 @@ public class PlayerAnimator : MonoBehaviourPun
     public PlayerDashAttack _PlayerDashAttack;
     public PlayerHandAttack _PlayerHandAttack;
     public PlayerJumpAttack _PlayerJumpAttack;
+    public PlayerDragonPunch _PlayerDragonPunch;
     public HammerAttack _HammerAttack;
 
     public float lastAttackTime;
@@ -25,10 +27,10 @@ public class PlayerAnimator : MonoBehaviourPun
     public float keepstiffenTime = 0.3f;
 
     public float lastFalldownTime;
-    public float keepFalldownTime = 1.5f;
+    public float keepFalldownTime = 0.5f;
 
-    public float speed = 6f;
-    public float Maxspeed = 18f;
+    public float speed = 18f;
+    public float Maxspeed = 24f;
 
     private bool _isGrounded;
 
@@ -49,6 +51,7 @@ public class PlayerAnimator : MonoBehaviourPun
         _PlayerDashAttack = GetComponent<PlayerDashAttack>();
         _PlayerHandAttack = GetComponent<PlayerHandAttack>();
         _PlayerJumpAttack = GetComponent<PlayerJumpAttack>();
+        _PlayerDragonPunch = GetComponent<PlayerDragonPunch>();
         _HammerAttack = GetComponent<HammerAttack>();
     }
 
@@ -148,5 +151,13 @@ public class PlayerAnimator : MonoBehaviourPun
     public void Throw()
     {
         _Animator.SetBool("Throw", true);
+    }
+    
+    public void DragonPunch()
+    {
+        if (_PlayerDragonPunch.CoolTimer())
+        {
+            _Animator.SetBool("DragonPunch", true);
+        }
     }
 }

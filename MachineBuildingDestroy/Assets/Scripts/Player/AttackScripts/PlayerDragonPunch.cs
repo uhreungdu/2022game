@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDashAttack : PlayerAttack
+public class PlayerDragonPunch : PlayerAttack
 {
     // Start is called before the first frame update
     public PlayerImpact _playerImpact;
@@ -15,9 +15,11 @@ public class PlayerDashAttack : PlayerAttack
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
-        _aftercastAttack = 0.467f;
+        _aftercastAttack = 1f;
         SetAffterCast(0);
         _damage = 20;
+        _coolTime = 10;
+        _lastUsedTime = -999f;
         
         _hitBoxColliders.Add(_HandBoxCollider);
     }
@@ -26,10 +28,10 @@ public class PlayerDashAttack : PlayerAttack
     {
         HandTransform();
         AfterCastRecovery();
-        ActiveLAttack();
+        ActiveRAttack();
     }
     
-    public void ActiveLAttack()
+    public void ActiveRAttack()
     {
         if (_hitBoxColliders[0].enabled && ActiveColliderCheck())
         {
@@ -37,11 +39,11 @@ public class PlayerDashAttack : PlayerAttack
         }
         else if (_hitBoxColliders[0].enabled)
         {
-            SetDashAttackCollision(0);
+            SetDragonPunchCollision(0);
         }
     }
 
-    public void SetDashAttackCollision(int set)
+    public void SetDragonPunchCollision(int set)
     {
         if (set > 0)
         {
@@ -60,13 +62,14 @@ public class PlayerDashAttack : PlayerAttack
         _HandBoxCollider.transform.position = WorldRHandPosition;
     }
     
-    public void DashAttackMovement()
+    public void DragonPunchMovement()
     {
         Transform rootTransform = transform.root;
+        _playerImpact.AddImpact(rootTransform.up, 500);
         _playerImpact.AddImpact(rootTransform.forward, 150);
     }
     
-    public void SetDashAttackAffterCast(int set)
+    public void SetDragonPunchAffterCast(int set)
     {
         base.SetAffterCast(set);      // 애니메이션 이벤트에서 이래야 받음
     }

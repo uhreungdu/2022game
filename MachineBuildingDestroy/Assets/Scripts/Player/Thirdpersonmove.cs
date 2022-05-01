@@ -15,22 +15,25 @@ public class Thirdpersonmove : MonoBehaviourPun
     public LayerMask _fieldLayer;
     private PlayerAllAttackAfterCast _playerAllAttackAfterCast;
 
-    public float speed = 12f;
-    public float Maxspeed = 12f;
-    public float Minspeed = 12f;
+    public float speed = 18f;
+    public float Maxspeed = 24f;
+    public float Minspeed = 18f;
     public float yvelocity = 0;
     public float Cgravity = 4f;
-    private float tempgravity = -1.0f;
-    private float jumppower = 0.7f;
+    private float tempgravity = -3f;
+    private float jumppower = 1.5f;
     public float gourndgravity = -0.05f;
 
     public float turnsmoothTime = 0.1f;
-    float turnsmoothvelocity;
+    public float turnsmoothvelocity;
 
-    public float pushPower = 2.0F;
+    public float pushPower = 10.0F;
 
     public GameObject getobj;
     public GameObject ItemObj;
+
+    public GameObject Rfoot;
+    public GameObject Lfoot;
     public bool activeattack { get; private set; }
     public bool collidingbuilding = false;
     public bool keepactiveattack { get; private set; }
@@ -231,46 +234,42 @@ public class Thirdpersonmove : MonoBehaviourPun
         if (_characterController.isGrounded) return true;
         // 발사하는 광선의 초기 위치와 방향
         // 약간 신체에 박혀 있는 위치로부터 발사하지 않으면 제대로 판정할 수 없을 때가 있다.
-        var ray = new Ray(this.transform.position + Vector3.up * 0.1f, Vector3.down);
+        var ray1 = new Ray(Rfoot.transform.position + Vector3.up * 0.1f, Vector3.down);
+        var ray2 = new Ray(Lfoot.transform.position + Vector3.up * 0.1f, Vector3.down);
+        var raycenter = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
         // 탐색 거리
         var maxDistance = 0.11f;
         // 광선 디버그 용도
+        Debug.DrawRay(Rfoot.transform.position + Vector3.up * 0.1f, Vector3.down * maxDistance, Color.red);
+        Debug.DrawRay(Lfoot.transform.position + Vector3.up * 0.1f, Vector3.down * maxDistance, Color.red);
         Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector3.down * maxDistance, Color.red);
         // Raycast의 hit 여부로 판정
         // 지상에만 충돌로 레이어를 지정
-        return Physics.Raycast(ray, maxDistance, _fieldLayer);
+        if (Physics.Raycast(ray1, maxDistance, _fieldLayer))
+            return true;
+        if (Physics.Raycast(ray2, maxDistance, _fieldLayer))
+            return true;
+        if (Physics.Raycast(raycenter, maxDistance, _fieldLayer))
+            return true;
+        return false;
     }
 
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        /*
-        Rigidbody body = hit.collider.attachedRigidbody;
-        //
-        // if (hit.gameObject.tag == "Item")
-        // {
-        //     item_box_make itemBoxMake = hit.gameObject.GetComponent<item_box_make>();
-        //     if (itemBoxMake.effect_switch == true)
-        //     {
-        //         playerState.SetItem(itemBoxMake.now_type);
-        //         Destroy(hit.gameObject);
-        //     }
-        // }
-        
-        if (body == null || body.isKinematic)
-            return;
+        if (hit.transform.tag == "DestroyWall")
+        {
+            Rigidbody body = hit.collider.attachedRigidbody;
+            
+            if (body == null || body.isKinematic)
+                return;
 
-        if (hit.moveDirection.y < -0.3F)
-            return;
+            // if (hit.moveDirection.y < -0.3F)
+            //     return;
 
-        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-        body.velocity = pushDir * pushPower;
-        
-        // if (hit.gameObject.tag == "Coin")
-        // {
-        //     playerState.AddPoint(1);
-        //     Destroy(hit.gameObject);
-        // }
-        */
+            Vector3 pushDir = new Vector3(hit.moveDirection.x, hit.moveDirection.y, hit.moveDirection.z);
+            body.velocity = pushDir * pushPower;
+        }
+
     }
 }

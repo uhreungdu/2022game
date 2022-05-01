@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6541555437007112738
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2900341112282212483}
+  - component: {fileID: 7343780508618709875}
+  m_Layer: 9
+  m_Name: Armo
+  m_TagString: Wall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2900341112282212483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6541555437007112738}
+  m_LocalRotation: {x: -0.07245488, y: 0, z: 0, w: 0.99737173}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4048980793554443009}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -8.31, y: 0, z: 0}
+--- !u!65 &7343780508618709875
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6541555437007112738}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1.72, y: 0.98, z: 12.9}
+  m_Center: {x: 0, y: 4.82, z: 7.61}
 --- !u!1 &7071477529978377501
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,8 +77,9 @@ Transform:
   m_GameObject: {fileID: 7071477529978377501}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_Children:
+  - {fileID: 2900341112282212483}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -2.923, y: 0, z: 0}
@@ -57,7 +102,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cc6b5091f0247884cbf8b6f10c6d535f, type: 2}
+  - {fileID: 2100000, guid: 708df757c9e0271439cc6500d8ddca59, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,6 +164,8 @@ MonoBehaviour:
   _reSpawnTime: 10
   _ExplosionForce: 1000
   effect_obj: {fileID: 0}
+  prefeb_effect: {fileID: 43508311127239940, guid: 84309fdd9219f1d43b57248b43322cbc, type: 3}
+  _Map: {fileID: 0}
 --- !u!64 &3995110688742713519
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -128,7 +175,7 @@ MeshCollider:
   m_GameObject: {fileID: 7071477529978377501}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -152,7 +199,6 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 6686473555059964484}
   - {fileID: 2525943057925866058}
   - {fileID: 1423886137345405829}
   sceneViewId: 0

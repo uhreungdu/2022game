@@ -19,6 +19,7 @@ TagManager:
   - Undefined
   - Spawner2
   - Heal_field
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -32,7 +33,7 @@ TagManager:
   - Building
   - PostProcess
   - Potion
-  - 
+  - ItemBeacon
   - 
   - 
   - 

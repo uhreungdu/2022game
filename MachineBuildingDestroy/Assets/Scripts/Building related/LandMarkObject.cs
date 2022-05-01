@@ -28,7 +28,11 @@ public class LandMarkObject : BulidingObject
     void Update()
     {
         base.Update();
-        if (!_gameManager.EManager.gameSet) 
+        if (_gameManager == null)
+        {
+            
+        }
+        else if (!_gameManager.EManager.gameSet) 
         {
             if (!dead)
             {
