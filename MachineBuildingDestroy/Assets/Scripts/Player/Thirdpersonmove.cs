@@ -244,33 +244,19 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        
-        Rigidbody body = hit.collider.attachedRigidbody;
-        //
-        // if (hit.gameObject.tag == "Item")
-        // {
-        //     item_box_make itemBoxMake = hit.gameObject.GetComponent<item_box_make>();
-        //     if (itemBoxMake.effect_switch == true)
-        //     {
-        //         playerState.SetItem(itemBoxMake.now_type);
-        //         Destroy(hit.gameObject);
-        //     }
-        // }
-        
-        if (body == null || body.isKinematic)
-            return;
+        if (hit.transform.tag == "DestroyWall")
+        {
+            Rigidbody body = hit.collider.attachedRigidbody;
+            
+            if (body == null || body.isKinematic)
+                return;
 
-        // if (hit.moveDirection.y < -0.3F)
-        //     return;
+            // if (hit.moveDirection.y < -0.3F)
+            //     return;
 
-        Vector3 pushDir = new Vector3(hit.moveDirection.x, hit.moveDirection.y, hit.moveDirection.z);
-        body.velocity = pushDir * pushPower;
-        
-        // if (hit.gameObject.tag == "Coin")
-        // {
-        //     playerState.AddPoint(1);
-        //     Destroy(hit.gameObject);
-        // }
-        
+            Vector3 pushDir = new Vector3(hit.moveDirection.x, hit.moveDirection.y, hit.moveDirection.z);
+            body.velocity = pushDir * pushPower;
+        }
+
     }
 }
