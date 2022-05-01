@@ -292,8 +292,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8446267442963530886}
   - component: {fileID: 705437416452027279}
-  - component: {fileID: 3740170808644394286}
-  - component: {fileID: 677094238419262242}
   m_Layer: 7
   m_Name: Bip001 L Hand
   m_TagString: Untagged
@@ -329,47 +327,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7241039, y: 1.6174656, z: 1.7580135}
   m_Center: {x: -0.7654917, y: -0.08358213, z: 0.086003415}
---- !u!114 &3740170808644394286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2180859391767357418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerState: {fileID: 0}
-  _hitBoxColliders: []
-  _playerImpact: {fileID: 0}
-  _lHandBoxCollider: {fileID: 0}
-  _rHandBoxCollider: {fileID: 0}
-  LHandGameObject: {fileID: 0}
-  RHandGameObject: {fileID: 0}
---- !u!114 &677094238419262242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2180859391767357418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84706398a7246b64a88ad63dc72ddd32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hand_Box: {fileID: 0}
-  use_Ef: {fileID: 0}
-  get_Obj: {fileID: 0}
-  effect_obj: {fileID: 0}
-  Tail_obj: {fileID: 0}
-  Hit_VFX: {fileID: 0}
-  pos_set: {x: 0, y: 0, z: 0}
-  box_col: {fileID: 0}
-  _lHandGameObject: {fileID: 0}
-  _RHandGameObject: {fileID: 0}
 --- !u!1 &2241360500487513234
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,8 +905,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2074015300056024683}
   - component: {fileID: 3359276572069902125}
-  - component: {fileID: 4866526411527519107}
-  - component: {fileID: 7611872319929001456}
   m_Layer: 7
   m_Name: Bip001 R Hand
   m_TagString: Untagged
@@ -985,47 +940,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7241039, y: 1.6174656, z: 1.7580135}
   m_Center: {x: -0.7654917, y: -0.08358213, z: 0.086003415}
---- !u!114 &4866526411527519107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8884228648477719272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df478a44ca0b48045b48f37bab655b5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerState: {fileID: 0}
-  _hitBoxColliders: []
-  _playerImpact: {fileID: 0}
-  _lHandBoxCollider: {fileID: 0}
-  _rHandBoxCollider: {fileID: 0}
-  LHandGameObject: {fileID: 0}
-  RHandGameObject: {fileID: 0}
---- !u!114 &7611872319929001456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8884228648477719272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84706398a7246b64a88ad63dc72ddd32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hand_Box: {fileID: 0}
-  use_Ef: {fileID: 0}
-  get_Obj: {fileID: 0}
-  effect_obj: {fileID: 0}
-  Tail_obj: {fileID: 0}
-  Hit_VFX: {fileID: 0}
-  pos_set: {x: 0, y: 0, z: 0}
-  box_col: {fileID: 0}
-  _lHandGameObject: {fileID: 0}
-  _RHandGameObject: {fileID: 0}
 --- !u!1 &8890271265348104820
 GameObject:
   m_ObjectHideFlags: 0
