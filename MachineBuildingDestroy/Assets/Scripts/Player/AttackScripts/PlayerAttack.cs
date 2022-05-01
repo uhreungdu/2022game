@@ -17,6 +17,9 @@ public class PlayerAttack : MonoBehaviour
     
     protected float _lastColliderOnTime; // 콜라이더가 켜진 시점
     protected float _lastColliderActiveTime; // 공격 켜져있는 시간
+
+    protected float _coolTime = 0f;
+    protected float _lastUsedTime;
     
     public void AfterCastRecovery()
     {
@@ -25,6 +28,15 @@ public class PlayerAttack : MonoBehaviour
             SetAffterCast(0);
         }
     }
+    public bool CoolTimer()
+    {
+        if (Time.time >= _lastUsedTime + _coolTime)
+        {
+            return true;
+        }
+        return false;
+    }
+    
     public bool ActiveColliderCheck()
     {
         if (Time.time >= _lastColliderOnTime + _lastColliderActiveTime)
@@ -39,6 +51,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (set >= 1)
         {
+            _lastUsedTime = Time.time;
             _playerState._lastAttackTime = Time.time;
             _playerState._aftercastAttack = _aftercastAttack;
             _playerState.aftercast = true;

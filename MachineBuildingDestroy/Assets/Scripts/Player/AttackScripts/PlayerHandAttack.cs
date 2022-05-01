@@ -26,7 +26,7 @@ public class PlayerHandAttack : PlayerAttack
         _attackName = "기본공격";
         SetAffterCast(0);
         _lastColliderActiveTime = 0.23f; // 공격 유지 시간
-        _aftercastAttack = 0.467f;
+        _aftercastAttack = 0.3f;
         _damage = 10;
         
         _hitBoxColliders.Add(_lHandBoxCollider);

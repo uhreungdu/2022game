@@ -57,6 +57,17 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                     GameObject temp = Instantiate(tilepref, tilepref.transform.position, tilepref.transform.rotation);
                     temp.transform.parent = gameObject.transform;
                     temp.transform.position += GetPoint();
+                    Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
+                    if (temprigidbody != null)
+                        temp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                    Destroy(temp.GetComponentInChildren<BulidingObject>());
+                    Destroy(temp.GetComponentInChildren<LandMarkObject>());
+                    Collider[] tempColliders = temp.GetComponentsInChildren<Collider>();
+                    if (tempColliders != null)
+                    foreach (var collider in tempColliders)
+                    {
+                        collider.enabled = false;
+                    }
                 }
             }
         }
@@ -104,7 +115,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 transform.position = Point;
                 transform.GetChild(0).position = Point;
                 transform.GetChild(0).position += tilepref.transform.position;
-                transform.rotation = Quaternion.Euler(0, _rotate, 0);
+                transform.GetChild(0).rotation = Quaternion.Euler(0, _rotate, 0);
             }
         }
     }
@@ -124,6 +135,12 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                         tile.position = transform.GetChild(0).position;
                         tile.rotate = transform.GetChild(0).rotation;
                         map.maptile.Tiles.Add(tile);
+                        Collider[] tempColliders = transform.GetChild(0).GetComponentsInChildren<Collider>();
+                        if (tempColliders != null)
+                            foreach (var collider in tempColliders)
+                            {
+                                collider.enabled = true;
+                            }
                         transform.GetChild(0).parent = map.gameObject.transform;
                     }
                 }
@@ -185,8 +202,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
         {
             Vector3 comp1 = new Vector3((int) allTile.position.x, 0,
                 (int) allTile.position.z);
-            Vector3 comp2 = new Vector3((int) transform.GetChild(0).position.x,
-                0, (int) transform.GetChild(0).position.z);
+            Vector3 comp2 = new Vector3((int) transform.position.x,
+                0, (int) transform.position.z);
             if (mapEditerManager.Prefnum == 0 && allTile.kind == 0 && comp1 == comp2)
             {
                 return true;

@@ -60,6 +60,14 @@ public class PlayerKeySystem : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
         // parent_qut = gameObject.transform.parent.transform.rotation;
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _playerAnimator.DragonPunch();
+        }
+        else
+        {
+            _playerAnimator._Animator.SetBool("DragonPunch", false);
+        }
         if (_gamePlayerInput.fire)
         {
             //Debug.Log("�� ���� = " + boxCollider.transform.forward);

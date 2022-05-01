@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -2379399838407091085}
   - component: {fileID: 7000723078772938411}
   - component: {fileID: 6596688344082244941}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: item_beacon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -219,8 +219,9 @@ public class Map : MonoBehaviour
     public GameObject SetTilepref(int kind)
     {
         GameObject obj;
+        if (kind == -1)
+            return null;
         return Prefs[kind];
-        return null;
     }
 
     public void MapLoad()
@@ -245,6 +246,9 @@ public class Map : MonoBehaviour
             if (MapEditer)
             {
                 temp.transform.parent = transform;
+                Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
+                if (temprigidbody != null)
+                    temp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                 Destroy(temp.GetComponentInChildren<BulidingObject>());
                 Destroy(temp.GetComponentInChildren<LandMarkObject>());
             }
@@ -269,6 +273,9 @@ public class Map : MonoBehaviour
             if (MapEditer)
             {
                 temp.transform.parent = transform;
+                Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
+                if (temprigidbody != null)
+                    temp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                 Destroy(temp.GetComponentInChildren<BulidingObject>());
                 Destroy(temp.GetComponentInChildren<LandMarkObject>());
             }
