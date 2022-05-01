@@ -77,7 +77,6 @@ public class LobbyManager : MonoBehaviour
         else
         {
             string results = www.downloadHandler.text;
-            Debug.Log(results);
             roomlist.GetComponent<RoomList>().SetRoomList(results.Split(';'));
             roomlist.GetComponent<RoomList>().SetRoomBlocks();
         }

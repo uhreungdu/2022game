@@ -9,6 +9,9 @@ using Photon.Realtime;
 
 public class RoomBlock : MonoBehaviour
 {
+    public GameObject roomName;
+    public GameObject playerNum;
+    
     private string _iname;
     private string _ename;
     private int _nowP;
@@ -45,13 +48,15 @@ public class RoomBlock : MonoBehaviour
     {
         if (_iname != "")
         {
-            transform.Find("Text").gameObject.GetComponent<Text>().text =
-                _ename + "\nÀÎ¿ø: " + _nowP + "/" + _maxP;
+            roomName.GetComponent<Text>().text = _ename;
+            playerNum.GetComponent<Text>().text = _nowP + " / " + _maxP;
             GetComponent<Button>().interactable = _ingame == false;
+            GetComponent<Button>().interactable = _nowP != _maxP;
         }
         else
         {
-            transform.Find("Text").gameObject.GetComponent<Text>().text = "";
+            roomName.GetComponent<Text>().text = "";
+            playerNum.GetComponent<Text>().text = "";
             GetComponent<Button>().interactable = false;
         }
     }

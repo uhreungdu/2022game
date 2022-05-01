@@ -1895,11 +1895,13 @@ MonoBehaviour:
   _ItemObject: {fileID: 0}
   _RFingerTransform: {fileID: 2547313967614434488}
   BuffOn: 0
+  can_put_Obs: 0
   buff_Time: 0
   ItemObj: {fileID: 0}
   Wall_Obstcle_Frame: {fileID: 0}
   BuffObj: {fileID: 0}
   HammerObj: {fileID: 8412881124590418949}
+  Frame_Obj: {fileID: 0}
   item_Rigid: {fileID: 0}
   parent_qut: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &25018043

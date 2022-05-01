@@ -207,7 +207,7 @@ public class BulidingObject : LivingEntity
             _MeshCollider.enabled = false;
             effect_obj = Instantiate(prefeb_effect);
             effect_obj.transform.SetParent(gameObject.transform);
-            effect_obj.transform.Translate(gameObject.transform.position - Vector3.back);
+            effect_obj.transform.Translate(gameObject.transform.position);
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
         }
