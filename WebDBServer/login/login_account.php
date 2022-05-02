@@ -29,9 +29,9 @@ if($resultval == 0){
 }
 
 // 중복접속 체크
-$result = mysqli_query($conn,"SELECT `online` FROM `character` WHERE binary(account_id)=$id;");
+$result = mysqli_query($conn,"SELECT online_status FROM `character` WHERE binary(account_id)=$id;");
 $resultval = $result->fetch_array()[0];
-if($resultval == 1){
+if($resultval == "online"){
     echo('Msg:Already Online;');
     exit();
 }
@@ -49,7 +49,7 @@ while($row = mysqli_fetch_array($result)){
 // 마지막 로그인 시간 기록
 mysqli_query($conn,
 "UPDATE account as A, `character` as C
-SET A.last_login = current_timestamp(), C.online=1
+SET A.last_login = current_timestamp(), C.online_status='online'
 WHERE binary(A.account_id)=$id and binary(C.account_id)=$id;");
 
 // 플레이중인지 체크

@@ -327,6 +327,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7241039, y: 1.6174656, z: 1.7580135}
   m_Center: {x: -0.7654917, y: -0.08358213, z: 0.086003415}
+--- !u!1 &2241360500487513234
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5393745410705191396}
+  m_Layer: 7
+  m_Name: Sphere001
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5393745410705191396
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2241360500487513234}
+  m_LocalRotation: {x: -0.0000000059624403, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.032164123, y: -1.4506803, z: -3.2587707}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2683703777068633427}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3347791841662375913
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,7 +368,7 @@ GameObject:
   - component: {fileID: 2683703777068633427}
   - component: {fileID: 5621900618034209861}
   m_Layer: 7
-  m_Name: LobbyPlayer1
+  m_Name: LobbyPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -357,6 +387,7 @@ Transform:
   m_Children:
   - {fileID: 3012308084986706021}
   - {fileID: 1134312676444021498}
+  - {fileID: 5393745410705191396}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}

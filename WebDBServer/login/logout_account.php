@@ -5,5 +5,5 @@ $id=$_POST['id'];
 
 mysqli_query($conn,
 "UPDATE `character` as C
-SET C.online=0
+SET C.online_status='offline'
 WHERE binary(C.account_id)=$id;");
