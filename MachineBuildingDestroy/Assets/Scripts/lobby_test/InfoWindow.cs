@@ -7,10 +7,12 @@ using UnityEngine.UI;
 
 public class InfoWindow : MonoBehaviour
 {
-    public GameObject Name;
-    public GameObject Level;
-    public GameObject Customize;
+    public GameObject playerName;
+    public GameObject level;
+    public int costume;
+    public GameObject gameResults;
     public GameObject account;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -20,15 +22,7 @@ public class InfoWindow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!this.gameObject.activeSelf) return;
-        if (this.transform.localPosition.y > 0)
-        {
-            this.transform.Translate(0, -1600.0f * Time.deltaTime, 0);
-        }
-        else if(this.transform.localScale.x<=0.4166667f)
-        {
-            this.transform.localScale += new Vector3(0.4166667f * Time.deltaTime * 4.0f, 0, 0);
-        }
+
     }
 
     private void OnDisable()
@@ -42,6 +36,7 @@ public class InfoWindow : MonoBehaviour
     private void Awake()
     {
         account = GameObject.Find("Account");
+        StartCoroutine(GetPlayerInfo());
     }
 
     public IEnumerator GetPlayerInfo()
@@ -59,11 +54,17 @@ public class InfoWindow : MonoBehaviour
         else
         {
             string results = www.downloadHandler.text;
-            Debug.Log(results);
-            Name.GetComponent<Text>().text = GetStringDataValue(results, "character_name:");
-            Level.GetComponent<Text>().text = GetStringDataValue(results, "character_level:");
-            Customize.GetComponent<Text>().text = GetStringDataValue(results, "customize_1:") + " | "+ 
-                                                  GetStringDataValue(results, "customize_2:");
+            playerName.GetComponent<Text>().text = GetStringDataValue(results, "name:");
+
+            var win = GetIntDataValue(results, "win:");
+            var lose = GetIntDataValue(results, "lose:");
+            gameResults.GetComponent<Text>().text = "총 게임 수: " + (win + lose) + "\n"
+                +"승리: " + win + "\n"
+                +"패배: " + lose;
+            //Level.GetComponent<Text>().text = GetStringDataValue(results, "level:");
+             
+            costume = GetIntDataValue(results, "costume:");
+
         }
     }
     string GetStringDataValue(string data, string index)
