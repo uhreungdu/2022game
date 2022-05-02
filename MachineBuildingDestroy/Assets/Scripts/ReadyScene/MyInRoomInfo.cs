@@ -4,44 +4,81 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
+public struct PlayersInfomation
+{
+    public string Name;
+    public int Costume;
+    public int SlotNum;
+    public string Platform;
+}
+
 public class MyInRoomInfo : MonoBehaviour
 {
-    private int myslotnum = 0;
-    private bool _is_master = false;
-    public bool _is_ready = false;
+    public PlayersInfomation[] Infomations;
+
+    private static MyInRoomInfo _instance;
+    private int _mySlotNum = 0;
+    private bool _isMaster = false;
+    private bool _isReady = false;
     
-    // Start is called before the first frame update
-    void Start()
+    public static MyInRoomInfo GetInstance()
     {
-        DontDestroyOnLoad(gameObject); 
+        if (_instance == null)
+        {
+            _instance = FindObjectOfType<MyInRoomInfo>();
+            if (_instance == null)
+            {
+                GameObject container = new GameObject("Myroominfo");
+                _instance = container.AddComponent<MyInRoomInfo>();
+            }
+        }
+
+        return _instance;
     }
 
-    // Update is called once per frame
-    void Update()
+    void Awake()
     {
-        
+        var obj = FindObjectsOfType<MyInRoomInfo>();
+        Infomations = new PlayersInfomation[6];
+        if (obj.Length == 1)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()
     {
-        _is_master = PhotonNetwork.IsMasterClient;
+        isMaster = PhotonNetwork.IsMasterClient;
+        
     }
 
-    public int MySlotNum
+    public void RenewInfo(int index, Slot slot)
     {
-        set => myslotnum = value;
-        get => myslotnum;
+        Infomations[index].Name = slot.Nickname;
+        Infomations[index].Costume = 0;
+        Infomations[index].SlotNum = index;
+        Infomations[index].Platform = slot.Platform;
+    }
+
+    public int mySlotNum
+    {
+        set => _mySlotNum = value;
+        get => _mySlotNum;
     }
     
-    public bool IsMaster
+    public bool isMaster
     {
-        get => _is_master;
-        set => _is_master = value;
+        get => _isMaster;
+        set => _isMaster = value;
     }
     
-    public bool IsReady
+    public bool isReady
     {
-        get => _is_ready;
-        set => _is_ready = value;
+        get => _isReady;
+        set => _isReady = value;
     }
 }

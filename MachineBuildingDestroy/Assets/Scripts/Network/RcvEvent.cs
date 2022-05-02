@@ -45,7 +45,7 @@ public class RcvEvent : MonoBehaviourPun
                 int team = -2;
                 if (info != null)
                 {
-                    team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
+                    team = info.GetComponent<MyInRoomInfo>().mySlotNum % 3;
                 }
 
                 transform.GetComponent<NetworkManager>().SetTeamNumOnServerEvent(PhotonNetwork.NickName, team);
