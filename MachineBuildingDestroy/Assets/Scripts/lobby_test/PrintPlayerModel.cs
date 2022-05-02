@@ -7,17 +7,24 @@ using UnityEngine;
 public class PrintPlayerModel : MonoBehaviour
 {
     public GameObject[] models = new GameObject[6];
-    public int nowModelNum = 0;
+
 
     public void RenewPlayerModel(int num)
     {
-        nowModelNum = num;
         if (transform.childCount == 0)
         {
-            var model = Instantiate(models[nowModelNum]);
+            var model = Instantiate(models[num]);
             model.transform.parent = transform;
             model.transform.position = transform.position;
-            
+            model.transform.localScale = new Vector3(350, 350, 350);
+        }
+        else
+        {
+            Destroy(transform.GetChild(0).gameObject);
+            var model = Instantiate(models[num]);
+            model.transform.parent = transform;
+            model.transform.position = transform.position;
+            model.transform.localScale = new Vector3(350, 350, 350);
         }
     }
 
