@@ -1546,33 +1546,33 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: Stiffen
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: RepeatStiffen
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Jump
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsGrounded
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Falldown
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: HammerAttack
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: DashAttack
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Throw
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: DragonPunch
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 1
 --- !u!143 &362423289143800835
 CharacterController:

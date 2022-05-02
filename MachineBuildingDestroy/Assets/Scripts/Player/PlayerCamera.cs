@@ -8,10 +8,11 @@ public class PlayerCamera : MonoBehaviour
 {
     public Camera _Camera;
     public LayerMask _fieldLayer;
+    public GameObject _Building;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _Building = null;
     }
 
     // Update is called once per frame
@@ -35,11 +36,17 @@ public class PlayerCamera : MonoBehaviour
         Physics.Raycast(ray, out _raycastHit, maxDistance, _fieldLayer);
         if (_raycastHit.transform != null)
         {
-            if (_raycastHit.transform.tag == "Wall")
+            if (_raycastHit.transform.tag == "Wall" && _raycastHit.transform.gameObject != _Building)
             {
+                if (_Building != null)
+                {
+                    MeshRenderer beforeCollisionBuilding = _Building.transform.GetComponent<MeshRenderer>();
+                    beforeCollisionBuilding.enabled = true;
+                }
                 MeshRenderer hitMeshRenderer = _raycastHit.transform.GetComponent<MeshRenderer>();
                 if (hitMeshRenderer)
                 {
+                    _Building = _raycastHit.transform.gameObject;
                     hitMeshRenderer.enabled = false;
                     // Material[] materials = hitMeshRenderer.sharedMaterials;
                     // foreach (var material in materials)
@@ -47,6 +54,15 @@ public class PlayerCamera : MonoBehaviour
                     //     // material.DOFade(0, 0.1f);
                     // }
                 }
+            }
+        }
+        else
+        {
+            if (_Building != null)
+            {
+                MeshRenderer beforeCollisionBuilding = _Building.transform.GetComponent<MeshRenderer>();
+                beforeCollisionBuilding.enabled = true;
+                _Building = null;
             }
         }
     }
