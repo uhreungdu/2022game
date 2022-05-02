@@ -38,7 +38,7 @@ public class CharacterSlots : MonoBehaviourPun
         {
             var slotComponent = slots[i].GetComponent<Slot>();
             if (slotComponent.Nickname != PhotonNetwork.NickName) continue;
-            info.GetComponent<MyInRoomInfo>().MySlotNum = i;
+            info.GetComponent<MyInRoomInfo>().mySlotNum = i;
             num = i;
             break;
         }
@@ -47,6 +47,14 @@ public class CharacterSlots : MonoBehaviourPun
         for (var i = 0; i < 6; ++i)
         {
             var slotComponent = slots[i].GetComponent<Slot>();
+            slots[i].GetComponent<Image>().color = num!=i ? Color.white : Color.yellow;
+        }
+        
+        // 룸 정보 갱신
+        for (var i = 0; i < 6; ++i)
+        {
+            var slotComponent = slots[i].GetComponent<Slot>();
+            info.GetComponent<MyInRoomInfo>().RenewInfo(i, slotComponent);
             slots[i].GetComponent<Image>().color = num!=i ? Color.white : Color.yellow;
         }
         

@@ -24,16 +24,16 @@ public class ChangeTeamButton : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        transform.GetComponent<Button>().interactable = !Info.GetComponent<MyInRoomInfo>().IsReady;
+        transform.GetComponent<Button>().interactable = !Info.GetComponent<MyInRoomInfo>().isReady;
     }
 
     public void OnClick()
     {
-        int mynum = Info.GetComponent<MyInRoomInfo>().MySlotNum;
+        int mynum = Info.GetComponent<MyInRoomInfo>().mySlotNum;
         var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();
         var myslot = slots.slots[mynum].GetComponent<Slot>();
         
-        int mySlotNum = Info.GetComponent<MyInRoomInfo>().MySlotNum;
+        int mySlotNum = Info.GetComponent<MyInRoomInfo>().mySlotNum;
         if (mySlotNum < 3)
         {
             for (int i = 3; i < 6; ++i)

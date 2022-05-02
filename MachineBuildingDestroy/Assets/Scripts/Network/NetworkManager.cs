@@ -92,8 +92,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         int team = 0;
         if (info != null)
         {
-            team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
-            Destroy(info);
+            team = info.GetComponent<MyInRoomInfo>().mySlotNum % 3;
+            //Destroy(info);
         }
         while (_team1Spawner == null)
         {

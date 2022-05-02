@@ -27,25 +27,25 @@ public class StartButton : MonoBehaviourPun
     private void FixedUpdate()
     {
         var info = Info.GetComponent<MyInRoomInfo>(); 
-        if (info.IsMaster)
+        if (info.isMaster)
         {
             transform.GetChild(0).GetComponent<Text>().text = "START";
         }
         else
         {
-            transform.GetChild(0).GetComponent<Text>().text = info.IsReady ? "READY CANCEL" : "READY";
+            transform.GetChild(0).GetComponent<Text>().text = info.isReady ? "READY CANCEL" : "READY";
         }
     }
 
     public void OnClick()
     {
         var info = Info.GetComponent<MyInRoomInfo>();
-        if (info.IsMaster)
+        if (info.isMaster)
         {
             var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();
             for (int i = 0; i < 6; ++i)
             {
-                if(i==info.MySlotNum) continue;
+                if(i==info.mySlotNum) continue;
                 
                 var target = slots.slots[i].GetComponent<Slot>();
                 if (target.Nickname != "" && !target.IsReady)
@@ -59,15 +59,15 @@ public class StartButton : MonoBehaviourPun
         }
         else
         {
-            if (info.IsReady)
+            if (info.isReady)
             {
-                info.IsReady = false;
-                photonView.RPC("ReadyPlayerSlot", RpcTarget.MasterClient, info.MySlotNum, false);
+                info.isReady = false;
+                photonView.RPC("ReadyPlayerSlot", RpcTarget.MasterClient, info.mySlotNum, false);
             }
             else
             {
-                info.IsReady = true;
-                photonView.RPC("ReadyPlayerSlot", RpcTarget.MasterClient, info.MySlotNum, true);
+                info.isReady = true;
+                photonView.RPC("ReadyPlayerSlot", RpcTarget.MasterClient, info.mySlotNum, true);
             }
         }
     }
