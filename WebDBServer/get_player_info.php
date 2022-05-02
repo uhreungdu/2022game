@@ -1,7 +1,7 @@
 <?php
 $conn = mysqli_connect("localhost","root","kpu2022project","2022project");
 
-$id=$_POST['id'];
+$id=$_GET['id'];
 
 $result = mysqli_query($conn,
 "SELECT character_name, character_level, costume, win, lose

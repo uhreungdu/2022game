@@ -1653,8 +1653,8 @@ MonoBehaviour:
   playerName: {fileID: 2025415418}
   level: {fileID: 0}
   costume: 0
+  playerModel: {fileID: 8116169}
   gameResults: {fileID: 2027764566}
-  account: {fileID: 0}
 --- !u!114 &480079076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1944,7 +1944,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.024841309}
+  m_AnchoredPosition: {x: 0, y: 0.005432129}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &544727222
@@ -2057,7 +2057,7 @@ GameObject:
   - component: {fileID: 584191684}
   - component: {fileID: 584191683}
   m_Layer: 5
-  m_Name: Image
+  m_Name: CharacterChangeWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2299,7 +2299,7 @@ GameObject:
   - component: {fileID: 635194289}
   - component: {fileID: 635194288}
   m_Layer: 5
-  m_Name: "\uCE90\uB9AD\uD130"
+  m_Name: CharacterModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2782,7 +2782,7 @@ GameObject:
   - component: {fileID: 732651130}
   - component: {fileID: 732651133}
   m_Layer: 5
-  m_Name: "\uBCC0\uACBD\uBC84\uD2BC"
+  m_Name: ChangeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4406,7 +4406,7 @@ GameObject:
   - component: {fileID: 1756897610}
   - component: {fileID: 1756897609}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

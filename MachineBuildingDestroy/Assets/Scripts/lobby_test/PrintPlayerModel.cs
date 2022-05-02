@@ -28,8 +28,4 @@ public class PrintPlayerModel : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        RenewPlayerModel(0);
-    }
 }
