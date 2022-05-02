@@ -20,6 +20,8 @@ TagManager:
   - Spawner2
   - Heal_field
   - Ground
+  - Front_VFX
+  - Side_VFX
   layers:
   - Default
   - TransparentFX
