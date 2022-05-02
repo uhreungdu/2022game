@@ -15,7 +15,7 @@ public class PlayerDashAttack : PlayerAttack
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
-        _aftercastAttack = 0.8f;
+        _aftercastAttack = 0.467f;
         SetAffterCast(0);
         _damage = 20;
         

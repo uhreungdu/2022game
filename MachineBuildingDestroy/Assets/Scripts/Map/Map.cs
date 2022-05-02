@@ -219,8 +219,9 @@ public class Map : MonoBehaviour
     public GameObject SetTilepref(int kind)
     {
         GameObject obj;
+        if (kind == -1)
+            return null;
         return Prefs[kind];
-        return null;
     }
 
     public void MapLoad()
@@ -242,9 +243,43 @@ public class Map : MonoBehaviour
         {
             GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
             GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
-            // temp.transform.parent = transform;
+            if (MapEditer)
+            {
+                temp.transform.parent = transform;
+                Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
+                if (temprigidbody != null)
+                    temp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                Destroy(temp.GetComponentInChildren<BulidingObject>());
+                Destroy(temp.GetComponentInChildren<LandMarkObject>());
+            }
         }
 
+    }
+
+    public void ReLoadMap()
+    {
+        Transform[] allChildren = GetComponentsInChildren<Transform>();
+        foreach (var child in allChildren)
+        {
+            if (child.gameObject != gameObject)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        for (int i = 0; i < maptile.Tiles.Count; ++i)
+        {
+            GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
+            GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
+            if (MapEditer)
+            {
+                temp.transform.parent = transform;
+                Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
+                if (temprigidbody != null)
+                    temp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                Destroy(temp.GetComponentInChildren<BulidingObject>());
+                Destroy(temp.GetComponentInChildren<LandMarkObject>());
+            }
+        }
     }
 
     public void CreateNetworkMap()

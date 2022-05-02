@@ -27,14 +27,17 @@ public class BulidingObject : LivingEntity
 
     public GameObject effect_obj;
     public GameObject prefeb_effect;
+    public Map _Map;
 
     // Start is called before the first frame update
     protected void Start()
     {
-        var objectName = gameObject.transform.root.name;
-         objectName = objectName.Remove(objectName.Length - 7, 7);
-         AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation, _reSpawnTime);
+            var objectName = gameObject.transform.root.name;
+            objectName = objectName.Remove(objectName.Length - 7, 7);
+            AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
+                _reSpawnTime);
         
+
         rigidbody = GetComponentInChildren<Rigidbody>();
         _MeshRenderer = GetComponentInChildren<MeshRenderer>();
         _MeshCollider = GetComponentInChildren<MeshCollider>();
@@ -45,7 +48,11 @@ public class BulidingObject : LivingEntity
     // Update is called once per frame
     protected void Update()
     {
-        if (!_Gamemanager.EManager.gameSet)
+        if (_Gamemanager == null)
+        {
+
+        }
+        else if (!_Gamemanager.EManager.gameSet)
         {
             DeathTimer();
         }

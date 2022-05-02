@@ -54,8 +54,20 @@ public class MapEditerOnScreenPoint : MonoBehaviour
 
                 if (tilepref != null)
                 {
-                    GameObject temp = Instantiate(tilepref, GetPoint(), tilepref.transform.rotation);
+                    GameObject temp = Instantiate(tilepref, tilepref.transform.position, tilepref.transform.rotation);
                     temp.transform.parent = gameObject.transform;
+                    temp.transform.position += GetPoint();
+                    Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
+                    if (temprigidbody != null)
+                        temp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                    Destroy(temp.GetComponentInChildren<BulidingObject>());
+                    Destroy(temp.GetComponentInChildren<LandMarkObject>());
+                    Collider[] tempColliders = temp.GetComponentsInChildren<Collider>();
+                    if (tempColliders != null)
+                    foreach (var collider in tempColliders)
+                    {
+                        collider.enabled = false;
+                    }
                 }
             }
         }
@@ -99,10 +111,11 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 {
                     Point.z = 5 + z * 10;
                 }
-
+                GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
                 transform.position = Point;
                 transform.GetChild(0).position = Point;
-                transform.rotation = Quaternion.Euler(0, _rotate, 0);
+                transform.GetChild(0).position += tilepref.transform.position;
+                transform.GetChild(0).rotation = Quaternion.Euler(0, _rotate, 0);
             }
         }
     }
@@ -122,6 +135,12 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                         tile.position = transform.GetChild(0).position;
                         tile.rotate = transform.GetChild(0).rotation;
                         map.maptile.Tiles.Add(tile);
+                        Collider[] tempColliders = transform.GetChild(0).GetComponentsInChildren<Collider>();
+                        if (tempColliders != null)
+                            foreach (var collider in tempColliders)
+                            {
+                                collider.enabled = true;
+                            }
                         transform.GetChild(0).parent = map.gameObject.transform;
                     }
                 }
@@ -183,8 +202,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
         {
             Vector3 comp1 = new Vector3((int) allTile.position.x, 0,
                 (int) allTile.position.z);
-            Vector3 comp2 = new Vector3((int) transform.GetChild(0).position.x,
-                0, (int) transform.GetChild(0).position.z);
+            Vector3 comp2 = new Vector3((int) transform.position.x,
+                0, (int) transform.position.z);
             if (mapEditerManager.Prefnum == 0 && allTile.kind == 0 && comp1 == comp2)
             {
                 return true;
@@ -210,7 +229,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 map.maptile.Tiles.Remove(allTile);
                 return true;
             }
-            else if (mapEditerManager.Prefnum != 0 && allTile.kind > 0 && comp1 == comp2)
+            else if (mapEditerManager.Prefnum != 0 && allTile.kind > 0 && comp1 == comp2 && mapEditerManager.Prefnum == allTile.kind)
             {
                 map.maptile.Tiles.Remove(allTile);
                 return true;
@@ -221,10 +240,20 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     
     void OnTriggerEnter(Collider other)
     {
-        if (InstallCheck() && other.transform.parent.name != "Pointer")
+        if (other.transform.parent == null)
         {
-            InstallCheckRemove();
-            Destroy(other.gameObject);
+            if (InstallCheck())
+            {
+                if (InstallCheckRemove())
+                    map.ReLoadMap();
+            }
+        }
+        else if (InstallCheck() && other.transform.parent.name != "Pointer")
+        {
+            if (InstallCheckRemove())
+            {
+                map.ReLoadMap();
+            }
         }
     }
 }

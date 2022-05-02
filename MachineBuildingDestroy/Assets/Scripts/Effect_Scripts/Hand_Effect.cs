@@ -51,7 +51,8 @@ public class Hand_Effect : MonoBehaviour
         {
             if (other.gameObject != transform.root.gameObject)
             {
-                effect_obj.transform.position = other.ClosestPointOnBounds(transform.position);
+                Vector3 centerpo = (other.ClosestPoint(transform.position) + transform.position)/2f;
+                effect_obj.transform.position = centerpo;
                 Hit_VFX.Play();
             }
         }
