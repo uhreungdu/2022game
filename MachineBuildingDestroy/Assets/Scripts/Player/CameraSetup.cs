@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Photon.Pun;
+using DG.Tweening;
 
 public class CameraSetup : MonoBehaviourPun
 {
