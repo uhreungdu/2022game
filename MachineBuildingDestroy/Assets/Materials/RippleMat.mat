@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Arcade Graph
-  m_Shader: {fileID: -6465566751694194690, guid: f7c2d7a9e456f194bb71abeec8c3491e, type: 3}
+  m_Name: RippleMat
+  m_Shader: {fileID: -6465566751694194690, guid: 544212864e0982c4c8eea4a76be481c2, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,12 +19,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_5bd76b889a4246a4abed62718821026c:
-        m_Texture: {fileID: 0}
+    - MainTex:
+        m_Texture: {fileID: 2800000, guid: 4608992f408d47347a36b8c766d5a1ae, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - Texture2D_ba4c4fd9b3ae4891a9b118407e423774:
-        m_Texture: {fileID: 2800000, guid: d4914d994e35a774fbc49dc3deb83c11, type: 3}
+    - Texture2D_db5b3fb1c3d3468eadd1a1ada3bccbf2:
+        m_Texture: {fileID: 2800000, guid: c5fbfe1127bb0bc449f482cc39943542, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -39,6 +39,17 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - Magnifiaction: 0.5
+    - Sine_Max: 1
+    - Sine_Min: -1
+    - Size: 0.1
+    - Speed: 1
+    - Temp_Time: 0
+    - focal_Point_X: 0.5
+    - focal_Point_Y: 0.5
+    m_Colors:
+    - Color_8b3c590c68814286a5958ceb56fea530: {r: 0.8962264, g: 0.09723213, b: 0.09723213, a: 1}
+    - Color_f20e6a5574fd4b96b6bc2873ba01fa7d: {r: 1, g: 0, b: 0, a: 0}
+    - focal_Point: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
