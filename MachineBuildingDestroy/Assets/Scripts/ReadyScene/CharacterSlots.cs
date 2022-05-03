@@ -26,9 +26,11 @@ public class CharacterSlots : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        if(!init){
-            photonView.RPC("SetSlotByQuick",RpcTarget.MasterClient,
-            PhotonNetwork.NickName, Application.platform.ToString());
+        if(!init)
+        {
+            var nickname = PhotonNetwork.NickName;
+            var platform = Application.platform.ToString();
+            photonView.RPC("SetSlotByQuick",RpcTarget.MasterClient, nickname, platform);
             init = true;
         }
         

@@ -339,6 +339,7 @@ GameObject:
   - component: {fileID: 8004842236458518852}
   - component: {fileID: 8004842236458518853}
   - component: {fileID: 8004842236458518854}
+  - component: {fileID: 4936754967498138204}
   m_Layer: 5
   m_Name: SendButton
   m_TagString: Untagged
@@ -450,7 +451,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8004842236458518854}
         m_TargetAssemblyTypeName: ChatSendButton, Assembly-CSharp
-        m_MethodName: SendChat
+        m_MethodName: SendNormalChat
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -473,6 +474,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputfield: {fileID: 8004842236856933845}
+  chatLog: {fileID: 0}
+--- !u!114 &4936754967498138204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004842236458518851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &8004842236602589925
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,7 +532,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.021087646}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8004842236602589927
@@ -1127,7 +1151,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8004842237161559621}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99997395
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
