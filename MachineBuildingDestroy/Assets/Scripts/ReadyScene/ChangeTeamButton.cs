@@ -34,9 +34,9 @@ public class ChangeTeamButton : MonoBehaviourPun
         var myslot = slots.slots[mynum].GetComponent<Slot>();
         
         int mySlotNum = Info.GetComponent<MyInRoomInfo>().mySlotNum;
-        if (mySlotNum < 3)
+        if (mySlotNum % 2 == 0)
         {
-            for (int i = 3; i < 6; ++i)
+            for (int i = 1; i < 6; i+=2)
             {
                 var target = slots.slots[i].GetComponent<Slot>();
                 if (target.Nickname == "")
@@ -49,7 +49,7 @@ public class ChangeTeamButton : MonoBehaviourPun
         }
         else
         {
-            for (int i = 0; i < 2; ++i)
+            for (int i = 0; i < 6; i+=2)
             {
                 var target = slots.slots[i].GetComponent<Slot>();
                 if (target.Nickname == "")
