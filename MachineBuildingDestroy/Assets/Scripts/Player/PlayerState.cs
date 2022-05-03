@@ -137,7 +137,7 @@ public class PlayerState : LivingEntity, IPunObservable
         //OnDamage(damage);
         photonView.RPC("OnDamage", RpcTarget.AllViaServer, damage);
     }
-
+ 
     public override void Die() {
         // LivingEntity?�� Die()�? ?��?��?��?�� 기본 ?���? 처리 ?��?��
         base.Die();

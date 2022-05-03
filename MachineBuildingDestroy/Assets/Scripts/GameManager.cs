@@ -152,6 +152,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             if (EManager.gameSet && now_timer.Ntimer >= EManager.gameSetTime + 7)
             {
                 PhotonNetwork.LoadLevel("GameResultScene");
+                GameInfo gameInfo = GameInfo.GetInstance();
+                for (int i = 0; i < 2; i++)
+                {
+                    gameInfo.Infomations.gamescore[i] = gamescore[i];
+                }
                 Destroy(UImanager.GetInstance().gameObject);
                 Destroy(gameObject);
             }

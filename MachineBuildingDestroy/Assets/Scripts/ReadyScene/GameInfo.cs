@@ -37,7 +37,8 @@ public class GameInfo : MonoBehaviour
         if (obj.Length == 1)
         {
             DontDestroyOnLoad(gameObject);
-        }
+            Infomations.gamescore = new int[2];
+        }                       
         else
         {
             Destroy(gameObject);
