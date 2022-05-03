@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class ChatClient : MonoBehaviour
 {
     private const string ServerAddress = "121.139.87.70";
-    private const int Port = 9888;
+    private const int Port = 9887;
     private const int BufSize = 128;
     private Socket _client;
     private IPEndPoint _ipep;
@@ -55,8 +55,15 @@ public class ChatClient : MonoBehaviour
     {
         _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         _client.Connect(_ipep);
-        byte[] senddata = Encoding.UTF8.GetBytes(PhotonNetwork.NickName);
-        _client.Send(senddata);
+        byte[] nameData = Encoding.UTF8.GetBytes(PhotonNetwork.NickName);
+        byte[] idData = Encoding.UTF8.GetBytes(Account.GetInstance().GetPlayerID());
+
+        byte[] sendData = new byte[2 + nameData.Length + idData.Length];
+        sendData[0] = (byte)nameData.Length;
+        sendData[1] = (byte) idData.Length;
+        Array.Copy(nameData,0,sendData,2,nameData.Length);
+        Array.Copy(idData, 0, sendData, 2 + nameData.Length, idData.Length);
+        _client.Send(sendData);
         _client.BeginReceive(recvbuf, 0, BufSize, 0,
             ReceiveCallback, _client);
     }
