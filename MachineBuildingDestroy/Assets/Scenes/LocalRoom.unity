@@ -1707,7 +1707,8 @@ MonoBehaviour:
   _fieldLayer:
     serializedVersion: 2
     m_Bits: 512
-  _Building: {fileID: 0}
+  _Buildings: []
+  _ExitBuildings: []
 --- !u!135 &1405073464
 SphereCollider:
   m_ObjectHideFlags: 0
