@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Collections.Specialized;
 
 namespace Chatserver
 {
@@ -22,6 +23,7 @@ namespace Chatserver
         public bool in_room = false;
         public string nickname;
         public string roomname;
+        public string id;
     }
 
     class Program
@@ -31,7 +33,7 @@ namespace Chatserver
         // 그리고 요거 안걸면 미친듯이 불림
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
-        private const int Port = 9888;
+        private const int Port = 9887;
         private const int MaxConnections = 100;
         private const int BufSize = 128;
 
@@ -98,7 +100,8 @@ namespace Chatserver
             session.socket = client;
             session.is_online = true;
             int num = client.Receive(session.buf);
-            session.nickname = Encoding.UTF8.GetString(session.buf, 0, num);
+            session.nickname = Encoding.UTF8.GetString(session.buf, 2, session.buf[0]);
+            session.id = Encoding.UTF8.GetString(session.buf, 2 + session.buf[0], session.buf[1]);
             _ClientList.Add(session);
             Console.WriteLine(client.RemoteEndPoint.ToString() + " " + session.nickname + " Connected");
 
@@ -127,7 +130,7 @@ namespace Chatserver
                         case (byte)ChatType.NormalChat:
                             {
                                 data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
-                                Console.WriteLine(data);
+                                Console.WriteLine(session.nickname+": "+data);
                                 foreach (Session s in _ClientList)
                                 {
                                     Send(s, data);
@@ -137,7 +140,7 @@ namespace Chatserver
                         case (byte)ChatType.RoomChat:
                             {
                                 data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
-                                Console.WriteLine("Room | " + data);
+                                Console.WriteLine("Room | " + session.nickname + ": " + data);
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
@@ -192,7 +195,13 @@ namespace Chatserver
             if (session.is_online)
             {
                 session.is_online = false;
-                Console.WriteLine("Client Disconnected.");
+                Console.WriteLine(session.socket.RemoteEndPoint + " " + session.nickname + " is Disconnected.");
+
+                var www = new WebClient();
+                var data = new NameValueCollection();
+                string url = "http://121.139.87.70/login/logout_account.php";
+                data["id"] = "\"" + session.id + "\"";
+                www.UploadValues(url, "POST", data);
                 _ClientList.Remove(session);
                 session.socket.Close();
             }
