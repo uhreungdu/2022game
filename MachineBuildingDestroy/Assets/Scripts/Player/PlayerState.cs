@@ -56,7 +56,7 @@ public class PlayerState : LivingEntity, IPunObservable
         var info = MyInRoomInfo.GetInstance();
         if (info != null)
         {
-            team = info.GetComponent<MyInRoomInfo>().mySlotNum % 3;
+            team = info.GetComponent<MyInRoomInfo>().mySlotNum % 2;
             //Destroy(info);
         }
         gManager = GameManager.GetInstance();
