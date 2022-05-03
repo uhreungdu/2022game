@@ -407,7 +407,7 @@ MonoBehaviour:
   Tail_obj: {fileID: 0}
   Hit_VFX: {fileID: 0}
   pos_set: {x: 0, y: 0, z: 0}
-  box_col: {fileID: 0}
+  box_col: {fileID: 5422654084887330523}
   _lHandGameObject: {fileID: 5812270970004276480}
   _RHandGameObject: {fileID: 3864567087714883586}
 --- !u!65 &5422654084887330523
@@ -1299,7 +1299,7 @@ MonoBehaviour:
   Tail_obj: {fileID: 0}
   Hit_VFX: {fileID: 0}
   pos_set: {x: 0, y: 0, z: 0}
-  box_col: {fileID: 0}
+  box_col: {fileID: 2269437314533771540}
   _lHandGameObject: {fileID: 5812270970004276480}
   _RHandGameObject: {fileID: 3864567087714883586}
 --- !u!65 &2269437314533771540
@@ -1585,7 +1585,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 5.55
+  m_Height: 5.62
   m_Radius: 2
   m_SlopeLimit: 15
   m_StepOffset: 0
@@ -1631,7 +1631,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   _fieldLayer:
     serializedVersion: 2
-    m_Bits: 576
+    m_Bits: 4672
   speed: 18
   Maxspeed: 24
   Minspeed: 18

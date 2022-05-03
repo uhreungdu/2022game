@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using DG.Tweening;
@@ -10,95 +11,167 @@ public class PlayerCamera : MonoBehaviour
 {
     public Camera _Camera;
     public LayerMask _fieldLayer;
-    public GameObject _Building;
+    public List<GameObject> _Buildings;
+    public List<GameObject> _ExitBuildings;
 
     private bool Colliding = false;
     // Start is called before the first frame update
     void Start()
     {
-        _Building = null;
+        _Buildings = new List<GameObject>();
+        _ExitBuildings = new List<GameObject>();
     }
 
     // Update is called once per frame
     void Update()
     {
         CameraForwardRaycast();
-        HindBuilding();
+        HideBuilding();
+        AppearBuilding();
     }
 
-    void HindBuilding()
+    void HideBuilding()
     {
-        if (_Building != null)
+        if (_Buildings.Count > 0)
         {
-            Material material = _Building.GetComponent<Renderer>().material;
-            if (material)
+            foreach (var building in _Buildings)
             {
-                float Opacity;
-                    Opacity = material.GetFloat("_Opacity");
-
-                if (Opacity >= 0.3)
+                if (building != null)
                 {
-                    Opacity -= 2f * Time.deltaTime;
-                    material.SetFloat("_Opacity", Opacity);
+                    Material material = building.GetComponent<Renderer>().material;
+                    if (material)
+                    {
+                        float Opacity;
+                        Opacity = material.GetFloat("_Opacity");
+
+                        if (Opacity >= 0.3)
+                        {
+                            Opacity -= 2f * Time.deltaTime;
+                            material.SetFloat("_Opacity", Opacity);
+                        }
+                        else if (Opacity < 0.3f)
+                        {
+                            Opacity = 0.3f;
+                            material.SetFloat("_Opacity", Opacity);
+                        }
+                    }
                 }
             }
         }
     }
-    
+
+    void AppearBuilding()
+    {
+        if (_ExitBuildings.Count > 0)
+        {
+            List<GameObject> _exitBuildings = _ExitBuildings;
+            List<GameObject> _removeBulidings = new List<GameObject>();
+            foreach (var building in _exitBuildings)
+            {
+                if (building != null)
+                {
+                    Material material = building.GetComponent<Renderer>().material;
+                    if (material)
+                    {
+                        float Opacity;
+                        Opacity = material.GetFloat("_Opacity");
+
+                        if (Opacity <= 1.0f)
+                        {
+                            Opacity += 4f * Time.deltaTime;
+                            material.SetFloat("_Opacity", Opacity);
+                        }
+                        else if (Opacity > 1f)
+                        {
+                            Opacity = 1f;
+                            material.SetFloat("_Opacity", Opacity);
+                            _removeBulidings.Add(building);
+                        }
+                    }
+                }
+            }
+            foreach (var building in _removeBulidings)
+            {
+                _ExitBuildings.Remove(building);
+            }
+        }
+    }
+
     void CameraForwardRaycast()
     {
         var ray = new Ray(_Camera.transform.position, _Camera.transform.forward);
         var maxDistance = 10f;
         // 광선 디버그 용도
         Debug.DrawRay(_Camera.transform.position, _Camera.transform.forward * maxDistance, Color.blue);
-        RaycastHit _raycastHit;
-        Physics.Raycast(ray, out _raycastHit, maxDistance, _fieldLayer);
-        if (_raycastHit.transform != null && !Colliding)
+        RaycastHit[] _raycastHits;
+        _raycastHits = Physics.RaycastAll(ray, maxDistance, _fieldLayer);
+        
+        if (_raycastHits.Length > 0)
         {
-            if (_raycastHit.transform.tag == "Wall" && _raycastHit.transform.gameObject != _Building)
+            _ExitBuildings.AddRange(_Buildings);
+            _ExitBuildings = _ExitBuildings.Distinct().ToList();
+            _Buildings.Clear();
+            
+            foreach (var raycastHit in _raycastHits)
             {
-                // MeshRenderer hitMeshRenderer = _raycastHit.transform.GetComponent<MeshRenderer>();
-                // if (hitMeshRenderer)
-                // {
-                //     hitMeshRenderer.enabled = false;
-                // }
-                _Building = _raycastHit.transform.gameObject;
+                //GameObject gameObject = _ExitBuildings.Find(x => x == raycastHit.transform.gameObject);
+                if (raycastHit.transform.tag == "Wall")
+                {
+                    if (raycastHit.transform.gameObject != null)
+                    {
+                        _ExitBuildings.Remove(raycastHit.transform.gameObject);
+                    }
+                    if (!_Buildings.Contains(raycastHit.transform.gameObject))
+                        _Buildings.Add(raycastHit.transform.gameObject);
+                    // MeshRenderer hitMeshRenderer = _raycastHit.transform.GetComponent<MeshRenderer>();
+                    // if (hitMeshRenderer)
+                    // {
+                    //     hitMeshRenderer.enabled = false;
+                    // }
+                }
             }
         }
-        else
+        else if (!Colliding)
         {
-            if (_Building != null && !Colliding)
-            {
-                Material material = _Building.GetComponent<Renderer>().material;
-                // MeshRenderer beforeCollisionBuilding = _Building.transform.GetComponent<MeshRenderer>();
-                // beforeCollisionBuilding.enabled = true;
-                material.SetFloat("_Opacity", 1f);
-                _Building = null;
-            }
+            _ExitBuildings.AddRange(_Buildings);
+            _ExitBuildings = _ExitBuildings.Distinct().ToList();
+            _Buildings.Clear();
         }
+
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.transform != null)
         {
-            if (other.transform.tag == "Wall" && other.transform.gameObject != _Building)
+            if (other.transform.tag == "Wall")
             {
                 Colliding = true;
-                // MeshRenderer hitMeshRenderer = other.transform.GetComponent<MeshRenderer>();
+                if (other.transform.gameObject != null)
+                {
+                    _ExitBuildings.Remove(other.transform.gameObject);
+                }
+                if (!_Buildings.Contains(other.transform.gameObject))
+                    _Buildings.Add(other.transform.gameObject);
+                // MeshRenderer hitMeshRenderer = _raycastHit.transform.GetComponent<MeshRenderer>();
                 // if (hitMeshRenderer)
                 // {
-                //     
                 //     hitMeshRenderer.enabled = false;
                 // }
-                _Building = other.transform.gameObject;
             }
         }
     }
     
     private void OnTriggerExit(Collider other)
     {
-        if (Colliding && other.tag == "Wall")
+        if (other.tag == "Wall")
+        {
+            _Buildings.Remove(other.transform.gameObject);
+            if (!_ExitBuildings.Contains(other.transform.gameObject))
+            {
+                _ExitBuildings.Add(other.transform.gameObject);
+            }
             Colliding = false;
+        }
     }
 }
