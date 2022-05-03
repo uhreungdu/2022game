@@ -170,9 +170,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         _players = PhotonNetwork.PlayerList;
     }
 
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (Application.platform != RuntimePlatform.Android) return;
+        if (SceneManager.GetActiveScene().name == "login_test") return;
+
+        PhotonNetwork.Disconnect();
+    }
+
     private void OnApplicationQuit()
     {
-        Logout(_account.GetPlayerID());
+        PhotonNetwork.Disconnect();
     }
 
     // Update is called once per frame
