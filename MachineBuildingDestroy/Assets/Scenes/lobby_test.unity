@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5388,6 +5388,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 33790258}
     m_Modifications:
+    - target: {fileID: 4936754967498138204, guid: 09c9702acb97ca045bb562a7b603c448, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8004842235792760134, guid: 09c9702acb97ca045bb562a7b603c448, type: 3}
       propertyPath: m_Name
       value: ChatWindow
@@ -5482,7 +5486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8004842236602589924, guid: 09c9702acb97ca045bb562a7b603c448, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.012237549
+      value: -0.0010375977
       objectReference: {fileID: 0}
     - target: {fileID: 8004842237161559621, guid: 09c9702acb97ca045bb562a7b603c448, type: 3}
       propertyPath: m_AnchorMax.x
