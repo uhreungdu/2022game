@@ -6,8 +6,9 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using DG.Tweening;
 using ExitGames.Client.Photon.StructWrapping;
+using Photon.Pun;
 
-public class PlayerCamera : MonoBehaviour
+public class PlayerCamera : MonoBehaviourPun
 {
     public Camera _Camera;
     public LayerMask _fieldLayer;
@@ -25,9 +26,12 @@ public class PlayerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraForwardRaycast();
-        HideBuilding();
-        AppearBuilding();
+        if (photonView.IsMine)
+        {
+            CameraForwardRaycast();
+            HideBuilding();
+            AppearBuilding();
+        }
     }
 
     void HideBuilding()
