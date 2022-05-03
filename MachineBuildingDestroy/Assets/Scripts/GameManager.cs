@@ -139,7 +139,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         now_timer.min = 0;
         now_timer.sec = 0;
         now_timer.Ntimer = 0f;
-
         gameStart = false;
     }
 

@@ -10,12 +10,17 @@ public struct PlayersInfomation
     public int Costume;
     public int SlotNum;
     public string Platform;
+    
+    public int TotalGetPoint;
+    public int TotalCauseDamage;
+    public int TotalDeath;
+    public int TotalKill;
 }
 
 public class MyInRoomInfo : MonoBehaviour
 {
     public PlayersInfomation[] Infomations;
-
+        
     private static MyInRoomInfo _instance;
     private int _mySlotNum = 0;
     private bool _isMaster = false;
@@ -53,7 +58,6 @@ public class MyInRoomInfo : MonoBehaviour
     private void FixedUpdate()
     {
         isMaster = PhotonNetwork.IsMasterClient;
-        
     }
 
     public void RenewInfo(int index, Slot slot)

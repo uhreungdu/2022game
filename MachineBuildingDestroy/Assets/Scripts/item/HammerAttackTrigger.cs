@@ -46,6 +46,11 @@ public class HammerAttackTrigger : MonoBehaviour
                     else
                     {
                         otherPlayerState.NetworkOnDamage(_hammerAttack._damage);
+                        if (otherPlayerState.dead)
+                        {
+                            MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                            myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalKill++;
+                        }
                     }
 
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
@@ -55,7 +60,6 @@ public class HammerAttackTrigger : MonoBehaviour
                         otherPlayerState.NetworkOtherAnimatorControl("Falldown", true);
                     }
                 }
-                
             }
         }
 

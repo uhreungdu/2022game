@@ -200,6 +200,7 @@ public class Thirdpersonmove : MonoBehaviourPun
         {
             print("coin");
             _playerState.AddPoint(1);
+            
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.Destroy(other.gameObject);

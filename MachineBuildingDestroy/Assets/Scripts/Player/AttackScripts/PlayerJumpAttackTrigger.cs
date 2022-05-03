@@ -61,6 +61,11 @@ public class PlayerJumpAttackTrigger : MonoBehaviour
                     {
                         otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
                     }
+                    if (otherPlayerState.dead)
+                    {
+                        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalKill++;
+                    }
                 }
             }
         }

@@ -61,6 +61,8 @@ MonoBehaviour:
   - HideBuilding
   - SendRoomChat
   - NetworkOtherAnimatorControl
+  - AddImpact
+  - AnimatorControl
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
