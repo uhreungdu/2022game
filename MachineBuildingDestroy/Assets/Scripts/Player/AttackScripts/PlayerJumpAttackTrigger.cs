@@ -65,6 +65,7 @@ public class PlayerJumpAttackTrigger : MonoBehaviour
                     {
                         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
                         myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalKill++;
+                        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalCauseDamage += _playerJumpAttack._damage;
                     }
                 }
             }

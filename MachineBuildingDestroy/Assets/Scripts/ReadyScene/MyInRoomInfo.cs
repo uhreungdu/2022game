@@ -12,7 +12,7 @@ public struct PlayersInfomation
     public string Platform;
     
     public int TotalGetPoint;
-    public int TotalCauseDamage;
+    public float TotalCauseDamage;
     public int TotalDeath;
     public int TotalKill;
 }

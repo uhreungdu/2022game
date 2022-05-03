@@ -143,6 +143,8 @@ public class PlayerState : LivingEntity, IPunObservable
         base.Die();
         _animator.SetTrigger("Dead");
         Dead_Effect.SetActive(true);
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalDeath++;
         Invoke("Respawn", 10f);
     }
 

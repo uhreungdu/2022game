@@ -50,6 +50,7 @@ public class HammerAttackTrigger : MonoBehaviour
                         {
                             MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
                             myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalKill++;
+                            myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalCauseDamage += _hammerAttack._damage;
                         }
                     }
 
