@@ -37,14 +37,14 @@ public class PlayerDragonPunchTrigger : MonoBehaviour
                     // && otherPlayerState.team != _playerState.team
                     //playerState.NetworkOnDamage(_playerHandAttack._damage);
                     otherPlayerState.OnDamage(_playerDragonPunch._damage);
-                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 40);
+                    other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetBool("Stiffen", true);
+                        otherPlayerState.NetworkOtherAnimatorControl("Stiffen", true);
                     }
                     else if (otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetTrigger("RepeatStiffen");
+                        otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
                     }
                 }
             }

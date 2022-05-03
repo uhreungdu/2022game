@@ -34,27 +34,28 @@ public class HammerAttackTrigger : MonoBehaviour
         {
             if (other.gameObject != transform.root.gameObject)
             {
-                PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+                PlayerState otherPlayerState = other.gameObject.GetComponent<PlayerState>();
                 Animator otherAnimator = other.GetComponent<Animator>();
-                if (other.gameObject != null && !playerState.dead 
+                if (other.gameObject != null && !otherPlayerState.dead 
                     /*&& otherPlayerState.team != _playerState.team*/)
                 {
                     if (SceneManager.GetActiveScene().name == "LocalRoom")
                     {
-                        playerState.OnDamage(_hammerAttack._damage);
+                        otherPlayerState.OnDamage(_hammerAttack._damage);
                     }
                     else
                     {
-                        playerState.NetworkOnDamage(_hammerAttack._damage);
+                        otherPlayerState.NetworkOnDamage(_hammerAttack._damage);
                     }
 
-                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
+                    other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     _Hammer.Durability--;
+                    if (!otherAnimator.GetBool("Falldown"))
+                    {
+                        otherPlayerState.NetworkOtherAnimatorControl("Falldown", true);
+                    }
                 }
-                if (!otherAnimator.GetBool("Falldown"))
-                {
-                    otherAnimator.SetBool("Falldown", true);
-                }
+                
             }
         }
 

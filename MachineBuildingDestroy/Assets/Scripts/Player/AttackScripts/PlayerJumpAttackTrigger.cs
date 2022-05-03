@@ -49,16 +49,17 @@ public class PlayerJumpAttackTrigger : MonoBehaviour
                     }
                     else
                     {
-                        otherPlayerState.NetworkOnDamage(_playerJumpAttack._damage);  
+                        otherPlayerState.NetworkOnDamage(_playerJumpAttack._damage);
                     }
-                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 40);
+                    other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
+                    
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetBool("Stiffen", true);
+                        otherPlayerState.NetworkOtherAnimatorControl("Stiffen", true);
                     }
                     else if (otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetTrigger("RepeatStiffen");
+                        otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
                     }
                 }
             }

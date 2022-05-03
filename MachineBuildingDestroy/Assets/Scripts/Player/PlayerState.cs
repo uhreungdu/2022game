@@ -107,6 +107,18 @@ public class PlayerState : LivingEntity, IPunObservable
         return value;
     }
 
+    public void NetworkOtherAnimatorControl(String str, bool b)
+    {
+        //OnDamage(damage);
+        photonView.RPC("AnimatorControl", RpcTarget.AllViaServer, str, b);
+    }
+    
+    [PunRPC]
+    public void AnimatorControl(String str, bool b)
+    {
+        _animator.SetBool(str, b);
+    }
+
     [PunRPC]
     public override void OnDamage(float damage)
     {

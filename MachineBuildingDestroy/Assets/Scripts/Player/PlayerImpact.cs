@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerImpact : MonoBehaviour
+public class PlayerImpact : MonoBehaviourPun
 {
     float mass = 3.0F; // defines the character mass
     Vector3 impact = Vector3.zero;
@@ -19,6 +20,13 @@ public class PlayerImpact : MonoBehaviour
         // consumes the impact energy each cycle:
         impact = Vector3.Lerp(impact, Vector3.zero, 5*Time.deltaTime);
     }
+
+    public void NetworkAddImpact(Vector3 dir, float force)
+    {
+        photonView.RPC("AddImpact", RpcTarget.AllViaServer, dir, force);
+    }
+    
+    [PunRPC]
     // call this function to add an impact force:
     public void AddImpact(Vector3 dir, float force){
         dir.Normalize();
