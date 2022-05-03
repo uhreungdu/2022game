@@ -10,8 +10,6 @@ public class LobbyManager : MonoBehaviour
 {
     // Start is called before the first frame update
     private static LobbyManager instance;
-    private string exroomName;
-    private string inroomName;
     public GameObject roomlist;
 
     public static LobbyManager GetInstance()
@@ -41,26 +39,7 @@ public class LobbyManager : MonoBehaviour
     void Update()
     {
     }
-
-    public void SetInRoomName(string text)
-    {
-        inroomName = text;
-    }
-
-    public string GetInRoomName()
-    {
-        return inroomName;
-    }
-
-    public void SetExRoomName(string text)
-    {
-        exroomName = text;
-    }
-
-    public string GetExRoomName()
-    {
-        return exroomName;
-    }
+    
 
 
     public IEnumerator GetRoomList()

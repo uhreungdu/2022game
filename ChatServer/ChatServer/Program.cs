@@ -12,7 +12,8 @@ namespace Chatserver
         Exit,
         EnterRoom,
         RoomChat,
-        ExitRoom
+        ExitRoom,
+        MakeRoom
     }
     public class Session
     {
@@ -133,6 +134,7 @@ namespace Chatserver
                                 Console.WriteLine(session.nickname+": "+data);
                                 foreach (Session s in _ClientList)
                                 {
+                                    if (s.in_room) continue;
                                     Send(s, data);
                                 }
                                 break;
@@ -141,6 +143,32 @@ namespace Chatserver
                             {
                                 data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
                                 Console.WriteLine("Room | " + session.nickname + ": " + data);
+                                session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
+                        case (byte)ChatType.EnterRoom:
+                            {
+                                data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
+                                Console.WriteLine(session.nickname + "enters Roomname " + data);
+                                session.roomname = data;
+                                session.in_room = true;
+                                PlayerEnterRoomHTTP(session);
+                                session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
+                        case (byte)ChatType.MakeRoom:
+                            {
+                                string iname = Encoding.UTF8.GetString(session.buf, 5, session.buf[1]);
+                                string ename = Encoding.UTF8.GetString(session.buf, 5 + session.buf[1], session.buf[2]);
+                                int nowPlayerNum = session.buf[3];
+                                int maxPlayerNum = session.buf[4];
+                                
+                                Console.WriteLine(session.nickname + "makes Roomname " + ename);
+                                session.roomname = iname;
+                                session.in_room = true;
+                                PlayerMakeRoomHTTP(session, nowPlayerNum, maxPlayerNum);
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
@@ -205,6 +233,29 @@ namespace Chatserver
                 _ClientList.Remove(session);
                 session.socket.Close();
             }
+        }
+
+        private static void PlayerEnterRoomHTTP(Session session)
+        {
+            var www = new WebClient();
+            var data = new NameValueCollection();
+            string url = "http://121.139.87.70/player_join_room.php";
+            data["iname"] = "\"" + session.roomname + "\"";
+            data["Pname"] = "\"" + session.nickname + "\"";
+            www.UploadValues(url, "POST", data);
+        }
+
+        private static void PlayerMakeRoomHTTP(Session session, int nowPlayerNum, int maxPlayerNum)
+        {
+            var www = new WebClient();
+            var data = new NameValueCollection();
+            string url = "http://121.139.87.70/room_make.php";
+            data["iname"] = "\"" + session.roomname + "\"";
+            data["ename"] = "\"" + session.nickname + "\"";
+            data["nowPnum"] = nowPlayerNum.ToString();
+            data["maxPnum"] = maxPlayerNum.ToString();
+            data["Pname"] = "\"" + session.nickname + "\"";
+            www.UploadValues(url, "POST", data);
         }
     }
 }
