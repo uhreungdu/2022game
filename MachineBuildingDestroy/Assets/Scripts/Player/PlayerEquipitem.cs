@@ -110,7 +110,6 @@ public class PlayerEquipitem : MonoBehaviourPun
                 ItemObj = PhotonNetwork.Instantiate("Wall_Obstcle_Objs", tpos,
                     new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w));
                 ItemObj = null;
-                Frame_Obj.SetActive(false);
                 _playerState.nowEquip = false;
                 //던지고 나면 아이템 사라짐
                 // _playerState.Item = item_box_make.item_type.no_item;
