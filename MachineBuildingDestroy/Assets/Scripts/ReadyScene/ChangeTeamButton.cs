@@ -24,19 +24,19 @@ public class ChangeTeamButton : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        transform.GetComponent<Button>().interactable = !Info.GetComponent<MyInRoomInfo>().IsReady;
+        transform.GetComponent<Button>().interactable = !Info.GetComponent<MyInRoomInfo>().isReady;
     }
 
     public void OnClick()
     {
-        int mynum = Info.GetComponent<MyInRoomInfo>().MySlotNum;
+        int mynum = Info.GetComponent<MyInRoomInfo>().mySlotNum;
         var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();
         var myslot = slots.slots[mynum].GetComponent<Slot>();
         
-        int mySlotNum = Info.GetComponent<MyInRoomInfo>().MySlotNum;
-        if (mySlotNum < 3)
+        int mySlotNum = Info.GetComponent<MyInRoomInfo>().mySlotNum;
+        if (mySlotNum % 2 == 0)
         {
-            for (int i = 3; i < 6; ++i)
+            for (int i = 1; i < 6; i+=2)
             {
                 var target = slots.slots[i].GetComponent<Slot>();
                 if (target.Nickname == "")
@@ -49,7 +49,7 @@ public class ChangeTeamButton : MonoBehaviourPun
         }
         else
         {
-            for (int i = 0; i < 2; ++i)
+            for (int i = 0; i < 6; i+=2)
             {
                 var target = slots.slots[i].GetComponent<Slot>();
                 if (target.Nickname == "")

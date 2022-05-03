@@ -53,11 +53,11 @@ public class PlayerState : LivingEntity, IPunObservable
         playerAudioPlayer = GetComponent<AudioSource>();
         _characterController = GetComponent<CharacterController>();
         _playerAnimator = GetComponent<PlayerAnimator>();
-        var info = GameObject.Find("Myroominfo");
+        var info = MyInRoomInfo.GetInstance();
         if (info != null)
         {
-            team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
-            Destroy(info);
+            team = info.GetComponent<MyInRoomInfo>().mySlotNum % 2;
+            //Destroy(info);
         }
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
