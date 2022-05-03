@@ -47,16 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84706398a7246b64a88ad63dc72ddd32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand_Box: {fileID: 0}
-  use_Ef: {fileID: 0}
-  get_Obj: {fileID: 0}
   effect_obj: {fileID: 1286039825301626179}
   Tail_obj: {fileID: 4277470403140891115}
   Hit_VFX: {fileID: 0}
-  pos_set: {x: 0, y: 0, z: 0}
   box_col: {fileID: 0}
-  _lHandGameObject: {fileID: 0}
-  _RHandGameObject: {fileID: 0}
 --- !u!65 &1029064435
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -404,16 +398,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84706398a7246b64a88ad63dc72ddd32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand_Box: {fileID: 0}
-  use_Ef: {fileID: 0}
-  get_Obj: {fileID: 0}
   effect_obj: {fileID: 4278368474059290739}
   Tail_obj: {fileID: 313109808886577805}
   Hit_VFX: {fileID: 0}
-  pos_set: {x: 0, y: 0, z: 0}
   box_col: {fileID: 5422654084887330523}
-  _lHandGameObject: {fileID: 5812270970004276480}
-  _RHandGameObject: {fileID: 3864567087714883586}
 --- !u!65 &5422654084887330523
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1298,16 +1286,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84706398a7246b64a88ad63dc72ddd32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand_Box: {fileID: 0}
-  use_Ef: {fileID: 0}
-  get_Obj: {fileID: 0}
   effect_obj: {fileID: 3137852985229730200}
   Tail_obj: {fileID: 344586604050138556}
   Hit_VFX: {fileID: 0}
-  pos_set: {x: 0, y: 0, z: 0}
   box_col: {fileID: 2269437314533771540}
-  _lHandGameObject: {fileID: 5812270970004276480}
-  _RHandGameObject: {fileID: 3864567087714883586}
 --- !u!65 &2269437314533771540
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2130,16 +2112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84706398a7246b64a88ad63dc72ddd32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand_Box: {fileID: 0}
-  use_Ef: {fileID: 0}
-  get_Obj: {fileID: 0}
   effect_obj: {fileID: 5853350387943066078}
   Tail_obj: {fileID: 157198386067359501}
   Hit_VFX: {fileID: 0}
-  pos_set: {x: 0, y: 0, z: 0}
   box_col: {fileID: 0}
-  _lHandGameObject: {fileID: 0}
-  _RHandGameObject: {fileID: 0}
 --- !u!65 &3508023876778322993
 BoxCollider:
   m_ObjectHideFlags: 0
