@@ -11,6 +11,8 @@ using UnityEngine.UI;
 
 public class ChatClient : MonoBehaviour
 {
+    private static ChatClient instance;
+    
     private const string ServerAddress = "121.139.87.70";
     private const int Port = 9887;
     private const int BufSize = 128;
@@ -28,13 +30,37 @@ public class ChatClient : MonoBehaviour
         Exit,
         EnterRoom,
         RoomChat,
-        ExitRoom
+        ExitRoom,
+        MakeRoom
+    }
+    
+    public static ChatClient GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = FindObjectOfType<ChatClient>();
+            if (instance == null)
+            {
+                GameObject container = new GameObject("ChatClient");
+                instance = container.AddComponent<ChatClient>();
+            }
+        }
+
+        return instance;
     }
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        var obj = FindObjectsOfType<NetworkManager>();
         _ipep = new IPEndPoint(IPAddress.Parse(ServerAddress), Port);
+        if (obj.Length == 1)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update()
