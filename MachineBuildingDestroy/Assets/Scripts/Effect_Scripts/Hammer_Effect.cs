@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Mathematics;
 using UnityEngine.VFX;
 
-public class Hand_Effect : MonoBehaviour
+public class Hammer_Effect : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject effect_obj;
@@ -30,7 +28,6 @@ public class Hand_Effect : MonoBehaviour
             Tail_obj.SetActive(false);
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player"||other.tag == "Wall" || other.tag == "Obstcle_Item")
