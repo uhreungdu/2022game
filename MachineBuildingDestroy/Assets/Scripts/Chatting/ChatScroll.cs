@@ -10,7 +10,8 @@ public class ChatScroll : MonoBehaviour
     private void FixedUpdate()
     {
         if (_done) return;
-        GameObject.Find("Scrollbar Vertical").GetComponent<Scrollbar>().value = 0;
+        var scrollbar = GameObject.Find("Scrollbar Vertical");
+        if (scrollbar != null) scrollbar.GetComponent<Scrollbar>().value = 0;
         _done = true;
     }
 }
