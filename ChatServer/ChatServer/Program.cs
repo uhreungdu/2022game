@@ -19,7 +19,9 @@ namespace Chatserver
         public byte[] buf = new byte[bufSize];
         public Socket socket = null;
         public bool is_online = false;
-        public string name;
+        public bool in_room = false;
+        public string nickname;
+        public string roomname;
     }
 
     class Program
@@ -96,9 +98,9 @@ namespace Chatserver
             session.socket = client;
             session.is_online = true;
             int num = client.Receive(session.buf);
-            session.name = Encoding.UTF8.GetString(session.buf, 0, num);
+            session.nickname = Encoding.UTF8.GetString(session.buf, 0, num);
             _ClientList.Add(session);
-            Console.WriteLine(client.RemoteEndPoint.ToString() + " " + session.name + " Connected");
+            Console.WriteLine(client.RemoteEndPoint.ToString() + " " + session.nickname + " Connected");
 
             client.BeginReceive(session.buf, 0, Session.bufSize, 0, 
                 new AsyncCallback(ReceiveCallback), session);
@@ -132,6 +134,14 @@ namespace Chatserver
                                 }
                                 break;
                             }
+                        case (byte)ChatType.RoomChat:
+                            {
+                                data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
+                                Console.WriteLine("Room | " + data);
+                                session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
                     }
                 }
                 else
@@ -149,7 +159,7 @@ namespace Chatserver
 
         private static void Send(Session session, String data)
         {
-            byte[] name = Encoding.UTF8.GetBytes(session.name);
+            byte[] name = Encoding.UTF8.GetBytes(session.nickname);
             byte[] chatData = Encoding.UTF8.GetBytes(data);
             byte[] sendData = new byte[3 + name.Length + chatData.Length];
             sendData[0] = (byte)ChatType.NormalChat;
