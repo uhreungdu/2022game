@@ -107,6 +107,18 @@ public class PlayerState : LivingEntity, IPunObservable
         return value;
     }
 
+    public void NetworkOtherAnimatorControl(String str, bool b)
+    {
+        //OnDamage(damage);
+        photonView.RPC("AnimatorControl", RpcTarget.AllViaServer, str, b);
+    }
+    
+    [PunRPC]
+    public void AnimatorControl(String str, bool b)
+    {
+        _animator.SetBool(str, b);
+    }
+
     [PunRPC]
     public override void OnDamage(float damage)
     {
@@ -125,12 +137,14 @@ public class PlayerState : LivingEntity, IPunObservable
         //OnDamage(damage);
         photonView.RPC("OnDamage", RpcTarget.AllViaServer, damage);
     }
-
+ 
     public override void Die() {
         // LivingEntity?�� Die()�? ?��?��?��?�� 기본 ?���? 처리 ?��?��
         base.Die();
         _animator.SetTrigger("Dead");
         Dead_Effect.SetActive(true);
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalDeath++;
         Invoke("Respawn", 10f);
     }
 

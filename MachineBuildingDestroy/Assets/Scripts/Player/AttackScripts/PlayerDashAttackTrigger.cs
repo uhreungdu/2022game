@@ -31,20 +31,26 @@ public class PlayerDashAttackTrigger : MonoBehaviour
             if (other.gameObject != transform.root.gameObject)
             {
                 PlayerState otherPlayerState = other.gameObject.GetComponent<PlayerState>();
-                Animator otherAnimator = other.GetComponent<Animator>();
+                Animator otherAnimator  = other.gameObject.GetComponent<Animator>();
                 if (other.gameObject != null && !otherPlayerState.dead)
                 {
                     // && otherPlayerState.team != _playerState.team
                     //playerState.NetworkOnDamage(_playerHandAttack._damage);
                     otherPlayerState.OnDamage(_playerDashAttack._damage);
-                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 40);
+                    other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetBool("Stiffen", true);
+                        otherPlayerState.NetworkOtherAnimatorControl("Stiffen", true);
                     }
                     else if (otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetTrigger("RepeatStiffen");
+                        otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
+                    }
+                    if (otherPlayerState.dead)
+                    {
+                        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalKill++;
+                        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalCauseDamage += _playerDashAttack._damage;
                     }
                 }
             }

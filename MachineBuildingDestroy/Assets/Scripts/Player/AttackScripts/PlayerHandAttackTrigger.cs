@@ -43,28 +43,34 @@ public class PlayerHandAttackTrigger : MonoBehaviour
         {
             if (other.gameObject != transform.root.gameObject)
             {
-                PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+                PlayerState otherPlayerState = other.gameObject.GetComponent<PlayerState>();
                 Animator otherAnimator = other.GetComponent<Animator>();
-                if (other.gameObject != null && !playerState.dead /*&& otherPlayerState.team != _playerState.team*/)
+                if (other.gameObject != null && !otherPlayerState.dead /*&& otherPlayerState.team != _playerState.team*/)
                 {
                     if (SceneManager.GetActiveScene().name == "LocalRoom")
                     {
-                        playerState.OnDamage(_playerHandAttack._damage);
+                        otherPlayerState.OnDamage(_playerHandAttack._damage);
                     }
                     else
                     {
-                        playerState.NetworkOnDamage(_playerHandAttack._damage);
+                        otherPlayerState.NetworkOnDamage(_playerHandAttack._damage);
                     }
                     
-                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 40);
+                    other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetBool("Stiffen", true);
+                        otherPlayerState.NetworkOtherAnimatorControl("Stiffen", true);
                     }
                     else if (otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetTrigger("RepeatStiffen");
+                        otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
+                    }
+                    if (otherPlayerState.dead)
+                    {
+                        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalKill++;
+                        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalCauseDamage += _playerHandAttack._damage;
                     }
                 }
             }

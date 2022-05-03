@@ -49,6 +49,8 @@ public class PlayerInteract : MonoBehaviour
             if (Time.time >= lastTime + timeBet)
             {
                 gManager.addScore(playerState.team, playerState.point);
+                MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalGetPoint += playerState.point;
                 playerState.ResetPoint();
             }
         }

@@ -48,7 +48,7 @@ public class Goalpost : MonoBehaviourPun
             if (_meshRenderer.enabled)
             {
                 _meshRenderer.enabled = false;
-                _rigidbody.useGravity = true;
+                _rigidbody.useGravity = false;
             }
             foreach (var colliders in _Colliders)
             {
