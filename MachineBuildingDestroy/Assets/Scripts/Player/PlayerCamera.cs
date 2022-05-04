@@ -40,21 +40,25 @@ public class PlayerCamera : MonoBehaviourPun
             {
                 if (building != null)
                 {
-                    Material material = building.GetComponent<Renderer>().material;
-                    if (material)
+                    Renderer buildingrenderer = building.GetComponent<Renderer>();
+                    if (buildingrenderer != null)
                     {
-                        float Opacity;
-                        Opacity = material.GetFloat("_Opacity");
+                        Material material = buildingrenderer.material;
+                        if (material)
+                        {
+                            float Opacity;
+                            Opacity = material.GetFloat("_Opacity");
 
-                        if (Opacity >= 0.3)
-                        {
-                            Opacity -= 2f * Time.deltaTime;
-                            material.SetFloat("_Opacity", Opacity);
-                        }
-                        else if (Opacity < 0.3f)
-                        {
-                            Opacity = 0.3f;
-                            material.SetFloat("_Opacity", Opacity);
+                            if (Opacity >= 0.3)
+                            {
+                                Opacity -= 2f * Time.deltaTime;
+                                material.SetFloat("_Opacity", Opacity);
+                            }
+                            else if (Opacity < 0.3f)
+                            {
+                                Opacity = 0.3f;
+                                material.SetFloat("_Opacity", Opacity);
+                            }
                         }
                     }
                 }
@@ -72,22 +76,26 @@ public class PlayerCamera : MonoBehaviourPun
             {
                 if (building != null)
                 {
-                    Material material = building.GetComponent<Renderer>().material;
-                    if (material)
+                    Renderer buildingrenderer = building.GetComponent<Renderer>();
+                    if (buildingrenderer != null)
                     {
-                        float Opacity;
-                        Opacity = material.GetFloat("_Opacity");
+                        Material material = buildingrenderer.material;
+                        if (material)
+                        {
+                            float Opacity;
+                            Opacity = material.GetFloat("_Opacity");
 
-                        if (Opacity <= 1.0f)
-                        {
-                            Opacity += 4f * Time.deltaTime;
-                            material.SetFloat("_Opacity", Opacity);
-                        }
-                        else if (Opacity > 1f)
-                        {
-                            Opacity = 1f;
-                            material.SetFloat("_Opacity", Opacity);
-                            _removeBulidings.Add(building);
+                            if (Opacity <= 1.0f)
+                            {
+                                Opacity += 4f * Time.deltaTime;
+                                material.SetFloat("_Opacity", Opacity);
+                            }
+                            else if (Opacity > 1f)
+                            {
+                                Opacity = 1f;
+                                material.SetFloat("_Opacity", Opacity);
+                                _removeBulidings.Add(building);
+                            }
                         }
                     }
                 }
