@@ -29,7 +29,6 @@ public class PlayerEquipitem : MonoBehaviourPun
     void Start()
     {
         setObj();
-
     }
 
     private void Update()
@@ -71,6 +70,7 @@ public class PlayerEquipitem : MonoBehaviourPun
 
         else if (_playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
         {
+            buff_Time = 10;
             BuffOn = true;
         }
     }
@@ -84,8 +84,8 @@ public class PlayerEquipitem : MonoBehaviourPun
             ItemObj.transform.parent = null;
             ItemObj.GetComponent<PotionState>().SetState("throw");
             Vector3 throw_Angle;
-            throw_Angle = gameObject.transform.forward * 10f;
-            throw_Angle.y = 5f;
+            throw_Angle = gameObject.transform.forward * 20f;
+            throw_Angle.y = 35f;
             item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
             _playerState.nowEquip = false;
             //던지고 나면 아이템 사라짐
