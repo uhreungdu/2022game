@@ -53,12 +53,12 @@ public class MapEditerCamInput : MonoBehaviour
         // }
     }
 
-    private void OnMove(InputValue value)
+    public void OnMove(InputValue value)
     {
         _direction = new Vector3(value.Get<Vector2>().x, 0, value.Get<Vector2>().y);
     }
     
-    private void OnZoom(InputValue value)
+    public void OnZoom(InputValue value)
     {
         _zoom = value.Get<float>();
         if (_zoom > 1)
@@ -67,13 +67,13 @@ public class MapEditerCamInput : MonoBehaviour
             _zoom /= -_zoom;
     }
     
-    private void OnSwitchBuilding(InputValue value)
+    public void OnSwitchBuilding(InputValue value)
     {
         if (value.isPressed)
             _mapEditerOnScreenPoint.PrefnumSet((_mapEditerManager.Prefnum + 1) % (_map.Prefs.Length));
     }
     
-    private void OnRotate(InputValue value)
+    public void OnRotate(InputValue value)
     {
         if (value.isPressed)
             _mapEditerOnScreenPoint._rotate = (_mapEditerOnScreenPoint._rotate + 90) % 360;
