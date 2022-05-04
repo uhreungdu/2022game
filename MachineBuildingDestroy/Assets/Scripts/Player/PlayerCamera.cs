@@ -24,7 +24,16 @@ public class PlayerCamera : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (photonView.IsMine)
+        if (photonView != null)
+        {
+            if (photonView.IsMine)
+            {
+                CameraForwardRaycast();
+                HideBuilding();
+                AppearBuilding();
+            }
+        }
+        else
         {
             CameraForwardRaycast();
             HideBuilding();
