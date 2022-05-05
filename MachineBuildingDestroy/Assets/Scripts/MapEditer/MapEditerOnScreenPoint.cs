@@ -17,6 +17,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     public Material RadMaterial;
     public Material Blue;
 
+    public GameObject ChildObject;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +49,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     {
         if (_playerinput.currentActionMap.name == "Editer")
         {
-            if (!mapEditerManager.SaveMode && gameObject.transform.childCount < 1)
+            if (!mapEditerManager.SaveMode && ChildObject == null)
             {
                 
                 GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
@@ -55,6 +57,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 if (tilepref != null)
                 {
                     GameObject temp = Instantiate(tilepref, tilepref.transform.position, tilepref.transform.rotation);
+                    ChildObject = temp;
+                    print(temp.transform.GetSiblingIndex());
                     temp.transform.parent = gameObject.transform;
                     temp.transform.position += GetPoint();
                     Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
@@ -75,7 +79,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
         {
             if (gameObject.transform.childCount >= 1)
             {
-                Destroy(transform.GetChild(0).gameObject);
+                Destroy(ChildObject);
+                ChildObject = null;
             }
         }
     }
@@ -87,7 +92,10 @@ public class MapEditerOnScreenPoint : MonoBehaviour
             if (mapEditerManager.SaveMode)
             {
                 if (gameObject.transform.childCount >= 1)
-                    Destroy(transform.GetChild(0).gameObject);
+                {
+                    Destroy(ChildObject);
+                    ChildObject = null;
+                }
             }
             else if (gameObject.transform.childCount >= 1)
             {
@@ -113,9 +121,10 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 }
                 GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
                 transform.position = Point;
-                transform.GetChild(0).position = Point;
-                transform.GetChild(0).position += tilepref.transform.position;
-                transform.GetChild(0).rotation = Quaternion.Euler(0, _rotate, 0);
+                ChildObject.transform.SetAsLastSibling();
+                ChildObject.transform.position = Point;
+                ChildObject.transform.position += tilepref.transform.position;
+                ChildObject.transform.rotation = Quaternion.Euler(0, _rotate, 0);
             }
         }
     }
@@ -141,7 +150,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                             {
                                 collider.enabled = true;
                             }
-                        transform.GetChild(0).parent = map.gameObject.transform;
+                        ChildObject.transform.parent = map.gameObject.transform;
+                        ChildObject = null;
                     }
                 }
 
@@ -190,7 +200,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
         {
             if (gameObject.transform.childCount >= 1)
             {
-                Destroy(transform.GetChild(0).gameObject);
+                Destroy(ChildObject.gameObject);
+                ChildObject = null;
             }
             mapEditerManager.Prefnum = num;
         }

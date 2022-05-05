@@ -33,7 +33,7 @@ public class MapEditerCam : MonoBehaviour
 
     public void Movement()
     {
-        float yZoom = -mapEditerCamInput._zoom;
+        float yZoom = -mapEditerCamInput._zoom * 160f * Time.deltaTime;
         Vector3 direction = mapEditerCamInput._direction;
         if (yZoom <= 0)
         {

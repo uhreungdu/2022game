@@ -15,7 +15,7 @@
                 },
                 {
                     "name": "Zoom",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "61845675-9d9d-4240-8a7e-9b1aeaca55f2",
                     "expectedControlType": "Axis",
                     "processors": "",
