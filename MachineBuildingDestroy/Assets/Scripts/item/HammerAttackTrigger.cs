@@ -4,7 +4,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class HammerAttackTrigger : MonoBehaviour
+public class HammerAttackTrigger : MonoBehaviourPun
 {
     private HammerAttack _hammerAttack;
     public Hammer _Hammer;
@@ -23,9 +23,17 @@ public class HammerAttackTrigger : MonoBehaviour
             BulidingObject attackTarget = other.GetComponent<BulidingObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
-                //attackTarget.NetworkOnDamage(_hammerAttack._damage);
-                attackTarget.OnDamage(_hammerAttack._damage);
-                _Hammer.Durability--;
+                if (SceneManager.GetActiveScene().name == "LocalRoom")
+                {
+                    attackTarget.OnDamage(_hammerAttack._damage);
+                    ReduceDurability(1);
+                }
+                else
+                {
+                    attackTarget.NetworkOnDamage(_hammerAttack._damage);
+                    photonView.RPC("ReduceDurability", RpcTarget.AllViaServer, 1);
+                }
+
                 Debug.Log(attackTarget.health);
             }
         }
@@ -74,5 +82,11 @@ public class HammerAttackTrigger : MonoBehaviour
                 _Hammer.Durability--;
             }
         }
+    }
+
+    [PunRPC]
+    public void ReduceDurability(int value)
+    {
+        _Hammer.Durability -= value;
     }
 }
