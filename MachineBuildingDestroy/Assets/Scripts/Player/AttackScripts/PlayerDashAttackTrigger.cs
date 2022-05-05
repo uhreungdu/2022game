@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerDashAttackTrigger : MonoBehaviour
 {
@@ -13,15 +15,23 @@ public class PlayerDashAttackTrigger : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        
+        if (!PhotonNetwork.IsMasterClient) return;
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Wall")
         {
             BulidingObject attackTarget = other.GetComponent<BulidingObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
-                // attackTarget.NetworkOnDamage(_playerHandAttack._damage);
-                attackTarget.OnDamage(_playerDashAttack._damage);
+                if (SceneManager.GetActiveScene().name == "LocalRoom")
+                {
+                    attackTarget.OnDamage(_playerDashAttack._damage);
+                }
+                else
+                {
+                    attackTarget.NetworkOnDamage(_playerDashAttack._damage);    
+                }
+                
+                
                 Debug.Log(attackTarget.health);
             }
         }
@@ -35,8 +45,15 @@ public class PlayerDashAttackTrigger : MonoBehaviour
                 if (other.gameObject != null && !otherPlayerState.dead)
                 {
                     // && otherPlayerState.team != _playerState.team
-                    //playerState.NetworkOnDamage(_playerHandAttack._damage);
-                    otherPlayerState.OnDamage(_playerDashAttack._damage);
+                    if (SceneManager.GetActiveScene().name == "LocalRoom")
+                    {
+                        otherPlayerState.OnDamage(_playerDashAttack._damage);
+                    }
+                    else
+                    {
+                        otherPlayerState.NetworkOnDamage(_playerDashAttack._damage);
+                    }
+                    
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
