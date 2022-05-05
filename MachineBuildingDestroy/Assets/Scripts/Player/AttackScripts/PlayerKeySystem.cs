@@ -54,6 +54,7 @@ public class PlayerKeySystem : MonoBehaviourPun
     {
         PressFire();
         PressItem();
+        BuffCheck();
     }
 
     void PressFire()
@@ -84,7 +85,7 @@ public class PlayerKeySystem : MonoBehaviourPun
                         _playerAnimator.HammerAttack();
                         break;
                     default:
-                        photonView.RPC("Throw_item", RpcTarget.All);
+                        photonView.RPC("Throw_item", RpcTarget.AllViaServer);
                         break;
                 }
             }
@@ -131,8 +132,6 @@ public class PlayerKeySystem : MonoBehaviourPun
             ItemObj.transform.rotation = new Quaternion(parent_qut.x,
                 0, 0, 0);
         }
-
-        BuffCheck();
     }
 
     private void OnTriggerEnter(Collider other)
