@@ -110,6 +110,7 @@ public class PlayerKeySystem : MonoBehaviourPun
 
     private void PressItem()
     {
+        if (!photonView.IsMine) return;
         if (_gamePlayerInput.item)
         {
             switch (_playerState.Item)
