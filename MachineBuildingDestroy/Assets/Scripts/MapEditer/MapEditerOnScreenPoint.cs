@@ -121,10 +121,13 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 }
                 GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
                 transform.position = Point;
-                ChildObject.transform.SetAsLastSibling();
-                ChildObject.transform.position = Point;
-                ChildObject.transform.position += tilepref.transform.position;
-                ChildObject.transform.rotation = Quaternion.Euler(0, _rotate, 0);
+                if (ChildObject != null)
+                {
+                    ChildObject.transform.SetAsLastSibling();
+                    ChildObject.transform.position = Point;
+                    ChildObject.transform.position += tilepref.transform.position;
+                    ChildObject.transform.rotation = Quaternion.Euler(0, _rotate, 0);
+                }
             }
         }
     }

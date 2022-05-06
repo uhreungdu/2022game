@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Text;
 using Photon.Pun;
+using UnityEngine.Tilemaps;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Map : MonoBehaviour
 {
@@ -16,6 +20,7 @@ public class Map : MonoBehaviour
     }
     public class Maptile
     {
+        public string MapName = null;
         public List<Tile> Tiles = new List<Tile>();        // json���� ���� ���� �ļ�
         public void Print()
         {
@@ -39,8 +44,10 @@ public class Map : MonoBehaviour
     };
 
     public Maptile maptile = new Maptile();
+    public List<Maptile> MapList;
     private List<GameObject> Buildings = new List<GameObject>();
     private List<GameObject> Planes = new List<GameObject>();
+    public InputField FileNameInput;
 
     public GameObject mapGameObject;
     public GameObject[] Prefs;
@@ -58,16 +65,6 @@ public class Map : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //string path = Application.dataPath + "/Maps" + "/Map.csv";
-        //string[] map = System.IO.File.ReadAllLines(path);
-
-        //if (map.Length > 0)
-        //{
-
-        // //}
-        // string jsonData = ObjectToJson(maptile);
-        // Debug.Log(jsonData);
-        // CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
         if (!MapEditer)
         {
             if (Online)
@@ -79,47 +76,14 @@ public class Map : MonoBehaviour
                 }
             }
             else
-                MapLoad();
-
-            
-        }
-        // localMAP not USE NetworkGame
-        /*
-        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
-        maptile = jtc2;
-        // jtc2.Print();
-
-        
-        for (int i = 0; i < maptile.Tiles.Count; ++i)
-        {
-            GameObject tilepref = null;
-            switch (maptile.Tiles[i].kind)
             {
-                case 0:
-                    tilepref = planepref;
-                    break;
-                case 1:
-                    tilepref = goalpostpref;
-                    break;
-                case 2:
-                    tilepref = itempref;
-                    break;
-                case 3:
-                    tilepref = tankpref;
-                    break;
-                case 4:
-                    tilepref = arcadepref;
-                    break;
+                MapLoad();
             }
-            GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, tilepref.transform.rotation);
-            temp.name = tilepref.name + i;
-            temp.transform.SetParent(this.transform);
         }
-        */
-        //string jsonData = ObjectToJson(maptile);
-
-        //Debug.Log(jsonData);
-        //CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
+        else
+        {
+            MapList = LoadListJsonFile<Maptile>();
+        }
     }
 
     // Update is called once per frame
@@ -140,16 +104,63 @@ public class Map : MonoBehaviour
         fileStream.Write(data, 0, data.Length);
         fileStream.Close();
     }
+    
     T LoadJsonFile<T>(string loadPath, string fileName)
     {
-        FileStream fileStream = new FileStream(string.Format("{0}/{1}.json", loadPath, fileName), FileMode.Open);
-        byte[] data = new byte[fileStream.Length];
-        fileStream.Read(data, 0, data.Length);
-        fileStream.Close();
-        string jsonData = Encoding.UTF8.GetString(data);
-        return JsonUtility.FromJson<T>(jsonData);
+        FileStream fileStream = null;
+        string jsonData;
+        try
+        {
+            fileStream = new FileStream(string.Format("{0}/{1}.json", loadPath, fileName), FileMode.Open);
+            byte[] data = new byte[fileStream.Length];
+            fileStream.Read(data, 0, data.Length);
+            fileStream.Close();
+            jsonData = Encoding.UTF8.GetString(data);
+            return JsonUtility.FromJson<T>(jsonData);
+        }
+        catch (FileNotFoundException ioEx)
+        {
+            print(ioEx.Message);
+            throw new FileNotFoundException(@"없는 파일을 읽으려 했습니다. ",ioEx);
+        }
+        finally
+        {
+            if (fileStream != null)
+            {
+                fileStream.Close();
+            }
+        }
     }
 
+    public List<T> LoadListJsonFile<T>()
+    {
+        String FolderName = Application.dataPath + "/" + "Map";
+        System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(FolderName);
+        List<T> maptiles = new List<T>();
+        if (di.Exists)
+        {
+            foreach (System.IO.FileInfo File in di.GetFiles())
+            {
+                string extension = ".json";
+                if (File.Extension.ToLower().CompareTo(extension) == 0)
+                {
+                    String FileNameOnly = File.Name.Substring(0, File.Name.Length - extension.Length);
+                    String FullFileName = File.FullName;
+                    String loadPath = FolderName;
+                    T loadJsonFile = LoadJsonFile<T>(loadPath, FileNameOnly);
+                    maptiles.Add(loadJsonFile);
+                    print(FullFileName + " " + FileNameOnly);
+                }
+            }
+        }
+        return maptiles;
+    }
+
+    public void LoadMapList()
+    {
+        MapList = LoadListJsonFile<Maptile>();
+    }
+    
     void RandomMap()
     {
         float offset = 10;
@@ -184,36 +195,31 @@ public class Map : MonoBehaviour
 
             tile.position = position;
             maptile.Tiles.Add(tile);
-            
-            // GameObject tilepref = null;
-            // switch (Random.Range(2, 3 + 1))
-            // {
-            //     case 0:
-            //         tilepref = planepref;
-            //         break;
-            //     case 1:
-            //         tilepref = goalpostpref;
-            //         break;
-            //     case 2:
-            //         tilepref = tankpref;
-            //         break;
-            //     case 3:
-            //         tilepref = arcadepref;
-            //         break;
-            // }
-
-            // GameObject buliding = Instantiate(tilepref, position, bulidingpref.transform.rotation);
-            // Buildings.Add(buliding);
-            // buliding.transform.SetParent(this.transform);
-
         }
     }
 
     public void MapSave()
     {
         string jsonData = ObjectToJson(maptile);
+        string mapname = null;
+        if (FileNameInput.text != null)
+        {
+            mapname = FileNameInput.text;
+        }
+        else
+        {
+            FileNameInput.text = "SampleMap";
+        }
+        LoadMapList();
+        foreach (var maptile in MapList)
+        {
+            if (maptile.MapName == mapname)
+            {
+                print("중복된 이름의 맵 파일이 있습니다. 덮어씁니다.");
+            }
+        }
         Debug.Log(jsonData);
-        CreateJsonFile(Application.dataPath, "maptileClass", jsonData);
+        CreateJsonFile(Application.dataPath + "/" + "Map", mapname, jsonData);
     }
 
     public GameObject SetTilepref(int kind)
@@ -236,7 +242,7 @@ public class Map : MonoBehaviour
         }
         if (maptile.Tiles.Count >= 1)
             maptile.Tiles.Clear();
-        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
+        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath + "/" + "Map", "maptileClass");
         maptile = jtc2;
 
         for (int i = 0; i < maptile.Tiles.Count; ++i)
