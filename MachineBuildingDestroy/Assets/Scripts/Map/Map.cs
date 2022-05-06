@@ -155,6 +155,29 @@ public class Map : MonoBehaviour
         }
         return maptiles;
     }
+    
+    public List<string> LoadNameFile()
+    {
+        String FolderName = Application.dataPath + "/" + "Map";
+        System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(FolderName);
+        List<string> NameList = new List<string>();
+        if (di.Exists)
+        {
+            foreach (System.IO.FileInfo File in di.GetFiles())
+            {
+                string extension = ".json";
+                if (File.Extension.ToLower().CompareTo(extension) == 0)
+                {
+                    String FileNameOnly = File.Name.Substring(0, File.Name.Length - extension.Length);
+                    String FullFileName = File.FullName;
+                    String loadPath = FolderName;
+                    NameList.Add(FileNameOnly);
+                    print(FullFileName + " " + FileNameOnly);
+                }
+            }
+        }
+        return NameList;
+    }
     public void LoadMapFile(string loadPath, string fileName)
     {
         maptile = LoadJsonFile<Maptile>(loadPath, fileName);

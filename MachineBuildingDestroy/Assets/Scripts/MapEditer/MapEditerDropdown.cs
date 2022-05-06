@@ -32,12 +32,13 @@ public class MapEditerDropdown : MonoBehaviour
     private void Init()
     {
         _Map.LoadMapList();
+        List<string> MapNameList = _Map.LoadNameFile();
         _Dropdown.options.Clear();
-        foreach (var maptile in _Map.MapList)
+        foreach (var maptile in MapNameList)
         {
             Dropdown.OptionData optionData = new Dropdown.OptionData();
-            if (maptile.MapName != null)
-                optionData.text = maptile.MapName;
+            if (maptile != null)
+                optionData.text = maptile;
             else
                 optionData.text = "NoName";
             _Dropdown.options.Add(optionData);
