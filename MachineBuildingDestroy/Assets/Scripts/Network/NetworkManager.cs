@@ -23,7 +23,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         DestroyBuildingFromClient,
         CreateBuildingFromServer,
         DestroyBuildingFromServer,
-        HideBuildingFragments
+        HideBuildingFragments,
+        SpawnPlayerFinish,
+        LoadGame
     }
 
     private static NetworkManager instance;
@@ -116,6 +118,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         
         PhotonNetwork.Instantiate(player.name, pos, Quaternion.identity);
+        SpawnPlayerFinishEvent();
     }
 
     public void SpawnPlayer(int team)
@@ -229,6 +232,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
+    public void LoadGameEvent()
+    {
+        byte evCode = (byte) EventCode.LoadGame;
+        object[] data = new object[] { };
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
+
     public void StartGameEvent()
     {
         byte evCode = (byte) EventCode.StartGame;
@@ -237,8 +249,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SendOptions sendOpt = new SendOptions {Reliability = true};
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
-    
-    
+
+    public void SpawnPlayerFinishEvent()
+    {
+        byte evCode = (byte) EventCode.SpawnPlayerFinish;
+        object[] data = new object[] {PhotonNetwork.NickName};
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
 
     public void SetTeamNumOnServerEvent(string name, int num)
     {
