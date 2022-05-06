@@ -203,8 +203,11 @@ public class MapEditerOnScreenPoint : MonoBehaviour
         {
             if (gameObject.transform.childCount >= 1)
             {
-                Destroy(ChildObject.gameObject);
-                ChildObject = null;
+                if (ChildObject != null)
+                {
+                    Destroy(ChildObject.gameObject);
+                    ChildObject = null;
+                }
             }
             mapEditerManager.Prefnum = num;
         }

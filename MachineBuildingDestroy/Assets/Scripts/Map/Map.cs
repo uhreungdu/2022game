@@ -155,6 +155,10 @@ public class Map : MonoBehaviour
         }
         return maptiles;
     }
+    public void LoadMapFile(string loadPath, string fileName)
+    {
+        maptile = LoadJsonFile<Maptile>(loadPath, fileName);
+    }
 
     public void LoadMapList()
     {
