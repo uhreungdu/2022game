@@ -226,6 +226,7 @@ public class PlayerState : LivingEntity, IPunObservable
     {
         if (!PhotonNetwork.IsMasterClient) return;
         if (PhotonNetwork.PlayerList.Length < 2) return;
+        if (gManager.EManager.gameSet) return;
         DropCoins(point, transform.position);
     }
     
