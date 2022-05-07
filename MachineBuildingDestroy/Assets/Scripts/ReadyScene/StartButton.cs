@@ -54,7 +54,7 @@ public class StartButton : MonoBehaviourPun
                     return;
                 }
             }
-            _NetworkManager.GetComponent<NetworkManager>().StartGameEvent();
+            _NetworkManager.GetComponent<NetworkManager>().LoadGameEvent();
             PhotonNetwork.LoadLevel("SampleScene");
         }
         else

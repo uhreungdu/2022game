@@ -9,13 +9,12 @@ using Random = UnityEngine.Random;
 
 public class RcvEvent : MonoBehaviourPun
 {
-    [SerializeField]
-    private GameManager gManager;
+    private NetworkManager nManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        //gManager = GameManager.GetInstance();
+        nManager = NetworkManager.GetInstance();
     }
 
     // Update is called once per frame
@@ -39,7 +38,7 @@ public class RcvEvent : MonoBehaviourPun
             case (byte)NetworkManager.EventCode.SpawnPlayer:
                 transform.GetComponent<NetworkManager>().SpawnPlayer();
                 break;
-            case (byte) NetworkManager.EventCode.StartGame:
+            case (byte) NetworkManager.EventCode.LoadGame:
             {
                 var info = GameObject.Find("Myroominfo");
                 int team = -2;
@@ -91,6 +90,20 @@ public class RcvEvent : MonoBehaviourPun
                     if (view.ViewID != (int) parameters[0]) continue;
                     target.GetComponent<BulidingObject>().HideBuildingFragments();
                 }
+                break;
+            }
+            case (byte) NetworkManager.EventCode.SpawnPlayerFinish:
+            {
+                if (!PhotonNetwork.IsMasterClient) return;
+                if ((string) data[0] == "LOADOKLOADOK")
+                {
+                    nManager.StartGameEvent();
+                }
+                break;
+            }
+            case (byte) NetworkManager.EventCode.StartGame:
+            {
+                GameObject.Find("LoadingImage").SetActive(false);
                 break;
             }
         }
