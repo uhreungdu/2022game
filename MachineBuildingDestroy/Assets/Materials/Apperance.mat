@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Light_Tex
-  m_Shader: {fileID: -6465566751694194690, guid: b45a02628ed1a81469b74ef05b5b8ccf, type: 3}
+  m_Name: Apperance
+  m_Shader: {fileID: -6465566751694194690, guid: fc547295e7c05f145908bcfc0444af7b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,8 +19,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_00c57bf15bf84084b4db52be1af6ea89:
-        m_Texture: {fileID: 2800000, guid: 563ebb161f905174d9c748980096613e, type: 3}
+    - Texture2D_9eab5fb004fe4984b29aba38b62c4982:
+        m_Texture: {fileID: 2800000, guid: 792739847d8e2684d824f16ef30fc8b9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -37,5 +37,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
-    - _MainColor: {r: 2.9960785, g: 2.8235295, b: 0.4392157, a: 1}
+    - Color_8ec5873cbb0843c890e61356b3e65f8e: {r: 1.4980392, g: 0.63529414, b: 0.07058824, a: 1}
+    - Vector2_16151299e27e4863a1819115cbd7dc8a: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_67b1e6dc04e14c2b96ad1ca534ce5efa: {r: 4, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
