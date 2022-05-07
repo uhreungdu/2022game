@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CenterLight
+  m_Shader: {fileID: -6465566751694194690, guid: 615706fdb0ded8d4392479b081361830, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_4597d4246d8b4916b3b6934345d52e01:
+        m_Texture: {fileID: 2800000, guid: 4e77ce9756eeb8745be3791654c64d54, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_7b3fc6be9d4b4bc68ef536edfd344f73:
+        m_Texture: {fileID: 2800000, guid: 51fd91914f790024e9dd0cef1947e79c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_86cf5ef37c5846448141b58a4ea55a42:
+        m_Texture: {fileID: 2800000, guid: 508f53a64719d9743b802003d5600fb2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_932887b96c7e41558cbc8d4fafb76812:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_200978f298244c68a27daa829f8417c3_Texture_1:
+        m_Texture: {fileID: 2800000, guid: ceb63bec3a473ce41bcbecc57933d432, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7c26bda3bdc9463bae2bad754a5c093a_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 2616a99e3180bdf4885faca0705030cb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_15c04fe40d314102a45858fd92e195b1: 0.5
+    - Vector1_61ed0a2f71114ef0ad10473ac9fa8a36: 64
+    m_Colors:
+    - Color_7db4e335c81f4e378960207ce4a9dbb2: {r: 2, g: 2, b: 0.29803923, a: 0}
+    - Color_dd8795305dc444158310a16973918e60: {r: 7.0541334, g: 7.245283, b: 2.2897828, a: 0}
+  m_BuildTextureStacks: []
