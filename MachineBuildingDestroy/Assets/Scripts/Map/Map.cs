@@ -49,7 +49,6 @@ public class Map : MonoBehaviour
     private List<GameObject> Planes = new List<GameObject>();
     public InputField FileNameInput;
 
-    public GameObject mapGameObject;
     public GameObject[] Prefs;
 
     private float x = 20;
@@ -58,14 +57,14 @@ public class Map : MonoBehaviour
     [Tooltip("True = 온라인모드, False = 로컬모드")]
     public bool Online = false;
     [Tooltip("True = 맵에디터모드, False = 플레이모드")]
-    public bool MapEditer = false;
+    public bool Other = false;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        if (!MapEditer)
+        if (!Other)
         {
             if (Online)
             {
@@ -105,7 +104,7 @@ public class Map : MonoBehaviour
         fileStream.Close();
     }
     
-    T LoadJsonFile<T>(string loadPath, string fileName)
+    static T LoadJsonFile<T>(string loadPath, string fileName)
     {
         FileStream fileStream = null;
         string jsonData;
@@ -132,7 +131,7 @@ public class Map : MonoBehaviour
         }
     }
 
-    public List<T> LoadListJsonFile<T>()
+    public static List<T> LoadListJsonFile<T>()
     {
         String FolderName = Application.dataPath + "/" + "Map";
         System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(FolderName);
@@ -156,7 +155,7 @@ public class Map : MonoBehaviour
         return maptiles;
     }
     
-    public List<string> LoadNameFile()
+    public static List<string> LoadNameFile()
     {
         String FolderName = Application.dataPath + "/" + "Map";
         System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(FolderName);
@@ -186,6 +185,12 @@ public class Map : MonoBehaviour
     public void LoadMapList()
     {
         MapList = LoadListJsonFile<Maptile>();
+    }
+    
+    public static List<Maptile> ReturnLoadMapList()
+    {
+        List<Maptile> maptiles = LoadListJsonFile<Maptile>();
+        return maptiles;
     }
     
     void RandomMap()
@@ -276,7 +281,7 @@ public class Map : MonoBehaviour
         {
             GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
             GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
-            if (MapEditer)
+            if (Other)
             {
                 temp.transform.parent = transform;
                 Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
@@ -303,7 +308,7 @@ public class Map : MonoBehaviour
         {
             GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
             GameObject temp = Instantiate(tilepref, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
-            if (MapEditer)
+            if (Other)
             {
                 temp.transform.parent = transform;
                 Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
@@ -317,7 +322,8 @@ public class Map : MonoBehaviour
 
     public void CreateNetworkMap()
     {
-        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, "maptileClass");
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, myInRoomInfo.MapName);
         maptile = jtc2;
         // jtc2.Print();
 

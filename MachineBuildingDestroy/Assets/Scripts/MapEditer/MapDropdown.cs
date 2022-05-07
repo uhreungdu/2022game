@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class MapEditerDropdown : MonoBehaviour
+public class MapDropdown : MonoBehaviour
 {
     public Map _Map;
     public Dropdown _Dropdown;
@@ -13,6 +13,7 @@ public class MapEditerDropdown : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _Dropdown = GetComponent<Dropdown>();
     }
 
     private void OnEnable()
@@ -31,8 +32,7 @@ public class MapEditerDropdown : MonoBehaviour
 
     private void Init()
     {
-        _Map.LoadMapList();
-        List<string> MapNameList = _Map.LoadNameFile();
+        List<string> MapNameList = Map.LoadNameFile();
         _Dropdown.options.Clear();
         foreach (var maptile in MapNameList)
         {

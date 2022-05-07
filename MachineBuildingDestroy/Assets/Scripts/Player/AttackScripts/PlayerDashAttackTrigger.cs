@@ -11,7 +11,7 @@ public class PlayerDashAttackTrigger : MonoBehaviour
     void Start()
     {
         _playerState = transform.root.GetComponent<PlayerState>();
-        _playerDashAttack = transform.root.GetComponent<PlayerDashAttack>(); 
+        _playerDashAttack = transform.root.GetComponent<PlayerDashAttack>();
     }
     private void OnTriggerEnter(Collider other)
     {

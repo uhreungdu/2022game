@@ -19,7 +19,7 @@ public class PlayerJumpAttackTrigger : MonoBehaviour
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Wall")
         {
-            BulidingObject attackTarget = other.GetComponent<BulidingObject>();
+            BulidingObject attackTarget = other.GetComponentInParent<BulidingObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
                 if (SceneManager.GetActiveScene().name == "LocalRoom")
@@ -28,9 +28,8 @@ public class PlayerJumpAttackTrigger : MonoBehaviour
                 }
                 else
                 {
-                    attackTarget.NetworkOnDamage(_playerJumpAttack._damage); 
+                    attackTarget.NetworkOnDamage(_playerJumpAttack._damage);
                 }
-
                 Debug.Log(attackTarget.health);
             }
         }

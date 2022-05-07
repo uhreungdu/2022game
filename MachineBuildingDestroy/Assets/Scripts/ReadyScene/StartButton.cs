@@ -11,7 +11,9 @@ public class StartButton : MonoBehaviourPun
     public GameObject Info;
 
     private GameObject _NetworkManager;
-    
+
+    public MapDropdown _MapDropdown;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +56,7 @@ public class StartButton : MonoBehaviourPun
                     return;
                 }
             }
+            info.MapName = _MapDropdown.SelectText();
             _NetworkManager.GetComponent<NetworkManager>().LoadGameEvent();
             PhotonNetwork.LoadLevel("SampleScene");
         }
