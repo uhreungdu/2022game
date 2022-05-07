@@ -104,6 +104,16 @@ public class RcvEvent : MonoBehaviourPun
             case (byte) NetworkManager.EventCode.StartGame:
             {
                 GameObject.Find("LoadingImage").SetActive(false);
+                UImanager uImanager = UImanager.GetInstance();
+                for (int i = 0; i < uImanager.Canvas.transform.childCount; ++i)
+                {
+                    var child = uImanager.Canvas.transform.GetChild(i);
+                    if (uImanager.Canvas.transform.GetChild(i).name == "StartCountDown")
+                    {
+                        child.gameObject.SetActive(true);
+                    }
+                }
+
                 break;
             }
         }

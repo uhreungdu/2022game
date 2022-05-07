@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,19 @@ public class CountDown : MonoBehaviour
         
         // textAlphaVar = starttextAlpha;
         // fontColor.a = starttextAlpha;
+    }
+
+    private void OnEnable()
+    {
+        _text = GetComponent<Text>();
+        fontColor = Color.black;
+        
+        gameStartTime = Time.time;
+        _text.text = "3";
+        fontSizeVar = startfontSize;
+        _text.fontSize = (int)fontSizeVar;
+        
+        _gameManager = GameManager.GetInstance();
     }
 
     // Update is called once per frame
