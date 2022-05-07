@@ -50,8 +50,9 @@ public class MapEditerCam : MonoBehaviour
             }
         }
   
-        transform.position += direction * speed * Time.deltaTime;
-        
+        transform.position += direction;
+        mapEditerCamInput.ResetDirection();
+
         if (transform.position.y > 100)
             transform.position = new Vector3(transform.position.x, 100, transform.position.z);
 
@@ -70,14 +71,14 @@ public class MapEditerCam : MonoBehaviour
             int xScreenSize = Screen.width;
             int yScreenSize = Screen.height;
             Vector3 direction = Vector3.zero;
-            if (Mouse.current.position.x.ReadValue() < xScreenSize / 10)
-                direction.x = -1;
-            if (Mouse.current.position.x.ReadValue() > xScreenSize / 10 * 9)
-                direction.x = 1;
-            if (Mouse.current.position.y.ReadValue() < yScreenSize / 10)
-                direction.z = -1;
-            if (Mouse.current.position.y.ReadValue() > yScreenSize / 10 * 9)
-                direction.z = 1;
+            // if (Mouse.current.position.x.ReadValue() < xScreenSize / 10)
+            //     direction.x = -1;
+            // if (Mouse.current.position.x.ReadValue() > xScreenSize / 10 * 9)
+            //     direction.x = 1;
+            // if (Mouse.current.position.y.ReadValue() < yScreenSize / 10)
+            //     direction.z = -1;
+            // if (Mouse.current.position.y.ReadValue() > yScreenSize / 10 * 9)
+            //     direction.z = 1;
 
             direction = direction.normalized;
             transform.position += (direction * speed * Time.deltaTime);

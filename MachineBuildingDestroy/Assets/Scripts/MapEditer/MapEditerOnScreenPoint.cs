@@ -237,10 +237,10 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     {
         foreach (var allTile in map.maptile.Tiles)
         {
-            Vector3 comp1 = new Vector3((int) allTile.position.x, 0,
-                (int) allTile.position.z);
-            Vector3 comp2 = new Vector3((int) transform.GetChild(0).position.x,
-                0, (int) transform.GetChild(0).position.z);
+            Vector3 comp1 = new Vector3(allTile.position.x, 0,
+                allTile.position.z);
+            Vector3 comp2 = new Vector3(transform.position.x,
+                0, transform.position.z);
             if (mapEditerManager.Prefnum == 0 && allTile.kind == 0 && comp1 == comp2)
             {
                 map.maptile.Tiles.Remove(allTile);
