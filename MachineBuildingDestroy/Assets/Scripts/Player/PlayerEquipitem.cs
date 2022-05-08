@@ -73,6 +73,7 @@ public class PlayerEquipitem : MonoBehaviourPun
         else if (_playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
         {
             buff_Time = 10;
+            _playerState.Item = item_box_make.item_type.no_item;
             BuffOn = true;
         }
     }
