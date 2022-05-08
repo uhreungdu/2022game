@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 using UnityEngine.PlayerLoop;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.Serialization;
 
 public class Thirdpersonmove : MonoBehaviourPun
@@ -15,9 +16,9 @@ public class Thirdpersonmove : MonoBehaviourPun
     public LayerMask _fieldLayer;
     private PlayerAllAttackAfterCast _playerAllAttackAfterCast;
 
-    public float speed = 18f;
-    public float Maxspeed = 24f;
-    public float Minspeed = 18f;
+    public float speed = 27f;
+    public float Maxspeed = 36f;
+    public float Minspeed = 27f;
     public float yvelocity = 0;
     public float Cgravity = 4f;
     private float tempgravity = -3f;

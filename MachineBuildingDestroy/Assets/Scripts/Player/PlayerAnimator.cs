@@ -71,8 +71,11 @@ public class PlayerAnimator : MonoBehaviourPun
         }
         else
         {
-            _PlayerJumpAttack.SetAffterCast(1);
-            _Animator.SetBool("Combo", true);
+            if (!_PlayerState.aftercast)
+            {
+                _PlayerJumpAttack.SetAffterCast(1);
+                _Animator.SetBool("Combo", true);
+            }
         }
     }
 

@@ -7,16 +7,16 @@ using UnityEngine;
 
 public class BulidingObject : LivingEntity
 {
-    public GameObject coinprefab;     // ������ ������ ���� ������
-    public int point;                // 몇점인지
+    public GameObject coinprefab; // ������ ������ ���� ������
+    public int point; // 몇점인지
     public Material boxmaterial;
     public Rigidbody rigidbody;
     public MeshRenderer _MeshRenderer;
     public MeshCollider _MeshCollider;
-    
+
     public int destroyfloor = 0;
     public int destroyTime = 5;
-    
+
     public float _reSpawnTime = 10.0f;
     protected float _reSpawnTimer = 0.0f;
     protected GameManager _Gamemanager;
@@ -32,11 +32,11 @@ public class BulidingObject : LivingEntity
     // Start is called before the first frame update
     protected void Start()
     {
-            var objectName = gameObject.transform.root.name;
-            objectName = objectName.Remove(objectName.Length - 7, 7);
-            AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
-                _reSpawnTime);
-        
+        var objectName = gameObject.transform.root.name;
+        objectName = objectName.Remove(objectName.Length - 7, 7);
+        AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
+            _reSpawnTime);
+
 
         rigidbody = GetComponentInChildren<Rigidbody>();
         _MeshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -50,7 +50,6 @@ public class BulidingObject : LivingEntity
     {
         if (_Gamemanager == null)
         {
-
         }
         else if (!_Gamemanager.EManager.gameSet)
         {
@@ -74,9 +73,11 @@ public class BulidingObject : LivingEntity
                     PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, coinprefab.transform.rotation);
                 //Instantiate(coinprefab, coinPosition, transform.rotation);
                 Vector3 explosionPosition = transform.position;
-                coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f, _ExplosionForce / 2);
+                coin.GetComponent<Rigidbody>()
+                    .AddExplosionForce(_ExplosionForce, explosionPosition, 10f, _ExplosionForce / 2);
                 coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f);
             }
+
             BuildingDestroyEvent(photonView.ViewID);
         }
     }
@@ -90,6 +91,7 @@ public class BulidingObject : LivingEntity
         }
         else
             objectName = gameObject.name;
+
         objectName = objectName.Remove(objectName.Length - 7, 7);
         Vector3 position = transform.position;
         position.y += 30;
@@ -97,7 +99,7 @@ public class BulidingObject : LivingEntity
         print("리스폰진짜됨");
         PhotonNetwork.Destroy(gameObject);
     }
-    
+
     public void HideBuildingFragments()
     {
         if (childMeshRenderers == null) return;
@@ -135,13 +137,13 @@ public class BulidingObject : LivingEntity
             print("리스폰됨");
         }
     }
-    
+
     public override void Die()
     {
         base.Die();
         _reSpawnTimer = Time.time;
     }
-    
+
     [PunRPC]
     public void WallDestroy()
     {
@@ -150,27 +152,32 @@ public class BulidingObject : LivingEntity
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1);
         }
-        if (health <= startingHealth / 7f * 5  && destroyfloor <= 1)
+
+        if (health <= startingHealth / 7f * 5 && destroyfloor <= 1)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
         }
-        if (health <= startingHealth / 7f * 4  && destroyfloor <= 2)
+
+        if (health <= startingHealth / 7f * 4 && destroyfloor <= 2)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
         }
+
         if (health <= startingHealth / 7f * 3 && destroyfloor <= 3)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1);
         }
-        if (health <= startingHealth / 7f * 2  && destroyfloor <= 4)
+
+        if (health <= startingHealth / 7f * 2 && destroyfloor <= 4)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
         }
-        if (health <= startingHealth / 7f * 1  && destroyfloor <= 5)
+
+        if (health <= startingHealth / 7f * 1 && destroyfloor <= 5)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
@@ -184,7 +191,7 @@ public class BulidingObject : LivingEntity
                 if (child != _MeshRenderer)
                     child.enabled = true;
             }
-            
+
             childMeshCollider = GetComponentsInChildren<MeshCollider>();
             foreach (var child in childMeshCollider)
             {
@@ -212,6 +219,7 @@ public class BulidingObject : LivingEntity
             Destroy(rigidbody);
         }
     }
+
     [PunRPC]
     public override void OnDamage(float damage)
     {
@@ -228,7 +236,7 @@ public class BulidingObject : LivingEntity
 
     public void NetworkOnDamage(float val)
     {
-        photonView.RPC("OnDamage",RpcTarget.AllViaServer,val);
+        photonView.RPC("OnDamage", RpcTarget.AllViaServer, val);
     }
 
     [PunRPC]
@@ -236,7 +244,7 @@ public class BulidingObject : LivingEntity
     {
         health = fHealth;
     }
-    
+
     private void AddBuildingToServerEvent(int viewID, string type, Vector3 pos, Quaternion rotate, float respawnTime)
     {
         if (!PhotonNetwork.IsMasterClient) return;

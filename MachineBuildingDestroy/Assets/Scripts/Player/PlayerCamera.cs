@@ -8,10 +8,11 @@ using Photon.Pun;
 
 public class PlayerCamera : MonoBehaviourPun
 {
-    public Camera _Camera;
+    //public Transform _Camera;
     public LayerMask _fieldLayer;
     public List<GameObject> _Buildings;
     public List<GameObject> _ExitBuildings;
+    public RenewCamTransform _RenewCamTransform;
 
     private bool Colliding = false;
     // Start is called before the first frame update
@@ -118,6 +119,7 @@ public class PlayerCamera : MonoBehaviourPun
 
     void CameraForwardRaycast()
     {
+        Transform _Camera = _RenewCamTransform.transform;
         var ray = new Ray(_Camera.transform.position, _Camera.transform.forward);
         var maxDistance = 10f;
         // 광선 디버그 용도

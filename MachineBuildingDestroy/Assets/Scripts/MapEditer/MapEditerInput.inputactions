@@ -9,13 +9,13 @@
                     "name": "Move",
                     "type": "Value",
                     "id": "1bb57caf-bb98-441a-95d8-61e1fa2cfb79",
-                    "expectedControlType": "Vector3",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 },
                 {
                     "name": "Zoom",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "61845675-9d9d-4240-8a7e-9b1aeaca55f2",
                     "expectedControlType": "Axis",
                     "processors": "",
@@ -93,6 +93,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "1a308dec-51a5-49ad-9d48-6549a3f41319",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
