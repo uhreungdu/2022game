@@ -22,7 +22,7 @@ public class PlayerKeySystem : MonoBehaviourPun
     public Thirdpersonmove Thirdpersonmove;
     private PlayerEquipitem _playerEquipitem;
 
-    private float timeBetAttack = 0.467f; // ���� ����
+    private float timeBetAttack = 0.3f; // ���� ����
     private float activeAttackTime = 0f; // ���� ���� �ð�
     private float lastAttackTime = 0f; // ������ �������� �� ����
 
@@ -98,6 +98,13 @@ public class PlayerKeySystem : MonoBehaviourPun
             {
                 lastAttackTime = Time.time;
                 _playerAnimator.OnAttack();
+            }
+            else
+            {
+                _playerAnimator._Animator.SetBool("DashAttack", false);
+                _playerAnimator._Animator.SetBool("HammerAttack", false);
+                _playerAnimator._Animator.SetBool("Combo", false);
+                _playerAnimator._Animator.SetBool("Throw", false);
             }
         }
         else

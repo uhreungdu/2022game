@@ -68,8 +68,15 @@ public class PlayerDragonPunch : PlayerAttack
         Transform rootTransform = transform.root;
         _playerImpact.AddImpact(rootTransform.up, 500);
         _playerImpact.AddImpact(rootTransform.forward, 150);
-        photonView.RPC("Setyvelocity", RpcTarget.AllViaServer, 0);
+        photonView.RPC("Setyvelocity", RpcTarget.AllViaServer);
     }
+    
+    [PunRPC]
+    public void Setyvelocity(float vel)
+    {
+        _thirdpersonmove.yvelocity = vel;
+    }
+
     
     public void SetDragonPunchAffterCast(int set)
     {

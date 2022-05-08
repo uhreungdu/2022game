@@ -1,5 +1,121 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &531127005168887983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 531127005168887979}
+  - component: {fileID: 531127005168887980}
+  - component: {fileID: 531127005168887981}
+  - component: {fileID: 531127005168887982}
+  - component: {fileID: 6551012040397400051}
+  - component: {fileID: 6709224976631743276}
+  m_Layer: 0
+  m_Name: Doom_shield_Acade
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &531127005168887979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531127005168887983}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 86.5, z: 0}
+  m_LocalScale: {x: 110, y: 7.5, z: 7.5}
+  m_Children: []
+  m_Father: {fileID: 9008505798005833370}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &531127005168887980
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531127005168887983}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &531127005168887981
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531127005168887983}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &531127005168887982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531127005168887983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23b311dfbb39d01428d97e40acbc5991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ripplesVFX: {fileID: 19521311887937824, guid: c49ed3f97b23edd4a9e315d5979d26ab, type: 3}
+--- !u!114 &6551012040397400051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531127005168887983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 6709224976631743276}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &6709224976631743276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531127005168887983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &2358042896829115922
 GameObject:
   m_ObjectHideFlags: 0
@@ -46,7 +162,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2358042896829115922}
-  m_Mesh: {fileID: 4300000, guid: 13adc1d6f166aa344a670483767e2fb6, type: 2}
+  m_Mesh: {fileID: 4300000, guid: c28f8d40897dff24daff4ce02e94487b, type: 2}
 --- !u!23 &2102952656862582429
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -126,7 +242,7 @@ MonoBehaviour:
   destroyfloor: 0
   destroyTime: 5
   _reSpawnTime: 30
-  _ExplosionForce: 2000
+  _ExplosionForce: 1000
   effect_obj: {fileID: 0}
   prefeb_effect: {fileID: 43508311127239940, guid: 84309fdd9219f1d43b57248b43322cbc, type: 3}
   _Map: {fileID: 0}
@@ -143,7 +259,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 540c7aa7d4a66c54398f509804afe905, type: 2}
+  m_Mesh: {fileID: 4300000, guid: c28f8d40897dff24daff4ce02e94487b, type: 2}
 --- !u!114 &-8843706162784481365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,69 +316,3 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!1001 &5593405976362215497
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 9008505798005833370}
-    m_Modifications:
-    - target: {fileID: 1690569102431375290, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: sceneViewId
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 86.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5386643991958159590, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-      propertyPath: m_Name
-      value: Doom_shield_Acade
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
---- !u!4 &531127005168887979 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5386643991958159586, guid: b0508ebc59bf9f045823608fda7e3dd6, type: 3}
-  m_PrefabInstance: {fileID: 5593405976362215497}
-  m_PrefabAsset: {fileID: 0}
