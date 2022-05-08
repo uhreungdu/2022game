@@ -17,7 +17,7 @@ public class PlayerDragonPunch : PlayerAttack
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
         _aftercastAttack = 1f;
         SetAffterCast(0);
-        _damage = 20;
+        _damage = 30;
         _coolTime = 10;
         _lastUsedTime = -999f;
         
@@ -67,6 +67,7 @@ public class PlayerDragonPunch : PlayerAttack
         Transform rootTransform = transform.root;
         _playerImpact.AddImpact(rootTransform.up, 500);
         _playerImpact.AddImpact(rootTransform.forward, 150);
+        _thirdpersonmove.yvelocity = 0;
     }
     
     public void SetDragonPunchAffterCast(int set)

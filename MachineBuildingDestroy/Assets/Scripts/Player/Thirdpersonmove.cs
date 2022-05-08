@@ -194,7 +194,8 @@ public class Thirdpersonmove : MonoBehaviourPun
         {
             item_box_make itemBoxMake = other.gameObject.GetComponent<item_box_make>();
             if (PhotonNetwork.IsMasterClient)
-                _playerState.SetItem(itemBoxMake.now_type);
+                if (_playerState.Item != item_box_make.item_type.no_item)
+                    _playerState.SetItem(itemBoxMake.now_type);
             _playerState.isAimming = true;
         }
         else if (other.gameObject.tag == "Coin")

@@ -98,8 +98,6 @@ public class PlayerEquipitem : MonoBehaviourPun
         {
             can_put_Obs = ItemObj.GetComponent<Obstcle_put_down>().can_put_down;
             print("들어옴");
-            if (can_put_Obs == true)
-            {
                 Quaternion old_rot = gameObject.transform.rotation;
                 //Debug.Log(old_rot);
                 Destroy(ItemObj.gameObject);
@@ -115,7 +113,6 @@ public class PlayerEquipitem : MonoBehaviourPun
                 _playerState.nowEquip = false;
                 //던지고 나면 아이템 사라짐
                 // _playerState.Item = item_box_make.item_type.no_item;
-            }
         }
     }
 

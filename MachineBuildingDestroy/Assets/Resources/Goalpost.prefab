@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -8323076672761444401}
   - component: {fileID: 7662981655831515362}
   - component: {fileID: 6728455641876888871}
+  - component: {fileID: 3102610663970359123}
   m_Layer: 13
   m_Name: Goalpost
   m_TagString: Goalpost
@@ -164,7 +165,7 @@ MeshCollider:
   m_GameObject: {fileID: 3591101973611699780}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -181,3 +182,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ababd48a40f48624ca013a328cd9de34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &3102610663970359123
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3591101973611699780}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10.024215, y: 1.2183656, z: 10.150853}
+  m_Center: {x: -0, y: 0.7402093, z: -0}
