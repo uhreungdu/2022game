@@ -1604,7 +1604,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   _fieldLayer:
     serializedVersion: 2
-    m_Bits: 4672
+    m_Bits: 12864
   speed: 27
   Maxspeed: 36
   Minspeed: 27

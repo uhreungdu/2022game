@@ -126,7 +126,7 @@ MonoBehaviour:
   destroyfloor: 0
   destroyTime: 5
   _reSpawnTime: 30
-  _ExplosionForce: 2000
+  _ExplosionForce: 1000
   effect_obj: {fileID: 0}
   prefeb_effect: {fileID: 43508311127239940, guid: 84309fdd9219f1d43b57248b43322cbc, type: 3}
   _Map: {fileID: 0}
