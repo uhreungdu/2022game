@@ -23,7 +23,7 @@ public class Shield_Hit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag != "Untagged" || other.gameObject.tag != "Wall")
+        if (other.gameObject.tag != "Untagged" || other.gameObject.tag != "Wall" || other.gameObject.tag != "MainCamera")
         {
             var ripples = Instantiate(ripplesVFX, transform) as GameObject;
             var psr = ripples.GetComponent<ParticleSystemRenderer>();
