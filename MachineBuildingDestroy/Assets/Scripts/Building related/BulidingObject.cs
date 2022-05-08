@@ -54,6 +54,11 @@ public class BulidingObject : LivingEntity
         else if (!_Gamemanager.EManager.gameSet)
         {
             DeathTimer();
+            if (rigidbody.velocity.magnitude > 5.0f)
+            {
+                rigidbody.velocity = rigidbody.velocity.normalized;
+                rigidbody.velocity *= 5f;
+            }
         }
     }
 

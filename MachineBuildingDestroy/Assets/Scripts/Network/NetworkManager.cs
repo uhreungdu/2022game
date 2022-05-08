@@ -32,7 +32,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private Account _account;
     private LobbyManager _lobbyManager;
     public string networkState;
-    public GameObject player;
+    public GameObject[] player;
     public GameObject errWindow;
     private GameObject _team1Spawner;
     private GameObject _team2Spawner;
@@ -89,7 +89,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void SpawnPlayer()
     {
         Vector3 pos = new Vector3(-15, 10.0f, -15);
-        
+
         var info = GameObject.Find("Myroominfo");
         int team = 0;
         if (info != null)
@@ -97,15 +97,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             team = info.GetComponent<MyInRoomInfo>().mySlotNum % 2;
             //Destroy(info);
         }
+
         while (_team1Spawner == null)
         {
             _team1Spawner = GameObject.FindWithTag("Spawner1");
         }
+
         while (_team2Spawner == null)
         {
             _team2Spawner = GameObject.FindWithTag("Spawner2");
         }
-        
+
         if (team == 0 && _team1Spawner != null)
         {
             pos = _team1Spawner.transform.position;
@@ -117,7 +119,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
         }
         
-        PhotonNetwork.Instantiate(player.name, pos, Quaternion.identity);
+        PhotonNetwork.Instantiate(player[team].name, pos, Quaternion.identity);
+        
         SpawnPlayerFinishEvent();
     }
 
@@ -145,7 +148,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
         }
         
-        PhotonNetwork.Instantiate(player.name, pos, Quaternion.identity);
+        PhotonNetwork.Instantiate(player[team].name, pos, Quaternion.identity);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
