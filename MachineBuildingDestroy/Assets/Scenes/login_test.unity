@@ -2423,7 +2423,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-140336
+  m_Name: pb_Mesh178526
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7190,7 +7190,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkState: 
-  player: {fileID: 6962304825099367683, guid: d32ccc424f107b04c964688911a498e0, type: 3}
+  player:
+  - {fileID: 6962304825099367683, guid: d32ccc424f107b04c964688911a498e0, type: 3}
+  - {fileID: 7550675007537066324, guid: 6d479682a2fa498409e7b537affcb8a1, type: 3}
   errWindow: {fileID: 1077563448467974805, guid: aae3e81f4bf5fb74b91b41b10c868c44, type: 3}
 --- !u!4 &2018934612
 Transform:
