@@ -47,7 +47,7 @@ public class MapDropdown : MonoBehaviour
     
     public void SelectButton()// SelectButton을 누름으로써 값 테스트.
     {
-        Debug.Log("Dropdown Value: "+ _Dropdown.value +", List Selected: " + (_Dropdown.value + 1));
+        //Debug.Log("Dropdown Value: "+ _Dropdown.value +", List Selected: " + (_Dropdown.value + 1));
     }
 
     public string SelectText()

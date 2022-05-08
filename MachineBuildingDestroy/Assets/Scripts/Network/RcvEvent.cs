@@ -122,7 +122,7 @@ public class RcvEvent : MonoBehaviourPun
     {
         while (true)
         {
-            yield return new WaitForSecondsRealtime(5f);
+            yield return new WaitForSecondsRealtime(3f);
             Scene scene = SceneManager.GetActiveScene();
             if (scene.name == "SampleScene")
             {
@@ -142,6 +142,9 @@ public class RcvEvent : MonoBehaviourPun
                     }
                 }
                 transform.GetComponent<NetworkManager>().SpawnPlayer((int)parameters[1]);
+                GameObject.Find("LoadingImage").SetActive(false);
+                var gameManager = GameManager.GetInstance();
+                gameManager.SetGameStart(true);
                 break;
             }
         }

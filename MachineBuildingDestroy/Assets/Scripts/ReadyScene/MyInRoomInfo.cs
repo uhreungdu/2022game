@@ -9,7 +9,7 @@ public struct PlayersInfomation
     public string Name;
     public int Costume;
     public int SlotNum;
-    public string Platform;
+    public int Platform;
     
     public int TotalGetPoint;
     public float TotalCauseDamage;

@@ -29,8 +29,7 @@ public class CharacterSlots : MonoBehaviourPun
         if(!init)
         {
             var nickname = PhotonNetwork.NickName;
-            var platform = Application.platform.ToString();
-            photonView.RPC("SetSlotByQuick",RpcTarget.MasterClient, nickname, platform);
+            photonView.RPC("SetSlotByQuick",RpcTarget.MasterClient, nickname, Application.platform);
             init = true;
         }
         
@@ -81,7 +80,7 @@ public class CharacterSlots : MonoBehaviourPun
     }
     
     [PunRPC]
-    void SetSlotByQuick(string nickname, string platform)
+    void SetSlotByQuick(string nickname, RuntimePlatform platform)
     {
         var slot = transform.GetComponent<CharacterSlots>();
         for (var i = 0; i < 6; ++i)
@@ -90,7 +89,8 @@ public class CharacterSlots : MonoBehaviourPun
             if (target.Nickname != "") continue;
             target.Nickname = nickname;
             target.IsReady = false;
-            target.Platform = platform;
+            target.Platform = platform == RuntimePlatform.Android ? 1 : 0;
+            Debug.Log(target.Platform);
             break;
 
         }
