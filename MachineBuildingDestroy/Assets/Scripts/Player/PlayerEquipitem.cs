@@ -106,9 +106,9 @@ public class PlayerEquipitem : MonoBehaviourPun
                 ItemObj.transform.parent = null;
                 //GameObject getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
                 //ItemObj = Instantiate(getobj);
-                Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 5f);
-                // ItemObj.transform.Translate(tpos);
-                // ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
+                Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 10f) + Vector3.up;
+                //ItemObj.transform.Translate(tpos);
+                //ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
                 ItemObj = PhotonNetwork.Instantiate("Wall_Obstcle_Objs", tpos,
                     new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w));
                 ItemObj = null;
