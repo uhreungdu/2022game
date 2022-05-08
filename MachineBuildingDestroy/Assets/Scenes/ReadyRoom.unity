@@ -3126,7 +3126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612e7d1d34559cc4b96a90190a36b612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Info: {fileID: 1003806522}
   _MapDropdown: {fileID: 911462952}
 --- !u!114 &1404517704
 MonoBehaviour:
@@ -3797,7 +3796,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -4085,7 +4084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4fa770f2ef07c841983709ba63b2f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Info: {fileID: 1003806522}
 --- !u!114 &1870981667
 MonoBehaviour:
   m_ObjectHideFlags: 0
