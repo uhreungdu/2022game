@@ -4116,7 +4116,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FileNameInput: {fileID: 1696876190}
-  mapGameObject: {fileID: 1514790153}
   Prefs:
   - {fileID: 932610068854459547, guid: f8b0f403836ae414b9e31870b36525c3, type: 3}
   - {fileID: 3591101973611699780, guid: a0ede66e75badc742a2bf08053beca51, type: 3}
@@ -4129,7 +4128,7 @@ MonoBehaviour:
   - {fileID: 2358042896829115922, guid: 9501ee61c1aef2d46bfd8737ec494ad3, type: 3}
   - {fileID: 2358042896829115922, guid: 13b6010d644313a45be698d983da13cc, type: 3}
   Online: 0
-  MapEditer: 1
+  Other: 0
 --- !u!4 &1514790155
 Transform:
   m_ObjectHideFlags: 0

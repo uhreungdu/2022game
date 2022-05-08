@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RenewCamTransform : MonoBehaviour
 {
-    Transform tr;
+    public Transform tr;
     // Start is called before the first frame update
     void Start()
     {

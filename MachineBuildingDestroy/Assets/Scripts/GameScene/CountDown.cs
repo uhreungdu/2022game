@@ -21,7 +21,7 @@ public class CountDown : MonoBehaviour
     void Start()
     {
         _text = GetComponent<Text>();
-        fontColor = Color.black;
+        fontColor = Color.white;
         
         gameStartTime = Time.time;
         _text.text = "3";
@@ -37,7 +37,7 @@ public class CountDown : MonoBehaviour
     private void OnEnable()
     {
         _text = GetComponent<Text>();
-        fontColor = Color.black;
+        fontColor = Color.white;
         
         gameStartTime = Time.time;
         _text.text = "3";

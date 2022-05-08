@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.65080994, g: 0.666729, b: 0.7075472, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.015
+  m_FogDensity: 0.0005
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -999,7 +999,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FileNameInput: {fileID: 0}
-  mapGameObject: {fileID: 0}
   Prefs:
   - {fileID: 932610068854459547, guid: f8b0f403836ae414b9e31870b36525c3, type: 3}
   - {fileID: 3591101973611699780, guid: a0ede66e75badc742a2bf08053beca51, type: 3}
@@ -1012,7 +1011,7 @@ MonoBehaviour:
   - {fileID: 2358042896829115922, guid: 9501ee61c1aef2d46bfd8737ec494ad3, type: 3}
   - {fileID: 2358042896829115922, guid: 13b6010d644313a45be698d983da13cc, type: 3}
   Online: 1
-  MapEditer: 0
+  Other: 0
 --- !u!4 &581632887
 Transform:
   m_ObjectHideFlags: 0
@@ -1802,6 +1801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9efe86fea79a5354fa0a0a75d249e914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tr: {fileID: 0}
 --- !u!4 &976488596
 Transform:
   m_ObjectHideFlags: 0
@@ -2427,9 +2427,9 @@ GameObject:
   - component: {fileID: 1687258583}
   - component: {fileID: 1687258586}
   - component: {fileID: 1687258587}
-  - component: {fileID: 1687258588}
   - component: {fileID: 1687258589}
   - component: {fileID: 1687258590}
+  - component: {fileID: 1687258588}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2620,12 +2620,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f849932d91492ac458b363c0069623ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Camera: {fileID: 1687258584}
+  _Camera: {fileID: 1687258585}
   _fieldLayer:
     serializedVersion: 2
     m_Bits: 512
   _Buildings: []
   _ExitBuildings: []
+  _RenewCamTransform: {fileID: 976488595}
 --- !u!114 &1687258589
 MonoBehaviour:
   m_ObjectHideFlags: 0
