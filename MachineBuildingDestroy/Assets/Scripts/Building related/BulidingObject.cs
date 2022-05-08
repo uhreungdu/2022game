@@ -203,18 +203,21 @@ public class BulidingObject : LivingEntity
             //rigidbody.constraints = RigidbodyConstraints.None;
             foreach (Rigidbody child in childRigidbodys)
             {
-                child.constraints = RigidbodyConstraints.None;
-                Vector3 objectPotision = transform.position;
-                objectPotision.y = 1;
-                child.AddExplosionForce(_ExplosionForce, objectPotision, 40f, _ExplosionForce / 2.0f);
-                child.AddExplosionForce(_ExplosionForce, objectPotision, 40f);
+                    child.constraints = RigidbodyConstraints.None;
+                    Vector3 objectPotision = transform.position;
+                    if (child.gameObject != gameObject)
+                    {
+                    objectPotision.y = 1;
+                    child.AddExplosionForce(_ExplosionForce, objectPotision, 40f, _ExplosionForce / 2.0f);
+                    child.AddExplosionForce(_ExplosionForce, objectPotision, 40f);
+                    }
             }
 
             _MeshRenderer.enabled = false;
             _MeshCollider.enabled = false;
             effect_obj = Instantiate(prefeb_effect);
             effect_obj.transform.SetParent(gameObject.transform);
-            effect_obj.transform.Translate(gameObject.transform.position);
+            effect_obj.transform.position = gameObject.transform.position;
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
         }
