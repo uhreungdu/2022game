@@ -10,6 +10,8 @@ public class PlayerEquipitem : MonoBehaviourPun
     public GameObject _ItemObject;
     private PlayerState _playerState;
     public Transform _RFingerTransform;
+
+    public Transform _CameraTransform;
     
     public bool BuffOn;
     public bool can_put_Obs;
@@ -42,9 +44,9 @@ public class PlayerEquipitem : MonoBehaviourPun
         {
             //getobj = Resources.Load<GameObject>("potion");
             ItemObj = PhotonNetwork.Instantiate("potion", new Vector3(0, 0, 0), Quaternion.identity);
-            ItemObj.transform.SetParent(gameObject.transform, true);
             Vector3 tpos = _RFingerTransform.transform.position;
             ItemObj.transform.Translate(tpos);
+            ItemObj.transform.SetParent(_RFingerTransform.transform, true);
             item_Rigid = ItemObj.GetComponent<Rigidbody>();
             ItemObj.GetComponent<PotionState>().SetState("init");
             _playerState.nowEquip = true;
@@ -84,7 +86,7 @@ public class PlayerEquipitem : MonoBehaviourPun
             ItemObj.transform.parent = null;
             ItemObj.GetComponent<PotionState>().SetState("throw");
             Vector3 throw_Angle;
-            throw_Angle = gameObject.transform.forward * 20f;
+            throw_Angle = gameObject.transform.forward * 10f;
             throw_Angle.y = 35f;
             item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
             _playerState.nowEquip = false;
@@ -121,7 +123,7 @@ public class PlayerEquipitem : MonoBehaviourPun
     {
         if (Time.time >= LastHealTime + timeBetHeal)
         {
-            if (_playerState.health + 20 >= _playerState.startingHealth)
+            if (_playerState.health + 20 <= _playerState.startingHealth)
             {
                 _playerState.RestoreHealth(20);
                 LastHealTime = Time.time;
