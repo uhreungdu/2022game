@@ -14,7 +14,10 @@ public class Obstcle_put_down : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        can_put_down = false;
+        if (other.tag == "Wall")
+        {
+            can_put_down = false;
+        }
     }
 
     private void OnTriggerExit(Collider other)

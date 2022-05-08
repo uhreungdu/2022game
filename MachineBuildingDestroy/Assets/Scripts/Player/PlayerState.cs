@@ -64,7 +64,7 @@ public class PlayerState : LivingEntity, IPunObservable
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
         
-        Item = item_box_make.item_type.Hammer;
+        Item = item_box_make.item_type.obstacles;
         
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);
