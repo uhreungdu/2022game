@@ -71,6 +71,10 @@ public class PlayerKeySystem : MonoBehaviourPun
         }
         if (_gamePlayerInput.fire)
         {
+            bool DashAttack = _playerAnimator._Animator.GetBool("DashAttack");
+            bool HammerAttack = _playerAnimator._Animator.GetBool("HammerAttack");
+            bool Combo = _playerAnimator._Animator.GetBool("Combo");
+            bool Throw = _playerAnimator._Animator.GetBool("Throw");
             //Debug.Log("�� ���� = " + boxCollider.transform.forward);
             if (_playerState.nowEquip == true && !_playerState.aftercast && !_gamePlayerInput.fireKeyDown)
             {
@@ -93,18 +97,18 @@ public class PlayerKeySystem : MonoBehaviourPun
             {
                 _playerAnimator.OnDashAttack();
             }
-            else if (!_gamePlayerInput.fireKeyDown || 
-                     (_gamePlayerInput.fireKeyDown && Time.time >= lastAttackTime + timeBetAttack))
-            {
-                lastAttackTime = Time.time;
-                _playerAnimator.OnAttack();
-            }
             else
             {
                 _playerAnimator._Animator.SetBool("DashAttack", false);
                 _playerAnimator._Animator.SetBool("HammerAttack", false);
                 _playerAnimator._Animator.SetBool("Combo", false);
                 _playerAnimator._Animator.SetBool("Throw", false);
+                if (!_gamePlayerInput.fireKeyDown || 
+                    (_gamePlayerInput.fireKeyDown))
+                {
+                    lastAttackTime = Time.time;
+                    _playerAnimator.OnAttack();
+                }
             }
         }
         else
