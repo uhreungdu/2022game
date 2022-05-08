@@ -86,12 +86,12 @@ public class PlayerEquipitem : MonoBehaviourPun
             ItemObj.transform.parent = null;
             ItemObj.GetComponent<PotionState>().SetState("throw");
             Vector3 throw_Angle;
-            throw_Angle = gameObject.transform.forward * 10f;
-            throw_Angle.y = 35f;
+            throw_Angle = gameObject.transform.forward * 15f;
+            throw_Angle.y = 15f;
             item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
             _playerState.nowEquip = false;
             //던지고 나면 아이템 사라짐
-            // _playerState.Item = item_box_make.item_type.no_item;
+            _playerState.Item = item_box_make.item_type.no_item;
         }
 
         if (_playerState.Item == item_box_make.item_type.obstacles)
@@ -104,11 +104,11 @@ public class PlayerEquipitem : MonoBehaviourPun
                 //Debug.Log(old_rot);
                 Destroy(ItemObj.gameObject);
                 ItemObj.transform.parent = null;
-                //getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
+                //GameObject getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
                 //ItemObj = Instantiate(getobj);
                 Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 5f);
-                //ItemObj.transform.Translate(tpos);
-                //ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
+                // ItemObj.transform.Translate(tpos);
+                // ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
                 ItemObj = PhotonNetwork.Instantiate("Wall_Obstcle_Objs", tpos,
                     new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w));
                 ItemObj = null;

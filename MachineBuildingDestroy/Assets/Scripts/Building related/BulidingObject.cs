@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BulidingObject : LivingEntity
 {
@@ -54,10 +56,13 @@ public class BulidingObject : LivingEntity
         else if (!_Gamemanager.EManager.gameSet)
         {
             DeathTimer();
-            if (rigidbody.velocity.magnitude > 5.0f)
+            if (rigidbody != null)
             {
-                rigidbody.velocity = rigidbody.velocity.normalized;
-                rigidbody.velocity *= 5f;
+                if (rigidbody.velocity.magnitude > 5.0f)
+                {
+                    rigidbody.velocity = rigidbody.velocity.normalized;
+                    rigidbody.velocity *= 5f;
+                }
             }
         }
     }
@@ -79,8 +84,8 @@ public class BulidingObject : LivingEntity
                 //Instantiate(coinprefab, coinPosition, transform.rotation);
                 Vector3 explosionPosition = transform.position;
                 coin.GetComponent<Rigidbody>()
-                    .AddExplosionForce(_ExplosionForce, explosionPosition, 10f, _ExplosionForce / 2);
-                coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f);
+                    .AddExplosionForce(100, explosionPosition, 10f, 100 / 2);
+                coin.GetComponent<Rigidbody>().AddExplosionForce(100, explosionPosition, 10f);
             }
 
             BuildingDestroyEvent(photonView.ViewID);
@@ -273,4 +278,23 @@ public class BulidingObject : LivingEntity
         SendOptions sendOpt = new SendOptions {Reliability = true};
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            if (rigidbody != null)
+                rigidbody.isKinematic = true;
+        }
+    }
+    
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            if (rigidbody != null)
+                rigidbody.isKinematic = false;
+        }
+    }
+    
 }
