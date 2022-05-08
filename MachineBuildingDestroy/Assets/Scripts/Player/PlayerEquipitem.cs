@@ -112,7 +112,7 @@ public class PlayerEquipitem : MonoBehaviourPun
                 ItemObj = null;
                 _playerState.nowEquip = false;
                 //던지고 나면 아이템 사라짐
-                // _playerState.Item = item_box_make.item_type.no_item;
+                _playerState.Item = item_box_make.item_type.no_item;
         }
     }
 
