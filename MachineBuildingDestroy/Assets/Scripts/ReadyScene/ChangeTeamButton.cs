@@ -42,7 +42,7 @@ public class ChangeTeamButton : MonoBehaviourPun
                 if (target.Nickname == "")
                 {
                     photonView.RPC("SetSlotByNum",RpcTarget.MasterClient, 
-                        myslot.Nickname, mySlotNum, i);
+                        myslot.Nickname, mySlotNum, i, Application.platform);
                     return;
                 }
             }    
@@ -55,7 +55,7 @@ public class ChangeTeamButton : MonoBehaviourPun
                 if (target.Nickname == "")
                 {
                     photonView.RPC("SetSlotByNum",RpcTarget.MasterClient, 
-                        myslot.Nickname, mySlotNum, i);
+                        myslot.Nickname, mySlotNum, i, Application.platform);
                     return;
                 }
             }    
@@ -64,17 +64,17 @@ public class ChangeTeamButton : MonoBehaviourPun
     }
     
     [PunRPC]
-    void SetSlotByNum(string nickname, int from, int to)
+    void SetSlotByNum(string nickname, int from, int to, RuntimePlatform platform)
     {
         var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();
         var target = slots.slots[to].GetComponent<Slot>();
         if (target.Nickname == "")
         {
             target.Nickname = nickname;
-            target.Platform = Application.platform.ToString();
+            target.Platform = platform == RuntimePlatform.Android ? 1 : 0;
             slots.slots[from].GetComponent<Slot>().Nickname = "";
-            slots.slots[from].GetComponent<Slot>().Platform = "";
-            return;
+            slots.slots[from].GetComponent<Slot>().Platform = 2;
+            Debug.Log(target.Platform);
         }
     }
 }
