@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Light_Tex
-  m_Shader: {fileID: -6465566751694194690, guid: b45a02628ed1a81469b74ef05b5b8ccf, type: 3}
+  m_Name: MarkTile
+  m_Shader: {fileID: -6465566751694194690, guid: 3257c8ca947ce0c419eba426a611c39d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,8 +19,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_00c57bf15bf84084b4db52be1af6ea89:
-        m_Texture: {fileID: 2800000, guid: 563ebb161f905174d9c748980096613e, type: 3}
+    - Texture2D_9e7f185b02e14b25b6ce2fa358697acc:
+        m_Texture: {fileID: 2800000, guid: 2c88184e4fbedfd4daee44f8b2d9c874, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -35,7 +35,11 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Floats: []
+    m_Floats:
+    - Vector1_94a36f5d56f74129ab3b88638ee3013e: -0.06
+    - Vector1_bd91838555e24782adeb4e5b44fd16c5: 0.1
+    - _RippleSpeed: 1
     m_Colors:
-    - _MainColor: {r: 2.9960785, g: 2.8235295, b: 0.4392157, a: 1}
+    - Color_1204655023aa4b9a8660051d8f42dbaf: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_ae538516062f463ab667632a5fd7a6ab: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []

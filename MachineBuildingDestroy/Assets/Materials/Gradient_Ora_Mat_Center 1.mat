@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gradient_Ora_Mat_Center
-  m_Shader: {fileID: -6465566751694194690, guid: 4455bbb4a4e838c4ead3334dc5c19753, type: 3}
+  m_Name: Gradient_Ora_Mat_Center 1
+  m_Shader: {fileID: -6465566751694194690, guid: 615706fdb0ded8d4392479b081361830, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,6 +19,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_4597d4246d8b4916b3b6934345d52e01:
+        m_Texture: {fileID: 2800000, guid: 4e77ce9756eeb8745be3791654c64d54, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_7b3fc6be9d4b4bc68ef536edfd344f73:
+        m_Texture: {fileID: 2800000, guid: f3b119387586e1c4685cc4a6047ca5c0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_86cf5ef37c5846448141b58a4ea55a42:
         m_Texture: {fileID: 2800000, guid: 508f53a64719d9743b802003d5600fb2, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -51,5 +59,6 @@ Material:
     - Vector1_15c04fe40d314102a45858fd92e195b1: 0.5
     - Vector1_61ed0a2f71114ef0ad10473ac9fa8a36: 64
     m_Colors:
+    - Color_7db4e335c81f4e378960207ce4a9dbb2: {r: 1, g: 1, b: 0.1490196, a: 0}
     - Color_dd8795305dc444158310a16973918e60: {r: 7.0541334, g: 7.245283, b: 2.2897828, a: 0}
   m_BuildTextureStacks: []
