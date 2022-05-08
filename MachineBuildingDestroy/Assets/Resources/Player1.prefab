@@ -1583,6 +1583,7 @@ MonoBehaviour:
   _AttackGameObject: {fileID: 7480064757404641631}
   nameOnhead: {fileID: 2826411413483701616}
   Dead_Effect: {fileID: 8051301026320541082}
+  _Thirdpersonmove: {fileID: 0}
   coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
   explosionForce: 400
 --- !u!114 &4688900885242603486

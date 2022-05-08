@@ -158,9 +158,11 @@ public class PlayerAnimator : MonoBehaviourPun
     
     public void DragonPunch()
     {
-        if (_PlayerDragonPunch.CoolTimer())
-        {
+        
+            _PlayerDragonPunch.SetAffterCast(1);
             _Animator.SetBool("DragonPunch", true);
+        if (_PlayerDragonPunch.CoolTimer()) 
+        {
         }
     }
 }

@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BulidingObject : LivingEntity
 {
@@ -54,11 +56,6 @@ public class BulidingObject : LivingEntity
         else if (!_Gamemanager.EManager.gameSet)
         {
             DeathTimer();
-            if (rigidbody.velocity.magnitude > 5.0f)
-            {
-                rigidbody.velocity = rigidbody.velocity.normalized;
-                rigidbody.velocity *= 5f;
-            }
         }
     }
 
@@ -68,19 +65,18 @@ public class BulidingObject : LivingEntity
         {
             for (int i = 0; i < point; ++i)
             {
-                float radian = (Random.Range(0, 360)) * Mathf.PI / 180;
-                float radius = Random.value * 3.0f;
+                float radian = ((360.0f / (point)) * i) * (float)(Math.PI / 180.0f);
+                float radius = 5.0f;
                 Vector3 coinPosition = transform.position;
                 coinPosition.x = coinPosition.x + (radius * Mathf.Cos(radian));
                 coinPosition.z = coinPosition.z + (radius * Mathf.Sin(radian));
-                coinPosition.y = coinPosition.y;
+                coinPosition.y = 5;
                 GameObject coin =
                     PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, coinprefab.transform.rotation);
                 //Instantiate(coinprefab, coinPosition, transform.rotation);
                 Vector3 explosionPosition = transform.position;
-                coin.GetComponent<Rigidbody>()
-                    .AddExplosionForce(_ExplosionForce, explosionPosition, 10f, _ExplosionForce / 2);
-                coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f);
+                coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f, 500 / 2);
+                coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f);
             }
 
             BuildingDestroyEvent(photonView.ViewID);
@@ -208,14 +204,14 @@ public class BulidingObject : LivingEntity
             //rigidbody.constraints = RigidbodyConstraints.None;
             foreach (Rigidbody child in childRigidbodys)
             {
-                    child.constraints = RigidbodyConstraints.None;
-                    Vector3 objectPotision = transform.position;
-                    if (child.gameObject != gameObject)
-                    {
+                child.constraints = RigidbodyConstraints.None;
+                Vector3 objectPotision = transform.position;
+                if (child.gameObject != gameObject)
+                {
                     objectPotision.y = 1;
-                    child.AddExplosionForce(_ExplosionForce, objectPotision, 40f, _ExplosionForce / 2.0f);
+                    child.AddExplosionForce(_ExplosionForce, objectPotision, 40f, _ExplosionForce / 8.0f);
                     child.AddExplosionForce(_ExplosionForce, objectPotision, 40f);
-                    }
+                }
             }
 
             _MeshRenderer.enabled = false;
@@ -273,4 +269,23 @@ public class BulidingObject : LivingEntity
         SendOptions sendOpt = new SendOptions {Reliability = true};
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            if (rigidbody != null)
+                rigidbody.isKinematic = true;
+        }
+    }
+    
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            if (rigidbody != null)
+                rigidbody.isKinematic = false;
+        }
+    }
+    
 }

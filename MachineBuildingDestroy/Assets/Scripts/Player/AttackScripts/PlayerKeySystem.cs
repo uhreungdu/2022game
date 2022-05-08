@@ -72,7 +72,7 @@ public class PlayerKeySystem : MonoBehaviourPun
         if (_gamePlayerInput.fire)
         {
             //Debug.Log("�� ���� = " + boxCollider.transform.forward);
-            if (_playerState.nowEquip == true && !_playerState.aftercast)
+            if (_playerState.nowEquip == true && !_playerState.aftercast && !_gamePlayerInput.fireKeyDown)
             {
                 switch (_playerState.Item)
                 {

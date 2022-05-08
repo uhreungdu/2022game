@@ -76,8 +76,14 @@ public class PlayerJumpAttackTrigger : MonoBehaviour
             Obstacle_Obj Target = other.GetComponent<Obstacle_Obj>();
             if (Target != null && !Target.dead)
             {
-                Target.OnDamage(_playerState.P_Dm.Damge_formula());
-                Debug.Log(Target.health);
+                if (SceneManager.GetActiveScene().name == "LocalRoom")
+                {
+                    Target.OnDamage(_playerJumpAttack._damage);
+                }
+                else
+                {
+                    Target.NetworkOnDamage(_playerJumpAttack._damage);
+                }
             }
         }
     }
