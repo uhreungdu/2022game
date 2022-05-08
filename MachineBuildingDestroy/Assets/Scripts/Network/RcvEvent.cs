@@ -37,6 +37,7 @@ public class RcvEvent : MonoBehaviourPun
                 break;
             case (byte)NetworkManager.EventCode.SpawnPlayer:
                 transform.GetComponent<NetworkManager>().SpawnPlayer();
+                GameObject.Find("LoadingImage").SetActive(false);
                 break;
             case (byte) NetworkManager.EventCode.LoadGame:
             {
@@ -103,7 +104,7 @@ public class RcvEvent : MonoBehaviourPun
             }
             case (byte) NetworkManager.EventCode.StartGame:
             {
-                GameObject.Find("LoadingImage").SetActive(false);
+                
                 break;
             }
         }

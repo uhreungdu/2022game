@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class StartButton : MonoBehaviourPun
 {
-    public GameObject Info;
+    private GameObject _info;
 
     private GameObject _NetworkManager;
     
@@ -16,6 +16,7 @@ public class StartButton : MonoBehaviourPun
     void Start()
     {
         _NetworkManager = GameObject.Find("NetworkManager");
+        _info=GameObject.Find("Myroominfo");
     }
 
     // Update is called once per frame
@@ -26,7 +27,7 @@ public class StartButton : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        var info = Info.GetComponent<MyInRoomInfo>(); 
+        var info = _info.GetComponent<MyInRoomInfo>(); 
         if (info.isMaster)
         {
             transform.GetChild(0).GetComponent<Text>().text = "START";
@@ -39,7 +40,7 @@ public class StartButton : MonoBehaviourPun
 
     public void OnClick()
     {
-        var info = Info.GetComponent<MyInRoomInfo>();
+        var info = _info.GetComponent<MyInRoomInfo>();
         if (info.isMaster)
         {
             var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();

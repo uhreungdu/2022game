@@ -839,7 +839,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 29
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -850,7 +850,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Setting
 --- !u!222 &448071489
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -983,7 +983,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 33
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -994,7 +994,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Help
 --- !u!222 &503226686
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2134,11 +2134,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 52
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 52
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -2301,7 +2301,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612e7d1d34559cc4b96a90190a36b612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Info: {fileID: 1003806522}
 --- !u!114 &1404517704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2518,18 +2517,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 193
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 201
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Map
 --- !u!222 &1436268790
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2856,7 +2855,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -2961,7 +2960,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4fa770f2ef07c841983709ba63b2f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Info: {fileID: 1003806522}
 --- !u!114 &1870981667
 MonoBehaviour:
   m_ObjectHideFlags: 0
