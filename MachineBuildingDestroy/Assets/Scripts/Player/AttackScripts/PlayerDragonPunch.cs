@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerDragonPunch : PlayerAttack
@@ -67,7 +68,7 @@ public class PlayerDragonPunch : PlayerAttack
         Transform rootTransform = transform.root;
         _playerImpact.AddImpact(rootTransform.up, 500);
         _playerImpact.AddImpact(rootTransform.forward, 150);
-        _thirdpersonmove.yvelocity = 0;
+        photonView.RPC("Setyvelocity", RpcTarget.AllViaServer, 0);
     }
     
     public void SetDragonPunchAffterCast(int set)
