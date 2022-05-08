@@ -11,6 +11,7 @@ public class MapEditerCamInput : MonoBehaviour
     public MapEditerManager _mapEditerManager;
     public MapEditerOnScreenPoint _mapEditerOnScreenPoint;
     public Map _map;
+    public Vector3 BeforeMousePoint = new Vector3(-1, -1, -1);
     private int Allprefcount = 7;
     
     // private Joystick _joystick;
@@ -53,12 +54,39 @@ public class MapEditerCamInput : MonoBehaviour
         // }
     }
 
-    private void OnMove(InputValue value)
+    public void ResetDirection()
     {
-        _direction = new Vector3(value.Get<Vector2>().x, 0, value.Get<Vector2>().y);
+        _direction = Vector3.zero;
+    }
+
+    public void OnMove(InputValue value)
+    {
+        Vector3 valueVector3 = new Vector3(value.Get<Vector2>().x, value.Get<Vector2>().y, 0);
+        Vector3 NextMouseVector3 = Vector3.zero;
+        if (BeforeMousePoint == new Vector3(-1, -1, -1))
+        {
+            BeforeMousePoint =
+                new Vector3(Mouse.current.position.x.ReadValue(), Mouse.current.position.y.ReadValue(), 0);
+            return;
+        }
+        else
+        {
+            NextMouseVector3 = new Vector3(Mouse.current.position.x.ReadValue(), Mouse.current.position.y.ReadValue(), 0);
+        }
+        BeforeMousePoint = Camera.main.ScreenToWorldPoint(new Vector3(BeforeMousePoint.x,
+            BeforeMousePoint.y, Camera.main.transform.position.y));
+        NextMouseVector3 = Camera.main.ScreenToWorldPoint(new Vector3(NextMouseVector3.x,
+            NextMouseVector3.y, Camera.main.transform.position.y));
+        Vector3 directionVector3 = NextMouseVector3 - BeforeMousePoint;
+        if (Mouse.current.middleButton.isPressed)
+        {
+            _direction += new Vector3(-directionVector3.x, 0, -directionVector3.z);
+        }
+        BeforeMousePoint =
+            new Vector3(Mouse.current.position.x.ReadValue(), Mouse.current.position.y.ReadValue(), 0);
     }
     
-    private void OnZoom(InputValue value)
+    public void OnZoom(InputValue value)
     {
         _zoom = value.Get<float>();
         if (_zoom > 1)
@@ -67,13 +95,13 @@ public class MapEditerCamInput : MonoBehaviour
             _zoom /= -_zoom;
     }
     
-    private void OnSwitchBuilding(InputValue value)
+    public void OnSwitchBuilding(InputValue value)
     {
         if (value.isPressed)
             _mapEditerOnScreenPoint.PrefnumSet((_mapEditerManager.Prefnum + 1) % (_map.Prefs.Length));
     }
     
-    private void OnRotate(InputValue value)
+    public void OnRotate(InputValue value)
     {
         if (value.isPressed)
             _mapEditerOnScreenPoint._rotate = (_mapEditerOnScreenPoint._rotate + 90) % 360;

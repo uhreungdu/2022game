@@ -228,7 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf70f880ef4c9f2478987bd819c57023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gManager: {fileID: 0}
 --- !u!114 &98453649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,6 +384,10 @@ PrefabInstance:
     - target: {fileID: 3885474408037779720, guid: d32ccc424f107b04c964688911a498e0, type: 3}
       propertyPath: sceneViewId
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4024240451423959038, guid: d32ccc424f107b04c964688911a498e0, type: 3}
+      propertyPath: sceneViewId
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4365047137738397376, guid: d32ccc424f107b04c964688911a498e0, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2034,6 +2037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547d136b8e626804299320dbc48cb168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FileNameInput: {fileID: 0}
   mapGameObject: {fileID: 0}
   Prefs:
   - {fileID: 932610068854459547, guid: f8b0f403836ae414b9e31870b36525c3, type: 3}

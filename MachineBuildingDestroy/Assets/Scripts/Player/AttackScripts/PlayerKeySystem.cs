@@ -72,7 +72,7 @@ public class PlayerKeySystem : MonoBehaviourPun
         if (_gamePlayerInput.fire)
         {
             //Debug.Log("�� ���� = " + boxCollider.transform.forward);
-            if (_playerState.nowEquip == true)
+            if (_playerState.nowEquip == true && !_playerState.aftercast)
             {
                 switch (_playerState.Item)
                 {
@@ -89,12 +89,12 @@ public class PlayerKeySystem : MonoBehaviourPun
                         break;
                 }
             }
-            else if (_gamePlayerInput.dash && !_gamePlayerInput.fireKeyDown)
+            else if (_gamePlayerInput.dash && !_gamePlayerInput.fireKeyDown && !_playerState.aftercast)
             {
                 _playerAnimator.OnDashAttack();
             }
             else if (!_gamePlayerInput.fireKeyDown || 
-                     (_gamePlayerInput.fireKeyDown && Time.time >= lastAttackTime + timeBetAttack ))
+                     (_gamePlayerInput.fireKeyDown && Time.time >= lastAttackTime + timeBetAttack))
             {
                 lastAttackTime = Time.time;
                 _playerAnimator.OnAttack();

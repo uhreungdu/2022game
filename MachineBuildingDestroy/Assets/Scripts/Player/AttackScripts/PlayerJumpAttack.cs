@@ -55,7 +55,7 @@ public class PlayerJumpAttack : PlayerAttack
     public void JumpAttackMovement()
     {
         Transform rootTransform = transform.root;
-        _playerImpact.AddImpact(rootTransform.forward, 100);
+        _playerImpact.AddImpact(rootTransform.forward, 200);
     }
     
     public void SetJumpAffterCast(int set)

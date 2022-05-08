@@ -20,12 +20,13 @@ public struct PlayersInfomation
 public class MyInRoomInfo : MonoBehaviour
 {
     public PlayersInfomation[] Infomations;
-        
+    public string MapName;
+    
     private static MyInRoomInfo _instance;
     private int _mySlotNum = 0;
     private bool _isMaster = false;
     private bool _isReady = false;
-    
+
     public static MyInRoomInfo GetInstance()
     {
         if (_instance == null)

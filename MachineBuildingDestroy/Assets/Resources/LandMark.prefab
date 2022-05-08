@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ddc86a391ea48fc8325fd926d837b17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 100
+  startingHealth: 200
   coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
   point: 0
   boxmaterial: {fileID: 2100000, guid: 548599b3251fd1448b496f84f4f3e3fa, type: 2}
