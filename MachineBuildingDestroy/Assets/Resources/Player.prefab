@@ -1884,6 +1884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ItemObject: {fileID: 0}
   _RFingerTransform: {fileID: 2547313967614434488}
+  _CameraTransform: {fileID: 0}
   BuffOn: 0
   can_put_Obs: 0
   buff_Time: 0
