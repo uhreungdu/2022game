@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -8323076672761444401}
   - component: {fileID: 7662981655831515362}
   - component: {fileID: 6728455641876888871}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Goalpost
   m_TagString: Goalpost
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
+  - {fileID: 2100000, guid: 41522f527a56ca6448cc3ea5fc1dccb7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
