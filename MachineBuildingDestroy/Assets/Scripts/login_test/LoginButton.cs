@@ -98,6 +98,7 @@ public class LoginButton : MonoBehaviour
                 GameObject.Find("Account").GetComponent<Account>().WriteAccount(
                     GetStringDataValue(accountVal[0],"account_id:"),
                     GetStringDataValue(accountVal[0],"character_name:"));
+                chatClient.GetComponent<ChatClient>().ConnectToChatServer();
                 PhotonNetwork.JoinRoom(GetStringDataValue(accountVal[0],"room_name:"));
 
             }
