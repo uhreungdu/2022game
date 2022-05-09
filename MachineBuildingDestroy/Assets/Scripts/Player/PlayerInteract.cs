@@ -40,7 +40,7 @@ public class PlayerInteract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position + new Vector3(0f, 2.5f, 0f), 8, _LayerMask);
+        Collider[] colliders = Physics.OverlapSphere(transform.position + new Vector3(0f, 2.5f, 0f), 10, _LayerMask);
         if (colliders.Length >= 1)
             neargoalpost = true;
         else
