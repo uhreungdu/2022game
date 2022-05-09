@@ -135,7 +135,7 @@ namespace Chatserver
                                 foreach (Session s in _ClientList)
                                 {
                                     if (s.in_room) continue;
-                                    Send(s, data);
+                                    Send(s, data, session.nickname);
                                 }
                                 break;
                             }
@@ -188,9 +188,9 @@ namespace Chatserver
         }
 
 
-        private static void Send(Session session, String data)
+        private static void Send(Session session, String data, String sender)
         {
-            byte[] name = Encoding.UTF8.GetBytes(session.nickname);
+            byte[] name = Encoding.UTF8.GetBytes(sender);
             byte[] chatData = Encoding.UTF8.GetBytes(data);
             byte[] sendData = new byte[3 + name.Length + chatData.Length];
             sendData[0] = (byte)ChatType.NormalChat;
