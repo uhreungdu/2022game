@@ -27,7 +27,18 @@ public class Goalpost : MonoBehaviourPun
 
     private void OnEvent()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        
+        //if (!PhotonNetwork.IsMasterClient) return;
         if (_gameManager.EManager.goalpost_Create)
         {
             if (_meshRenderer.enabled == false)
