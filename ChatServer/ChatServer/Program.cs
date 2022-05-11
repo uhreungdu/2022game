@@ -4,6 +4,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections.Specialized;
 
+using Database;
+
 namespace Chatserver
 {
     enum ChatType : byte
@@ -15,6 +17,7 @@ namespace Chatserver
         ExitRoom,
         MakeRoom
     }
+
     public class Session
     {
         public const int bufSize = 128;
@@ -27,7 +30,7 @@ namespace Chatserver
         public string id;
     }
 
-    class Program
+    public class Program
     {
         // 이벤트로 While문 제어
         // 접속 받는동안은 무한정으로 돌아갈 이유 없음
@@ -237,12 +240,7 @@ namespace Chatserver
 
         private static void PlayerEnterRoomHTTP(Session session)
         {
-            var www = new WebClient();
-            var data = new NameValueCollection();
-            string url = "http://121.139.87.70/player_join_room.php";
-            data["iname"] = "\"" + session.roomname + "\"";
-            data["Pname"] = "\"" + session.nickname + "\"";
-            www.UploadValues(url, "POST", data);
+            DatabaseControl.PlayerEnterRoom(session.roomname, session.nickname);
         }
 
         private static void PlayerMakeRoomHTTP(Session session, int nowPlayerNum, int maxPlayerNum)
