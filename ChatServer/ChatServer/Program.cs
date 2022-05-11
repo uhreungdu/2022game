@@ -47,6 +47,7 @@ namespace Chatserver
         static void Main()
         {
             _ClientList = new List<Session>();
+
             // 서버 소켓 생성
             _ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint ipep = new IPEndPoint(IPAddress.Any, Port);
@@ -153,10 +154,10 @@ namespace Chatserver
                         case (byte)ChatType.EnterRoom:
                             {
                                 data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
-                                Console.WriteLine(session.nickname + "enters Roomname " + data);
+                                Console.WriteLine(session.nickname + " enters Roomname " + data);
                                 session.roomname = data;
                                 session.in_room = true;
-                                PlayerEnterRoomHTTP(session);
+                                DatabaseControl.PlayerEnterRoom(session.roomname, session.nickname);
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
@@ -168,7 +169,7 @@ namespace Chatserver
                                 int nowPlayerNum = session.buf[3];
                                 int maxPlayerNum = session.buf[4];
                                 
-                                Console.WriteLine(session.nickname + "makes Roomname " + ename);
+                                Console.WriteLine(session.nickname + " makes Roomname " + ename);
                                 session.roomname = iname;
                                 session.in_room = true;
                                 PlayerMakeRoomHTTP(session, nowPlayerNum, maxPlayerNum);
@@ -236,11 +237,6 @@ namespace Chatserver
                 _ClientList.Remove(session);
                 session.socket.Close();
             }
-        }
-
-        private static void PlayerEnterRoomHTTP(Session session)
-        {
-            DatabaseControl.PlayerEnterRoom(session.roomname, session.nickname);
         }
 
         private static void PlayerMakeRoomHTTP(Session session, int nowPlayerNum, int maxPlayerNum)
