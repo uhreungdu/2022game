@@ -93,6 +93,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_1f481d51d5e54e39a9637117694085e2: 1
+    - Vector1_26e8dad2595545a8bc94deda9b3e81c3: 1000
+    - Vector1_9c140d3819284a1d9ff856529c1bd834: 20
     - _AlphaClip: 0
     - _Ambient_Strength: 0.1
     - _Blend: 0
@@ -106,9 +109,11 @@ Material:
     - _DirtySize: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FalloffAmount: 0.1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _LightingCutoff: 0.05
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Opacity: 1
@@ -123,10 +128,11 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_59b3d534779b4a6d983a41f48305b575: {r: 1.905882, g: 1.764706, b: 0.4784314, a: 1}
     - Color_81d572a4eea347a98a66afb0d3e5c6f5: {r: 1.8509804, g: 0.4392157, b: 5.992157, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 1.7207954, g: 1.35141, b: 0, a: 1}
+    - _EmissionColor: {r: 1.9999998, g: 0.5549738, b: 0.062827215, a: 1}
+    - _MainColor: {r: 11.984314, g: 3.0745099, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
