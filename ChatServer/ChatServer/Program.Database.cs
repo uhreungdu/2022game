@@ -2,11 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
 namespace Database
 {
+    public struct LoginResult
+    {
+        public string? id;
+        public string? name;
+        public string? roomname;
+        public int code;
+
+        public LoginResult(int code)
+        {
+            this.id = null;
+            this.name = null;
+            this.roomname = null;
+            this.code = code;
+        }
+        public LoginResult(string id, string name, int code)
+        {
+            this.id = id;
+            this.name = name;
+            this.roomname = null;
+            this.code = code;
+        }
+        public LoginResult(string id, string name, string roomname, int code)
+        {
+            this.id = id;
+            this.name = name;
+            this.roomname = roomname;
+            this.code = code;
+        }
+    }
+
     public class DatabaseControl
     {
         public static string connect = string.Format("Server={0}; Database={1}; Uid={2}; Pwd={3};",
@@ -35,6 +66,178 @@ namespace Database
             {
                 Console.WriteLine("ERR: NO ROOM");
                 return;
+            }
+        }
+
+        public static LoginResult LoginAccount(string id, string pw)
+        {
+            if (CheckIDPW(id, pw))
+            {
+                if (CheckCharacter(id))
+                {
+                    if (CheckMultiLogin(id))
+                    {
+                        var Charname = GetCharacterName(id);
+                        WriteLastLoginTime(id);
+                        if (CheckPlayerInGame(Charname))
+                        {
+                            return new LoginResult(id, Charname, 0);   // OK
+                        }
+                        else return new LoginResult(id, Charname, GetPlayerInGameRoomname(Charname),4);
+                        // Player now Playing Game
+                    }
+                    else return new LoginResult(3); // Already Online
+                }
+                else return new LoginResult(2);  // Need Character
+            }
+            else return new LoginResult(1);  // ID or PW error
+        }
+
+        private static bool CheckIDPW(string id, string pw)
+        {
+            string[] sql = new string[2];
+            sql[0] = string.Format("SELECT COUNT(*) FROM account WHERE binary(account_id)=\"{0}\"", id);
+            sql[1] = string.Format("SELECT COUNT(*) FROM account WHERE binary(account_id)=\"{0}\" and binary(account_pw)=\"{1}\"", id, pw);
+
+            using (conn)
+            {
+                var result = 0;
+                // ID Check
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sql[0], conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = Convert.ToInt32(reader[0]);
+                }
+                conn.Close();
+                if (result == 0) return false;   // ID err
+
+                //PW Check
+                conn.Open();
+                cmd = new MySqlCommand(sql[1], conn);
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = Convert.ToInt32(reader[0]);
+                }
+                conn.Close();
+                if (result == 0) return false;  //PW err
+
+            }
+            return true;
+        }
+
+        private static bool CheckCharacter(string id)
+        {
+            string sql = string.Format("SELECT COUNT(*) FROM `character` WHERE binary(account_id)=\"{0}\"", id);
+            using (conn)
+            {
+                conn.Open();
+                var result = 0;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = Convert.ToInt32(reader[0]);
+                }
+                conn.Close();
+                if (result == 0) return false;  // No Character in Account
+
+                
+            }
+            return true;
+        }
+
+        private static bool CheckMultiLogin(string id)
+        {
+            string sql = string.Format("SELECT `online` FROM `character` WHERE binary(account_id)=\"{0}\"", id);
+            using (conn)
+            {
+                conn.Open();
+                var result = 0;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = Convert.ToInt32(reader[0]);
+                }
+                conn.Close();
+                if (result == 1) return false;  // Already Online
+
+                
+            }
+            return true;
+        }
+
+        private static bool CheckPlayerInGame(string name)
+        {
+            string sql = string.Format("SELECT COUNT(*) FROM `playingchar` WHERE binary(character_name) = \"{0}\"", name);
+            using (conn)
+            {
+                conn.Open();
+                var result = 0;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = Convert.ToInt32(reader[0]);
+                }
+                conn.Close();
+                if (result == 1) return false;  // InGame
+
+                
+            }
+            return true;
+        }
+
+        public static string GetPlayerInGameRoomname(string name)
+        {
+            string sql = string.Format("SELECT room_internal_name FROM `playingchar` WHERE binary(character_name) = \"{0}\"", name);
+            using (conn)
+            {
+                conn.Open();
+                string result = new string("");
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = reader[0].ToString();
+                }
+                conn.Close();
+
+                return result;
+            }
+        }
+
+        public static string GetCharacterName(string id)
+        {
+            string sql = string.Format("SELECT character_name ,account_id FROM `character` WHERE binary(account_id)=\"{0}\"", id);
+            using (conn)
+            {
+                conn.Open();
+                string result = new string("");
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = reader[0].ToString();
+                }
+                conn.Close();
+                
+                return result;
+            }
+        }
+
+        private static void WriteLastLoginTime(string id)
+        {
+            string sql = string.Format("UPDATE account as A, `character` as C SET A.last_login = current_timestamp(), C.online = 1 WHERE binary(A.account_id) =\"{0}\" and binary(C.account_id)=\"{1}\"", id, id);
+            using (conn)
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                conn.Close();
             }
         }
 

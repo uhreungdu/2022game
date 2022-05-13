@@ -15,7 +15,9 @@ namespace Chatserver
         EnterRoom,
         RoomChat,
         ExitRoom,
-        MakeRoom
+        MakeRoom,
+        LoginRequest,
+        LoginResult
     }
 
     public class Session
@@ -105,10 +107,9 @@ namespace Chatserver
             session.socket = client;
             session.is_online = true;
             int num = client.Receive(session.buf);
-            session.nickname = Encoding.UTF8.GetString(session.buf, 2, session.buf[0]);
-            session.id = Encoding.UTF8.GetString(session.buf, 2 + session.buf[0], session.buf[1]);
+            session.id = Encoding.UTF8.GetString(session.buf, 2, session.buf[0]);
             _ClientList.Add(session);
-            Console.WriteLine(client.RemoteEndPoint.ToString() + " " + session.nickname + " Connected");
+            Console.WriteLine(client.RemoteEndPoint.ToString() + " Connected");
 
             client.BeginReceive(session.buf, 0, Session.bufSize, 0, 
                 new AsyncCallback(ReceiveCallback), session);
@@ -177,6 +178,27 @@ namespace Chatserver
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
+                        case (byte)ChatType.LoginRequest:
+                            {
+                                string id = Encoding.UTF8.GetString(session.buf, 3, session.buf[1]);
+                                string pw = Encoding.UTF8.GetString(session.buf, 3 + session.buf[1], session.buf[2]);
+
+                                var result = DatabaseControl.LoginAccount(id, pw);
+
+                                switch (result.code)
+                                {
+                                    case 0:
+                                        session.nickname = result.name;
+                                        session.id = result.id;
+                                        _ClientList.Add(session);
+                                        Console.WriteLine(session.nickname + " Login ");                                 
+                                        break;
+                                }
+                                SendLoginResult(session, result);
+                                session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
                     }
                 }
                 else
@@ -192,7 +214,7 @@ namespace Chatserver
         }
 
 
-        private static void Send(Session session, String data, String sender)
+        private static void Send(Session session, string data, string sender)
         {
             byte[] name = Encoding.UTF8.GetBytes(sender);
             byte[] chatData = Encoding.UTF8.GetBytes(data);
@@ -204,6 +226,55 @@ namespace Chatserver
             Array.Copy(chatData, 0, sendData, 3 + name.Length, chatData.Length);
             session.socket.BeginSend(sendData, 0, sendData.Length, 0,
                 new AsyncCallback(SendCallback), session);
+        }
+
+        private static void SendLoginResult(Session session, LoginResult result)
+        {
+            switch (result.code)
+            {
+                case 0:
+                    {
+                        byte[] id = Encoding.UTF8.GetBytes(result.id);
+                        byte[] name = Encoding.UTF8.GetBytes(result.name);
+                        byte[] sendData = new byte[4 + id.Length + name.Length];
+                        sendData[0] = (byte)ChatType.LoginResult;
+                        sendData[1] = (byte)result.code;
+                        sendData[2] = (byte)id.Length;
+                        sendData[3] = (byte)name.Length;
+                        Array.Copy(id, 0, sendData, 4, id.Length);
+                        Array.Copy(name, 0, sendData, 4 + id.Length, name.Length);
+                        session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                            new AsyncCallback(SendCallback), session);
+                        break;
+                    }
+                case 4:
+                    {
+                        byte[] id = Encoding.UTF8.GetBytes(result.id);
+                        byte[] name = Encoding.UTF8.GetBytes(result.name);
+                        byte[] roomname = Encoding.UTF8.GetBytes(result.roomname);
+                        byte[] sendData = new byte[5 + id.Length + name.Length + roomname.Length];
+                        sendData[0] = (byte)ChatType.LoginResult;
+                        sendData[1] = (byte)result.code;
+                        sendData[2] = (byte)id.Length;
+                        sendData[3] = (byte)name.Length;
+                        sendData[4] = (byte)roomname.Length;
+                        Array.Copy(id, 0, sendData, 5, id.Length);
+                        Array.Copy(name, 0, sendData, 5 + id.Length, name.Length);
+                        Array.Copy(roomname, 0, sendData, 5 + id.Length + name.Length, roomname.Length);
+                        session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                            new AsyncCallback(SendCallback), session);
+                        break;
+                    }
+                default:
+                    {
+                        byte[] sendData = new byte[2];
+                        sendData[0] = (byte)ChatType.LoginResult;
+                        sendData[1] = (byte)result.code;
+                        session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                            new AsyncCallback(SendCallback), session);
+                        break;
+                    }
+            }
         }
 
         private static void SendCallback(IAsyncResult ar)

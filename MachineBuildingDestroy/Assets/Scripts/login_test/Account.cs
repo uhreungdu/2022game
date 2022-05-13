@@ -53,9 +53,7 @@ public class Account : MonoBehaviour
 
     public void WriteAccount(string id, string nickname)
     {
-        var m_id = id.Remove(id.Length - 1, 1);
-        m_id = m_id.Remove(0, 1);
-        pID = m_id;
+        pID = id;
         pNickname = nickname;
         PhotonNetwork.NickName = nickname;
         PhotonNetwork.AutomaticallySyncScene = true;

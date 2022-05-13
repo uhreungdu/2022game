@@ -31,7 +31,9 @@ public class ChatClient : MonoBehaviour
         EnterRoom,
         RoomChat,
         ExitRoom,
-        MakeRoom
+        MakeRoom,
+        LoginRequest,
+        LoginResult
     }
     
     public static ChatClient GetInstance()
@@ -67,7 +69,16 @@ public class ChatClient : MonoBehaviour
     {
         if (_isDataSend)
         {
-            chatLog.AddLine(recvbuf);
+            switch (recvbuf[0])
+            {
+                case (byte)ChatCode.LoginResult:
+                    GameObject.Find("LoginButton").GetComponent<LoginButton>().ProcessLogin(recvbuf);
+                    break;
+                default:
+                    chatLog.AddLine(recvbuf);
+                    break;
+            }
+            
             _isDataSend = false;
         }
     }
@@ -81,14 +92,14 @@ public class ChatClient : MonoBehaviour
     {
         _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         _client.Connect(_ipep);
-        byte[] nameData = Encoding.UTF8.GetBytes(PhotonNetwork.NickName);
+        
         byte[] idData = Encoding.UTF8.GetBytes(Account.GetInstance().GetPlayerID());
 
-        byte[] sendData = new byte[2 + nameData.Length + idData.Length];
-        sendData[0] = (byte)nameData.Length;
-        sendData[1] = (byte) idData.Length;
-        Array.Copy(nameData,0,sendData,2,nameData.Length);
-        Array.Copy(idData, 0, sendData, 2 + nameData.Length, idData.Length);
+        byte[] sendData = new byte[1 + idData.Length];
+        sendData[0] = (byte)idData.Length;
+
+        Array.Copy(idData,0,sendData,1,idData.Length);
+
         _client.Send(sendData);
         _client.BeginReceive(recvbuf, 0, BufSize, 0,
             ReceiveCallback, _client);
