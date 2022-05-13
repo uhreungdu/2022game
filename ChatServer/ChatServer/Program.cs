@@ -236,11 +236,14 @@ namespace Chatserver
                     {
                         byte[] id = Encoding.UTF8.GetBytes(result.id);
                         byte[] name = Encoding.UTF8.GetBytes(result.name);
-                        byte[] sendData = new byte[4 + id.Length + name.Length];
+                        byte[] sendData = new byte[4 + id.Length + name.Length + 3];
                         sendData[0] = (byte)ChatType.LoginResult;
                         sendData[1] = (byte)result.code;
                         sendData[2] = (byte)id.Length;
                         sendData[3] = (byte)name.Length;
+                        sendData[sendData.Length - 2 - 1] = (byte)result.win;
+                        sendData[sendData.Length - 1 - 1] = (byte)result.lose;
+                        sendData[sendData.Length - 0 - 1] = (byte)result.costume;
                         Array.Copy(id, 0, sendData, 4, id.Length);
                         Array.Copy(name, 0, sendData, 4 + id.Length, name.Length);
                         session.socket.BeginSend(sendData, 0, sendData.Length, 0,
@@ -258,6 +261,9 @@ namespace Chatserver
                         sendData[2] = (byte)id.Length;
                         sendData[3] = (byte)name.Length;
                         sendData[4] = (byte)roomname.Length;
+                        sendData[sendData.Length - 2 - 1] = (byte)result.win;
+                        sendData[sendData.Length - 1 - 1] = (byte)result.lose;
+                        sendData[sendData.Length - 0 - 1] = (byte)result.costume;
                         Array.Copy(id, 0, sendData, 5, id.Length);
                         Array.Copy(name, 0, sendData, 5 + id.Length, name.Length);
                         Array.Copy(roomname, 0, sendData, 5 + id.Length + name.Length, roomname.Length);

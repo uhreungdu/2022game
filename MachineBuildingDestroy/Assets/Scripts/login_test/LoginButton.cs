@@ -83,7 +83,11 @@ public class LoginButton : MonoBehaviour
             {
                 var id = Encoding.UTF8.GetString(result, 4, result[2]);
                 var nickname = Encoding.UTF8.GetString(result, 4 + result[2], result[3]);
-                GameObject.Find("Account").GetComponent<Account>().WriteAccount(id, nickname);
+                var length = 4 + result[2] + result[3] + 3;
+                var win = result[length - 2 - 1];
+                var lose = result[length - 1 - 1];
+                var costume = result[length - 1];
+                GameObject.Find("Account").GetComponent<Account>().WriteAccount(id, nickname, win, lose, costume);
                 PhotonNetwork.JoinLobby();
                 SceneManager.LoadScene("lobby_test");
                 break;
@@ -119,9 +123,13 @@ public class LoginButton : MonoBehaviour
                 var id = Encoding.UTF8.GetString(result, 5, result[2]);
                 var nickname = Encoding.UTF8.GetString(result, 5 + result[2], result[3]);
                 var roomname = Encoding.UTF8.GetString(result, 5 + result[2] + result[3], result[4]);
+                var length = 5 + result[2] + result[3] + result[4] + 3;
+                var win = result[length - 2 - 1];
+                var lose = result[length - 1 - 1];
+                var costume = result[length - 1];
                 errText.SetActive(true);
                 errText.GetComponent<Text>().text = "게임이 진행중입니다. 재접속을 시도합니다.";
-                GameObject.Find("Account").GetComponent<Account>().WriteAccount(id, nickname);
+                GameObject.Find("Account").GetComponent<Account>().WriteAccount(id, nickname, win, lose, costume);
                 PhotonNetwork.JoinRoom(roomname);
                 break;
             }
@@ -158,9 +166,6 @@ public class LoginButton : MonoBehaviour
             {
                 // 캐릭터 보유, 로비씬 이동
                 errText.SetActive(false);
-                GameObject.Find("Account").GetComponent<Account>().WriteAccount(
-                    GetStringDataValue(accountVal[0],"account_id:"),
-                    GetStringDataValue(accountVal[0],"character_name:"));
                 PhotonNetwork.JoinLobby();
                 chatClient.GetComponent<ChatClient>().ConnectToChatServer();
                 SceneManager.LoadScene("lobby_test");
@@ -170,9 +175,6 @@ public class LoginButton : MonoBehaviour
             {
                 errText.SetActive(true);
                 errText.GetComponent<Text>().text = "게임이 진행중입니다. 재접속을 시도합니다.";
-                GameObject.Find("Account").GetComponent<Account>().WriteAccount(
-                    GetStringDataValue(accountVal[0],"account_id:"),
-                    GetStringDataValue(accountVal[0],"character_name:"));
                 chatClient.GetComponent<ChatClient>().ConnectToChatServer();
                 PhotonNetwork.JoinRoom(GetStringDataValue(accountVal[0],"room_name:"));
 

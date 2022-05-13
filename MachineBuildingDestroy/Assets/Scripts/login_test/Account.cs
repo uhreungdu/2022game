@@ -11,6 +11,9 @@ public class Account : MonoBehaviour
     private static Account instance;
     [SerializeField] private string pID;
     [SerializeField] private string pNickname;
+    private int _win;
+    private int _lose;
+    private int _costume;
     
     // Start is called before the first frame update
     void Start()
@@ -51,10 +54,13 @@ public class Account : MonoBehaviour
         
     }
 
-    public void WriteAccount(string id, string nickname)
+    public void WriteAccount(string id, string nickname, int win, int lose, int costume)
     {
         pID = id;
         pNickname = nickname;
+        _win = win;
+        _lose = lose;
+        _costume = costume;
         PhotonNetwork.NickName = nickname;
         PhotonNetwork.AutomaticallySyncScene = true;
     }
@@ -67,5 +73,20 @@ public class Account : MonoBehaviour
     public string GetPlayerNickname()
     {
         return pNickname;
+    }
+
+    public int GetPlayerWin()
+    {
+        return _win;
+    }
+    
+    public int GetPlayerLose()
+    {
+        return _lose;
+    }
+    
+    public int GetPlayerCostume()
+    {
+        return _costume;
     }
 }

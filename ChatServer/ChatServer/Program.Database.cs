@@ -13,6 +13,9 @@ namespace Database
         public string? id;
         public string? name;
         public string? roomname;
+        public int win = 0;
+        public int lose = 0;
+        public int costume = 0;
         public int code;
 
         public LoginResult(int code)
@@ -22,18 +25,24 @@ namespace Database
             this.roomname = null;
             this.code = code;
         }
-        public LoginResult(string id, string name, int code)
+        public LoginResult(string id, string name, int win, int lose, int costume, int code)
         {
             this.id = id;
             this.name = name;
             this.roomname = null;
+            this.win = win;
+            this.lose = lose;
+            this.costume = costume;
             this.code = code;
         }
-        public LoginResult(string id, string name, string roomname, int code)
+        public LoginResult(string id, string name, int win, int lose, int costume, string roomname, int code)
         {
             this.id = id;
             this.name = name;
             this.roomname = roomname;
+            this.win = win;
+            this.lose = lose;
+            this.costume = costume;
             this.code = code;
         }
     }
@@ -81,9 +90,9 @@ namespace Database
                         WriteLastLoginTime(id);
                         if (CheckPlayerInGame(Charname))
                         {
-                            return new LoginResult(id, Charname, 0);   // OK
+                            return GetPlayerInfo(id);   // OK
                         }
-                        else return new LoginResult(id, Charname, GetPlayerInGameRoomname(Charname),4);
+                        else return GetPlayerInfo(id, Charname);
                         // Player now Playing Game
                     }
                     else return new LoginResult(3); // Already Online
@@ -238,6 +247,56 @@ namespace Database
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 conn.Close();
+            }
+        }
+
+        private static LoginResult GetPlayerInfo(string id)
+        {
+            string sql = string.Format("SELECT character_name, character_level, costume, win, lose FROM `character` WHERE account_id = \"{0}\"", id);
+            using (conn)
+            {
+                conn.Open();
+                LoginResult result = new LoginResult();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result.id = id;
+                    result.name = reader[0].ToString();
+                    result.costume = Convert.ToInt32(reader[2]);
+                    result.win = Convert.ToInt32(reader[3]);
+                    result.lose = Convert.ToInt32(reader[4]);
+                    result.roomname = null;
+                    result.code = 0;
+                }
+                conn.Close();
+
+                return result;
+            }
+        }
+
+        private static LoginResult GetPlayerInfo(string id, string charname)
+        {
+            string sql = string.Format("SELECT character_name, character_level, costume, win, lose FROM `character` WHERE account_id = \"{0}\"", id);
+            using (conn)
+            {
+                conn.Open();
+                LoginResult result = new LoginResult();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result.id = id;
+                    result.name = charname;
+                    result.costume = Convert.ToInt32(reader[2]);
+                    result.win = Convert.ToInt32(reader[3]);
+                    result.lose = Convert.ToInt32(reader[4]);
+                    result.code = 4;
+                }
+                conn.Close();
+                result.roomname = GetPlayerInGameRoomname(charname);
+
+                return result;
             }
         }
 

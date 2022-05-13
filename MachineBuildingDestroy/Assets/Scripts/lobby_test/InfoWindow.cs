@@ -17,7 +17,21 @@ public class InfoWindow : MonoBehaviour
     private void Awake()
     {
         _account = GameObject.Find("Account");
-        StartCoroutine(GetPlayerInfo());
+        NewGetPlayerInfo();
+        //StartCoroutine(GetPlayerInfo());
+    }
+
+    private void NewGetPlayerInfo()
+    {
+        var data = _account.GetComponent<Account>();
+        playerName.GetComponent<Text>().text = data.GetPlayerNickname();
+        var win = data.GetPlayerWin();
+        var lose = data.GetPlayerLose();
+        gameResults.GetComponent<Text>().text = "총 게임 수: " + (win + lose) + "\n"
+                                                +"승리: " + win + "\n"
+                                                +"패배: " + lose;
+        costume = data.GetPlayerCostume();
+        playerModel.GetComponent<PrintPlayerModel>().RenewPlayerModel(costume);
     }
 
     public IEnumerator GetPlayerInfo()
