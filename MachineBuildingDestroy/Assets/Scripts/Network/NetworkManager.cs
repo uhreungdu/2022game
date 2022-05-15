@@ -153,7 +153,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        StartCoroutine(_lobbyManager.GetRoomList());
+        _lobbyManager.GetRoomList();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -164,6 +164,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         errWindow.GetComponentInChildren<Text>().text = cause.ToString();
         print(cause.ToString());
         Logout(_account.GetPlayerID());
+    }
+    
+    void Logout(string id)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", "\"" + id + "\"");
+        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/logout_account.php", form);
+        www.SendWebRequest();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -198,23 +206,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             networkState = curNetworkState;
             print(networkState);
         }
-    }
-
-    void ExitRoom(string id, string roomname)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("Pname", "\"" + id + "\"");
-        form.AddField("iname", "\"" + roomname + "\"");
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/player_exit_room.php", form);
-        www.SendWebRequest();
-    }
-
-    void Logout(string id)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("id", "\"" + id + "\"");
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/logout_account.php", form);
-        www.SendWebRequest();
     }
 
     void RaiseEventSample()

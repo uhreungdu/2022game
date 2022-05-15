@@ -6,12 +6,12 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "ChatServer/1.0.0": {
+      "CSharpDBServer/1.0.0": {
         "dependencies": {
           "MySql.Data": "8.0.29.0"
         },
         "runtime": {
-          "ChatServer.dll": {}
+          "CSharpDBServer.dll": {}
         }
       },
       "MySql.Data/8.0.29.0": {
@@ -113,7 +113,7 @@
     }
   },
   "libraries": {
-    "ChatServer/1.0.0": {
+    "CSharpDBServer/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
