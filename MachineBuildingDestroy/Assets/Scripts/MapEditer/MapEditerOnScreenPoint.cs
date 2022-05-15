@@ -61,11 +61,12 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                     print(temp.transform.GetSiblingIndex());
                     temp.transform.parent = gameObject.transform;
                     temp.transform.position += GetPoint();
-                    Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
+                    Rigidbody temprigidbody = temp.GetComponentInChildren<Rigidbody>();
                     if (temprigidbody != null)
-                        temp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                        temp.GetComponentInChildren<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                     Destroy(temp.GetComponentInChildren<BulidingObject>());
                     Destroy(temp.GetComponentInChildren<LandMarkObject>());
+                    Destroy(temp.GetComponentInChildren<Goalpost>());
                     Collider[] tempColliders = temp.GetComponentsInChildren<Collider>();
                     if (tempColliders != null)
                     foreach (var collider in tempColliders)
