@@ -102,6 +102,18 @@ namespace Database
             else return new LoginResult(1);  // ID or PW error
         }
 
+        public static void LogoutAccount(string id)
+        {
+            string sql = string.Format("UPDATE `character` as C SET C.online = 0 WHERE binary(C.account_id)=\"{0}\"", id);
+            using (conn)
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                conn.Close();
+            }
+        }
+
         private static bool CheckIDPW(string id, string pw)
         {
             string[] sql = new string[2];

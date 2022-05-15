@@ -128,6 +128,7 @@ namespace Chatserver
                     {
                         case (byte)ChatType.Exit:
                             {
+                                if (!session.is_online) return;
                                 DisconnectClient(session);
                                 return;
                             }
@@ -202,11 +203,13 @@ namespace Chatserver
                 }
                 else
                 {
+                    if (!session.is_online) return;
                     DisconnectClient(session);
                 }
             }
             catch (Exception)
             {
+                if (!session.is_online) return;
                 DisconnectClient(session);
             }
 
@@ -304,14 +307,21 @@ namespace Chatserver
             {
                 session.is_online = false;
                 Console.WriteLine(session.socket.RemoteEndPoint + " " + session.nickname + " is Disconnected.");
-
-                var www = new WebClient();
-                var data = new NameValueCollection();
-                string url = "http://121.139.87.70/login/logout_account.php";
-                data["id"] = "\"" + session.id + "\"";
-                www.UploadValues(url, "POST", data);
+                DatabaseControl.LogoutAccount(session.id);
                 _ClientList.Remove(session);
                 session.socket.Close();
+            }
+            else
+            {
+                try
+                {
+                    Console.WriteLine(session.socket.RemoteEndPoint + " is Disconnected.");
+                    session.socket.Close();
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
         }
 
