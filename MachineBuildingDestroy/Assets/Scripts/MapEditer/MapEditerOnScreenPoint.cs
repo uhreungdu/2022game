@@ -104,20 +104,20 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 int z = (int) GetPoint().z / 10;
                 if (Point.x <= 0.0f)
                 {
-                    Point.x = -5.0f + x * 10.0f;
+                    Point.x = -5f + x * 10f;
                 }
                 else
                 {
-                    Point.x = 5.0f + x * 10.0f;
+                    Point.x = 5f + x * 10f;
                 }
 
                 if (Point.z <= 0.0f)
                 {
-                    Point.z = -5.0f + z * 10.0f;
+                    Point.z = -5f + z * 10f;
                 }
                 else
                 {
-                    Point.z = 5.0f + z * 10.0f;
+                    Point.z = 5f + z * 10f;
                 }
                 GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
                 transform.position = Point;
