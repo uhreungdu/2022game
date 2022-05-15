@@ -18,7 +18,6 @@ public class InfoWindow : MonoBehaviour
     {
         _account = GameObject.Find("Account");
         NewGetPlayerInfo();
-        //StartCoroutine(GetPlayerInfo());
     }
 
     private void NewGetPlayerInfo()
@@ -33,36 +32,6 @@ public class InfoWindow : MonoBehaviour
         costume = data.GetPlayerCostume();
         playerModel.GetComponent<PrintPlayerModel>().RenewPlayerModel(costume);
     }
-
-    public IEnumerator GetPlayerInfo()
-    {
-        string url = "http://121.139.87.70/get_player_info.php?" + "id=" + "\"" +
-                     _account.GetComponent<Account>().GetPlayerID() + "\"";
-
-        UnityWebRequest www = UnityWebRequest.Get(url);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            string results = www.downloadHandler.text;
-            playerName.GetComponent<Text>().text = GetStringDataValue(results, "name:");
-
-            var win = GetIntDataValue(results, "win:");
-            var lose = GetIntDataValue(results, "lose:");
-            gameResults.GetComponent<Text>().text = "총 게임 수: " + (win + lose) + "\n"
-                +"승리: " + win + "\n"
-                +"패배: " + lose;
-            //Level.GetComponent<Text>().text = GetStringDataValue(results, "level:");
-             
-            costume = GetIntDataValue(results, "costume:");
-            playerModel.GetComponent<PrintPlayerModel>().RenewPlayerModel(costume);
-        }
-    }
-    
 
     public void SetCostumeOnDB(int num)
     {

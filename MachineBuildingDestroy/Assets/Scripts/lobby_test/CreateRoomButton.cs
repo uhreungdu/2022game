@@ -59,25 +59,4 @@ public class CreateRoomButton : MonoBehaviour
         _client.Send(sendBuf);
      
     }
-    IEnumerator WebRequest(string ename, string iname)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("iname", "\""+iname+"\"" );
-        form.AddField("ename", "\"" + ename + "\"");
-        form.AddField("nowPnum", 1);
-        form.AddField("maxPnum", 6);
-        form.AddField("Pname", "\"" + _account.GetPlayerNickname() + "\"");
-
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/room_make.php", form);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            
-        }
-    }
 }
