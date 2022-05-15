@@ -15,19 +15,20 @@ public class ChatClient : MonoBehaviour
     
     private const string ServerAddress = "121.139.87.70";
     private const int Port = 9887;
-    private const int BufSize = 128;
+    private const int BufSize = 1024;
     private Socket _client;
     private IPEndPoint _ipep;
     private bool _isDataSend = false;
     private Task _loginTask; 
     
-    public byte[] sendbuf = new byte[BufSize-1];
-    public byte[] recvbuf = new byte[BufSize];
+    private byte[] sendbuf = new byte[BufSize-1];
+    private byte[] recvbuf = new byte[BufSize];
     public Chatlog chatLog;
     public GameObject loginWaitingWindow;
     
     public enum ChatCode : byte
     {
+        TEST,
         Normal,
         Exit,
         EnterRoom,
@@ -35,7 +36,9 @@ public class ChatClient : MonoBehaviour
         ExitRoom,
         MakeRoom,
         LoginRequest,
-        LoginResult
+        LoginResult,
+        RoomListRequest,
+        RoomListResult
     }
     
     public static ChatClient GetInstance()
@@ -81,6 +84,9 @@ public class ChatClient : MonoBehaviour
             {
                 case (byte)ChatCode.LoginResult:
                     GameObject.Find("LoginButton").GetComponent<LoginButton>().ProcessLogin(recvbuf);
+                    break;
+                case (byte)ChatCode.RoomListResult:
+                    GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomList(recvbuf);
                     break;
                 default:
                     chatLog.AddLine(recvbuf);

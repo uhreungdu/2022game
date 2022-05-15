@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -11,6 +13,7 @@ public class LobbyManager : MonoBehaviour
     // Start is called before the first frame update
     private static LobbyManager instance;
     public GameObject roomlist;
+    private Socket _socket;
 
     public static LobbyManager GetInstance()
     {
@@ -28,36 +31,22 @@ public class LobbyManager : MonoBehaviour
 
     void Awake()
     {
-
+    _socket = ChatClient.GetInstance().GetClientSocket();
     }
     void Start()
     {
-        StartCoroutine(GetRoomList());
     }
 
     // Update is called once per frame
     void Update()
     {
     }
-    
 
-
-    public IEnumerator GetRoomList()
+    public void GetRoomList()
     {
-        WWWForm form = new WWWForm();
+        byte[] sendBuf = new byte[1];
+        sendBuf[0] = (byte) ChatClient.ChatCode.RoomListRequest;
 
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/get_room_list.php", form);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            string results = www.downloadHandler.text;
-            roomlist.GetComponent<RoomList>().SetRoomList(results.Split(';'));
-            roomlist.GetComponent<RoomList>().SetRoomBlocks();
-        }
+        _socket.Send(sendBuf);
     }
 }

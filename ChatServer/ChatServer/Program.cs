@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Collections.Specialized;
+using System.Runtime.Serialization.Formatters.Binary;
 
 using Database;
 
@@ -10,6 +11,7 @@ namespace Chatserver
 {
     enum ChatType : byte
     {
+        TEST,
         NormalChat,
         Exit,
         EnterRoom,
@@ -17,12 +19,14 @@ namespace Chatserver
         ExitRoom,
         MakeRoom,
         LoginRequest,
-        LoginResult
+        LoginResult,
+        RoomListRequest,
+        RoomListResult
     }
 
     public class Session
     {
-        public const int bufSize = 128;
+        public const int bufSize = 1024;
         public byte[] buf = new byte[bufSize];
         public Socket socket = null;
         public bool is_online = false;
@@ -41,7 +45,7 @@ namespace Chatserver
 
         private const int Port = 9887;
         private const int MaxConnections = 100;
-        private const int BufSize = 128;
+        private const int BufSize = 1024;
 
         private static Socket? _ServerSocket;
         private static List<Session>? _ClientList;
@@ -198,6 +202,18 @@ namespace Chatserver
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
+                        case (byte)ChatType.RoomListRequest:
+                            {
+                                byte[] roomData = ConvertRoomlistToByte(DatabaseControl.GetRoomInfos());
+                                byte[] sendData = new byte[2 + roomData.Length]; 
+                                sendData[0] = (byte)ChatType.RoomListResult;
+                                sendData[1] = (byte)roomData.Length;
+                                Array.Copy(roomData, 0, sendData, 2, roomData.Length);
+                                SendRoomList(session, sendData);
+                                session.socket.BeginReceive(sendData, 0, sendData.Length, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
                     }
                 }
                 else
@@ -284,6 +300,12 @@ namespace Chatserver
             }
         }
 
+        private static void SendRoomList(Session session, byte[] sendData)
+        {
+            session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                new AsyncCallback(SendCallback), session);
+        }
+
         private static void SendCallback(IAsyncResult ar)
         {
             try
@@ -324,17 +346,17 @@ namespace Chatserver
             }
         }
 
-        private static void PlayerMakeRoomHTTP(Session session, int nowPlayerNum, int maxPlayerNum)
+        private static byte[] ConvertRoomlistToByte(List<RoomInfo> roomlist)
         {
-            var www = new WebClient();
-            var data = new NameValueCollection();
-            string url = "http://121.139.87.70/room_make.php";
-            data["iname"] = "\"" + session.roomname + "\"";
-            data["ename"] = "\"" + session.nickname + "\"";
-            data["nowPnum"] = nowPlayerNum.ToString();
-            data["maxPnum"] = maxPlayerNum.ToString();
-            data["Pname"] = "\"" + session.nickname + "\"";
-            www.UploadValues(url, "POST", data);
+            string sendData = "";
+            foreach (RoomInfo room in roomlist)
+            {
+                string data =   "iname:" + room.internal_name + "|ename:" + room.external_name +
+                                "|nowPnum:" + room.now_playernum + "|maxPnum:" + room.max_playernum + "|ingame:" + room.ingame + ";";
+                sendData = sendData + data;
+            }
+            
+            return Encoding.UTF8.GetBytes(sendData);
         }
     }
 }

@@ -47,11 +47,54 @@ namespace Database
         }
     }
 
+    [Serializable]
+    public struct RoomInfo
+    {
+        public string internal_name;
+        public string external_name;
+        public int now_playernum;
+        public int max_playernum;
+        public bool ingame;
+
+        public RoomInfo(string iname, string ename, int nPnum, int mPnum, bool ingame)
+        {
+            internal_name = iname;
+            external_name = ename;
+            now_playernum = nPnum;
+            max_playernum = mPnum;
+            this.ingame = ingame;
+        }
+    }
+
     public class DatabaseControl
     {
         public static string connect = string.Format("Server={0}; Database={1}; Uid={2}; Pwd={3};",
     "127.0.0.1", "havocfes", "root", "2022project");
         public static MySqlConnection conn = new MySqlConnection(connect);
+
+        public static List<RoomInfo> GetRoomInfos()
+        {
+            List<RoomInfo> list = new List<RoomInfo>();
+            string sql = "SELECT internal_name ,external_name ,now_playernum ,max_playernum , ingame FROM room order by created_time asc;";
+            using (conn)
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    RoomInfo info = new RoomInfo();
+                    info.internal_name = reader.GetString(0);
+                    info.external_name = reader.GetString(1);
+                    info.now_playernum = reader.GetInt32(2);
+                    info.max_playernum = reader.GetInt32(3);
+                    info.ingame = reader.GetBoolean(4);
+                    list.Add(info);
+                }
+                conn.Close();
+            }
+            return list;
+        }
 
         public static void PlayerMakeRoom(string iname, string ename, int maxPlayerNum, string Pname)
         {
@@ -64,7 +107,7 @@ namespace Database
             {
                 MakeRoom(iname, ename, maxPlayerNum);
                 PlayerJoinRoom(Pname, iname);
-                PlusPlayerNumInRoom(Pname);
+                PlusPlayerNumInRoom(iname);
             }
         }
 

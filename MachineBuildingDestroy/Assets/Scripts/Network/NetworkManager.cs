@@ -153,7 +153,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        StartCoroutine(_lobbyManager.GetRoomList());
+        _lobbyManager.GetRoomList();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -163,6 +163,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         errWindow.SetActive(true);
         errWindow.GetComponentInChildren<Text>().text = cause.ToString();
         print(cause.ToString());
+        Logout(_account.GetPlayerID());
+    }
+    
+    void Logout(string id)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", "\"" + id + "\"");
+        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/logout_account.php", form);
+        www.SendWebRequest();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
