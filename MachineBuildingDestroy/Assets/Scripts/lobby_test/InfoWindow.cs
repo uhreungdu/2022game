@@ -17,38 +17,21 @@ public class InfoWindow : MonoBehaviour
     private void Awake()
     {
         _account = GameObject.Find("Account");
-        StartCoroutine(GetPlayerInfo());
+        NewGetPlayerInfo();
     }
 
-    public IEnumerator GetPlayerInfo()
+    private void NewGetPlayerInfo()
     {
-        string url = "http://121.139.87.70/get_player_info.php?" + "id=" + "\"" +
-                     _account.GetComponent<Account>().GetPlayerID() + "\"";
-
-        UnityWebRequest www = UnityWebRequest.Get(url);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            string results = www.downloadHandler.text;
-            playerName.GetComponent<Text>().text = GetStringDataValue(results, "name:");
-
-            var win = GetIntDataValue(results, "win:");
-            var lose = GetIntDataValue(results, "lose:");
-            gameResults.GetComponent<Text>().text = "총 게임 수: " + (win + lose) + "\n"
-                +"승리: " + win + "\n"
-                +"패배: " + lose;
-            //Level.GetComponent<Text>().text = GetStringDataValue(results, "level:");
-             
-            costume = GetIntDataValue(results, "costume:");
-            playerModel.GetComponent<PrintPlayerModel>().RenewPlayerModel(costume);
-        }
+        var data = _account.GetComponent<Account>();
+        playerName.GetComponent<Text>().text = data.GetPlayerNickname();
+        var win = data.GetPlayerWin();
+        var lose = data.GetPlayerLose();
+        gameResults.GetComponent<Text>().text = "총 게임 수: " + (win + lose) + "\n"
+                                                +"승리: " + win + "\n"
+                                                +"패배: " + lose;
+        costume = data.GetPlayerCostume();
+        playerModel.GetComponent<PrintPlayerModel>().RenewPlayerModel(costume);
     }
-    
 
     public void SetCostumeOnDB(int num)
     {

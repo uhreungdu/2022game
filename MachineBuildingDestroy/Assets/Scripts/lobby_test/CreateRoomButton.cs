@@ -38,47 +38,25 @@ public class CreateRoomButton : MonoBehaviour
         _ename = _account.GetPlayerNickname() + "ÀÇ ¹æ" + Random.Range(0, 9999);
         _iname = _ename + System.DateTime.Now.ToString(" yyyy-MM-dd-HH-mm-ss");
 
-        SendEnterRoom();
+        SendMakeRoom();
         PhotonNetwork.JoinOrCreateRoom(_iname, new RoomOptions { MaxPlayers = 6 }, null);
     }
     
-    private void SendEnterRoom()
+    private void SendMakeRoom()
     {
         byte[] iname = Encoding.UTF8.GetBytes(_iname);
         byte[] ename = Encoding.UTF8.GetBytes(_ename);
 
-        byte[] sendBuf = new byte[iname.Length + ename.Length + 1 + 4];
+        byte[] sendBuf = new byte[iname.Length + ename.Length + 1 + 3];
         sendBuf[0] = (byte) ChatClient.ChatCode.MakeRoom;
         sendBuf[1] = (byte) iname.Length;
         sendBuf[2] = (byte) ename.Length;
-        sendBuf[3] = (byte) 1;  // nowPlayerNum
-        sendBuf[4] = (byte) 6;  // maxPlayerNum
+        sendBuf[3] = (byte) 6;  // maxPlayerNum
         
-        Array.Copy(iname, 0, sendBuf, 5, iname.Length);
-        Array.Copy(ename, 0, sendBuf, 5 + iname.Length, ename.Length);
+        Array.Copy(iname, 0, sendBuf, 4, iname.Length);
+        Array.Copy(ename, 0, sendBuf, 4 + iname.Length, ename.Length);
         
         _client.Send(sendBuf);
      
-    }
-    IEnumerator WebRequest(string ename, string iname)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("iname", "\""+iname+"\"" );
-        form.AddField("ename", "\"" + ename + "\"");
-        form.AddField("nowPnum", 1);
-        form.AddField("maxPnum", 6);
-        form.AddField("Pname", "\"" + _account.GetPlayerNickname() + "\"");
-
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/room_make.php", form);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            
-        }
     }
 }
