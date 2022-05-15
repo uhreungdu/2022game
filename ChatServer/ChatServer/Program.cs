@@ -45,10 +45,12 @@ namespace Chatserver
 
         private static Socket? _ServerSocket;
         private static List<Session>? _ClientList;
+        private static List<Session>? _NotLoginList;
 
         static void Main()
         {
             _ClientList = new List<Session>();
+            _NotLoginList = new List<Session>();
 
             // 서버 소켓 생성
             _ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -105,10 +107,6 @@ namespace Chatserver
 
             Session session = new Session();
             session.socket = client;
-            session.is_online = true;
-            int num = client.Receive(session.buf);
-            session.id = Encoding.UTF8.GetString(session.buf, 2, session.buf[0]);
-            _ClientList.Add(session);
             Console.WriteLine(client.RemoteEndPoint.ToString() + " Connected");
 
             client.BeginReceive(session.buf, 0, Session.bufSize, 0, 
@@ -188,6 +186,7 @@ namespace Chatserver
                                 switch (result.code)
                                 {
                                     case 0:
+                                        session.is_online = true;
                                         session.nickname = result.name;
                                         session.id = result.id;
                                         _ClientList.Add(session);

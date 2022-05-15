@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
+using System.Threading.Tasks;
 using Photon.Pun;
 using UnityEngine.UI;
 
@@ -19,11 +19,13 @@ public class ChatClient : MonoBehaviour
     private Socket _client;
     private IPEndPoint _ipep;
     private bool _isDataSend = false;
+    private Task _loginTask; 
     
     public byte[] sendbuf = new byte[BufSize-1];
     public byte[] recvbuf = new byte[BufSize];
     public Chatlog chatLog;
-
+    public GameObject loginWaitingWindow;
+    
     public enum ChatCode : byte
     {
         Normal,
@@ -65,6 +67,12 @@ public class ChatClient : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        loginWaitingWindow.SetActive(true);
+        ConnectToChatServer();
+    }
+
     private void Update()
     {
         if (_isDataSend)
@@ -88,19 +96,22 @@ public class ChatClient : MonoBehaviour
         return _client;
     }
 
-    public void ConnectToChatServer()
+    async void ConnectToChatServer()
     {
         _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        _client.Connect(_ipep);
-        
-        byte[] idData = Encoding.UTF8.GetBytes(Account.GetInstance().GetPlayerID());
-
-        byte[] sendData = new byte[1 + idData.Length];
-        sendData[0] = (byte)idData.Length;
-
-        Array.Copy(idData,0,sendData,1,idData.Length);
-
-        _client.Send(sendData);
+        await Task.Run(() =>
+        {
+            try
+            {
+                _client.Connect(_ipep);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+                throw;
+            }
+        });
+        loginWaitingWindow.SetActive(false);
         _client.BeginReceive(recvbuf, 0, BufSize, 0,
             ReceiveCallback, _client);
     }

@@ -16,7 +16,6 @@ public class LoginButton : MonoBehaviour
 {
     [FormerlySerializedAs("IDInput")] public GameObject idInput;
     [FormerlySerializedAs("PWInput")] public GameObject pwInput;
-    [FormerlySerializedAs("MakeCharWindow")] public GameObject makeCharWindow;
     [FormerlySerializedAs("ErrText")] public GameObject errText;
     public GameObject nManager;
     public GameObject chatClient;
@@ -54,7 +53,6 @@ public class LoginButton : MonoBehaviour
         pwInput.GetComponent<InputField>().interactable = false;
         
         // 로그인 요청
-        chatClient.GetComponent<ChatClient>().ConnectToChatServer();
         _socket = ChatClient.GetInstance().GetClientSocket();
         LoginAccount();
     }
@@ -105,7 +103,7 @@ public class LoginButton : MonoBehaviour
             case 2:
             {
                 // 캐릭터 미보유, 설정 필요
-                makeCharWindow.SetActive(true);
+                Debug.Log("No Character in account");
                 break;
             }
             case 3:
@@ -134,72 +132,5 @@ public class LoginButton : MonoBehaviour
                 break;
             }
         }
-    }
-    
-    public IEnumerator LoginRequest()
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("id", "\""+idInput.GetComponent<InputField>().text+"\"") ;
-        form.AddField("pw", "\"" + pwInput.GetComponent<InputField>().text + "\"");
-
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/login_account.php", form);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-            // 로그인 창 활성화
-            _doLogin = false;
-            idInput.GetComponent<InputField>().interactable = true;
-            pwInput.GetComponent<InputField>().interactable = true;
-        }
-        else
-        {
-            string results = www.downloadHandler.text;
-            Debug.Log(results);
-            accountVal = results.Split(';');
-            // 로그인 창 활성화
-            GetComponent<Button>().interactable = true;
-            idInput.GetComponent<InputField>().interactable = true;
-            pwInput.GetComponent<InputField>().interactable = true;
-            if (GetStringDataValue(accountVal[0],"Msg:") == "OK")
-            {
-                // 캐릭터 보유, 로비씬 이동
-                errText.SetActive(false);
-                PhotonNetwork.JoinLobby();
-                chatClient.GetComponent<ChatClient>().ConnectToChatServer();
-                SceneManager.LoadScene("lobby_test");
-
-            }
-            else if (GetStringDataValue(accountVal[0],"Msg:") == "INGAME")
-            {
-                errText.SetActive(true);
-                errText.GetComponent<Text>().text = "게임이 진행중입니다. 재접속을 시도합니다.";
-                chatClient.GetComponent<ChatClient>().ConnectToChatServer();
-                PhotonNetwork.JoinRoom(GetStringDataValue(accountVal[0],"room_name:"));
-
-            }
-            else if (GetStringDataValue(accountVal[0],"Msg:") == "Need Character")
-            {
-                // 캐릭터 미보유, 설정 필요
-                makeCharWindow.SetActive(true);
-            }
-            else
-            {
-                // 로그인 오류
-                _doLogin = false;
-                errText.SetActive(true);
-                errText.GetComponent<Text>().text = GetStringDataValue(accountVal[0],"Msg:");
-                idInput.GetComponent<InputField>().text = "";
-                pwInput.GetComponent<InputField>().text = "";
-            }
-        }
-    }
-    
-    string GetStringDataValue(string data, string index)
-    {
-        string value = data.Substring(data.IndexOf(index) + index.Length);
-        if (value.Contains("|")) value = value.Remove(value.IndexOf("|"));
-        return value;
     }
 }
