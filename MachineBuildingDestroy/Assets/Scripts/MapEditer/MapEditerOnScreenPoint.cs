@@ -61,11 +61,12 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                     print(temp.transform.GetSiblingIndex());
                     temp.transform.parent = gameObject.transform;
                     temp.transform.position += GetPoint();
-                    Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
+                    Rigidbody temprigidbody = temp.GetComponentInChildren<Rigidbody>();
                     if (temprigidbody != null)
-                        temp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                        temp.GetComponentInChildren<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                     Destroy(temp.GetComponentInChildren<BulidingObject>());
                     Destroy(temp.GetComponentInChildren<LandMarkObject>());
+                    Destroy(temp.GetComponentInChildren<Goalpost>());
                     Collider[] tempColliders = temp.GetComponentsInChildren<Collider>();
                     if (tempColliders != null)
                     foreach (var collider in tempColliders)
@@ -100,24 +101,24 @@ public class MapEditerOnScreenPoint : MonoBehaviour
             else if (gameObject.transform.childCount >= 1)
             {
                 Vector3 Point = GetPoint();
-                int x = (int) GetPoint().x / 10;
-                int z = (int) GetPoint().z / 10;
+                float x = (int)(GetPoint().x * 0.1f);
+                float z = (int)(GetPoint().z * 0.1f);
                 if (Point.x <= 0.0f)
                 {
-                    Point.x = -5.0f + x * 10.0f;
+                    Point.x = -5 + x * 10;
                 }
                 else
                 {
-                    Point.x = 5.0f + x * 10.0f;
+                    Point.x = 5 + x * 10;
                 }
 
                 if (Point.z <= 0.0f)
                 {
-                    Point.z = -5.0f + z * 10.0f;
+                    Point.z = -5 + z * 10;
                 }
                 else
                 {
-                    Point.z = 5.0f + z * 10.0f;
+                    Point.z = 5 + z * 10;
                 }
                 GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
                 transform.position = Point;
