@@ -18,7 +18,7 @@ public class MapEditerCoordText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _text.text = $"X : {pointer.transform.position.x}\n" +
-                     $"Z : {pointer.transform.position.z}";
+        _text.text = $"X : {pointer.transform.position.x.ToString("N0")}\n" +
+                     $"Z : {pointer.transform.position.z.ToString("N0")}";
     }
 }

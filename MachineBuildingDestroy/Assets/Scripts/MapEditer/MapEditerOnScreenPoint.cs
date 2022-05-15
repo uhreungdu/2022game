@@ -100,24 +100,24 @@ public class MapEditerOnScreenPoint : MonoBehaviour
             else if (gameObject.transform.childCount >= 1)
             {
                 Vector3 Point = GetPoint();
-                int x = (int) GetPoint().x / 10;
-                int z = (int) GetPoint().z / 10;
+                float x = (int)(GetPoint().x * 0.1f);
+                float z = (int)(GetPoint().z * 0.1f);
                 if (Point.x <= 0.0f)
                 {
-                    Point.x = -5f + x * 10f;
+                    Point.x = -5 + x * 10;
                 }
                 else
                 {
-                    Point.x = 5f + x * 10f;
+                    Point.x = 5 + x * 10;
                 }
 
                 if (Point.z <= 0.0f)
                 {
-                    Point.z = -5f + z * 10f;
+                    Point.z = -5 + z * 10;
                 }
                 else
                 {
-                    Point.z = 5f + z * 10f;
+                    Point.z = 5 + z * 10;
                 }
                 GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
                 transform.position = Point;
