@@ -164,15 +164,14 @@ namespace Chatserver
                             }
                         case (byte)ChatType.MakeRoom:
                             {
-                                string iname = Encoding.UTF8.GetString(session.buf, 5, session.buf[1]);
-                                string ename = Encoding.UTF8.GetString(session.buf, 5 + session.buf[1], session.buf[2]);
-                                int nowPlayerNum = session.buf[3];
-                                int maxPlayerNum = session.buf[4];
+                                string iname = Encoding.UTF8.GetString(session.buf, 4, session.buf[1]);
+                                string ename = Encoding.UTF8.GetString(session.buf, 4 + session.buf[1], session.buf[2]);
+                                int maxPlayerNum = session.buf[3];
                                 
                                 Console.WriteLine(session.nickname + " makes Roomname " + ename);
                                 session.roomname = iname;
                                 session.in_room = true;
-                                PlayerMakeRoomHTTP(session, nowPlayerNum, maxPlayerNum);
+                                DatabaseControl.PlayerMakeRoom(iname, ename, maxPlayerNum, session.nickname);
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;

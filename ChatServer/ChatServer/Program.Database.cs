@@ -53,6 +53,33 @@ namespace Database
     "127.0.0.1", "havocfes", "root", "2022project");
         public static MySqlConnection conn = new MySqlConnection(connect);
 
+        public static void PlayerMakeRoom(string iname, string ename, int maxPlayerNum, string Pname)
+        {
+            if (RoomCheck(iname))
+            {
+                Console.WriteLine("이미 생성된 방");
+                return;
+            }
+            else
+            {
+                MakeRoom(iname, ename, maxPlayerNum);
+                PlayerJoinRoom(Pname, iname);
+                PlusPlayerNumInRoom(Pname);
+            }
+        }
+
+        private static void MakeRoom(string iname, string ename, int maxPlayerNum)
+        {
+            string sql = string.Format("INSERT IGNORE INTO room (internal_name,external_name,max_playernum) VALUE(\"{0}\",\"{1}\",{2});", iname, ename, maxPlayerNum);
+            using (conn)
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                conn.Close();
+            }
+        }
+
         public static void PlayerEnterRoom(string iname, string Pname)
         {
             if (RoomCheck(iname))
@@ -342,25 +369,26 @@ namespace Database
 
         private static bool RoomCheck(string iname)
         {
-            string sql = string.Format("SELECT COUNT(*) FROM room WHERE internal_name={0}", iname);
+            string sql = string.Format("SELECT COUNT(*) FROM room WHERE internal_name=\"{0}\"", iname);
 
             using (conn)
             {
+                var result = 0;
                 conn.Open();
-
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = Convert.ToInt32(reader[0]);
+                }
                 conn.Close();
-
-                var result = (int)reader[0];
-
                 if (result == 0) return false;
                 else return true;
             }
         }
 
         private static void PlayerJoinRoom(string Pname, string iname) {
-            string sql = string.Format("INSERT IGNORE INTO playingchar (character_name, room_internal_name)VALUE({0},{1})", Pname, iname);
+            string sql = string.Format("INSERT IGNORE INTO playingchar (character_name, room_internal_name)VALUE(\"{0}\",\"{1}\")", Pname, iname);
 
             using (conn)
             {
@@ -373,7 +401,7 @@ namespace Database
 
         private static void PlusPlayerNumInRoom(string iname)
         {
-            string sql = string.Format("UPDATE room SET now_playernum = now_playernum + 1 WHERE internal_name = {0}", iname);
+            string sql = string.Format("UPDATE room SET now_playernum = now_playernum + 1 WHERE internal_name = \"{0}\"", iname);
 
             using (conn)
             {
