@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,9 +30,11 @@ public class RoomList : MonoBehaviour
 
     }
 
-    public void SetRoomList(string[] val)
+    public void SetRoomList(byte[] val)
     {
-        rooms = val;
+        string data = Encoding.UTF8.GetString(val, 2, val[1]);
+        rooms = data.Split(';');
+        SetRoomBlocks();
     }
 
     public void MoveNextPage()
@@ -70,10 +73,10 @@ public class RoomList : MonoBehaviour
                 continue;
             }
 
-            iname = GetStringDataValue(rooms[index], "internal_name:");
-            ename = GetStringDataValue(rooms[index], "external_name:");
-            nowP = GetIntDataValue(rooms[index], "now_playernum:");
-            maxP = GetIntDataValue(rooms[index], "max_playernum:");
+            iname = GetStringDataValue(rooms[index], "iname:");
+            ename = GetStringDataValue(rooms[index], "ename:");
+            nowP = GetIntDataValue(rooms[index], "nowPnum:");
+            maxP = GetIntDataValue(rooms[index], "maxPnum:");
             ingame = GetBoolDataValue(rooms[index], "ingame:");
 
             roomBlock.GetComponent<RoomBlock>().SetVariables(iname, ename, nowP, maxP, ingame);
@@ -100,6 +103,6 @@ public class RoomList : MonoBehaviour
     {
         string value = data.Substring(data.IndexOf(index) + index.Length);
         if (value.Contains("|")) value = value.Remove(value.IndexOf("|"));
-        return value == "1";
+        return value == "True";
     }
 }

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class RefreshButton : MonoBehaviour
 {
-    public LobbyManager gManager;
+    private LobbyManager _lobbyManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        gManager = LobbyManager.GetInstance();
+        _lobbyManager = LobbyManager.GetInstance();
     }
 
     // Update is called once per frame
@@ -20,6 +20,6 @@ public class RefreshButton : MonoBehaviour
 
     public void OnClick()
     {
-        StartCoroutine(gManager.GetRoomList());
+        _lobbyManager.GetRoomList();
     }
 }
