@@ -3,21 +3,30 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Collections.Specialized;
+using System.Runtime.Serialization.Formatters.Binary;
+
+using Database;
 
 namespace Chatserver
 {
     enum ChatType : byte
     {
+        TEST,
         NormalChat,
         Exit,
         EnterRoom,
         RoomChat,
         ExitRoom,
-        MakeRoom
+        MakeRoom,
+        LoginRequest,
+        LoginResult,
+        RoomListRequest,
+        RoomListResult
     }
+
     public class Session
     {
-        public const int bufSize = 128;
+        public const int bufSize = 1024;
         public byte[] buf = new byte[bufSize];
         public Socket socket = null;
         public bool is_online = false;
@@ -27,7 +36,7 @@ namespace Chatserver
         public string id;
     }
 
-    class Program
+    public class Program
     {
         // 이벤트로 While문 제어
         // 접속 받는동안은 무한정으로 돌아갈 이유 없음
@@ -36,14 +45,17 @@ namespace Chatserver
 
         private const int Port = 9887;
         private const int MaxConnections = 100;
-        private const int BufSize = 128;
+        private const int BufSize = 1024;
 
         private static Socket? _ServerSocket;
         private static List<Session>? _ClientList;
+        private static List<Session>? _NotLoginList;
 
         static void Main()
         {
             _ClientList = new List<Session>();
+            _NotLoginList = new List<Session>();
+
             // 서버 소켓 생성
             _ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint ipep = new IPEndPoint(IPAddress.Any, Port);
@@ -99,12 +111,7 @@ namespace Chatserver
 
             Session session = new Session();
             session.socket = client;
-            session.is_online = true;
-            int num = client.Receive(session.buf);
-            session.nickname = Encoding.UTF8.GetString(session.buf, 2, session.buf[0]);
-            session.id = Encoding.UTF8.GetString(session.buf, 2 + session.buf[0], session.buf[1]);
-            _ClientList.Add(session);
-            Console.WriteLine(client.RemoteEndPoint.ToString() + " " + session.nickname + " Connected");
+            Console.WriteLine(client.RemoteEndPoint.ToString() + " Connected");
 
             client.BeginReceive(session.buf, 0, Session.bufSize, 0, 
                 new AsyncCallback(ReceiveCallback), session);
@@ -125,6 +132,7 @@ namespace Chatserver
                     {
                         case (byte)ChatType.Exit:
                             {
+                                if (!session.is_online) return;
                                 DisconnectClient(session);
                                 return;
                             }
@@ -135,7 +143,7 @@ namespace Chatserver
                                 foreach (Session s in _ClientList)
                                 {
                                     if (s.in_room) continue;
-                                    Send(s, data);
+                                    Send(s, data, session.nickname);
                                 }
                                 break;
                             }
@@ -150,26 +158,59 @@ namespace Chatserver
                         case (byte)ChatType.EnterRoom:
                             {
                                 data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
-                                Console.WriteLine(session.nickname + "enters Roomname " + data);
+                                Console.WriteLine(session.nickname + " enters Roomname " + data);
                                 session.roomname = data;
                                 session.in_room = true;
-                                PlayerEnterRoomHTTP(session);
+                                DatabaseControl.PlayerEnterRoom(session.roomname, session.nickname);
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
                         case (byte)ChatType.MakeRoom:
                             {
-                                string iname = Encoding.UTF8.GetString(session.buf, 5, session.buf[1]);
-                                string ename = Encoding.UTF8.GetString(session.buf, 5 + session.buf[1], session.buf[2]);
-                                int nowPlayerNum = session.buf[3];
-                                int maxPlayerNum = session.buf[4];
+                                string iname = Encoding.UTF8.GetString(session.buf, 4, session.buf[1]);
+                                string ename = Encoding.UTF8.GetString(session.buf, 4 + session.buf[1], session.buf[2]);
+                                int maxPlayerNum = session.buf[3];
                                 
-                                Console.WriteLine(session.nickname + "makes Roomname " + ename);
+                                Console.WriteLine(session.nickname + " makes Roomname " + ename);
                                 session.roomname = iname;
                                 session.in_room = true;
-                                PlayerMakeRoomHTTP(session, nowPlayerNum, maxPlayerNum);
+                                DatabaseControl.PlayerMakeRoom(iname, ename, maxPlayerNum, session.nickname);
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
+                        case (byte)ChatType.LoginRequest:
+                            {
+                                string id = Encoding.UTF8.GetString(session.buf, 3, session.buf[1]);
+                                string pw = Encoding.UTF8.GetString(session.buf, 3 + session.buf[1], session.buf[2]);
+
+                                var result = DatabaseControl.LoginAccount(id, pw);
+
+                                switch (result.code)
+                                {
+                                    case 0:
+                                        session.is_online = true;
+                                        session.nickname = result.name;
+                                        session.id = result.id;
+                                        _ClientList.Add(session);
+                                        Console.WriteLine(session.nickname + " Login ");                                 
+                                        break;
+                                }
+                                SendLoginResult(session, result);
+                                session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
+                        case (byte)ChatType.RoomListRequest:
+                            {
+                                byte[] roomData = ConvertRoomlistToByte(DatabaseControl.GetRoomInfos());
+                                byte[] sendData = new byte[2 + roomData.Length]; 
+                                sendData[0] = (byte)ChatType.RoomListResult;
+                                sendData[1] = (byte)roomData.Length;
+                                Array.Copy(roomData, 0, sendData, 2, roomData.Length);
+                                SendRoomList(session, sendData);
+                                session.socket.BeginReceive(sendData, 0, sendData.Length, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
@@ -177,20 +218,22 @@ namespace Chatserver
                 }
                 else
                 {
+                    if (!session.is_online) return;
                     DisconnectClient(session);
                 }
             }
             catch (Exception)
             {
+                if (!session.is_online) return;
                 DisconnectClient(session);
             }
 
         }
 
 
-        private static void Send(Session session, String data)
+        private static void Send(Session session, string data, string sender)
         {
-            byte[] name = Encoding.UTF8.GetBytes(session.nickname);
+            byte[] name = Encoding.UTF8.GetBytes(sender);
             byte[] chatData = Encoding.UTF8.GetBytes(data);
             byte[] sendData = new byte[3 + name.Length + chatData.Length];
             sendData[0] = (byte)ChatType.NormalChat;
@@ -198,6 +241,67 @@ namespace Chatserver
             sendData[2] = (byte)chatData.Length;
             Array.Copy(name, 0, sendData, 3 ,name.Length);
             Array.Copy(chatData, 0, sendData, 3 + name.Length, chatData.Length);
+            session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                new AsyncCallback(SendCallback), session);
+        }
+
+        private static void SendLoginResult(Session session, LoginResult result)
+        {
+            switch (result.code)
+            {
+                case 0:
+                    {
+                        byte[] id = Encoding.UTF8.GetBytes(result.id);
+                        byte[] name = Encoding.UTF8.GetBytes(result.name);
+                        byte[] sendData = new byte[4 + id.Length + name.Length + 3];
+                        sendData[0] = (byte)ChatType.LoginResult;
+                        sendData[1] = (byte)result.code;
+                        sendData[2] = (byte)id.Length;
+                        sendData[3] = (byte)name.Length;
+                        sendData[sendData.Length - 2 - 1] = (byte)result.win;
+                        sendData[sendData.Length - 1 - 1] = (byte)result.lose;
+                        sendData[sendData.Length - 0 - 1] = (byte)result.costume;
+                        Array.Copy(id, 0, sendData, 4, id.Length);
+                        Array.Copy(name, 0, sendData, 4 + id.Length, name.Length);
+                        session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                            new AsyncCallback(SendCallback), session);
+                        break;
+                    }
+                case 4:
+                    {
+                        byte[] id = Encoding.UTF8.GetBytes(result.id);
+                        byte[] name = Encoding.UTF8.GetBytes(result.name);
+                        byte[] roomname = Encoding.UTF8.GetBytes(result.roomname);
+                        byte[] sendData = new byte[5 + id.Length + name.Length + roomname.Length];
+                        sendData[0] = (byte)ChatType.LoginResult;
+                        sendData[1] = (byte)result.code;
+                        sendData[2] = (byte)id.Length;
+                        sendData[3] = (byte)name.Length;
+                        sendData[4] = (byte)roomname.Length;
+                        sendData[sendData.Length - 2 - 1] = (byte)result.win;
+                        sendData[sendData.Length - 1 - 1] = (byte)result.lose;
+                        sendData[sendData.Length - 0 - 1] = (byte)result.costume;
+                        Array.Copy(id, 0, sendData, 5, id.Length);
+                        Array.Copy(name, 0, sendData, 5 + id.Length, name.Length);
+                        Array.Copy(roomname, 0, sendData, 5 + id.Length + name.Length, roomname.Length);
+                        session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                            new AsyncCallback(SendCallback), session);
+                        break;
+                    }
+                default:
+                    {
+                        byte[] sendData = new byte[2];
+                        sendData[0] = (byte)ChatType.LoginResult;
+                        sendData[1] = (byte)result.code;
+                        session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                            new AsyncCallback(SendCallback), session);
+                        break;
+                    }
+            }
+        }
+
+        private static void SendRoomList(Session session, byte[] sendData)
+        {
             session.socket.BeginSend(sendData, 0, sendData.Length, 0,
                 new AsyncCallback(SendCallback), session);
         }
@@ -224,38 +328,35 @@ namespace Chatserver
             {
                 session.is_online = false;
                 Console.WriteLine(session.socket.RemoteEndPoint + " " + session.nickname + " is Disconnected.");
-
-                var www = new WebClient();
-                var data = new NameValueCollection();
-                string url = "http://121.139.87.70/login/logout_account.php";
-                data["id"] = "\"" + session.id + "\"";
-                www.UploadValues(url, "POST", data);
+                DatabaseControl.LogoutAccount(session.id);
                 _ClientList.Remove(session);
                 session.socket.Close();
             }
+            else
+            {
+                try
+                {
+                    Console.WriteLine(session.socket.RemoteEndPoint + " is Disconnected.");
+                    session.socket.Close();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
         }
 
-        private static void PlayerEnterRoomHTTP(Session session)
+        private static byte[] ConvertRoomlistToByte(List<RoomInfo> roomlist)
         {
-            var www = new WebClient();
-            var data = new NameValueCollection();
-            string url = "http://121.139.87.70/player_join_room.php";
-            data["iname"] = "\"" + session.roomname + "\"";
-            data["Pname"] = "\"" + session.nickname + "\"";
-            www.UploadValues(url, "POST", data);
-        }
-
-        private static void PlayerMakeRoomHTTP(Session session, int nowPlayerNum, int maxPlayerNum)
-        {
-            var www = new WebClient();
-            var data = new NameValueCollection();
-            string url = "http://121.139.87.70/room_make.php";
-            data["iname"] = "\"" + session.roomname + "\"";
-            data["ename"] = "\"" + session.nickname + "\"";
-            data["nowPnum"] = nowPlayerNum.ToString();
-            data["maxPnum"] = maxPlayerNum.ToString();
-            data["Pname"] = "\"" + session.nickname + "\"";
-            www.UploadValues(url, "POST", data);
+            string sendData = "";
+            foreach (RoomInfo room in roomlist)
+            {
+                string data =   "iname:" + room.internal_name + "|ename:" + room.external_name +
+                                "|nowPnum:" + room.now_playernum + "|maxPnum:" + room.max_playernum + "|ingame:" + room.ingame + ";";
+                sendData = sendData + data;
+            }
+            
+            return Encoding.UTF8.GetBytes(sendData);
         }
     }
 }

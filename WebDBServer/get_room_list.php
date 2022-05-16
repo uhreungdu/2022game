@@ -1,5 +1,5 @@
 <?php
-$conn = mysqli_connect("localhost","root","kpu2022project","2022project");
+$conn = mysqli_connect("localhost","root","2022project","havocfes");
 
 $result = mysqli_query($conn,"
 SELECT internal_name ,external_name ,now_playernum ,max_playernum , ingame 

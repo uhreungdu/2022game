@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
+using System.Threading.Tasks;
 using Photon.Pun;
 using UnityEngine.UI;
 
@@ -15,23 +15,30 @@ public class ChatClient : MonoBehaviour
     
     private const string ServerAddress = "121.139.87.70";
     private const int Port = 9887;
-    private const int BufSize = 128;
+    private const int BufSize = 1024;
     private Socket _client;
     private IPEndPoint _ipep;
     private bool _isDataSend = false;
+    private Task _loginTask; 
     
-    public byte[] sendbuf = new byte[BufSize-1];
-    public byte[] recvbuf = new byte[BufSize];
+    private byte[] sendbuf = new byte[BufSize-1];
+    private byte[] recvbuf = new byte[BufSize];
     public Chatlog chatLog;
-
+    public GameObject loginWaitingWindow;
+    
     public enum ChatCode : byte
     {
+        TEST,
         Normal,
         Exit,
         EnterRoom,
         RoomChat,
         ExitRoom,
-        MakeRoom
+        MakeRoom,
+        LoginRequest,
+        LoginResult,
+        RoomListRequest,
+        RoomListResult
     }
     
     public static ChatClient GetInstance()
@@ -63,11 +70,29 @@ public class ChatClient : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        loginWaitingWindow.SetActive(true);
+        ConnectToChatServer();
+    }
+
     private void Update()
     {
         if (_isDataSend)
         {
-            chatLog.AddLine(recvbuf);
+            switch (recvbuf[0])
+            {
+                case (byte)ChatCode.LoginResult:
+                    GameObject.Find("LoginButton").GetComponent<LoginButton>().ProcessLogin(recvbuf);
+                    break;
+                case (byte)ChatCode.RoomListResult:
+                    GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomList(recvbuf);
+                    break;
+                default:
+                    chatLog.AddLine(recvbuf);
+                    break;
+            }
+            
             _isDataSend = false;
         }
     }
@@ -77,19 +102,22 @@ public class ChatClient : MonoBehaviour
         return _client;
     }
 
-    public void ConnectToChatServer()
+    async void ConnectToChatServer()
     {
         _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        _client.Connect(_ipep);
-        byte[] nameData = Encoding.UTF8.GetBytes(PhotonNetwork.NickName);
-        byte[] idData = Encoding.UTF8.GetBytes(Account.GetInstance().GetPlayerID());
-
-        byte[] sendData = new byte[2 + nameData.Length + idData.Length];
-        sendData[0] = (byte)nameData.Length;
-        sendData[1] = (byte) idData.Length;
-        Array.Copy(nameData,0,sendData,2,nameData.Length);
-        Array.Copy(idData, 0, sendData, 2 + nameData.Length, idData.Length);
-        _client.Send(sendData);
+        await Task.Run(() =>
+        {
+            try
+            {
+                _client.Connect(_ipep);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+                throw;
+            }
+        });
+        loginWaitingWindow.SetActive(false);
         _client.BeginReceive(recvbuf, 0, BufSize, 0,
             ReceiveCallback, _client);
     }
