@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1696054158165418690
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 4
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -20,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LandMark
-  m_Shader: {fileID: -6465566751694194690, guid: ea71eb00309753a4a8222054792d7ea1, type: 3}
+  m_Name: RippleFootWalk
+  m_Shader: {fileID: -6465566751694194690, guid: 544212864e0982c4c8eea4a76be481c2, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -32,8 +19,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_c8b8f6fc98e246789d0d59131d350493:
-        m_Texture: {fileID: 2800000, guid: 39fe2b11f1478d04fbe99c74310ec60b, type: 3}
+    - MainTex:
+        m_Texture: {fileID: 2800000, guid: a6a6d1420c0ef314ca45ccbce6db544f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_db5b3fb1c3d3468eadd1a1ada3bccbf2:
+        m_Texture: {fileID: 2800000, guid: c5fbfe1127bb0bc449f482cc39943542, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -93,11 +84,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_1f481d51d5e54e39a9637117694085e2: 1
-    - Vector1_26e8dad2595545a8bc94deda9b3e81c3: 1000
-    - Vector1_9c140d3819284a1d9ff856529c1bd834: 20
+    - Magnifiaction: 3
+    - Sine_Max: 1
+    - Sine_Min: -1
+    - Size: 0.05
+    - Speed: 1
+    - Temp_Time: 0
     - _AlphaClip: 0
-    - _Ambient_Strength: 0.1
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -106,17 +99,13 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DirtySize: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _FalloffAmount: 0.1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _LightingCutoff: 0.05
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Opacity: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -127,12 +116,26 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - focal_Point_X: 0.5
+    - focal_Point_Y: 0.5
     m_Colors:
-    - Color_59b3d534779b4a6d983a41f48305b575: {r: 1.905882, g: 1.764706, b: 0.4784314, a: 1}
-    - Color_81d572a4eea347a98a66afb0d3e5c6f5: {r: 1.8509804, g: 0.4392157, b: 5.992157, a: 1}
+    - Color_f20e6a5574fd4b96b6bc2873ba01fa7d: {r: 1.3350784, g: 0.46133602, b: 0.96461165, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1.9999998, g: 0.5549738, b: 0.062827215, a: 1}
-    - _MainColor: {r: 11.984314, g: 3.0745099, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - focal_Point: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &8714847108703349015
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 4
