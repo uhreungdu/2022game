@@ -39,6 +39,7 @@ public class SoundManager : MonoBehaviour
             go.transform.parent = gameObject.transform;
         }
         _audioSources[(int)Sound.Bgm].loop = true; // bgm 재생기는 무한 반복 재생
+        _audioSources[(int)Sound.Bgm].volume = 0.1f; // bgm 재생기는 무한 반복 재생
     }
     public void Clear()
     {
