@@ -20,7 +20,13 @@ public class PlayerAttack : MonoBehaviourPun
 
     protected float _coolTime = 0f;
     protected float _lastUsedTime;
-    
+    public List<AudioClip> _AttackAudioClips;
+
+    public void Start()
+    {
+        _playerState = GetComponent<PlayerState>();
+    }
+
     public void AfterCastRecovery()
     {
         if (Time.time >= _playerState._lastAttackTime + _playerState._aftercastAttack && _playerState.aftercast)

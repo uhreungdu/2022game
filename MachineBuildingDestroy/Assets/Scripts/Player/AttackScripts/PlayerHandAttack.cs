@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon.StructWrapping;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // 오브젝트에 직접 들어가는 공격 스크립트.
 // 애니메이션 이벤트로 작동시키기 위한 요소들
@@ -22,6 +23,7 @@ public class PlayerHandAttack : PlayerAttack
     protected float _lastRColliderOffTime; // 공격을 마지막에 한 시점
     void Start()
     {
+        base.Start();
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _attackName = "기본공격";
         SetAffterCast(0);
@@ -42,7 +44,7 @@ public class PlayerHandAttack : PlayerAttack
     }
     public void ActiveLAttack()
     {
-        if (_hitBoxColliders[0].enabled && ActiveColliderCheck())
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl())
         {
             return;
         }
@@ -54,7 +56,7 @@ public class PlayerHandAttack : PlayerAttack
     
     public void ActiveRAttack()
     {
-        if (_hitBoxColliders[1].enabled && ActiveColliderCheck())
+        if (_hitBoxColliders[1].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl())
         {
             return;
         }
