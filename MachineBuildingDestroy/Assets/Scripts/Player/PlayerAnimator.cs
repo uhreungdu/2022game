@@ -18,6 +18,8 @@ public class PlayerAnimator : MonoBehaviourPun
     public PlayerHandAttack _PlayerHandAttack;
     public PlayerJumpAttack _PlayerJumpAttack;
     public PlayerDragonPunch _PlayerDragonPunch;
+    public PlayerAnimationEvent _PlayerAnimationEvent;
+    public AudioSource _AudioSource;
     public HammerAttack _HammerAttack;
 
     public float lastAttackTime;
@@ -52,6 +54,8 @@ public class PlayerAnimator : MonoBehaviourPun
         _PlayerHandAttack = GetComponent<PlayerHandAttack>();
         _PlayerJumpAttack = GetComponent<PlayerJumpAttack>();
         _PlayerDragonPunch = GetComponent<PlayerDragonPunch>();
+        _PlayerAnimationEvent = GetComponent<PlayerAnimationEvent>();
+        _AudioSource = GetComponent<AudioSource>();
         _HammerAttack = GetComponent<HammerAttack>();
     }
 
@@ -68,6 +72,14 @@ public class PlayerAnimator : MonoBehaviourPun
         if (_Animator.GetBool("IsGrounded"))
         {
             _Animator.SetBool("Combo", true);
+            _PlayerAnimationEvent.Play(
+                null,
+                null,
+                null,
+                () =>
+                {
+                    _AudioSource.PlayOneShot(_PlayerHandAttack._AttackAudioClip);
+                });
         }
         else
         {
