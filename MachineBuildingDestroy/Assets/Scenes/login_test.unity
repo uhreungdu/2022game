@@ -6838,7 +6838,7 @@ GameObject:
   - component: {fileID: 1886389312}
   - component: {fileID: 1886389310}
   m_Layer: 0
-  m_Name: LoginSound
+  m_Name: BGMSoundPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6853,9 +6853,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1886389309}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40facd96d2a31ad449f0163e7e10a7c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1314a7c13a1e9b2468185276eb92f7ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _AudioClip: {fileID: 8300000, guid: 49dee685f3296ad4eb0aee46b6163a85, type: 3}
 --- !u!4 &1886389312
 Transform:
   m_ObjectHideFlags: 0
