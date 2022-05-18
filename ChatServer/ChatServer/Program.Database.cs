@@ -47,7 +47,6 @@ namespace Database
         }
     }
 
-    [Serializable]
     public struct RoomInfo
     {
         public string internal_name;
