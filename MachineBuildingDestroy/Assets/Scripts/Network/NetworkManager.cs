@@ -153,6 +153,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        var _roomList = GameObject.Find("RoomList").GetComponent<RoomList>();
+        _roomList.CleanRoomList();
         _lobbyManager.GetRoomList();
     }
 

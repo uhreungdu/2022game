@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Photon.Pun;
@@ -19,7 +20,9 @@ public class ChatClient : MonoBehaviour
     private Socket _client;
     private IPEndPoint _ipep;
     private bool _isDataSend = false;
-    private Task _loginTask; 
+
+    private int _recvCursor = 0;
+    private int _readCursor = -1;
     
     private byte[] sendbuf = new byte[BufSize-1];
     private byte[] recvbuf = new byte[BufSize];
@@ -78,23 +81,38 @@ public class ChatClient : MonoBehaviour
 
     private void Update()
     {
-        if (_isDataSend)
+        if (!_isDataSend) return;
+        if (recvbuf[0] > _recvCursor) return;
+        int loopnum = 0;
+        while (_readCursor < _recvCursor)
         {
-            switch (recvbuf[0])
+            loopnum++;
+            if (loopnum > 10000)
             {
-                case (byte)ChatCode.LoginResult:
+                _isDataSend = false;
+                return;
+            }
+
+            switch (recvbuf[1])
+            {
+                case (byte) ChatCode.LoginResult:
                     GameObject.Find("LoginButton").GetComponent<LoginButton>().ProcessLogin(recvbuf);
                     break;
-                case (byte)ChatCode.RoomListResult:
+                case (byte) ChatCode.RoomListResult:
+                    Debug.Log("print");
                     GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomList(recvbuf);
                     break;
-                default:
+                case (byte) ChatCode.Normal:
                     chatLog.AddLine(recvbuf);
                     break;
             }
-            
-            _isDataSend = false;
+
+            _readCursor = recvbuf[0];
+            Array.Copy(recvbuf, _readCursor, recvbuf, 0, BufSize - _readCursor);
+            _recvCursor = _recvCursor - _readCursor;
+            _readCursor = 0;
         }
+        _isDataSend = false;
     }
 
     public Socket GetClientSocket()
@@ -118,17 +136,16 @@ public class ChatClient : MonoBehaviour
             }
         });
         loginWaitingWindow.SetActive(false);
-        _client.BeginReceive(recvbuf, 0, BufSize, 0,
-            ReceiveCallback, _client);
+        StartReceive();
     }
 
-    public void StartReceive()
+    private void StartReceive()
     {
         _client.BeginReceive(recvbuf, 0, BufSize, 0,
             ReceiveCallback, _client);
     }
 
-    public void DisconnectFromChatServer()
+    private void DisconnectFromChatServer()
     {
         if (!_client.Connected) return;
         sendbuf[0] = (byte)ChatCode.Exit;
@@ -146,9 +163,11 @@ public class ChatClient : MonoBehaviour
 
             if (recvsize > 0)
             {
+                Debug.Log(recvsize);
                 _isDataSend = true;
-                _client.BeginReceive(recvbuf, 0, BufSize, 0,
+                _client.BeginReceive(recvbuf, _recvCursor, BufSize-_recvCursor, 0,
                     ReceiveCallback, _client);
+                _recvCursor = recvsize;
             }
         }
         catch (Exception ex)

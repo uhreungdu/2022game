@@ -75,16 +75,15 @@ public class LoginButton : MonoBehaviour
 
     public void ProcessLogin(byte[] result)
     {
-        switch (result[1])
+        switch (result[2])
         {
             case 0:
             {
-                var id = Encoding.UTF8.GetString(result, 4, result[2]);
-                var nickname = Encoding.UTF8.GetString(result, 4 + result[2], result[3]);
-                var length = 4 + result[2] + result[3] + 3;
-                var win = result[length - 2 - 1];
-                var lose = result[length - 1 - 1];
-                var costume = result[length - 1];
+                var id = Encoding.UTF8.GetString(result, 8, result[3]);
+                var nickname = Encoding.UTF8.GetString(result, 8 + result[3], result[4]);
+                var win = result[5];
+                var lose = result[6];
+                var costume = result[7];
                 GameObject.Find("Account").GetComponent<Account>().WriteAccount(id, nickname, win, lose, costume);
                 PhotonNetwork.JoinLobby();
                 SceneManager.LoadScene("lobby_test");
@@ -118,13 +117,12 @@ public class LoginButton : MonoBehaviour
             }
             case 4:
             {
-                var id = Encoding.UTF8.GetString(result, 5, result[2]);
-                var nickname = Encoding.UTF8.GetString(result, 5 + result[2], result[3]);
-                var roomname = Encoding.UTF8.GetString(result, 5 + result[2] + result[3], result[4]);
-                var length = 5 + result[2] + result[3] + result[4] + 3;
-                var win = result[length - 2 - 1];
-                var lose = result[length - 1 - 1];
-                var costume = result[length - 1];
+                var id = Encoding.UTF8.GetString(result, 9, result[3]);
+                var nickname = Encoding.UTF8.GetString(result, 9 + result[3], result[4]);
+                var roomname = Encoding.UTF8.GetString(result, 9 + result[3] + result[4], result[5]);
+                var win = result[6];
+                var lose = result[7];
+                var costume = result[8];
                 errText.SetActive(true);
                 errText.GetComponent<Text>().text = "게임이 진행중입니다. 재접속을 시도합니다.";
                 GameObject.Find("Account").GetComponent<Account>().WriteAccount(id, nickname, win, lose, costume);
