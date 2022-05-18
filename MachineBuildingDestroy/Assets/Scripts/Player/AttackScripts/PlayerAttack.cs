@@ -20,8 +20,7 @@ public class PlayerAttack : MonoBehaviourPun
 
     protected float _coolTime = 0f;
     protected float _lastUsedTime;
-
-    public AudioClip _AttackAudioClip;
+    public List<AudioClip> _AttackAudioClips;
 
     public void Start()
     {

@@ -1799,7 +1799,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerState: {fileID: 1049520447631437763}
   _hitBoxColliders: []
-  _AttackAudioClip: {fileID: 8300000, guid: b8a13308007ce644e94d43ce9d41af71, type: 3}
+  _AttackAudioClips:
+  - {fileID: 8300000, guid: 509962221071f9842ab88efa6c265c08, type: 3}
   _playerImpact: {fileID: 0}
   _lHandBoxCollider: {fileID: 2269437314533771540}
   _rHandBoxCollider: {fileID: 5422654084887330523}
@@ -1819,7 +1820,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerState: {fileID: 1049520447631437763}
   _hitBoxColliders: []
-  _AttackAudioClip: {fileID: 0}
+  _AttackAudioClips:
+  - {fileID: 8300000, guid: 509962221071f9842ab88efa6c265c08, type: 3}
   _playerImpact: {fileID: 0}
   _rHandBoxCollider: {fileID: 8672237015352126555}
   LHandGameObject: {fileID: 8817763877579381279}
@@ -1850,7 +1852,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerState: {fileID: 1049520447631437763}
   _hitBoxColliders: []
-  _AttackAudioClip: {fileID: 0}
+  _AttackAudioClips:
+  - {fileID: 8300000, guid: 509962221071f9842ab88efa6c265c08, type: 3}
   _playerImpact: {fileID: 0}
   _hammerBoxCollider: {fileID: 4902290467363021745}
   RHandGameObject: {fileID: 3864567087714883586}
@@ -1920,7 +1923,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerState: {fileID: 1049520447631437763}
   _hitBoxColliders: []
-  _AttackAudioClip: {fileID: 0}
+  _AttackAudioClips:
+  - {fileID: 8300000, guid: 509962221071f9842ab88efa6c265c08, type: 3}
   _playerImpact: {fileID: 0}
   _HandBoxCollider: {fileID: 1029064435}
   LHandGameObject: {fileID: 8817763877579381279}
@@ -1938,7 +1942,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerState: {fileID: 1049520447631437763}
   _hitBoxColliders: []
-  _AttackAudioClip: {fileID: 0}
+  _AttackAudioClips:
+  - {fileID: 8300000, guid: 509962221071f9842ab88efa6c265c08, type: 3}
   _playerImpact: {fileID: 0}
   _HandBoxCollider: {fileID: 3508023876778322993}
   LHandGameObject: {fileID: 8817763877579381279}
