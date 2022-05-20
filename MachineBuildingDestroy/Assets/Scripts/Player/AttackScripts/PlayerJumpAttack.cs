@@ -12,6 +12,7 @@ public class PlayerJumpAttack : PlayerAttack
     private Thirdpersonmove _thirdpersonmove;
     void Start()
     {
+        base.Start();
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
@@ -27,7 +28,15 @@ public class PlayerJumpAttack : PlayerAttack
     {
         HandTransform();
         AfterCastRecovery();
-        if (_hitBoxColliders[0].enabled && _thirdpersonmove.IsGrounded())
+        ActiveAttack();
+    }
+    public void ActiveAttack()
+    {
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_thirdpersonmove.IsGrounded())
+        {
+            return;
+        }
+        else if (_hitBoxColliders[0].enabled)
         {
             _hitBoxColliders[0].enabled = false;
         }

@@ -12,6 +12,7 @@ public class PlayerDragonPunch : PlayerAttack
     private Thirdpersonmove _thirdpersonmove;
     void Start()
     {
+        base.Start();
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
@@ -34,7 +35,7 @@ public class PlayerDragonPunch : PlayerAttack
     
     public void ActiveRAttack()
     {
-        if (_hitBoxColliders[0].enabled && ActiveColliderCheck())
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl())
         {
             return;
         }

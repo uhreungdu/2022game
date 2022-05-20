@@ -31,7 +31,7 @@ public class PlayerDashAttack : PlayerAttack
     
     public void ActiveLAttack()
     {
-        if (_hitBoxColliders[0].enabled && ActiveColliderCheck())
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl())
         {
             return;
         }
