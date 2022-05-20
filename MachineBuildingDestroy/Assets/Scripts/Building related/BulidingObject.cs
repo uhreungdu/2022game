@@ -139,6 +139,7 @@ public class BulidingObject : LivingEntity
         }
     }
 
+    [PunRPC]
     public override void Die()
     {
         base.Die();
@@ -221,6 +222,7 @@ public class BulidingObject : LivingEntity
             effect_obj.transform.position = gameObject.transform.position;
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
+            CinemachineShake.Instance.ShakeCamera(15f, 0.5f);
         }
     }
 
