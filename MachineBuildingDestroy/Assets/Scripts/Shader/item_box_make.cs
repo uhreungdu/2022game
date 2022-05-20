@@ -74,7 +74,7 @@ public class item_box_make : MonoBehaviour
                     effect_switch = true;
                 }
             }
-            transform.Rotate(Vector3.up * 20 * Time.deltaTime);
+            transform.Rotate(Vector3.up * 100 * Time.deltaTime);
         }
     }
     
