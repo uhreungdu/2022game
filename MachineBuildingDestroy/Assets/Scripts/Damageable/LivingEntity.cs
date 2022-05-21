@@ -46,6 +46,7 @@ public class LivingEntity : MonoBehaviourPun, IDamageable
         health += newHealth;
     }
 
+    
     // 사망 처리
     public virtual void Die()
     {
