@@ -32,6 +32,8 @@ public class HammerAttackTrigger : MonoBehaviourPun
                 {
                     attackTarget.NetworkOnDamage(_hammerAttack._damage);
                     photonView.RPC("ReduceDurability", RpcTarget.AllViaServer, 1);
+                    MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                    myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _hammerAttack._damage);
                 }
 
                 Debug.Log(attackTarget.health);
@@ -59,8 +61,8 @@ public class HammerAttackTrigger : MonoBehaviourPun
                         if (otherPlayerState.dead)
                         {
                             MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-                            myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalKill++;
-                            myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalCauseDamage += _hammerAttack._damage;
+                            myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
+                            myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _hammerAttack._damage);
                         }
                     }
 
@@ -89,5 +91,33 @@ public class HammerAttackTrigger : MonoBehaviourPun
     public void ReduceDurability(int value)
     {
         _Hammer.Durability -= value;
+    }
+    
+    [PunRPC]
+    public void CauseDamageCount(int damage)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.CauseDamageCount(myInRoomInfo.mySlotNum, damage);
+    }
+    
+    [PunRPC]
+    public void KillCount()
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.KillCount(myInRoomInfo.mySlotNum);
+    }
+    
+    [PunRPC]
+    public void DeathCount()
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.DeathCount(myInRoomInfo.mySlotNum);
+    }
+    
+    [PunRPC]
+    public void GetPointCount(int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
     }
 }

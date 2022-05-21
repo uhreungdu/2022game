@@ -8,7 +8,7 @@ public class PlayerAttack : MonoBehaviourPun
 {
     public PlayerState _playerState;
     protected string _attackName; // 공격 이름
-    public float _damage { protected set; get; } // 공격력
+    public int _damage { protected set; get; } // 공격력
     
     protected float _aftercastAttack; // 공격 후딜레이
     public bool aftercast { get; private set; } // 움직일 수 없는 시간
