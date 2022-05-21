@@ -48,6 +48,8 @@ public class PlayerState : LivingEntity, IPunObservable
     private float explosionForce;
     private GameObject _networkManager;
 
+    private GameObject Coinpref;
+
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -136,8 +138,12 @@ public class PlayerState : LivingEntity, IPunObservable
 
     public void NetworkOnDamage(float damage)
     {
-        //OnDamage(damage);
-        photonView.RPC("OnDamage", RpcTarget.AllViaServer, damage);
+        if (photonView)
+            photonView.RPC("OnDamage", RpcTarget.AllViaServer, damage);
+        else
+        {
+            OnDamage(damage);
+        }
     }
  
     public override void Die() {
@@ -147,6 +153,26 @@ public class PlayerState : LivingEntity, IPunObservable
         Dead_Effect.SetActive(true);
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalDeath++;
+        
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (Coinpref == null)
+                Coinpref = Resources.Load<GameObject>("Coin");
+            for (int i = 0; i < point; ++i)
+            {
+                float radian = ((360.0f / (point)) * i) * (float)(Math.PI / 180.0f);
+                float radius = 5.0f;
+                Vector3 coinPosition = transform.position;
+                coinPosition.x = coinPosition.x + (radius * Mathf.Cos(radian));
+                coinPosition.z = coinPosition.z + (radius * Mathf.Sin(radian));
+                GameObject coin =
+                    PhotonNetwork.InstantiateRoomObject(Coinpref.name, coinPosition, coinprefab.transform.rotation);
+                Vector3 explosionPosition = transform.position;
+                coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f, 500 / 2);
+                coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f);
+            }
+        }
+        point = 0;
         Invoke("Respawn", 10f);
     }
 
