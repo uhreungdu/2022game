@@ -3027,6 +3027,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Down_Effect
       objectReference: {fileID: 0}
+    - target: {fileID: 1347558823746406271, guid: c5fb82608baed594aacce0f9e3bd4f72, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5fb82608baed594aacce0f9e3bd4f72, type: 3}
 --- !u!1 &7488789173918327245 stripped
