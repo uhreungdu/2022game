@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // 손에 직접적으로 들어가는 스크립트 트리거용
-public class PlayerHandAttackTrigger : MonoBehaviour
+public class PlayerHandAttackTrigger : MonoBehaviourPun
 {
     private PlayerHandAttack _playerHandAttack;
     public PlayerState _playerState;
@@ -33,6 +33,8 @@ public class PlayerHandAttackTrigger : MonoBehaviour
                     else
                     {
                         attackTarget.NetworkOnDamage(_playerHandAttack._damage); 
+                        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                        myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerHandAttack._damage);
                     }
                     Debug.Log(attackTarget.health);
                 }
@@ -69,8 +71,8 @@ public class PlayerHandAttackTrigger : MonoBehaviour
                     if (otherPlayerState.dead)
                     {
                         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-                        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalKill++;
-                        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalCauseDamage += _playerHandAttack._damage;
+                        myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
+                        myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerHandAttack._damage);
                     }
                 }
             }

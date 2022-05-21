@@ -76,7 +76,7 @@ public class PlayerKeySystem : MonoBehaviourPun
             bool Combo = _playerAnimator._Animator.GetBool("Combo");
             bool Throw = _playerAnimator._Animator.GetBool("Throw");
             //Debug.Log("�� ���� = " + boxCollider.transform.forward);
-            if (_playerState.nowEquip == true && !_playerState.aftercast && !_gamePlayerInput.fireKeyDown)
+            if (_playerState.nowEquip == true && !_playerState.aftercast)
             {
                 switch (_playerState.Item)
                 {
@@ -101,13 +101,16 @@ public class PlayerKeySystem : MonoBehaviourPun
             {
                 _playerAnimator._Animator.SetBool("DashAttack", false);
                 _playerAnimator._Animator.SetBool("HammerAttack", false);
-                _playerAnimator._Animator.SetBool("Combo", false);
                 _playerAnimator._Animator.SetBool("Throw", false);
-                if (!_gamePlayerInput.fireKeyDown || 
-                    (_gamePlayerInput.fireKeyDown))
+                if ( !_gamePlayerInput.fireKeyDown 
+                     || (_gamePlayerInput.fireKeyDown && _playerAnimator._Animator.GetBool("Combo")))
                 {
                     lastAttackTime = Time.time;
                     _playerAnimator.OnAttack();
+                }
+                else
+                {
+                    _playerAnimator._Animator.SetBool("Combo", false);
                 }
             }
         }

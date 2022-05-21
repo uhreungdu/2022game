@@ -4,7 +4,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerDashAttackTrigger : MonoBehaviour
+public class PlayerDashAttackTrigger : MonoBehaviourPun
 {
     private PlayerDashAttack _playerDashAttack;
     public PlayerState _playerState;
@@ -28,7 +28,9 @@ public class PlayerDashAttackTrigger : MonoBehaviour
                 }
                 else
                 {
-                    attackTarget.NetworkOnDamage(_playerDashAttack._damage);    
+                    attackTarget.NetworkOnDamage(_playerDashAttack._damage);
+                    MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                    myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerDashAttack._damage);
                 }
                 
                 
@@ -66,8 +68,8 @@ public class PlayerDashAttackTrigger : MonoBehaviour
                     if (otherPlayerState.dead)
                     {
                         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-                        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalKill++;
-                        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalCauseDamage += _playerDashAttack._damage;
+                        myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
+                        myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerDashAttack._damage);
                     }
                 }
             }
@@ -88,5 +90,34 @@ public class PlayerDashAttackTrigger : MonoBehaviour
                 }
             }
         }
+    }
+    
+    [PunRPC]
+    public void CauseDamageCount(int damage)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        photonView.RPC("CauseDamageCount", RpcTarget.AllViaServer, _playerDashAttack._damage);
+        myInRoomInfo.CauseDamageCount(myInRoomInfo.mySlotNum, damage);
+    }
+    
+    [PunRPC]
+    public void KillCount()
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.KillCount(myInRoomInfo.mySlotNum);
+    }
+    
+    [PunRPC]
+    public void DeathCount()
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.DeathCount(myInRoomInfo.mySlotNum);
+    }
+    
+    [PunRPC]
+    public void GetPointCount(int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
     }
 }
