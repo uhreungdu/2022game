@@ -17,7 +17,7 @@ public struct PlayersInfomation
     public int TotalKill;
 }
 
-public class MyInRoomInfo : MonoBehaviour
+public class MyInRoomInfo : MonoBehaviourPun
 {
     public PlayersInfomation[] Infomations;
     public string MapName;
@@ -36,6 +36,7 @@ public class MyInRoomInfo : MonoBehaviour
             {
                 GameObject container = new GameObject("Myroominfo");
                 _instance = container.AddComponent<MyInRoomInfo>();
+                container.AddComponent<PhotonView>();
             }
         }
 
@@ -67,6 +68,55 @@ public class MyInRoomInfo : MonoBehaviour
         Infomations[index].Costume = 0;
         Infomations[index].SlotNum = index;
         Infomations[index].Platform = slot.Platform;
+    }
+    
+    public void NetworkCauseDamageCount(int index, int damage)
+    {
+        photonView.RPC("CauseDamageCount", RpcTarget.AllViaServer, index, damage);
+    }
+    public void NetworkKillCount(int index)
+    {
+        photonView.RPC("KillCount", RpcTarget.AllViaServer, index);
+    }
+    public void NetworkDeathCount(int index)
+    {
+        photonView.RPC("DeathCount", RpcTarget.AllViaServer, index);
+    }
+    public void NetworkGetPointCount(int index, int Point)
+    {
+        photonView.RPC("GetPointCount", RpcTarget.AllViaServer, index, Point);
+    }
+    
+    [PunRPC]
+    public void CauseDamageCount(int index, int damage)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.Infomations[index].TotalCauseDamage += damage;
+        print($"{index} TotalCauseDamage : {myInRoomInfo.Infomations[index].TotalCauseDamage}");
+    }
+    
+    [PunRPC]
+    public void KillCount(int index)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.Infomations[index].TotalKill++;
+        print($"{index} TotalKill : {myInRoomInfo.Infomations[index].TotalKill}");
+    }
+    
+    [PunRPC]
+    public void DeathCount(int index)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.Infomations[index].TotalDeath++;
+        print($"{index} TotalDeath : {myInRoomInfo.Infomations[index].TotalDeath}");
+    }
+    
+    [PunRPC]
+    public void GetPointCount(int index, int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.Infomations[index].TotalGetPoint = Point;
+        print($"{index} TotalGetPoint : {myInRoomInfo.Infomations[index].TotalGetPoint}");
     }
 
     public int mySlotNum
