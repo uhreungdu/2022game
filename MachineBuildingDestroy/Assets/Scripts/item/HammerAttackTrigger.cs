@@ -50,10 +50,12 @@ public class HammerAttackTrigger : MonoBehaviourPun
                     if (SceneManager.GetActiveScene().name == "LocalRoom")
                     {
                         otherPlayerState.OnDamage(_hammerAttack._damage);
+                        ReduceDurability(1);
                     }
                     else
                     {
                         otherPlayerState.NetworkOnDamage(_hammerAttack._damage);
+                        photonView.RPC("ReduceDurability", RpcTarget.AllViaServer, 1);
                         if (otherPlayerState.dead)
                         {
                             MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
@@ -63,7 +65,6 @@ public class HammerAttackTrigger : MonoBehaviourPun
                     }
 
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
-                    _Hammer.Durability--;
                     if (!otherAnimator.GetBool("Falldown"))
                     {
                         otherPlayerState.NetworkOtherAnimatorControl("Falldown", true);
@@ -79,7 +80,7 @@ public class HammerAttackTrigger : MonoBehaviourPun
             {
                 Target.NetworkOnDamage(_playerState.P_Dm.Damge_formula());
                 Debug.Log(Target.health);
-                _Hammer.Durability--;
+                photonView.RPC("ReduceDurability", RpcTarget.AllViaServer, 1);
             }
         }
     }
