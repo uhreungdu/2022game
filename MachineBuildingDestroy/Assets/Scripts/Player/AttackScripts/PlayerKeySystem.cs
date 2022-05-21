@@ -100,7 +100,6 @@ public class PlayerKeySystem : MonoBehaviourPun
             else
             {
                 _playerAnimator._Animator.SetBool("DashAttack", false);
-                _playerAnimator._Animator.SetBool("DashAttack", false);
                 _playerAnimator._Animator.SetBool("HammerAttack", false);
                 _playerAnimator._Animator.SetBool("Throw", false);
                 if ( !_gamePlayerInput.fireKeyDown 
@@ -108,6 +107,10 @@ public class PlayerKeySystem : MonoBehaviourPun
                 {
                     lastAttackTime = Time.time;
                     _playerAnimator.OnAttack();
+                }
+                else
+                {
+                    _playerAnimator._Animator.SetBool("Combo", false);
                 }
             }
         }
