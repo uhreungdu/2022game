@@ -147,7 +147,6 @@ public class PlayerState : LivingEntity, IPunObservable
     }
  
     public override void Die() {
-        // LivingEntity?�� Die()�? ?��?��?��?�� 기본 ?���? 처리 ?��?��
         base.Die();
         _animator.SetTrigger("Dead");
         Dead_Effect.SetActive(true);
