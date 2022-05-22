@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SocketTest.unity
     guid: 03ac4afea1873424c84a18458b9fa5e0
+  - enabled: 0
+    path: Assets/Scenes/LocalRoom.unity
+    guid: 8b56fb8f70dcaa04d98cf49a3870d09b
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 0267b7bc18e112e4ba49f3ee4d137ebb, type: 2}
