@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef489d263be7ee4aad66292ab68b262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 100
+  startingHealth: 60
   coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
   point: 15
   boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
@@ -116,8 +116,8 @@ MonoBehaviour:
   _MeshRenderer: {fileID: 0}
   _MeshCollider: {fileID: 0}
   destroyfloor: 0
-  destroyTime: 5
-  _reSpawnTime: 10
+  destroyTime: 27
+  _reSpawnTime: 30
   _ExplosionForce: 1000
   effect_obj: {fileID: 0}
   prefeb_effect: {fileID: 43508311127239940, guid: 84309fdd9219f1d43b57248b43322cbc, type: 3}
@@ -135,7 +135,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: adf23f3f764e0a14f889c1c8293ad5e0, type: 2}
+  m_Mesh: {fileID: 4300000, guid: 86ab47ab351251948bbc764c7006448c, type: 2}
 --- !u!114 &-2283443481089927820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +183,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560815743673721885}
-  m_Mesh: {fileID: 4300000, guid: c4428bc1e349fc149894bec89e3cd655, type: 2}
+  m_Mesh: {fileID: 4300000, guid: 86ab47ab351251948bbc764c7006448c, type: 2}
 --- !u!114 &-3983303933793541729
 MonoBehaviour:
   m_ObjectHideFlags: 0
