@@ -180,10 +180,20 @@ namespace Chatserver
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
+                        case (byte)ChatType.ExitRoom:
+                            {
+                                Console.WriteLine(session.nickname + " exits Room " + session.roomname);
+                                session.roomname = "";
+                                session.in_room = false;
+                                session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
                         case (byte)ChatType.LoginRequest:
                             {
                                 string id = Encoding.UTF8.GetString(session.buf, 3, session.buf[1]);
                                 string pw = Encoding.UTF8.GetString(session.buf, 3 + session.buf[1], session.buf[2]);
+                                //Console.WriteLine(id +" "+ pw + "Access");
 
                                 var result = DatabaseControl.LoginAccount(id, pw);
 
@@ -227,7 +237,7 @@ namespace Chatserver
                                     sendData[6] = Convert.ToByte(roomInfo.ingame);
                                     Array.Copy(iname, 0, sendData, 7, iname.Length);
                                     Array.Copy(ename, 0, sendData, 7 + iname.Length, ename.Length);
-                                    Console.WriteLine(roomInfo.external_name);
+                                    //Console.WriteLine(roomInfo.external_name);
                                     SendRoomList(session, sendData);
                                 }
                                 
