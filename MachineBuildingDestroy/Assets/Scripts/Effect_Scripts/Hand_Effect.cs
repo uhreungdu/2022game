@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using Unity.Mathematics;
 using UnityEngine.VFX;
 
-public class Hand_Effect : MonoBehaviour
+public class Hand_Effect : MonoBehaviourPun
 {
     // Start is called before the first frame update
-    public GameObject effect_obj;
+    public List<GameObject> effect_obj = new List<GameObject>();
+    private List<ParticleSystem> _particleSystems = new List<ParticleSystem>();
     public GameObject Tail_obj;
     public VisualEffect Hit_VFX;
     public BoxCollider box_col;
@@ -23,8 +25,15 @@ public class Hand_Effect : MonoBehaviour
         pos_set = gameObject.transform.position;
         Tail_obj.transform.Translate(pos_set);
         */
-        Hit_VFX = effect_obj.GetComponent<VisualEffect>();
         box_col = gameObject.GetComponent<BoxCollider>();
+        foreach (var eGameObject in effect_obj)
+        {
+            ParticleSystem particleSystem = eGameObject.GetComponentInChildren<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                _particleSystems.Add(particleSystem);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -46,10 +55,34 @@ public class Hand_Effect : MonoBehaviour
         {
             if (other.gameObject != transform.root.gameObject)
             {
-                Vector3 centerpo = (other.ClosestPoint(transform.position) + transform.position)/2f;
-                effect_obj.transform.position = centerpo;
+                Vector3 centerpo = Vector3.zero;
+                foreach (var eGameObject in effect_obj)
+                {
+                    centerpo = (other.ClosestPoint(transform.position) + transform.position)/2f;
+                    eGameObject.transform.position = centerpo;
+                }
+                centerpo = (other.ClosestPoint(transform.position) + transform.position)/2f;
+                centerpo.y += 2.0f;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.InstantiateRoomObject($"Effect/{effect_obj[1].name}", centerpo, effect_obj[1].transform.rotation);
+                }
                 Hit_VFX.Play();
             }
+        }
+    }
+
+    [PunRPC]
+    private void NetworkHitEffectInstantiate(Vector3 position)
+    {
+        photonView.RPC("HitEffectInstantiate", RpcTarget.AllViaServer, position);;
+    }
+
+    private void HitEffectInstantiate(Vector3 position)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.InstantiateRoomObject(effect_obj[1].name, position, effect_obj[1].transform.rotation);
         }
     }
 }

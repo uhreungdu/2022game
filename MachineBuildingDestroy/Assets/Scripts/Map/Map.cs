@@ -20,7 +20,6 @@ public class Map : MonoBehaviour
     }
     public class Maptile
     {
-        public string MapName = null;
         public List<Tile> Tiles = new List<Tile>();        // json���� ���� ���� �ļ�
         public void Print()
         {
@@ -245,10 +244,7 @@ public class Map : MonoBehaviour
         LoadMapList();
         foreach (var maptile in MapList)
         {
-            if (maptile.MapName == mapname)
-            {
-                print("중복된 이름의 맵 파일이 있습니다. 덮어씁니다.");
-            }
+            
         }
         Debug.Log(jsonData);
         CreateJsonFile(Application.dataPath + "/" + "Map", mapname, jsonData);
@@ -323,7 +319,7 @@ public class Map : MonoBehaviour
     public void CreateNetworkMap()
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, myInRoomInfo.MapName);
+        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath + "/" + "Map", myInRoomInfo.MapName);
         maptile = jtc2;
         // jtc2.Print();
 

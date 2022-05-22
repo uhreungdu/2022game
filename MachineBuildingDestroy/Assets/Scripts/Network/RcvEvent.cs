@@ -78,7 +78,6 @@ public class RcvEvent : MonoBehaviourPun
                     if (view.ViewID != (int) parameters[0]) continue;
                     PhotonNetwork.Destroy(target);
                 }
-
                 break;
             }
             case (byte) NetworkManager.EventCode.HideBuildingFragments:
