@@ -1622,7 +1622,7 @@ MonoBehaviour:
   gourndgravity: -0.05
   turnsmoothTime: 0.1
   turnsmoothvelocity: 0
-  pushPower: 10
+  pushPower: 20
   getobj: {fileID: 0}
   ItemObj: {fileID: 0}
   Rfoot: {fileID: 5547327350908542995}
