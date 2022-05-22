@@ -226,13 +226,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 200
   coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
-  point: 0
+  point: 50
   boxmaterial: {fileID: 2100000, guid: 548599b3251fd1448b496f84f4f3e3fa, type: 2}
   rigidbody: {fileID: 0}
   _MeshRenderer: {fileID: 0}
   _MeshCollider: {fileID: 0}
   destroyfloor: 0
-  destroyTime: 5
+  destroyTime: 9999
   _reSpawnTime: 9999
   _ExplosionForce: 1500
   effect_obj: {fileID: 0}
