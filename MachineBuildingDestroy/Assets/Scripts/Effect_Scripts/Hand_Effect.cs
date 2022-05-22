@@ -62,6 +62,7 @@ public class Hand_Effect : MonoBehaviourPun
                     eGameObject.transform.position = centerpo;
                 }
                 centerpo = (other.ClosestPoint(transform.position) + transform.position)/2f;
+                centerpo.y += 2.0f;
                 if (PhotonNetwork.IsMasterClient)
                 {
                     PhotonNetwork.InstantiateRoomObject($"Effect/{effect_obj[1].name}", centerpo, effect_obj[1].transform.rotation);

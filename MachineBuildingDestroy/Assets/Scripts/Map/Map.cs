@@ -323,7 +323,7 @@ public class Map : MonoBehaviour
     public void CreateNetworkMap()
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath, myInRoomInfo.MapName);
+        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath + "/" + "Map", myInRoomInfo.MapName);
         maptile = jtc2;
         // jtc2.Print();
 

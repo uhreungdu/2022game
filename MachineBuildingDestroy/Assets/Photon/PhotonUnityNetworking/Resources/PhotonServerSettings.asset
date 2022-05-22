@@ -70,6 +70,7 @@ MonoBehaviour:
   - DeathCount
   - GetPointCount
   - KillCount
+  - NetworkHitEffectInstantiate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
