@@ -180,6 +180,15 @@ namespace Chatserver
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
+                        case (byte)ChatType.ExitRoom:
+                            {
+                                Console.WriteLine(session.nickname + " exits Room " + session.roomname);
+                                session.roomname = "";
+                                session.in_room = false;
+                                session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
                         case (byte)ChatType.LoginRequest:
                             {
                                 string id = Encoding.UTF8.GetString(session.buf, 3, session.buf[1]);
