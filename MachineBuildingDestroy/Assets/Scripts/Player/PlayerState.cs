@@ -164,6 +164,7 @@ public class PlayerState : LivingEntity, IPunObservable
                 Vector3 coinPosition = transform.position;
                 coinPosition.x = coinPosition.x + (radius * Mathf.Cos(radian));
                 coinPosition.z = coinPosition.z + (radius * Mathf.Sin(radian));
+                coinPosition.y = 5.0f;
                 GameObject coin =
                     PhotonNetwork.InstantiateRoomObject(Coinpref.name, coinPosition, coinprefab.transform.rotation);
                 Vector3 explosionPosition = transform.position;
