@@ -12,7 +12,6 @@ public class PlayerImpact : MonoBehaviourPun
     void Start () {
         character = GetComponent<CharacterController>();
     }
-         
     // Update is called once per frame
     void FixedUpdate () {
         // apply the impact force:
@@ -28,7 +27,8 @@ public class PlayerImpact : MonoBehaviourPun
     
     [PunRPC]
     // call this function to add an impact force:
-    public void AddImpact(Vector3 dir, float force){
+    public void AddImpact(Vector3 dir, float force) 
+    {
         dir.Normalize();
         if (dir.y < 0) dir.y = -dir.y; // reflect down force on the ground
         impact += dir.normalized * force / mass;
