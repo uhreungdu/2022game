@@ -18,6 +18,7 @@ public class PlayerAnimator : MonoBehaviourPun
     public PlayerHandAttack _PlayerHandAttack;
     public PlayerJumpAttack _PlayerJumpAttack;
     public PlayerDragonPunch _PlayerDragonPunch;
+    public PlayerEnergywaveAttack _PlayerEnergywaveAttack;
     public PlayerAnimationEvent _PlayerAnimationEvent;
     public AudioSource _AudioSource;
     public HammerAttack _HammerAttack;
@@ -54,6 +55,7 @@ public class PlayerAnimator : MonoBehaviourPun
         _PlayerHandAttack = GetComponent<PlayerHandAttack>();
         _PlayerJumpAttack = GetComponent<PlayerJumpAttack>();
         _PlayerDragonPunch = GetComponent<PlayerDragonPunch>();
+        _PlayerEnergywaveAttack = GetComponent<PlayerEnergywaveAttack>();
         _PlayerAnimationEvent = GetComponent<PlayerAnimationEvent>();
         _AudioSource = GetComponent<AudioSource>();
         _HammerAttack = GetComponent<HammerAttack>();
@@ -108,6 +110,21 @@ public class PlayerAnimator : MonoBehaviourPun
             () =>
             {
                 _AudioSource.PlayOneShot(_HammerAttack._AttackAudioClips[Random.Range(0, _HammerAttack._AttackAudioClips.Count)]);
+                
+            });
+        _HammerAttack.SetAffterCast(1);
+        _Animator.SetBool("HammerAttack", _gamePlayerInput.fire);
+    }
+    
+    public void EnergyWaveAttack()
+    {
+        _PlayerAnimationEvent.Play(
+            null,
+            null,
+            null,
+            () =>
+            {
+                _AudioSource.PlayOneShot(_PlayerEnergywaveAttack._AttackAudioClips[Random.Range(0, _PlayerEnergywaveAttack._AttackAudioClips.Count)]);
                 
             });
         _HammerAttack.SetAffterCast(1);
