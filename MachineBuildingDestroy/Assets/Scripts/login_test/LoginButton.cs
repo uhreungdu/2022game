@@ -97,6 +97,8 @@ public class LoginButton : MonoBehaviour
                 errText.GetComponent<Text>().text = "ID PW ERR";
                 idInput.GetComponent<InputField>().text = "";
                 pwInput.GetComponent<InputField>().text = "";
+                idInput.GetComponent<InputField>().interactable = true;
+                pwInput.GetComponent<InputField>().interactable = true;
                 break;
             }
             case 2:
@@ -113,6 +115,8 @@ public class LoginButton : MonoBehaviour
                 errText.GetComponent<Text>().text = "Already Online";
                 idInput.GetComponent<InputField>().text = "";
                 pwInput.GetComponent<InputField>().text = "";
+                idInput.GetComponent<InputField>().interactable = true;
+                pwInput.GetComponent<InputField>().interactable = true;
                 break;
             }
             case 4:
