@@ -89,7 +89,7 @@ public class PlayerKeySystem : MonoBehaviourPun
                         _playerAnimator.HammerAttack();
                         break;
                     case item_box_make.item_type.EnergyWave:
-                        _playerAnimator.HammerAttack();
+                        _playerAnimator.EnergyWaveAttack();
                         break;
                     default:
                         photonView.RPC("Throw_item", RpcTarget.AllViaServer);

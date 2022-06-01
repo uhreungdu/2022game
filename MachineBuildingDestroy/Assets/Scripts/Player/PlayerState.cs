@@ -24,6 +24,17 @@ public class PlayerState : LivingEntity, IPunObservable
     public bool stiffen { get; private set; }
     public bool falldown { get; private set; }
 
+    public enum Currentstatus
+    {
+        Idle,
+        Attack,
+        SupergardAtttack,       // 상태이상이 걸리지 않는 공격
+        Dead,
+        Count
+    }
+
+    public Currentstatus _Currentstatus;
+
     private Vector3 reSpawnTransform;
 
     public item_box_make.item_type Item { get; set; }
@@ -66,7 +77,7 @@ public class PlayerState : LivingEntity, IPunObservable
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
         
-        Item = item_box_make.item_type.potion;
+        Item = item_box_make.item_type.EnergyWave;
         
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);

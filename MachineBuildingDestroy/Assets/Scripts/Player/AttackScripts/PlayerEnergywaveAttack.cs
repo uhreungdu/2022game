@@ -7,7 +7,6 @@ public class PlayerEnergywaveAttack : PlayerAttack
     // Start is called before the first frame update
     public PlayerImpact _playerImpact;
     public BoxCollider _rHandBoxCollider;
-    public GameObject LHandGameObject;
     public GameObject RHandGameObject;
     private Thirdpersonmove _thirdpersonmove;
     void Start()

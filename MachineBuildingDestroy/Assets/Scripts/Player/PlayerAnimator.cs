@@ -128,7 +128,7 @@ public class PlayerAnimator : MonoBehaviourPun
                 
             });
         _HammerAttack.SetAffterCast(1);
-        _Animator.SetBool("HammerAttack", _gamePlayerInput.fire);
+        _Animator.SetBool("EnergyWave", _gamePlayerInput.fire);
     }
 
     public void DelayTimer()
