@@ -91,11 +91,12 @@ public class Thirdpersonmove : MonoBehaviourPun
             jumpmove.y = yvelocity;
             _characterController.Move(jumpmove);
 
-            if (_playerAllAttackAfterCast.PlayerActivejumpColliderCheck())
-            {
-                photonView.RPC("Setyvelocity", RpcTarget.AllViaServer);
-            }
-            else
+            // if (_playerAllAttackAfterCast.PlayerActivejumpColliderCheck())
+            // {
+            //     //photonView.RPC("Setyvelocity", RpcTarget.AllViaServer);
+            //     //yvelocity = 0.0f;
+            // }
+            // else
                 yvelocity += tempgravity * Time.deltaTime;
             //Debug.Log(jumpmove);
             if (IsGrounded())

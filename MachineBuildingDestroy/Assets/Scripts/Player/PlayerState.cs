@@ -29,11 +29,13 @@ public class PlayerState : LivingEntity, IPunObservable
         Idle,
         Attack,
         SupergardAtttack,       // 상태이상이 걸리지 않는 공격
+        Stiffen,
+        Falldown,
         Dead,
         Count
     }
 
-    public Currentstatus _Currentstatus;
+    public Currentstatus _Currentstatus = Currentstatus.Idle;
 
     private Vector3 reSpawnTransform;
 
@@ -77,7 +79,8 @@ public class PlayerState : LivingEntity, IPunObservable
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
         
-        Item = item_box_make.item_type.EnergyWave;
+        //Item = item_box_make.item_type.EnergyWave;
+        Item = item_box_make.item_type.no_item;
         
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);
@@ -124,7 +127,7 @@ public class PlayerState : LivingEntity, IPunObservable
 
     public void NetworkOtherAnimatorControl(String str, bool b)
     {
-        //OnDamage(damage);
+        
         photonView.RPC("AnimatorControl", RpcTarget.AllViaServer, str, b);
     }
     
