@@ -65,10 +65,10 @@ public class PlayerEnergywaveAttack : PlayerAttack
     public void EnergywaveMovement()
     {
         Transform rootTransform = transform.root;
-        _playerImpact.AddImpact(-rootTransform.forward, 50);
+        _playerImpact.AddImpact(-rootTransform.forward, 20);
     }
     
-    public void SetSetEnergywaveAfterCast(int set)
+    public void SetEnergywaveAfterCast(int set)
     {
         base.SetAffterCast(set);      // 애니메이션 이벤트에서 이래야 받음
     }

@@ -2206,7 +2206,7 @@ MonoBehaviour:
   - {fileID: 7340546031214568834}
   - {fileID: 3529754089969155519, guid: 689ffeb1f4b7f5e4ba1b0bfc925d9fd1, type: 3}
   Tail_obj: {fileID: 525328680722476847}
-  Hit_VFX: {fileID: 0}
+  Hit_VFX: {fileID: 1066271020560052067}
   box_col: {fileID: 8672237015352126555}
 --- !u!1 &7778910548325337574
 GameObject:

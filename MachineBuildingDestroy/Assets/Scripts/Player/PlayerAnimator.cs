@@ -127,7 +127,7 @@ public class PlayerAnimator : MonoBehaviourPun
                 _AudioSource.PlayOneShot(_PlayerEnergywaveAttack._AttackAudioClips[Random.Range(0, _PlayerEnergywaveAttack._AttackAudioClips.Count)]);
             });
         _PlayerEnergywaveAttack.SetAffterCast(1);
-        _Animator.SetBool("EnergyWave", _gamePlayerInput.fire);
+        _Animator.SetTrigger("EnergyWave");
     }
 
     public void DelayTimer()
