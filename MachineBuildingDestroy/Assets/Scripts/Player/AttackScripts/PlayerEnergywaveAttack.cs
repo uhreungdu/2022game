@@ -33,15 +33,17 @@ public class PlayerEnergywaveAttack : PlayerAttack
     {
         if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_thirdpersonmove.IsGrounded())
         {
-            return;
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
+                _playerState._Currentstatus = PlayerState.Currentstatus.Attack;
         }
         else if (_hitBoxColliders[0].enabled)
         {
+            _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
             _hitBoxColliders[0].enabled = false;
         }
     }
     
-    public void SetHandCollision(int set)
+    public void SetEnergywaveCollision(int set)
     {
         if (set > 0)
         {
@@ -60,13 +62,13 @@ public class PlayerEnergywaveAttack : PlayerAttack
         _rHandBoxCollider.transform.position = WorldRHandPosition;
     }
     
-    public void JumpAttackMovement()
+    public void EnergywaveMovement()
     {
         Transform rootTransform = transform.root;
-        _playerImpact.AddImpact(rootTransform.forward, 200);
+        _playerImpact.AddImpact(-rootTransform.forward, 50);
     }
     
-    public void SetJumpAffterCast(int set)
+    public void SetSetEnergywaveAfterCast(int set)
     {
         base.SetAffterCast(set);      // 애니메이션 이벤트에서 이래야 받음
     }

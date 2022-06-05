@@ -28,14 +28,14 @@ public class PlayerState : LivingEntity, IPunObservable
     {
         Idle,
         Attack,
-        SupergardAtttack,       // 상태이상이 걸리지 않는 공격
+        SupergardAttack,       // 상태이상이 걸리지 않는 공격
         Stiffen,
         Falldown,
         Dead,
         Count
     }
 
-    public Currentstatus _Currentstatus = Currentstatus.Idle;
+    public Currentstatus _Currentstatus;
 
     private Vector3 reSpawnTransform;
 
@@ -88,6 +88,9 @@ public class PlayerState : LivingEntity, IPunObservable
             ReSpawnTransformSet(transform.position.y), 
             ReSpawnTransformSet(transform.position.z));
         Dead_Effect.SetActive(false);
+        
+        _Currentstatus = Currentstatus.Idle;
+        
         if (photonView.IsMine)
         {
             photonView.RPC("SetOnHeadName", RpcTarget.All, PhotonNetwork.NickName);
