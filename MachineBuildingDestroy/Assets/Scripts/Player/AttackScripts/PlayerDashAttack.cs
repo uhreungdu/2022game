@@ -33,7 +33,8 @@ public class PlayerDashAttack : PlayerAttack
     {
         if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl())
         {
-            return;
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
+                _playerState._Currentstatus = PlayerState.Currentstatus.SupergardAttack;
         }
         else if (_hitBoxColliders[0].enabled)
         {

@@ -222,7 +222,7 @@ public class BulidingObject : LivingEntity
             effect_obj.transform.position = gameObject.transform.position;
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
-            CinemachineShake.Instance.ShakeCamera(15f, 0.5f);
+            CinemachineShake.Instance.ShakeCamera(25f, 0.5f);
         }
     }
 

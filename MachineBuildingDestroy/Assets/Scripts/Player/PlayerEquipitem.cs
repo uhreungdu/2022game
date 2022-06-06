@@ -21,6 +21,7 @@ public class PlayerEquipitem : MonoBehaviourPun
     public GameObject BuffObj;
     public GameObject HammerObj;
     public GameObject Frame_Obj;
+    public PlayerAnimator _playerAnimator;
     public Rigidbody item_Rigid;
     public Quaternion parent_qut;
     
@@ -30,6 +31,7 @@ public class PlayerEquipitem : MonoBehaviourPun
 
     void Start()
     {
+        _playerAnimator = GetComponent<PlayerAnimator>();
         setObj();
     }
 
@@ -68,6 +70,12 @@ public class PlayerEquipitem : MonoBehaviourPun
         {
             HammerObj.SetActive(true);
             _playerState.nowEquip = true;
+        }
+        
+        else if (_playerState.Item == item_box_make.item_type.EnergyWave)
+        {
+            _playerAnimator.EnergyWaveAttack();
+            //_playerState.Item = item_box_make.item_type.no_item;
         }
 
         else if (_playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
