@@ -21,7 +21,7 @@ public class MyInRoomInfo : MonoBehaviourPun
 {
     public PlayersInfomation[] Infomations;
     public string MapName;
-    
+
     private static MyInRoomInfo _instance;
     private int _mySlotNum = 0;
     private bool _isMaster = false;

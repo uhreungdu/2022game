@@ -32,11 +32,12 @@ public class ChangeTeamButton : MonoBehaviourPun
         int mynum = _info.GetComponent<MyInRoomInfo>().mySlotNum;
         var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();
         var myslot = slots.slots[mynum].GetComponent<Slot>();
+        int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
         
         int mySlotNum = _info.GetComponent<MyInRoomInfo>().mySlotNum;
         if (mySlotNum % 2 == 0)
         {
-            for (int i = 1; i < 6; i+=2)
+            for (int i = 1; i < maxPlayer; i+=2)
             {
                 var target = slots.slots[i].GetComponent<Slot>();
                 if (target.Nickname == "")
@@ -49,7 +50,7 @@ public class ChangeTeamButton : MonoBehaviourPun
         }
         else
         {
-            for (int i = 0; i < 6; i+=2)
+            for (int i = 0; i < maxPlayer; i+=2)
             {
                 var target = slots.slots[i].GetComponent<Slot>();
                 if (target.Nickname == "")
