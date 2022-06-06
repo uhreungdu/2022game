@@ -4,7 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class EnergyEffect : MonoBehaviour
+public class EnergyEffect : MonoBehaviour    
 {
     public VisualEffect charging;
 
@@ -23,12 +23,12 @@ public class EnergyEffect : MonoBehaviour
 
     }
 
-    void play_charging()
+    public void play_charging()
     {
         charging.Play();
     }
 
-    void play_BeamEffect()
+    public void play_BeamEffect()
     {
         beamEffect.Play();
     }

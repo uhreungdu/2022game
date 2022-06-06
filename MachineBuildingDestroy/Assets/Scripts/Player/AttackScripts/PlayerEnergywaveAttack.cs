@@ -60,6 +60,9 @@ public class PlayerEnergywaveAttack : PlayerAttack
     {
         Vector3 WorldRHandPosition = RHandGameObject.transform.position;
         _rHandBoxCollider.transform.position = WorldRHandPosition;
+        _rHandBoxCollider.transform.localPosition = new Vector3(0, _rHandBoxCollider.transform.localPosition.y,
+            _rHandBoxCollider.transform.localPosition.z);
+        //_rHandBoxCollider.transform.position = WorldRHandPosition;
     }
     
     public void EnergywaveMovement()
