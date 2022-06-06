@@ -70681,6 +70681,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.33333334
+    functionName: play_charging
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1.2666667
     functionName: SetEnergywaveCollision
     data: 
@@ -70704,6 +70711,13 @@ AnimationClip:
     messageOptions: 0
   - time: 1.4666667
     functionName: EnergywaveMovement
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.5
+    functionName: play_BeamEffect
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

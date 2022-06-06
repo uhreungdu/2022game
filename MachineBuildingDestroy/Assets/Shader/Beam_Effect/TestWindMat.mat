@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: outBeam_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: b45a02628ed1a81469b74ef05b5b8ccf, type: 3}
+  m_Name: TestWindMat
+  m_Shader: {fileID: -6465566751694194690, guid: fc547295e7c05f145908bcfc0444af7b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,8 +19,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_00c57bf15bf84084b4db52be1af6ea89:
-        m_Texture: {fileID: 2800000, guid: 9ef9871cf83e7e24ca61203cf1975d3f, type: 3}
+    - Texture2D_16cac644c5bb4e74a3f9378ac204b494:
+        m_Texture: {fileID: 2800000, guid: 65deb0ec73bc0314e9aa0b854a5158d9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_9eab5fb004fe4984b29aba38b62c4982:
+        m_Texture: {fileID: 2800000, guid: 65deb0ec73bc0314e9aa0b854a5158d9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -107,13 +111,15 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_8ec5873cbb0843c890e61356b3e65f8e: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 0.6392157}
+    - Vector2_16151299e27e4863a1819115cbd7dc8a: {r: 0, g: -2, b: 0, a: 0}
+    - Vector2_67b1e6dc04e14c2b96ad1ca534ce5efa: {r: 3, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 5.3403134, g: 4.920823, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5269020562830566806
+--- !u!114 &1193287722017530651
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
