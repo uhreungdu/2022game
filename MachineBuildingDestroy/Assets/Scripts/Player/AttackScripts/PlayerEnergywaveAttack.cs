@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerJumpAttack : PlayerAttack
+public class PlayerEnergywaveAttack : PlayerAttack
 {
     // Start is called before the first frame update
     public PlayerImpact _playerImpact;
     public BoxCollider _rHandBoxCollider;
-    public GameObject LHandGameObject;
     public GameObject RHandGameObject;
     private Thirdpersonmove _thirdpersonmove;
     void Start()
@@ -16,10 +15,10 @@ public class PlayerJumpAttack : PlayerAttack
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
-        _lastColliderActiveTime = 0.4f; // 공격 유지 시간
+        _lastColliderActiveTime = 0.2f; // 공격 유지 시간
         _aftercastAttack = 1.0f;
         SetAffterCast(0);
-        _damage = 15;
+        _damage = 25;
         
         _hitBoxColliders.Add(_rHandBoxCollider);
     }
@@ -44,7 +43,7 @@ public class PlayerJumpAttack : PlayerAttack
         }
     }
     
-    public void SetHandCollision(int set)
+    public void SetEnergywaveCollision(int set)
     {
         if (set > 0)
         {
@@ -63,13 +62,13 @@ public class PlayerJumpAttack : PlayerAttack
         _rHandBoxCollider.transform.position = WorldRHandPosition;
     }
     
-    public void JumpAttackMovement()
+    public void EnergywaveMovement()
     {
         Transform rootTransform = transform.root;
-        _playerImpact.AddImpact(rootTransform.forward, 200);
+        _playerImpact.AddImpact(-rootTransform.forward, 20);
     }
     
-    public void SetJumpAffterCast(int set)
+    public void SetEnergywaveAfterCast(int set)
     {
         base.SetAffterCast(set);      // 애니메이션 이벤트에서 이래야 받음
     }

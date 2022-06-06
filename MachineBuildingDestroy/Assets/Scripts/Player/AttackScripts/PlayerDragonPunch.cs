@@ -37,10 +37,13 @@ public class PlayerDragonPunch : PlayerAttack
     {
         if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl())
         {
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
+                _playerState._Currentstatus = PlayerState.Currentstatus.SupergardAttack;
             return;
         }
         else if (_hitBoxColliders[0].enabled)
         {
+            _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
             SetDragonPunchCollision(0);
         }
     }
