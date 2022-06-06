@@ -643,7 +643,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.5,"y":15.0,"z":1.0}'
+      m_SerializableObject: '{"x":0.25,"y":7.5,"z":1.0}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -1113,7 +1113,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"bb4f5d4175610e748a9acd8abab0f935","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"5260097f154b52e4682246f44873a143","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: _MaskTex
@@ -2463,7 +2463,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"bb4f5d4175610e748a9acd8abab0f935","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"5260097f154b52e4682246f44873a143","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: _MaskTex
@@ -3156,7 +3156,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.800000011920929,"y":15.0,"z":1.0}'
+      m_SerializableObject: '{"x":0.4000000059604645,"y":7.5,"z":1.0}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -3689,7 +3689,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"898dea396b9012841b945172c4e30315","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"5260097f154b52e4682246f44873a143","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: _MaskTex
@@ -4382,7 +4382,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.800000011920929,"y":15.0,"z":1.0}'
+      m_SerializableObject: '{"x":0.4000000059604645,"y":7.5,"z":1.0}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -5197,7 +5197,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":-0.5,"y":-0.5,"z":40.0}}'
+      m_SerializableObject: '{"vector":{"x":-0.5,"y":-0.5,"z":80.0}}'
     m_Space: 0
   m_Property:
     name: A
@@ -5367,7 +5367,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":0.5,"y":0.5,"z":80.0}}'
+      m_SerializableObject: '{"vector":{"x":0.5,"y":0.5,"z":160.0}}'
     m_Space: 0
   m_Property:
     name: B
@@ -6276,7 +6276,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.ArcCircle, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"circle":{"center":{"x":0.0,"y":0.0,"z":0.0},"radius":2.5},"arc":6.2831854820251469}'
+      m_SerializableObject: '{"circle":{"center":{"x":0.0,"y":0.0,"z":0.0},"radius":7.0},"arc":6.2831854820251469}'
     m_Space: 0
   m_Property:
     name: ArcCircle
@@ -6672,7 +6672,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.15000000596046449,"y":3.0,"z":3.0}'
+      m_SerializableObject: '{"x":0.15000000596046449,"y":6.0,"z":6.0}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -7754,7 +7754,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 10
+      m_SerializableObject: 20
     m_Space: 2147483647
   m_Property:
     name: A
@@ -7788,7 +7788,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 20
+      m_SerializableObject: 30
     m_Space: 2147483647
   m_Property:
     name: B
