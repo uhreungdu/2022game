@@ -9,12 +9,16 @@ public class EnergyEffect : MonoBehaviour
     public VisualEffect charging;
 
     public VisualEffect beamEffect;
+    public ParticleSystem windwaveEffect;
+    public ParticleSystem windlazerEffect;
     
     // Start is called before the first frame update
     void Start()
     {
         beamEffect.Stop();
         charging.Stop();
+        windwaveEffect.Stop();
+        windlazerEffect.Stop();
     }
 
     // Update is called once per frame
@@ -31,5 +35,7 @@ public class EnergyEffect : MonoBehaviour
     public void play_BeamEffect()
     {
         beamEffect.Play();
+        windwaveEffect.Play();
+        windlazerEffect.Play();
     }
 }
