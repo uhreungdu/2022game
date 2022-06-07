@@ -200,11 +200,11 @@ public class PlayerKeySystem : MonoBehaviourPun
 
         if (other.tag == "Player")
         {
-            PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
-            if (other.gameObject != null && !playerState.dead && playerState.team != _playerState.team)
-            {
-                playerState.OnDamage(20);
-            }
+            // PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+            // if (other.gameObject != null && !playerState.dead && playerState.team != _playerState.team)
+            // {
+            //     playerState.OnDamage(20);
+            // }
         }
     }
     

@@ -39,7 +39,8 @@ public class PlayerJumpAttack : PlayerAttack
         }
         else if (_hitBoxColliders[0].enabled)
         {
-            _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Attack)
+                _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
             _hitBoxColliders[0].enabled = false;
         }
     }

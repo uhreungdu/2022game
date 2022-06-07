@@ -268,6 +268,11 @@ public class PlayerState : LivingEntity, IPunObservable
         
     }
 
+    private void UpdateCurrentstatus()
+    {
+        
+    }
+
     private void OnDestroy()
     {
         if (!PhotonNetwork.IsMasterClient) return;
