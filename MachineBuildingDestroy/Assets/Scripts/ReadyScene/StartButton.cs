@@ -43,10 +43,11 @@ public class StartButton : MonoBehaviourPun
     public void OnClick()
     {
         var info = _info.GetComponent<MyInRoomInfo>();
+        int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
         if (info.isMaster)
         {
             var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();
-            for (int i = 0; i < 6; ++i)
+            for (int i = 0; i < maxPlayer; ++i)
             {
                 if(i==info.mySlotNum) continue;
                 
