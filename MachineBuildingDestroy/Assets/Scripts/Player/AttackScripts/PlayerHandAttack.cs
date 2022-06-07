@@ -44,7 +44,7 @@ public class PlayerHandAttack : PlayerAttack
     }
     public void ActiveLAttack()
     {
-        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl())
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_playerState.dead)
         {
             if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
                 _playerState._Currentstatus = PlayerState.Currentstatus.Attack;
