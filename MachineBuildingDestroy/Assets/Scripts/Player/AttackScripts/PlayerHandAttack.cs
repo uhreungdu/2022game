@@ -44,15 +44,15 @@ public class PlayerHandAttack : PlayerAttack
     }
     public void ActiveLAttack()
     {
-        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl())
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_playerState.dead)
         {
             if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
                 _playerState._Currentstatus = PlayerState.Currentstatus.Attack;
-            return;
         }
         else if (_hitBoxColliders[0].enabled)
         {
-            _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Attack)
+                _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
             SetLHandCollision(0);
         }
     }
@@ -63,11 +63,11 @@ public class PlayerHandAttack : PlayerAttack
         {
             if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
                 _playerState._Currentstatus = PlayerState.Currentstatus.Attack;
-            return;
         }
         else if (_hitBoxColliders[1].enabled)
         {
-            _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Attack)
+                _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
             SetRHandCollision(0);
         }
     }

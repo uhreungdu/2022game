@@ -20,7 +20,8 @@ public class PlayerDragonPunch : PlayerAttack
         _aftercastAttack = 1f;
         SetAffterCast(0);
         _damage = 30;
-        _coolTime = 10;
+        //_coolTime = 10;
+        _coolTime = 0;
         _lastUsedTime = -999f;
         
         _hitBoxColliders.Add(_HandBoxCollider);
@@ -28,22 +29,22 @@ public class PlayerDragonPunch : PlayerAttack
 
     void Update()
     {
-        HandTransform();
+        //HandTransform();
         AfterCastRecovery();
         ActiveRAttack();
     }
     
     public void ActiveRAttack()
     {
-        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl())
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_playerState.dead)
         {
             if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
                 _playerState._Currentstatus = PlayerState.Currentstatus.SupergardAttack;
-            return;
         }
         else if (_hitBoxColliders[0].enabled)
         {
-            _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.SupergardAttack)
+                _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
             SetDragonPunchCollision(0);
         }
     }
@@ -70,9 +71,10 @@ public class PlayerDragonPunch : PlayerAttack
     public void DragonPunchMovement()
     {
         Transform rootTransform = transform.root;
-        _playerImpact.AddImpact(rootTransform.up, 500);
+        _thirdpersonmove.yvelocity = 1.5f;
+        //_playerImpact.AddImpact(rootTransform.up, 500);
         _playerImpact.AddImpact(rootTransform.forward, 150);
-        photonView.RPC("Setyvelocity", RpcTarget.AllViaServer);
+        //photonView.RPC("Setyvelocity", RpcTarget.AllViaServer);
     }
     
     [PunRPC]
