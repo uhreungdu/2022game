@@ -16,7 +16,7 @@ public class PlayerEnergywaveAttack : PlayerAttack
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
         _lastColliderActiveTime = 0.2f; // 공격 유지 시간
-        _aftercastAttack = 1.0f;
+        _aftercastAttack = 3.0f;
         SetAffterCast(0);
         _damage = 25;
         
@@ -31,14 +31,15 @@ public class PlayerEnergywaveAttack : PlayerAttack
     }
     public void ActiveAttack()
     {
-        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_thirdpersonmove.IsGrounded())
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_thirdpersonmove.IsGrounded() && !_playerState.dead)
         {
             if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
                 _playerState._Currentstatus = PlayerState.Currentstatus.Attack;
         }
         else if (_hitBoxColliders[0].enabled)
         {
-            _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Attack)
+                _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
             _hitBoxColliders[0].enabled = false;
         }
     }

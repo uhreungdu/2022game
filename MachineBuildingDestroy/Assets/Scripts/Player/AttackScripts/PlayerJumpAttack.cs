@@ -32,14 +32,15 @@ public class PlayerJumpAttack : PlayerAttack
     }
     public void ActiveAttack()
     {
-        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_thirdpersonmove.IsGrounded())
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_thirdpersonmove.IsGrounded() && !_playerState.dead)
         {
             if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
                 _playerState._Currentstatus = PlayerState.Currentstatus.Attack;
         }
         else if (_hitBoxColliders[0].enabled)
         {
-            _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Attack)
+                _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
             _hitBoxColliders[0].enabled = false;
         }
     }
