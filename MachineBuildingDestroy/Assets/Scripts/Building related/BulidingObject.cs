@@ -14,7 +14,7 @@ public class BulidingObject : LivingEntity
     public Material boxmaterial;
     public Rigidbody rigidbody;
     public MeshRenderer _MeshRenderer;
-    public MeshCollider _MeshCollider;
+    public Collider _MeshCollider;
 
     public int destroyfloor = 0;
     public int destroyTime = 5;
@@ -25,7 +25,7 @@ public class BulidingObject : LivingEntity
     public float _ExplosionForce = 1000.0f;
 
     protected MeshRenderer[] childMeshRenderers;
-    protected MeshCollider[] childMeshCollider;
+    protected Collider[] childColliders;
 
     public GameObject effect_obj;
     public GameObject prefeb_effect;
@@ -42,7 +42,7 @@ public class BulidingObject : LivingEntity
 
         rigidbody = GetComponentInChildren<Rigidbody>();
         _MeshRenderer = GetComponentInChildren<MeshRenderer>();
-        _MeshCollider = GetComponentInChildren<MeshCollider>();
+        _MeshCollider = GetComponentInChildren<Collider>();
         _Gamemanager = GameManager.GetInstance();
         onDeath += DieAction;
     }
@@ -114,10 +114,10 @@ public class BulidingObject : LivingEntity
             }
         }
 
-        if (childMeshCollider.Length > 0)
+        if (childColliders.Length > 0)
         {
-            childMeshCollider = GetComponentsInChildren<MeshCollider>();
-            foreach (var child in childMeshCollider)
+            childColliders = GetComponentsInChildren<Collider>();
+            foreach (var child in childColliders)
             {
                 if (child != null && child != _MeshCollider)
                     child.enabled = false;
@@ -194,8 +194,8 @@ public class BulidingObject : LivingEntity
                     child.enabled = true;
             }
 
-            childMeshCollider = GetComponentsInChildren<MeshCollider>();
-            foreach (var child in childMeshCollider)
+            childColliders = GetComponentsInChildren<Collider>();
+            foreach (var child in childColliders)
             {
                 if (child != _MeshRenderer)
                     child.enabled = true;
