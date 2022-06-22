@@ -38,6 +38,7 @@ public class PlayerKeySystem : MonoBehaviourPun
     public Rigidbody item_Rigid;
     public Collider item_Coll;
     public Quaternion parent_qut;
+    
 
     void Start()
     {

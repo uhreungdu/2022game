@@ -12,8 +12,6 @@ public class PlayerAnimator : MonoBehaviourPun
     public PlayerState _PlayerState;
     public GamePlayerInput _gamePlayerInput;
     public Thirdpersonmove _thirdpersonmove;
-    private CharacterController _characterController;
-    public PlayerEquipitem _PlayerEquipitem;
     public PlayerDashAttack _PlayerDashAttack;
     public PlayerHandAttack _PlayerHandAttack;
     public PlayerJumpAttack _PlayerJumpAttack;
@@ -35,12 +33,7 @@ public class PlayerAnimator : MonoBehaviourPun
     public float speed = 18f;
     public float Maxspeed = 24f;
 
-    private bool _isGrounded;
-
-    public bool IsGrounded
-    {
-        get => _isGrounded;
-    }
+    public bool CanAirAttack { private set; get; }
 
     // Start is called before the first frame update
     void Start()
@@ -48,9 +41,7 @@ public class PlayerAnimator : MonoBehaviourPun
         _Animator = GetComponentInChildren<Animator>();
         _gamePlayerInput = GetComponent<GamePlayerInput>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
-        _characterController = GetComponent<CharacterController>();
         _PlayerState = GetComponent<PlayerState>();
-        _PlayerEquipitem = GetComponent<PlayerEquipitem>();
         _PlayerDashAttack = GetComponent<PlayerDashAttack>();
         _PlayerHandAttack = GetComponent<PlayerHandAttack>();
         _PlayerJumpAttack = GetComponent<PlayerJumpAttack>();
@@ -67,6 +58,8 @@ public class PlayerAnimator : MonoBehaviourPun
         StiffenTimer();
         FalldownTimer();
         AnimationUpdate();
+        if (_thirdpersonmove.IsGrounded())
+            CanAirAttack = true;
     }
 
     public void OnAttack()
@@ -85,7 +78,7 @@ public class PlayerAnimator : MonoBehaviourPun
         }
         else
         {
-            if (!_PlayerState.aftercast)
+            if (!_PlayerState.aftercast && CanAirAttack == true)
             {
                 _PlayerAnimationEvent.Play(
                     null,
@@ -97,6 +90,7 @@ public class PlayerAnimator : MonoBehaviourPun
                     });
                 _PlayerJumpAttack.SetAffterCast(1);
                 _Animator.SetBool("Combo", true);
+                CanAirAttack = false;
             }
         }
     }
@@ -110,7 +104,6 @@ public class PlayerAnimator : MonoBehaviourPun
             () =>
             {
                 _AudioSource.PlayOneShot(_HammerAttack._AttackAudioClips[Random.Range(0, _HammerAttack._AttackAudioClips.Count)]);
-                
             });
         _HammerAttack.SetAffterCast(1);
         _Animator.SetBool("HammerAttack", _gamePlayerInput.fire);
@@ -149,7 +142,6 @@ public class PlayerAnimator : MonoBehaviourPun
         }
     }
 
-
     public void FalldownTimer()
     {
         if (_Animator.GetBool("Falldown"))
@@ -187,7 +179,6 @@ public class PlayerAnimator : MonoBehaviourPun
                 _Animator.SetBool("Jump", false);
             }
         }
-
         _Animator.SetBool("IsGrounded", _thirdpersonmove.IsGrounded());
     }
 

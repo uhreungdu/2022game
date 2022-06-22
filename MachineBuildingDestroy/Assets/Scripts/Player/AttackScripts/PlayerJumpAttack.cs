@@ -17,7 +17,7 @@ public class PlayerJumpAttack : PlayerAttack
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
-        _aftercastAttack = 1.0f;
+        _aftercastAttack = 0.8f;
         SetAffterCast(0);
         _damage = 15;
         

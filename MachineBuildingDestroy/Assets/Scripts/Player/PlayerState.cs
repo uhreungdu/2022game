@@ -55,6 +55,7 @@ public class PlayerState : LivingEntity, IPunObservable
     public Dmgs_Status P_Dm;
     public GameObject Dead_Effect;
     public Thirdpersonmove _Thirdpersonmove;
+    
 
     public GameObject coinprefab;
     [SerializeField]
@@ -62,6 +63,7 @@ public class PlayerState : LivingEntity, IPunObservable
     private GameObject _networkManager;
 
     private GameObject Coinpref;
+    
 
     void Start()
     {
@@ -95,7 +97,7 @@ public class PlayerState : LivingEntity, IPunObservable
         {
             photonView.RPC("SetOnHeadName", RpcTarget.All, PhotonNetwork.NickName);
         }
-
+        
         _networkManager = GameObject.Find("NetworkManager");
         base.OnEnable();
     }
@@ -297,7 +299,7 @@ public class PlayerState : LivingEntity, IPunObservable
             coin.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionPosition, 10f, explosionForce / 2);
             coin.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionPosition, 10f);
         }
-    } 
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
