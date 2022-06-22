@@ -258,7 +258,7 @@ public class Map : MonoBehaviour
         return Prefs[kind];
     }
 
-    public void MapLoad()
+    public void MapLoad(string loadPath = "maptileClass")
     {
         Transform[] allChildren = GetComponentsInChildren<Transform>();
         foreach (var child in allChildren)
@@ -270,7 +270,7 @@ public class Map : MonoBehaviour
         }
         if (maptile.Tiles.Count >= 1)
             maptile.Tiles.Clear();
-        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath + "/" + "Map", "maptileClass");
+        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath + "/" + "Map", loadPath);
         maptile = jtc2;
 
         for (int i = 0; i < maptile.Tiles.Count; ++i)

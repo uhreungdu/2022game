@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 //Debug.Log("아이템 존재 X");
             }
         }
-        public void Active_Goalopost(){
-            if((int)Ntimer / 60 > 0 && (int)Ntimer % 60 < 20)
+        public void Active_Goalopost() {
+            if((int)Ntimer > 0 /* && (int)Ntimer % 60 < 20*/)
             {
                 goalpost_Create = true;
                 //Debug.Log("아이템 생성");
