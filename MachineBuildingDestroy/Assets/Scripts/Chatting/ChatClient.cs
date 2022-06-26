@@ -15,7 +15,7 @@ public class ChatClient : MonoBehaviour
     private static ChatClient instance;
     
     private const string ServerAddress = "121.139.87.70";
-    private const int Port = 9887;
+    private const int Port = 15001;
     private const int BufSize = 1024;
     private Socket _client;
     private IPEndPoint _ipep;
