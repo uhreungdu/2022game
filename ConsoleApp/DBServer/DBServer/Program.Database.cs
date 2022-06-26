@@ -74,24 +74,28 @@ namespace Database
         public static List<RoomInfo> GetRoomInfos()
         {
             List<RoomInfo> list = new List<RoomInfo>();
-            string sql = "SELECT internal_name ,external_name ,now_playernum ,max_playernum , ingame FROM room order by created_time asc;";
             using (conn)
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (MySqlCommand cmd = new MySqlCommand("GetRoomInfos", conn))
                 {
-                    RoomInfo info = new RoomInfo();
-                    info.internal_name = reader.GetString(0);
-                    info.external_name = reader.GetString(1);
-                    info.now_playernum = reader.GetInt32(2);
-                    info.max_playernum = reader.GetInt32(3);
-                    info.ingame = reader.GetBoolean(4);
-                    list.Add(info);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        RoomInfo info = new RoomInfo();
+                        info.internal_name = reader.GetString(0);
+                        info.external_name = reader.GetString(1);
+                        info.now_playernum = reader.GetInt32(2);
+                        info.max_playernum = reader.GetInt32(3);
+                        info.ingame = reader.GetBoolean(4);
+                        list.Add(info);
+                    }
                 }
                 conn.Close();
+                conn.Dispose();
             }
+
             return list;
         }
 
@@ -106,22 +110,25 @@ namespace Database
             {
                 MakeRoom(iname, ename, maxPlayerNum);
                 PlayerJoinRoom(Pname, iname);
-                PlusPlayerNumInRoom(iname);
             }
         }
-
         private static void MakeRoom(string iname, string ename, int maxPlayerNum)
         {
-            string sql = string.Format("INSERT IGNORE INTO room (internal_name,external_name,max_playernum) VALUE(\"{0}\",\"{1}\",{2});", iname, ename, maxPlayerNum);
             using (conn)
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader reader = cmd.ExecuteReader();
+                using (MySqlCommand cmd = new MySqlCommand("MakeRoom", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@iname", iname);
+                    cmd.Parameters.AddWithValue("@ename", ename);
+                    cmd.Parameters.AddWithValue("@maxPnum", maxPlayerNum);
+                    cmd.ExecuteNonQuery();
+                }
                 conn.Close();
+                conn.Dispose();
             }
         }
-
         public static void PlayerEnterRoom(string iname, string Pname)
         {
             if (RoomCheck(iname))
@@ -138,7 +145,6 @@ namespace Database
                 sql[1] = string.Format("UPDATE room SET now_playernum = now_playernum + 1 WHERE internal_name = {0}", iname);
 
                 PlayerJoinRoom(Pname, iname);
-                PlusPlayerNumInRoom(iname);
             }
             else
             {
@@ -146,7 +152,6 @@ namespace Database
                 return;
             }
         }
-
         public static LoginResult LoginAccount(string id, string pw)
         {
             if (CheckIDPW(id, pw))
@@ -212,7 +217,7 @@ namespace Database
                 using (MySqlCommand cmd = new MySqlCommand("CheckCharExist", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("id", id);
+                    cmd.Parameters.AddWithValue("@id", id);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                         result = Convert.ToInt32(reader[0]);
@@ -233,7 +238,7 @@ namespace Database
                 using (MySqlCommand cmd = new MySqlCommand("CheckMultiLogin", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("id", id);
+                    cmd.Parameters.AddWithValue("@id", id);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                         result = Convert.ToInt32(reader[0]);
@@ -254,7 +259,7 @@ namespace Database
                 using (MySqlCommand cmd = new MySqlCommand("CheckPlayerPlayGame", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("name", name);
+                    cmd.Parameters.AddWithValue("@name", name);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                         result = Convert.ToInt32(reader[0]);
@@ -267,23 +272,23 @@ namespace Database
         }
         public static string GetPlayerInGameRoomname(string name)
         {
-            string sql = string.Format("SELECT room_internal_name FROM `playingchar` WHERE binary(character_name) = \"{0}\"", name);
+            var result = new string("");
             using (conn)
             {
                 conn.Open();
-                string result = new string("");
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (MySqlCommand cmd = new MySqlCommand("GetRoomPlayerIn", conn))
                 {
-                    result = reader[0].ToString();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@name", name);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                        result = reader[0].ToString();
                 }
                 conn.Close();
-
-                return result;
+                conn.Dispose();
             }
+            return result;
         }
-
         public static string GetCharacterName(string id)
         {
             var result = new string("");
@@ -293,7 +298,7 @@ namespace Database
                 using (MySqlCommand cmd = new MySqlCommand("GetCharacterName", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("id", id);
+                    cmd.Parameters.AddWithValue("@id", id);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                         result = reader[0].ToString();
@@ -311,7 +316,7 @@ namespace Database
                 using (MySqlCommand cmd = new MySqlCommand("UpdateLastLogin", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("id", id);
+                    cmd.Parameters.AddWithValue("@id", id);
                     cmd.ExecuteNonQuery();
                 }
                 conn.Close();
@@ -327,7 +332,7 @@ namespace Database
                 using (MySqlCommand cmd = new MySqlCommand("GetPlayerInfo", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("id", id);
+                    cmd.Parameters.AddWithValue("@id", id);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -348,77 +353,69 @@ namespace Database
         }
         private static int RoomPlayerNumCheck(string iname)
         {
-            string sql =
-                string.Format("SELECT now_playernum, max_playernum, ingame FROM room WHERE internal_name={0}", iname);
+            int nowPnum = 0;
+            int maxPnum = 0;
+            bool ingame = false;
+
             using (conn)
             {
                 conn.Open();
+                using (MySqlCommand cmd = new MySqlCommand("CheckRoomisFull", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@iname", iname);
+                    MySqlDataReader reader = cmd.ExecuteReader();
 
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        nowPnum = (int)reader["now_playernum"];
+                        maxPnum = (int)reader["max_playernum"];
+                        ingame = (bool)reader["ingame"];
+                    }
+                }
                 conn.Close();
-
-                var nowPnum = (int)reader["now_playernum"];
-                var maxPnum = (int)reader["max_playernum"];
-                var ingame = (bool)reader["ingame"];
-
-                if (nowPnum >= maxPnum)
-                {
-                    return 1;
-                }
-                else if (ingame)
-                {
-                    return 2;
-                }
-                else return 0;
+                conn.Dispose();
             }
-        }
 
+            if (nowPnum >= maxPnum) return 1;
+            else if (ingame) return 2;
+            else return 0;
+        }
         private static bool RoomCheck(string iname)
         {
-            string sql = string.Format("SELECT COUNT(*) FROM room WHERE internal_name=\"{0}\"", iname);
-
+            var result = 0;
             using (conn)
             {
-                var result = 0;
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (MySqlCommand cmd = new MySqlCommand("CheckRoomExist", conn))
                 {
-                    result = Convert.ToInt32(reader[0]);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@iname", iname);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                        result = Convert.ToInt32(reader[0]);
                 }
                 conn.Close();
-                if (result == 0) return false;
-                else return true;
+                conn.Dispose();
             }
+            if (result == 0) return false;
+            else return true;
         }
-
         private static void PlayerJoinRoom(string Pname, string iname)
         {
-            string sql = string.Format("INSERT IGNORE INTO playingchar (character_name, room_internal_name)VALUE(\"{0}\",\"{1}\")", Pname, iname);
-
             using (conn)
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.ExecuteReader();
+                using (MySqlCommand cmd = new MySqlCommand("PlayerJoinRoom", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Pname", Pname);
+                    cmd.Parameters.AddWithValue("@iname", iname);
+                    cmd.ExecuteNonQuery();
+                }
                 conn.Close();
+                conn.Dispose();
             }
         }
-
-        private static void PlusPlayerNumInRoom(string iname)
-        {
-            string sql = string.Format("UPDATE room SET now_playernum = now_playernum + 1 WHERE internal_name = \"{0}\"", iname);
-
-            using (conn)
-            {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.ExecuteReader();
-                conn.Close();
-            }
-        }
-
     }
 }
