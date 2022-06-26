@@ -31,6 +31,10 @@ public class BulidingObject : LivingEntity
     public GameObject prefeb_effect;
     public Map _Map;
 
+    public GameObject DestroyObjects;
+
+    private List<Coroutine> Coroutines = new List<Coroutine>();
+
     // Start is called before the first frame update
     protected void Start()
     {
@@ -45,6 +49,9 @@ public class BulidingObject : LivingEntity
         _MeshCollider = GetComponentInChildren<Collider>();
         _Gamemanager = GameManager.GetInstance();
         onDeath += DieAction;
+        GameObject _DestroyObject = new GameObject("DestroyObjects");
+        _DestroyObject.transform.SetParent(transform, false);
+        DestroyObjects = _DestroyObject;
     }
 
     // Update is called once per frame
@@ -52,6 +59,7 @@ public class BulidingObject : LivingEntity
     {
         if (_Gamemanager == null)
         {
+            
         }
         else if (!_Gamemanager.EManager.gameSet)
         {
@@ -78,7 +86,6 @@ public class BulidingObject : LivingEntity
                 coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f, 500 / 2);
                 coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f);
             }
-
             BuildingDestroyEvent(photonView.ViewID);
         }
     }
@@ -152,41 +159,50 @@ public class BulidingObject : LivingEntity
         if (health <= startingHealth / 7f * 6 && destroyfloor <= 0)
         {
             destroyfloor++;
-            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1);
+            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1)));
         }
 
         if (health <= startingHealth / 7f * 5 && destroyfloor <= 1)
         {
             destroyfloor++;
-            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
+            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1)));
         }
 
         if (health <= startingHealth / 7f * 4 && destroyfloor <= 2)
         {
             destroyfloor++;
-            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
+            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1)));
         }
 
         if (health <= startingHealth / 7f * 3 && destroyfloor <= 3)
         {
             destroyfloor++;
-            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1);
+            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1)));
         }
 
         if (health <= startingHealth / 7f * 2 && destroyfloor <= 4)
         {
             destroyfloor++;
-            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
+            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1)));
         }
 
         if (health <= startingHealth / 7f * 1 && destroyfloor <= 5)
         {
             destroyfloor++;
-            CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
+            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1)));
         }
 
         if (dead)
         {
+            if (Coroutines.Count > 0)
+            {
+                foreach (var coroutine in Coroutines)
+                {
+                    if (coroutine != null)
+                        StopCoroutine(coroutine);
+                }
+                Coroutines.Clear();
+            }
             childMeshRenderers = GetComponentsInChildren<MeshRenderer>();
             foreach (var child in childMeshRenderers)
             {
@@ -270,6 +286,43 @@ public class BulidingObject : LivingEntity
         RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.MasterClient};
         SendOptions sendOpt = new SendOptions {Reliability = true};
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
+    
+    public IEnumerator Sliceseveraltimes(GameObject _target, Vector3 _sliceNormal, Material _interial, int _number)
+    {
+        int corutineCount = 0;
+        for (int i = 0; i < _number; ++i)
+        {
+            BulidingObject _bulidingObject = _target.GetComponent<BulidingObject>();
+            Transform _DestroyObjecttransform = _bulidingObject.DestroyObjects.transform;
+
+            if (_DestroyObjecttransform == null || _DestroyObjecttransform.childCount <= 0)
+            {
+                CMeshSlicer.SlicerWorld(_target.gameObject, _sliceNormal, _target.GetComponent<MeshRenderer>().bounds.center,
+                    _interial);
+                corutineCount++;
+            }
+            else
+            {
+                if (_DestroyObjecttransform != null)
+                {
+                    Transform[] allChildren = _DestroyObjecttransform.GetComponentsInChildren<Transform>();
+                    foreach (Transform child in allChildren)
+                    {
+                        if (child != _DestroyObjecttransform)
+                        {
+                            MeshRenderer childMeshRenderer = child.GetComponent<MeshRenderer>();
+                            CMeshSlicer.SlicerWorld(child.gameObject, _sliceNormal, childMeshRenderer.bounds.center,
+                                _interial);
+                            corutineCount++;
+                        }
+                        if (corutineCount % 3 == 0)
+                            yield return null;
+                    }
+                }
+            }
+        }
+        yield break;
     }
 
     private void OnCollisionEnter(Collision collision)
