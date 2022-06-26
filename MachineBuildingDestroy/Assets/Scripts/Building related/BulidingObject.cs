@@ -31,6 +31,8 @@ public class BulidingObject : LivingEntity
     public GameObject prefeb_effect;
     public Map _Map;
 
+    public GameObject DestroyObjects;
+
     // Start is called before the first frame update
     protected void Start()
     {
@@ -45,6 +47,9 @@ public class BulidingObject : LivingEntity
         _MeshCollider = GetComponentInChildren<Collider>();
         _Gamemanager = GameManager.GetInstance();
         onDeath += DieAction;
+        GameObject _DestroyObject = new GameObject("DestroyObjects");
+        _DestroyObject.transform.SetParent(transform, false);
+        DestroyObjects = _DestroyObject;
     }
 
     // Update is called once per frame
