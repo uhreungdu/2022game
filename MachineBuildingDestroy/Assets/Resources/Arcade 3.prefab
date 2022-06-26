@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2102952656862582429}
   - component: {fileID: 7901704559662904005}
   - component: {fileID: -5099739311843779227}
-  - component: {fileID: -5729422349932503538}
   - component: {fileID: -8843706162784481365}
   - component: {fileID: -5947568856189287686}
   - component: {fileID: -8121115065416740893}
@@ -131,20 +130,6 @@ MonoBehaviour:
   effect_obj: {fileID: 0}
   prefeb_effect: {fileID: 43508311127239940, guid: 84309fdd9219f1d43b57248b43322cbc, type: 3}
   _Map: {fileID: 0}
---- !u!64 &-5729422349932503538
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2358042896829115922}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 540c7aa7d4a66c54398f509804afe905, type: 2}
 --- !u!114 &-8843706162784481365
 MonoBehaviour:
   m_ObjectHideFlags: 0
