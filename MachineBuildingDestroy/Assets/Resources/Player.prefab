@@ -1745,9 +1745,9 @@ MonoBehaviour:
   _fieldLayer:
     serializedVersion: 2
     m_Bits: 12864
-  speed: 27
-  Maxspeed: 36
-  Minspeed: 27
+  speed: 38
+  Maxspeed: 50
+  Minspeed: 38
   yvelocity: 0
   Cgravity: 9.8
   gourndgravity: -0.05

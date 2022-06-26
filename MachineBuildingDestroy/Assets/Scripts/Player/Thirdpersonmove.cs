@@ -16,9 +16,9 @@ public class Thirdpersonmove : MonoBehaviourPun
     public LayerMask _fieldLayer;
     private PlayerAllAttackAfterCast _playerAllAttackAfterCast;
 
-    public float speed = 27f;
-    public float Maxspeed = 36f;
-    public float Minspeed = 27f;
+    public float speed = 38f;
+    public float Maxspeed = 50f;
+    public float Minspeed = 38f;
     public float yvelocity = 0;
     public float Cgravity = 4f;
     private float tempgravity = -3f;
