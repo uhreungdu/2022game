@@ -165,19 +165,21 @@ namespace Database
             }
             else return new LoginResult(1);  // ID or PW error
         }
-
         public static void LogoutAccount(string id)
         {
-            string sql = string.Format("UPDATE `character` as C SET C.online = 0 WHERE binary(C.account_id)=\"{0}\"", id);
             using (conn)
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader reader = cmd.ExecuteReader();
+                using (MySqlCommand cmd = new MySqlCommand("LogoutAccount", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
                 conn.Close();
+                conn.Dispose();
             }
         }
-
         private static bool CheckIDPW(string id, string pw)
         {
             var result = 0;
