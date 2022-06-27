@@ -40,6 +40,8 @@ public class Thirdpersonmove : MonoBehaviourPun
     public bool keepactiveattack { get; private set; }
     public bool landing { get; private set; }
 
+    public bool DashDelay;
+
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
@@ -50,6 +52,7 @@ public class Thirdpersonmove : MonoBehaviourPun
         Debug.Log(Application.platform);
         _playerState.isAimming = false;
         _playerState.nowEquip = false;
+        DashDelay = false;
     }
 
     void FixedUpdate()
@@ -122,25 +125,32 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     public void Dash()
     {
-        if (gamePlayerInput.dash && IsGrounded() && !_playerState.IsCrowdControl() && !_playerState.dead && !landing)
+        if (gamePlayerInput.dash && !DashDelay && IsGrounded() && !_playerState.IsCrowdControl() && !_playerState.dead && !landing)
         {
-            if (speed <= Maxspeed)
-            {
-                speed += 6f * Time.deltaTime;
-            }
+            speed = 200;
+            StartCoroutine(DashSpeed());
+            DashDelay = true;
         }
 
-        if (!gamePlayerInput.dash || !IsGrounded() || _playerState.IsCrowdControl() || _playerState.dead || landing)
-        {
-            if (speed > Minspeed)
-            {
-                speed -= 9f * Time.deltaTime;
-            }
-            else
-            {
-                speed = Minspeed;
-            }
-        }
+        // if (!gamePlayerInput.dash || !IsGrounded() || _playerState.IsCrowdControl() || _playerState.dead || landing)
+        // {
+        //     if (speed > Minspeed)
+        //     {
+        //         speed -= 9f * Time.deltaTime;
+        //     }
+        //     else
+        //     {
+        //         speed = Minspeed;
+        //     }
+        // }
+    }
+
+    public IEnumerator DashSpeed()
+    {
+        yield return new WaitForSeconds(0.1f);
+        speed = Minspeed;
+        yield return new WaitForSeconds(2f);
+        DashDelay = false;
     }
 
     public void SetActiveAttack(int set)
