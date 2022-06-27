@@ -11,11 +11,8 @@ namespace Chatserver
 {
     enum ChatType : byte
     {
-        TEST,
-        NormalChat,
         Exit,
         EnterRoom,
-        RoomChat,
         ExitRoom,
         MakeRoom,
         LoginRequest,
@@ -26,7 +23,7 @@ namespace Chatserver
 
     public class Session
     {
-        public const int bufSize = 1024;
+        public const int bufSize = 256;
         public byte[] buf = new byte[bufSize];
         public Socket socket = null;
         public bool is_online = false;
@@ -45,7 +42,7 @@ namespace Chatserver
 
         private const int Port = 15001;
         private const int MaxConnections = 100;
-        private const int BufSize = 1024;
+        private const int BufSize = 256;
 
         private static Socket? _ServerSocket;
         private static List<Session>? _ClientList;
@@ -224,21 +221,6 @@ namespace Chatserver
                 DisconnectClient(session);
             }
 
-        }
-
-
-        private static void Send(Session session, string data, string sender)
-        {
-            byte[] name = Encoding.UTF8.GetBytes(sender);
-            byte[] chatData = Encoding.UTF8.GetBytes(data);
-            byte[] sendData = new byte[3 + name.Length + chatData.Length];
-            sendData[0] = (byte)ChatType.NormalChat;
-            sendData[1] = (byte)name.Length;
-            sendData[2] = (byte)chatData.Length;
-            Array.Copy(name, 0, sendData, 3, name.Length);
-            Array.Copy(chatData, 0, sendData, 3 + name.Length, chatData.Length);
-            session.socket.BeginSend(sendData, 0, sendData.Length, 0,
-                new AsyncCallback(SendCallback), session);
         }
 
         private static void SendLoginResult(Session session, LoginResult result)
