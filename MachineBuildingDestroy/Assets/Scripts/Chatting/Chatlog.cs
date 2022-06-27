@@ -20,8 +20,8 @@ public class Chatlog : MonoBehaviour
 
     public void AddLine(byte[] data)
     {
-        var nickname = Encoding.UTF8.GetString(data, 3, data[1]);
-        var chat = Encoding.UTF8.GetString(data, 3 + data[1], data[2]);
+        var nickname = Encoding.UTF8.GetString(data, 4, data[2]);
+        var chat = Encoding.UTF8.GetString(data, 4 + data[2], data[3]);
         var printData = nickname + ": " + chat;
         
         print(printData);

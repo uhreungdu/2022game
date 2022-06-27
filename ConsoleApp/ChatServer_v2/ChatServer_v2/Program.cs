@@ -9,18 +9,17 @@ namespace LobbyChatserver
 {
     enum ChatType : byte
     {
-        TEST,
         NormalChat,
-        Exit
+        Exit,
+        Login
     }
 
     public class Session
     {
-        public const int bufSize = 1024;
+        public const int bufSize = 256;
         public byte[] buf = new byte[bufSize];
         public Socket socket = null;
         public bool is_online = false;
-        public string nickname;
         public string id;
     }
 
@@ -33,7 +32,7 @@ namespace LobbyChatserver
 
         private const int Port = 15000;
         private const int MaxConnections = 100;
-        private const int BufSize = 1024;
+        private const int BufSize = 256;
 
         private static Socket? _ServerSocket;
         private static List<Session>? _ClientList;
@@ -82,6 +81,7 @@ namespace LobbyChatserver
             Session session = new Session();
             session.socket = client;
             Console.WriteLine(client.RemoteEndPoint.ToString() + " Connected");
+            _ClientList.Add(session);
 
             client.BeginReceive(session.buf, 0, Session.bufSize, 0,
                 new AsyncCallback(ReceiveCallback), session);
@@ -109,12 +109,20 @@ namespace LobbyChatserver
                         case (byte)ChatType.NormalChat:
                             {
                                 data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
-                                Console.WriteLine(session.nickname + ": " + data);
+                                Console.WriteLine(session.id + ": " + data);
                                 foreach (Session s in _ClientList)
-                                    SendChat(s, data, session.nickname);
+                                    SendChat(s, data, session.id);
+                                break;
+                            }
+                        case (byte)ChatType.Login:
+                            {
+                                session.id = Encoding.UTF8.GetString(session.buf, 2, session.buf[1]);
                                 break;
                             }
                     }
+
+                    session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
                 }
                 else
                 {
@@ -135,12 +143,13 @@ namespace LobbyChatserver
         {
             byte[] name = Encoding.UTF8.GetBytes(sender);
             byte[] chatData = Encoding.UTF8.GetBytes(data);
-            byte[] sendData = new byte[3 + name.Length + chatData.Length];
-            sendData[0] = (byte)ChatType.NormalChat;
-            sendData[1] = (byte)name.Length;
-            sendData[2] = (byte)chatData.Length;
-            Array.Copy(name, 0, sendData, 3, name.Length);
-            Array.Copy(chatData, 0, sendData, 3 + name.Length, chatData.Length);
+            byte[] sendData = new byte[1 + 3 + name.Length + chatData.Length];
+            sendData[0] = (byte)(1 + 3 + name.Length + chatData.Length);
+            sendData[1] = (byte)ChatType.NormalChat;
+            sendData[2] = (byte)name.Length;
+            sendData[3] = (byte)chatData.Length;
+            Array.Copy(name, 0, sendData, 4, name.Length);
+            Array.Copy(chatData, 0, sendData, 4 + name.Length, chatData.Length);
             session.socket.BeginSend(sendData, 0, sendData.Length, 0,
                 new AsyncCallback(SendCallback), session);
         }
@@ -166,7 +175,7 @@ namespace LobbyChatserver
             if (session.is_online)
             {
                 session.is_online = false;
-                Console.WriteLine(session.socket.RemoteEndPoint + " " + session.nickname + " is Disconnected.");
+                Console.WriteLine(session.socket.RemoteEndPoint + " " + session.id + " is Disconnected.");
                 _ClientList.Remove(session);
                 session.socket.Close();
             }

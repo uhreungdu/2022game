@@ -15,8 +15,8 @@ public class ChatClient : MonoBehaviour
     private static ChatClient instance;
     
     private const string ServerAddress = "121.139.87.70";
-    private const int Port = 15001;
-    private const int BufSize = 1024;
+    private const int Port = 15000;
+    private const int BufSize = 256;
     private Socket _client;
     private IPEndPoint _ipep;
     private bool _isDataSend = false;
@@ -27,36 +27,12 @@ public class ChatClient : MonoBehaviour
     private byte[] sendbuf = new byte[BufSize-1];
     private byte[] recvbuf = new byte[BufSize];
     public Chatlog chatLog;
-    public GameObject loginWaitingWindow;
     
     public enum ChatCode : byte
     {
-        TEST,
         Normal,
         Exit,
-        EnterRoom,
-        RoomChat,
-        ExitRoom,
-        MakeRoom,
-        LoginRequest,
-        LoginResult,
-        RoomListRequest,
-        RoomListResult
-    }
-    
-    public static ChatClient GetInstance()
-    {
-        if (instance == null)
-        {
-            instance = FindObjectOfType<ChatClient>();
-            if (instance == null)
-            {
-                GameObject container = new GameObject("ChatClient");
-                instance = container.AddComponent<ChatClient>();
-            }
-        }
-
-        return instance;
+        Login
     }
 
     private void Awake()
@@ -75,7 +51,6 @@ public class ChatClient : MonoBehaviour
 
     private void Start()
     {
-        loginWaitingWindow.SetActive(true);
         ConnectToChatServer();
     }
 
@@ -95,13 +70,6 @@ public class ChatClient : MonoBehaviour
 
             switch (recvbuf[1])
             {
-                case (byte) ChatCode.LoginResult:
-                    GameObject.Find("LoginButton").GetComponent<LoginButton>().ProcessLogin(recvbuf);
-                    break;
-                case (byte) ChatCode.RoomListResult:
-                    Debug.Log("print");
-                    GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomList(recvbuf);
-                    break;
                 case (byte) ChatCode.Normal:
                     chatLog.AddLine(recvbuf);
                     break;
@@ -135,8 +103,8 @@ public class ChatClient : MonoBehaviour
                 throw;
             }
         });
-        loginWaitingWindow.SetActive(false);
         StartReceive();
+        SendLoginInfo();
     }
 
     private void StartReceive()
@@ -152,11 +120,29 @@ public class ChatClient : MonoBehaviour
         _client.Send(sendbuf);
         _client.Close();
     }
+    
+    private void SendLoginInfo()
+    {
+        try
+        {
+            byte[] name = Encoding.UTF8.GetBytes(PhotonNetwork.NickName);
+            byte[] sendData = new byte[2 + name.Length];
+            
+            sendData[0] = (byte) ChatCode.Login;
+            sendData[1] = (byte)name.Length;
+            Array.Copy(name, 0, sendData, 2, name.Length);
+            
+            _client.Send(sendData);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+    }
 
     private void ReceiveCallback(IAsyncResult ar)
     {
         Socket socket = (Socket) ar.AsyncState;
-
         try
         {
             int recvsize = socket.EndReceive(ar);
@@ -177,7 +163,7 @@ public class ChatClient : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
+    private void OnDestroy()
     {
         if (_client == null) return;
         if (!_client.Connected) return;
