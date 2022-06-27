@@ -20,7 +20,9 @@ namespace MyFirstPlugin
         DestroyBuildingFromClient,
         CreateBuildingFromServer,
         DestroyBuildingFromServer,
-        HideBuildingFragments
+        HideBuildingFragments,
+        PlayerSpawnFinish,
+        LoadGame
     }
 
     class PlayerInfo
@@ -28,7 +30,7 @@ namespace MyFirstPlugin
         public string Name { get; set; }
         public int Team { get; set; }
 
-        public bool isConnected = true;
+        public bool isLoaded = false;
 
         public float[] Position;
 
@@ -37,6 +39,7 @@ namespace MyFirstPlugin
 
     class Building
     {
+        public int viewID;
         public float[] Position;
         public float[] Rotate;
         public float RespawnTime { get; set; }
@@ -130,10 +133,30 @@ namespace MyFirstPlugin
                     break;
 
                 // 게임 시작
-                case (byte)EventType.StartGame:
+                case (byte)EventType.LoadGame:
                     {
                         StartGame(info);
                         break;
+                    }
+                case (byte)EventType.PlayerSpawnFinish:
+                    {
+                        var playerCount = 0;
+                        foreach (PlayerInfo obj in playerInfo)
+                        {
+                            if (obj.isLoaded)
+                            {
+                                playerCount++;
+                            }
+                            else if ((string)data[0] == obj.Name) { 
+                                obj.isLoaded = true;
+                                playerCount++;
+                            }
+                        }
+                        if (playerCount >= playerInfo.Count)
+                        {
+                            info.Request.Data = new object[] { "LOADOKLOADOK" };
+                        }
+                        break; 
                     }
                 case (byte)EventType.SetTeamOnServer:
                     {
@@ -190,8 +213,10 @@ namespace MyFirstPlugin
         {
             object[] data = (object[])info.Request.Data;
             var obj = new Building { };
-            int index = 1;
+            int index = 0;
 
+            obj.viewID = (int)data[index];
+            index += 1;
             obj.Type = (string)data[index];
             index += 1;
             obj.Position = new float[3] { (float)data[index], (float)data[index + 1], (float)data[index + 2] };
@@ -200,6 +225,10 @@ namespace MyFirstPlugin
             index += 4;
             obj.RespawnTime = (float)data[index];
 
+            if (buildings.ContainsKey((int)data[0]))
+            {
+                buildings.Remove((int)data[0]);
+            }
             buildings.Add((int)data[0], obj);
         }
 
@@ -215,7 +244,7 @@ namespace MyFirstPlugin
             var timer = new Timer(DestroyBuilding, key, (int)(target.RespawnTime * 1000), System.Threading.Timeout.Infinite);
 
             // 약 5초뒤 파편 숨기기 이벤트 전송
-            var timer2 = new Timer(HideBuildingFragments, key, 5000, System.Threading.Timeout.Infinite);
+            var timer2 = new Timer(HideBuildingFragments, key, 12000, System.Threading.Timeout.Infinite);
         }
 
         private void DestroyBuilding(Object sender)
