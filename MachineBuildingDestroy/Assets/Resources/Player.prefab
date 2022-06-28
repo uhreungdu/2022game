@@ -1759,6 +1759,7 @@ MonoBehaviour:
   Rfoot: {fileID: 556233442618169013}
   Lfoot: {fileID: 4316297118293587406}
   collidingbuilding: 0
+  DashDelay: 0
 --- !u!114 &8609409231541141928
 MonoBehaviour:
   m_ObjectHideFlags: 0

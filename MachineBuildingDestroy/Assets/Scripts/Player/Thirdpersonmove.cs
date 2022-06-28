@@ -131,7 +131,6 @@ public class Thirdpersonmove : MonoBehaviourPun
             StartCoroutine(DashSpeed());
             DashDelay = true;
         }
-
         // if (!gamePlayerInput.dash || !IsGrounded() || _playerState.IsCrowdControl() || _playerState.dead || landing)
         // {
         //     if (speed > Minspeed)
@@ -149,7 +148,7 @@ public class Thirdpersonmove : MonoBehaviourPun
     {
         yield return new WaitForSeconds(0.1f);
         speed = Minspeed;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         DashDelay = false;
     }
 
