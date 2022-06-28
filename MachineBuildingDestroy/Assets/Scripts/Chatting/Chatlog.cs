@@ -14,8 +14,15 @@ public class Chatlog : MonoBehaviour
 
     private void Awake()
     {
-        _chatClient = GameObject.Find("ChatClient");
-        _chatClient.GetComponent<ChatClient>().chatLog = gameObject.GetComponent<Chatlog>();
+        try
+        {
+            _chatClient = GameObject.Find("ChatClient");
+            _chatClient.GetComponent<ChatClient>().chatLog = gameObject.GetComponent<Chatlog>();
+        }
+        catch (Exception e)
+        {
+            
+        }
     }
 
     public void AddLine(byte[] data)

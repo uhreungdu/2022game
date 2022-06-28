@@ -31,8 +31,22 @@ public class LobbyManager : MonoBehaviour
 
     void Awake()
     {
-    _socket = LoginDBConnection.GetInstance().GetClientSocket();
+        _socket = LoginDBConnection.GetInstance().GetClientSocket();
+        GameObject roominfo;
+        try
+        {
+            roominfo = GameObject.Find("Myroominfo");
+            if (roominfo != null)
+            {
+                Destroy(roominfo);
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
+
     void Start()
     {
     }

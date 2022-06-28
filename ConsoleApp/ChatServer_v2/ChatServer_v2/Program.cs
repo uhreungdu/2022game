@@ -116,6 +116,7 @@ namespace LobbyChatserver
                             }
                         case (byte)ChatType.Login:
                             {
+                                session.is_online = true;
                                 session.id = Encoding.UTF8.GetString(session.buf, 2, session.buf[1]);
                                 break;
                             }

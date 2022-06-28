@@ -41,7 +41,7 @@ public class ChatClient : MonoBehaviour
         _ipep = new IPEndPoint(IPAddress.Parse(ServerAddress), Port);
         if (obj.Length == 1)
         {
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
