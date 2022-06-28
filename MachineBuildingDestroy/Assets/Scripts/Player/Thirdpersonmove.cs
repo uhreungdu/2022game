@@ -16,9 +16,9 @@ public class Thirdpersonmove : MonoBehaviourPun
     public LayerMask _fieldLayer;
     private PlayerAllAttackAfterCast _playerAllAttackAfterCast;
 
-    public float speed = 27f;
-    public float Maxspeed = 36f;
-    public float Minspeed = 27f;
+    public float speed = 38f;
+    public float Maxspeed = 50f;
+    public float Minspeed = 38f;
     public float yvelocity = 0;
     public float Cgravity = 4f;
     private float tempgravity = -3f;
@@ -40,6 +40,8 @@ public class Thirdpersonmove : MonoBehaviourPun
     public bool keepactiveattack { get; private set; }
     public bool landing { get; private set; }
 
+    public bool DashDelay;
+
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
@@ -50,6 +52,7 @@ public class Thirdpersonmove : MonoBehaviourPun
         Debug.Log(Application.platform);
         _playerState.isAimming = false;
         _playerState.nowEquip = false;
+        DashDelay = false;
     }
 
     void FixedUpdate()
@@ -122,25 +125,31 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     public void Dash()
     {
-        if (gamePlayerInput.dash && IsGrounded() && !_playerState.IsCrowdControl() && !_playerState.dead && !landing)
+        if (gamePlayerInput.dash && !DashDelay && IsGrounded() && !_playerState.IsCrowdControl() && !_playerState.dead && !landing)
         {
-            if (speed <= Maxspeed)
-            {
-                speed += 6f * Time.deltaTime;
-            }
+            speed = 200;
+            StartCoroutine(DashSpeed());
+            DashDelay = true;
         }
+        // if (!gamePlayerInput.dash || !IsGrounded() || _playerState.IsCrowdControl() || _playerState.dead || landing)
+        // {
+        //     if (speed > Minspeed)
+        //     {
+        //         speed -= 9f * Time.deltaTime;
+        //     }
+        //     else
+        //     {
+        //         speed = Minspeed;
+        //     }
+        // }
+    }
 
-        if (!gamePlayerInput.dash || !IsGrounded() || _playerState.IsCrowdControl() || _playerState.dead || landing)
-        {
-            if (speed > Minspeed)
-            {
-                speed -= 9f * Time.deltaTime;
-            }
-            else
-            {
-                speed = Minspeed;
-            }
-        }
+    public IEnumerator DashSpeed()
+    {
+        yield return new WaitForSeconds(0.1f);
+        speed = Minspeed;
+        yield return new WaitForSeconds(4f);
+        DashDelay = false;
     }
 
     public void SetActiveAttack(int set)
