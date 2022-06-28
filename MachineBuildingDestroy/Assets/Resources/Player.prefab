@@ -1745,9 +1745,9 @@ MonoBehaviour:
   _fieldLayer:
     serializedVersion: 2
     m_Bits: 12864
-  speed: 27
-  Maxspeed: 36
-  Minspeed: 27
+  speed: 38
+  Maxspeed: 50
+  Minspeed: 38
   yvelocity: 0
   Cgravity: 9.8
   gourndgravity: -0.05
@@ -1759,6 +1759,7 @@ MonoBehaviour:
   Rfoot: {fileID: 556233442618169013}
   Lfoot: {fileID: 4316297118293587406}
   collidingbuilding: 0
+  DashDelay: 0
 --- !u!114 &8609409231541141928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1879,7 +1880,6 @@ MonoBehaviour:
   _PlayerState: {fileID: 0}
   _gamePlayerInput: {fileID: 0}
   _thirdpersonmove: {fileID: 0}
-  _PlayerEquipitem: {fileID: 0}
   _PlayerDashAttack: {fileID: 0}
   _PlayerHandAttack: {fileID: 0}
   _PlayerJumpAttack: {fileID: 0}

@@ -7,110 +7,6 @@ using UnityEngine;
 public class CMeshSlicer : MonoBehaviour
 
 {
-    public static void Sliceseveraltimes(GameObject _target, Vector3 _sliceNormal, Material _interial, int _number)
-    {
-        // List<GameObject[]> SliceMesh_list = new List<GameObject[]>();
-        // GameObject[] SliceObjects = {_target};
-        // SliceMesh_list.Add(SliceObjects);
-        for (int i = 0; i < _number; ++i)
-        {
-            // List<GameObject[]> SliceMesh_temp = new List<GameObject[]>();
-            // foreach (GameObject[] gameObjectlist in SliceMesh_list)
-            // {
-            //     SliceMesh_temp.Add(gameObjectlist);
-            // }
-            // foreach (GameObject[] gameObjectlist in SliceMesh_temp)
-            // {
-            //     foreach (GameObject gameObject in gameObjectlist)
-            //     {
-            //         GameObject[] temp = SlicerWorld(gameObject.gameObject,
-            //             Vector3.right, 
-            //             gameObject.GetComponent<MeshRenderer>().bounds.center,
-            //             _interial);
-            //         SliceMesh_list.Add(temp);
-            //     }
-            //     SliceMesh_list.Remove(gameObjectlist);
-            // }
-            //
-            // SliceMesh_temp.Clear();
-            // foreach (GameObject[] gameObjectlist in SliceMesh_list)
-            // {
-            //     SliceMesh_temp.Add(gameObjectlist);
-            // }
-            //
-            // foreach (GameObject[] gameObjectlist in SliceMesh_temp)
-            // {
-            //     foreach (GameObject gameObject in gameObjectlist)
-            //     {
-            //         GameObject[] temp = SlicerWorld(gameObject.gameObject,
-            //             Vector3.forward,
-            //             gameObject.GetComponent<MeshRenderer>().bounds.center,
-            //             _interial);
-            //         SliceMesh_list.Add(temp);
-            //     }
-            //     SliceMesh_list.Remove(gameObjectlist);
-            // }
-            //
-            // SliceMesh_temp.Clear();
-            // foreach (GameObject[] gameObjectlist in SliceMesh_list)
-            // {
-            //     SliceMesh_temp.Add(gameObjectlist);
-            // }
-            // foreach (GameObject[] gameObjectlist in SliceMesh_temp)
-            // {
-            //     foreach (GameObject gameObject in gameObjectlist)
-            //     {
-            //         GameObject[] temp = SlicerWorld(gameObject.gameObject,
-            //             Vector3.up, 
-            //             gameObject.GetComponent<MeshRenderer>().bounds.center,
-            //             _interial);
-            //         SliceMesh_list.Add(temp);
-            //     }
-            //     SliceMesh_list.Remove(gameObjectlist);
-            // }
-            Transform _DestroyObjecttransform = _target.transform.Find("DestroyObjects");
-
-            if (_DestroyObjecttransform == null)
-            {
-                SlicerWorld(_target.gameObject, _sliceNormal, _target.GetComponent<MeshRenderer>().bounds.center,
-                    _interial);
-            }
-            else
-            {
-                if (_DestroyObjecttransform != null)
-                {
-                    Transform[] allChildren = _DestroyObjecttransform.GetComponentsInChildren<Transform>();
-                    foreach (Transform child in allChildren)
-                    {
-                        if (child != _DestroyObjecttransform)
-                        {
-                            MeshRenderer childMeshRenderer = child.GetComponent<MeshRenderer>();
-                            SlicerWorld(child.gameObject, _sliceNormal, childMeshRenderer.bounds.center,
-                                _interial);
-                        }
-                    }
-                }
-            }
-            //
-            // allChildren = _target.GetComponentsInChildren<Transform>();
-            // foreach (Transform child in allChildren)
-            // {
-            //     if (child.gameObject != _target && child.gameObject.activeSelf != false)
-            //         SlicerWorld(child.gameObject, Vector3.right, 
-            //             child.GetComponent<MeshRenderer>().bounds.center, _interial);
-            // }
-            //
-            //
-            // allChildren = _target.GetComponentsInChildren<Transform>();
-            // foreach (Transform child in allChildren)
-            // {
-            //     if (child.gameObject != _target && child.gameObject.activeSelf != false)
-            //         SlicerWorld(child.gameObject, Vector3.forward, 
-            //             child.GetComponent<MeshRenderer>().bounds.center, _interial);
-            // }
-        }
-    }
-
     public static GameObject[] SlicerWorld(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint,
         Material _interial)
     {
@@ -409,19 +305,24 @@ public class CMeshSlicer : MonoBehaviour
         bObject.tag = "DestroyWall";
         bObject.layer = 15;
 
-        Transform _DestroyObjecttransform = null;
-        if (_target.transform.parent)
-        {
-            _DestroyObjecttransform = _target.transform.parent;
-        }
+        //Transform _DestroyObjecttransform = null;
+        
+        BulidingObject _bulidingObject = _target.transform.root.GetComponent<BulidingObject>();
+        Transform _DestroyObjecttransform = _bulidingObject.DestroyObjects.transform;
+        
+        // if (_target.transform.parent)
+        // {
+        //     _DestroyObjecttransform = _target.transform.parent;
+        // }
         
         //Create sliced object
-        if (_DestroyObjecttransform == null || _DestroyObjecttransform.name != "DestroyObjects")
+        if (/*_DestroyObjecttransform == null || _DestroyObjecttransform.name != "DestroyObjects"*/ 
+            _DestroyObjecttransform.childCount <= 0)
         {
-            GameObject _DestroyObject = new GameObject("DestroyObjects");
-            _DestroyObject.transform.SetParent(_target.transform, false);
-            _target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            _DestroyObjecttransform = _DestroyObject.transform;
+            //GameObject _DestroyObject = new GameObject("DestroyObjects");
+            //_DestroyObject.transform.SetParent(_target.transform, false);
+            //_target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            //_DestroyObjecttransform = _DestroyObject.transform;
             // _target.GetComponent<MeshFilter>().sharedMesh = orinMesh;
             // _target.GetComponent<MeshCollider>().sharedMesh = orinMesh;
             // _target.GetComponent<MeshCollider>().convex = true;
@@ -431,7 +332,7 @@ public class CMeshSlicer : MonoBehaviour
             _target.tag = "Wall";
 
             // abParentObject = new GameObject(_target.name, typeof(Rigidbody), typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider));
-            //
+            
             // abParentObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             // abParentObject.GetComponent<MeshFilter>().sharedMesh = orinMesh;
             // abParentObject.GetComponent<MeshCollider>().sharedMesh = orinMesh;
