@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 using Photon.Pun;
 using UnityEngine.UI;
 
-public class ChatClient : MonoBehaviour
+public class LoginDBConnection : MonoBehaviour
 {
-    private static ChatClient instance;
+    private static LoginDBConnection instance;
     
     private const string ServerAddress = "121.139.87.70";
-    private const int Port = 15000;
+    private const int Port = 15001;
     private const int BufSize = 256;
     private Socket _client;
     private IPEndPoint _ipep;
@@ -26,13 +26,33 @@ public class ChatClient : MonoBehaviour
     
     private byte[] sendbuf = new byte[BufSize-1];
     private byte[] recvbuf = new byte[BufSize];
-    public Chatlog chatLog;
+    public GameObject loginWaitingWindow;
     
     public enum ChatCode : byte
     {
-        Normal,
         Exit,
-        Login
+        EnterRoom,
+        ExitRoom,
+        MakeRoom,
+        LoginRequest,
+        LoginResult,
+        RoomListRequest,
+        RoomListResult
+    }
+    
+    public static LoginDBConnection GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = FindObjectOfType<LoginDBConnection>();
+            if (instance == null)
+            {
+                GameObject container = new GameObject("LoginDBConnection");
+                instance = container.AddComponent<LoginDBConnection>();
+            }
+        }
+
+        return instance;
     }
 
     private void Awake()
@@ -41,7 +61,7 @@ public class ChatClient : MonoBehaviour
         _ipep = new IPEndPoint(IPAddress.Parse(ServerAddress), Port);
         if (obj.Length == 1)
         {
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -51,7 +71,8 @@ public class ChatClient : MonoBehaviour
 
     private void Start()
     {
-        ConnectToChatServer();
+        loginWaitingWindow.SetActive(true);
+        ConnectToServer();
     }
 
     private void Update()
@@ -70,8 +91,12 @@ public class ChatClient : MonoBehaviour
 
             switch (recvbuf[1])
             {
-                case (byte) ChatCode.Normal:
-                    chatLog.AddLine(recvbuf);
+                case (byte) ChatCode.LoginResult:
+                    GameObject.Find("LoginButton").GetComponent<LoginButton>().ProcessLogin(recvbuf);
+                    break;
+                case (byte) ChatCode.RoomListResult:
+                    Debug.Log("print");
+                    GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomList(recvbuf);
                     break;
             }
 
@@ -88,7 +113,7 @@ public class ChatClient : MonoBehaviour
         return _client;
     }
 
-    async void ConnectToChatServer()
+    async void ConnectToServer()
     {
         _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         await Task.Run(() =>
@@ -103,8 +128,8 @@ public class ChatClient : MonoBehaviour
                 throw;
             }
         });
+        loginWaitingWindow.SetActive(false);
         StartReceive();
-        SendLoginInfo();
     }
 
     private void StartReceive()
@@ -120,29 +145,11 @@ public class ChatClient : MonoBehaviour
         _client.Send(sendbuf);
         _client.Close();
     }
-    
-    private void SendLoginInfo()
-    {
-        try
-        {
-            byte[] name = Encoding.UTF8.GetBytes(PhotonNetwork.NickName);
-            byte[] sendData = new byte[2 + name.Length];
-            
-            sendData[0] = (byte) ChatCode.Login;
-            sendData[1] = (byte)name.Length;
-            Array.Copy(name, 0, sendData, 2, name.Length);
-            
-            _client.Send(sendData);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-        }
-    }
 
     private void ReceiveCallback(IAsyncResult ar)
     {
         Socket socket = (Socket) ar.AsyncState;
+
         try
         {
             int recvsize = socket.EndReceive(ar);
@@ -163,7 +170,7 @@ public class ChatClient : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnApplicationQuit()
     {
         if (_client == null) return;
         if (!_client.Connected) return;

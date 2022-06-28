@@ -30,7 +30,7 @@ public class RoomBlock : MonoBehaviour
     {
         _lobbyManager = LobbyManager.GetInstance();
         _account = Account.GetInstance();
-        _client = ChatClient.GetInstance().GetClientSocket();
+        _client = LoginDBConnection.GetInstance().GetClientSocket();
     }
 
     public void SetVariables(string internalName, string externalName, int nowPlayerNum, int maxPlayerNum, bool ingame)
@@ -71,7 +71,7 @@ public class RoomBlock : MonoBehaviour
         byte[] tempBuf = Encoding.UTF8.GetBytes(_iname);
         
         byte[] sendBuf = new byte[tempBuf.Length + 1];
-        sendBuf[0] = (byte) ChatClient.ChatCode.EnterRoom;
+        sendBuf[0] = (byte) LoginDBConnection.ChatCode.EnterRoom;
         
         Array.Copy(tempBuf, 0, sendBuf, 1, tempBuf.Length);
         
