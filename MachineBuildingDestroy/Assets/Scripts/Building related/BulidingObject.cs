@@ -86,6 +86,19 @@ public class BulidingObject : LivingEntity
                 coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f, 500 / 2);
                 coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f);
             }
+            var objectName = gameObject.transform.root.name;
+            objectName = objectName.Remove(objectName.Length - 7, 7);
+            if (GameManager.GetInstance().getTime().Ntimer < 180 - 45)
+            {
+                _reSpawnTime = 45 - GameManager.GetInstance().getTime().Ntimer % 45;
+                AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
+                    _reSpawnTime);
+            }
+            else
+            {
+                AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
+                    10);
+            }
             BuildingDestroyEvent(photonView.ViewID);
         }
     }
@@ -230,12 +243,13 @@ public class BulidingObject : LivingEntity
                     child.AddExplosionForce(_ExplosionForce, objectPotision, 40f);
                 }
             }
-
+            
             _MeshRenderer.enabled = false;
             _MeshCollider.enabled = false;
             effect_obj = Instantiate(prefeb_effect);
             effect_obj.transform.SetParent(gameObject.transform);
             effect_obj.transform.position = gameObject.transform.position;
+
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
             CinemachineShake.Instance.ShakeCamera(25f, 0.5f);
