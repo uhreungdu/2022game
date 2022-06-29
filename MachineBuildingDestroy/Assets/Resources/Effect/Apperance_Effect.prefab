@@ -9770,6 +9770,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3153304375186854198}
   - component: {fileID: 4953921461137930557}
+  - component: {fileID: 6272347337228865234}
   m_Layer: 0
   m_Name: Apperance_Effect
   m_TagString: Untagged
@@ -9795,20 +9796,20 @@ Transform:
   - {fileID: 3153304375466004447}
   - {fileID: 3153304374793518184}
   - {fileID: 8797256019430231930}
-  - {fileID: 501739267571578864}
-  - {fileID: 356219143987440395}
-  - {fileID: 8158673165505075127}
-  - {fileID: 7743730620986886379}
-  - {fileID: 9220314372118204732}
-  - {fileID: 8072419390504105435}
+  - {fileID: 7126633162952801422}
   - {fileID: 885409167100789317}
   - {fileID: 7498961871263768544}
-  - {fileID: 7126633162952801422}
+  - {fileID: 356219143987440395}
   - {fileID: 8925948723843130377}
+  - {fileID: 8072419390504105435}
   - {fileID: 3032234004090765194}
-  - {fileID: 8296131347961663598}
+  - {fileID: 501739267571578864}
   - {fileID: 6879464115889708870}
+  - {fileID: 9220314372118204732}
+  - {fileID: 8296131347961663598}
+  - {fileID: 8158673165505075127}
   - {fileID: 5609992910958762506}
+  - {fileID: 7743730620986886379}
   - {fileID: 8463425952299310053}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -9836,6 +9837,37 @@ MonoBehaviour:
   _gameManager: {fileID: 0}
   Landmarkobj: {fileID: 0}
   can_effect: 0
+--- !u!114 &6272347337228865234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3153304375186854193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2749f463a44c7da4385a69f046e00e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+  - {fileID: 8797256019430231931}
+  - {fileID: 7126633162952801423}
+  - {fileID: 885409167100789316}
+  - {fileID: 7498961871263768545}
+  - {fileID: 356219143987440394}
+  - {fileID: 8925948723843130376}
+  - {fileID: 8072419390504105434}
+  - {fileID: 3032234004090765195}
+  - {fileID: 501739267571578865}
+  - {fileID: 6879464115889708871}
+  - {fileID: 9220314372118204733}
+  - {fileID: 8296131347961663599}
+  - {fileID: 8158673165505075126}
+  - {fileID: 5609992910958762507}
+  - {fileID: 7743730620986886378}
+  - {fileID: 8463425952299310052}
+  particles: []
+  gmanager: {fileID: 0}
 --- !u!1 &3153304375466004446
 GameObject:
   m_ObjectHideFlags: 0
@@ -19520,11 +19552,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (14)
+      value: LightBuild14
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19605,6 +19637,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
   m_PrefabInstance: {fileID: 578481449795013297}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5609992910958762507 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 578481449795013297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1920041069515395069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19614,11 +19651,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (13)
+      value: LightBuild10
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19699,6 +19736,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
   m_PrefabInstance: {fileID: 1920041069515395069}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6879464115889708871 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 1920041069515395069}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2826989661482036277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19708,11 +19750,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (9)
+      value: LightBuild2
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19788,6 +19830,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+--- !u!1 &7126633162952801423 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 2826989661482036277}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7126633162952801422 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
@@ -19963,11 +20010,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (8)
+      value: LightBuild4
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20043,6 +20090,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+--- !u!1 &7498961871263768545 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 3300070983463292763}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7498961871263768544 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
@@ -20057,11 +20109,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (4)
+      value: LightBuild15
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20142,6 +20194,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
   m_PrefabInstance: {fileID: 3362745249225660496}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7743730620986886378 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 3362745249225660496}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3506542743291169630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20151,7 +20208,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (15)
+      value: LightBuild16
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
@@ -20239,6 +20296,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+--- !u!1 &8463425952299310052 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 3506542743291169630}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8463425952299310053 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
@@ -20253,11 +20315,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (3)
+      value: LightBuild13
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20333,6 +20395,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+--- !u!1 &8158673165505075126 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 3811436168750712588}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8158673165505075127 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
@@ -20347,7 +20414,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (6)
+      value: LightBuild7
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
@@ -20432,6 +20499,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
   m_PrefabInstance: {fileID: 3880802906529572192}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8072419390504105434 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 3880802906529572192}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3962139102634803413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20441,11 +20513,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (12)
+      value: LightBuild12
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20526,6 +20598,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
   m_PrefabInstance: {fileID: 3962139102634803413}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8296131347961663599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 3962139102634803413}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4190806255499968903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20535,11 +20612,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (5)
+      value: LightBuild11
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20615,6 +20692,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+--- !u!1 &9220314372118204733 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 4190806255499968903}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9220314372118204732 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
@@ -20629,11 +20711,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (10)
+      value: LightBuild6
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20709,6 +20791,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+--- !u!1 &8925948723843130376 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 4468353779502298290}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8925948723843130377 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
@@ -20723,7 +20810,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild
+      value: LightBuild1
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
@@ -20808,6 +20895,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
   m_PrefabInstance: {fileID: 4596977548357345217}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8797256019430231931 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 4596977548357345217}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4696150950591069104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20817,11 +20909,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (2)
+      value: LightBuild5
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20902,6 +20994,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
   m_PrefabInstance: {fileID: 4696150950591069104}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &356219143987440394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 4696150950591069104}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4839986622293387083
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20911,11 +21008,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (1)
+      value: LightBuild9
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20991,6 +21088,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+--- !u!1 &501739267571578865 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 4839986622293387083}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &501739267571578864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
@@ -21005,11 +21107,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (7)
+      value: LightBuild3
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21085,6 +21187,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+--- !u!1 &885409167100789316 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 5301869216850088702}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &885409167100789317 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
@@ -21099,11 +21206,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_Name
-      value: LightBuild (11)
+      value: LightBuild8
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21179,6 +21286,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+--- !u!1 &3032234004090765195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5034354798368346298, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
+  m_PrefabInstance: {fileID: 8055030736227921713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3032234004090765194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5034354798368346299, guid: b27b876b9b20bf44d98ad5190fff3af6, type: 3}
