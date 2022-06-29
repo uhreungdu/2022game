@@ -21,6 +21,7 @@ public class LightEffect_Control : MonoBehaviour
             {
                 particles.Add(effects[i].GetComponent<Effect_control>());
                 //effects[i].SetActive(false);
+                particles[i].Stop_Particles();
             }
         }
         for (int i = 0; i < particles.Count; ++i)
