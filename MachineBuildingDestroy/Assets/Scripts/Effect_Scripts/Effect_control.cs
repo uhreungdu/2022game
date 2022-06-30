@@ -30,6 +30,16 @@ public class Effect_control : MonoBehaviour
             }
         }
     }
+    public void Stop_Particles()
+    {
+        for (int i = 0; i < particles.Count; ++i)
+        {
+            if (particles[i] != null)
+            {
+                particles[i].Stop();
+            }
+        }
+    }
 
     public void Get_System()
     {

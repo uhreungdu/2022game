@@ -16,17 +16,9 @@ public class ChatSendButton : MonoBehaviourPun
     public GameObject inputfield;
     public GameObject chatLog;
     
-    // Start is called before the first frame update
-
-    private void Awake()
-    {
-        _chatClient = GameObject.Find("ChatClient");
-        _client = _chatClient.GetComponent<ChatClient>().GetClientSocket();
-    }
-
     void Start()
     {
-        
+        _chatClient = GameObject.Find("ChatClient");
     }
 
     // Update is called once per frame
@@ -37,6 +29,8 @@ public class ChatSendButton : MonoBehaviourPun
     
     public void SendNormalChat()
     {
+        _client ??= _chatClient.GetComponent<ChatClient>().GetClientSocket();
+        
         // InputField에서 텍스트 받아오기
         var msg = inputfield.GetComponent<InputField>().text;
 
@@ -57,21 +51,8 @@ public class ChatSendButton : MonoBehaviourPun
     
     public void SendRoomChat()
     {
-        // InputField에서 텍스트 받아오기
         var msg = inputfield.GetComponent<InputField>().text;
-
-        // send버퍼 초기화 후 메세지 받아오기
-        sendbuf = Encoding.UTF8.GetBytes(msg);
         
-        // 메세지 코드를 temp에 저장 
-        byte[] tempbuf = new byte[sendbuf.Length + 1];
-        tempbuf[0] = (byte) ChatClient.ChatCode.RoomChat;
-
-        // 메세지를 temp뒤에 병합
-        Array.Copy(sendbuf, 0, tempbuf, 1, sendbuf.Length);
-        
-        // 메세지 전송 후 InputField비우기
-        var result = _client.Send(tempbuf);
         photonView.RPC("SendRoomChat",RpcTarget.AllViaServer,PhotonNetwork.NickName, msg);
         inputfield.GetComponent<InputField>().text = string.Empty;
     }

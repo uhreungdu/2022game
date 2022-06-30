@@ -42,7 +42,7 @@ public class CreateRoomWindow : MonoBehaviour
     {
         gManager = LobbyManager.GetInstance();
         _account = Account.GetInstance();
-        _client = ChatClient.GetInstance().GetClientSocket();
+        _client = LoginDBConnection.GetInstance().GetClientSocket();
     }
 
     public void OnClick(bool val)
@@ -82,7 +82,7 @@ public class CreateRoomWindow : MonoBehaviour
         byte[] ename = Encoding.UTF8.GetBytes(_ename);
 
         byte[] sendBuf = new byte[iname.Length + ename.Length + 1 + 3];
-        sendBuf[0] = (byte) ChatClient.ChatCode.MakeRoom;
+        sendBuf[0] = (byte) LoginDBConnection.ChatCode.MakeRoom;
         sendBuf[1] = (byte) iname.Length;
         sendBuf[2] = (byte) ename.Length;
         sendBuf[3] = (byte) _playerNum;  // maxPlayerNum
