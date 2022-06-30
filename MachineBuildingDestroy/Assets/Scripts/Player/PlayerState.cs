@@ -81,7 +81,7 @@ public class PlayerState : LivingEntity, IPunObservable
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
         
-        Item = item_box_make.item_type.EnergyWave;
+        Item = item_box_make.item_type.Gun;
         //Item = item_box_make.item_type.no_item;
         
         P_Dm = new Dmgs_Status();

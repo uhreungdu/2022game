@@ -15,7 +15,8 @@ public class item_box_make : MonoBehaviour
         potion,
         obstacles,
         Hammer,
-        EnergyWave
+        EnergyWave,
+        Gun
     }
     
     public item_type now_type {get; private set;}
