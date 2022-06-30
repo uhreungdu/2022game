@@ -8,7 +8,7 @@ public class LightEffect_Control : MonoBehaviour
     public List<Effect_control> particles = new List<Effect_control>();
 
     public GameManager gmanager;
-    
+    public bool once;
 
     public float time_delay;
     // Start is called before the first frame update
@@ -20,10 +20,35 @@ public class LightEffect_Control : MonoBehaviour
             if (effects[i] != null)
             {
                 particles.Add(effects[i].GetComponent<Effect_control>());
-                //effects[i].SetActive(false);
+                effects[i].SetActive(false);
                 particles[i].Stop_Particles();
             }
         }
+
+        once = true;
+
+    }
+    
+    // Update is called once per frame
+    void Update()
+    {
+        if ((int)gmanager.EManager.Ntimer / 90 > 0 && once == true)
+        {
+            readyEevent();
+            once = false;
+        }
+
+    }
+
+    IEnumerator effect_count(int num, float time)
+    {
+        yield return new WaitForSeconds(time);
+        effects[num].SetActive(true);
+        particles[num].Play_Particles();
+    }
+
+    public void readyEevent()
+    {
         for (int i = 0; i < particles.Count; ++i)
         {
             if (i < 3)
@@ -48,19 +73,6 @@ public class LightEffect_Control : MonoBehaviour
             }
             StartCoroutine(effect_count(i, time_delay));
         }
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-
-        
-    }
-
-    IEnumerator effect_count(int num, float time)
-    {
-        yield return new WaitForSeconds(time);
-        particles[num].Play_Particles();
     }
     
 }
