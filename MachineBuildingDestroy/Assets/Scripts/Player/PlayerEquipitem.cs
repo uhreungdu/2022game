@@ -20,6 +20,7 @@ public class PlayerEquipitem : MonoBehaviourPun
     public GameObject Wall_Obstcle_Frame;
     public GameObject BuffObj;
     public GameObject HammerObj;
+    public GameObject GunObj;
     public GameObject Frame_Obj;
     public PlayerAnimator _playerAnimator;
     public Rigidbody item_Rigid;
@@ -69,6 +70,12 @@ public class PlayerEquipitem : MonoBehaviourPun
         else if (_playerState.Item == item_box_make.item_type.Hammer && _playerState.nowEquip == false)
         {
             HammerObj.SetActive(true);
+            _playerState.nowEquip = true;
+        }
+        
+        else if (_playerState.Item == item_box_make.item_type.Gun && _playerState.nowEquip == false)
+        {
+            GunObj.SetActive(true);
             _playerState.nowEquip = true;
         }
         

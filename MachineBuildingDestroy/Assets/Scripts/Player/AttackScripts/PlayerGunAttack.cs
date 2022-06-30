@@ -6,11 +6,12 @@ public class PlayerGunAttack : PlayerAttack
 {
     // Start is called before the first frame update
     public PlayerImpact _playerImpact;
-    public BoxCollider _rHandBoxCollider;
-    public GameObject LHandGameObject;
     public GameObject RHandGameObject;
+    public GameObject GunObject;
     private Thirdpersonmove _thirdpersonmove;
-    public List<GunBullet> _GunBullets;
+    
+    public List<GameObject> _GunBullets;
+    public GameObject _gunBulletGameObject;
     void Start()
     {
         base.Start();
@@ -20,17 +21,19 @@ public class PlayerGunAttack : PlayerAttack
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
         _aftercastAttack = 0.8f;
         SetAffterCast(0);
-        _damage = 15;
+        _damage = 10;
         
-        _hitBoxColliders.Add(_rHandBoxCollider);
+        
+        _GunBullets = new List<GameObject>();
     }
 
     void Update()
     {
         HandTransform();
         AfterCastRecovery();
-        ActiveAttack();
+        //ActiveAttack();
     }
+    
     public void ActiveAttack()
     {
         if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_thirdpersonmove.IsGrounded() && !_playerState.dead)
@@ -62,7 +65,6 @@ public class PlayerGunAttack : PlayerAttack
     private void HandTransform()
     {
         Vector3 WorldRHandPosition = RHandGameObject.transform.position;
-        _rHandBoxCollider.transform.position = WorldRHandPosition;
     }
     
     public void JumpAttackMovement()
@@ -75,4 +77,16 @@ public class PlayerGunAttack : PlayerAttack
     {
         base.SetAffterCast(set);      // 애니메이션 이벤트에서 이래야 받음
     }
+
+    public void ShootBullet()
+    {
+        GameObject BulletgameObject = Instantiate(_gunBulletGameObject, GunObject.transform.position, _gunBulletGameObject.transform.rotation);
+        GunBullet BulletgameObjectGunBullet = BulletgameObject.GetComponent<GunBullet>();
+        BulletgameObjectGunBullet.ShootTeam = _playerState.team;
+        BulletgameObjectGunBullet.ShootPosition = GunObject.transform.position;
+        BulletgameObjectGunBullet.ForwardVector3 = transform.forward;
+        BulletgameObjectGunBullet._playerGunAttack = this;
+    }
+    
+    
 }

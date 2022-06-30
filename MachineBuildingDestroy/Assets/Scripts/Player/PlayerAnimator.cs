@@ -17,6 +17,7 @@ public class PlayerAnimator : MonoBehaviourPun
     public PlayerJumpAttack _PlayerJumpAttack;
     public PlayerDragonPunch _PlayerDragonPunch;
     public PlayerEnergywaveAttack _PlayerEnergywaveAttack;
+    public PlayerGunAttack _PlayerGunAttack;
     public PlayerAnimationEvent _PlayerAnimationEvent;
     public AudioSource _AudioSource;
     public HammerAttack _HammerAttack;
@@ -47,6 +48,7 @@ public class PlayerAnimator : MonoBehaviourPun
         _PlayerJumpAttack = GetComponent<PlayerJumpAttack>();
         _PlayerDragonPunch = GetComponent<PlayerDragonPunch>();
         _PlayerEnergywaveAttack = GetComponent<PlayerEnergywaveAttack>();
+        _PlayerGunAttack = GetComponent<PlayerGunAttack>();
         _PlayerAnimationEvent = GetComponent<PlayerAnimationEvent>();
         _AudioSource = GetComponent<AudioSource>();
         _HammerAttack = GetComponent<HammerAttack>();
@@ -121,6 +123,20 @@ public class PlayerAnimator : MonoBehaviourPun
             });
         _PlayerEnergywaveAttack.SetAffterCast(1);
         _Animator.SetTrigger("EnergyWave");
+    }
+
+    public void GunAttack()
+    {
+        _PlayerAnimationEvent.Play(
+            null,
+            null,
+            null,
+            () =>
+            {
+                _AudioSource.PlayOneShot(_PlayerGunAttack._AttackAudioClips[Random.Range(0, _PlayerGunAttack._AttackAudioClips.Count)]);
+            });
+        _PlayerGunAttack.ShootBullet();
+        //_Animator.SetTrigger("EnergyWave");
     }
 
     public void DelayTimer()
