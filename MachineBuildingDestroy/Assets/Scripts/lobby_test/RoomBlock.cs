@@ -50,7 +50,7 @@ public class RoomBlock : MonoBehaviour
             roomName.GetComponent<Text>().text = _ename;
             playerNum.GetComponent<Text>().text = _nowP + " / " + _maxP;
             GetComponent<Button>().interactable = _ingame == false;
-            GetComponent<Button>().interactable = _nowP != _maxP;
+            if (_ingame != true) GetComponent<Button>().interactable = _nowP != _maxP;
         }
         else
         {
