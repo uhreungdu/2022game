@@ -26,8 +26,7 @@ public class InfoWindow : MonoBehaviour
         playerName.GetComponent<Text>().text = data.GetPlayerNickname();
         var win = data.GetPlayerWin();
         var lose = data.GetPlayerLose();
-        gameResults.GetComponent<Text>().text = "총 게임 수: " + (win + lose) + "\n"
-                                                +"승리: " + win + "\n"
+        gameResults.GetComponent<Text>().text = "승리: " + win + " "
                                                 +"패배: " + lose;
         costume = data.GetPlayerCostume();
         playerModel.GetComponent<PrintPlayerModel>().RenewPlayerModel(costume);
