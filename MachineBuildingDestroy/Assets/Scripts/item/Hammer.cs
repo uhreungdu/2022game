@@ -12,6 +12,12 @@ public class Hammer : MonoBehaviour
     {
         _PlayerState = transform.root.GetComponent<PlayerState>();
     }
+    
+    private void Awake()
+    {
+        Durability = 10;
+    }
+    
     void Update()
     {
         if (Durability <= 0)

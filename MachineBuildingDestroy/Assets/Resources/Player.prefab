@@ -2250,6 +2250,7 @@ MonoBehaviour:
   GunObject: {fileID: 5816487938614380175}
   _GunBullets: []
   _gunBulletGameObject: {fileID: 3472247822214706442, guid: 131b8dec69988f749a7dfd44ec839e25, type: 3}
+  _Gun: {fileID: 8313411467985126066}
 --- !u!1 &6992022173633594063
 GameObject:
   m_ObjectHideFlags: 0

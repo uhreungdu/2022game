@@ -112,5 +112,5 @@ MonoBehaviour:
   ShootPosition: {x: 0, y: 0, z: 0}
   ForwardVector3: {x: 0, y: 0, z: 0}
   MaxDistance: 0
-  Speed: 1
+  Speed: 80
   ShootTeam: 0
