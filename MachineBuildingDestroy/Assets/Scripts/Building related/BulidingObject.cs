@@ -323,12 +323,14 @@ public class BulidingObject : LivingEntity
                     Transform[] allChildren = _DestroyObjecttransform.GetComponentsInChildren<Transform>();
                     foreach (Transform child in allChildren)
                     {
-                        if (child != _DestroyObjecttransform)
+                        if (child != _DestroyObjecttransform && child != null)
                         {
                             MeshRenderer childMeshRenderer = child.GetComponent<MeshRenderer>();
-                            CMeshSlicer.SlicerWorld(child.gameObject, _sliceNormal, childMeshRenderer.bounds.center,
-                                _interial);
-                            corutineCount++;
+                            if (childMeshRenderer != null)
+                            {
+                                CMeshSlicer.SlicerWorld(child.gameObject, _sliceNormal, childMeshRenderer.bounds.center, _interial);
+                                corutineCount++;
+                            }
                         }
                         if (corutineCount % 3 == 0)
                             yield return null;
