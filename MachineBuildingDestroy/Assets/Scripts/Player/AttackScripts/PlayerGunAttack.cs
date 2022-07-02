@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Configuration;
 using UnityEngine;
 
 public class PlayerGunAttack : PlayerAttack
@@ -12,6 +13,10 @@ public class PlayerGunAttack : PlayerAttack
     
     public List<GameObject> _GunBullets;
     public GameObject _gunBulletGameObject;
+
+    public Gun _Gun;
+    
+    public bool isDelay = false;
     void Start()
     {
         base.Start();
@@ -49,18 +54,18 @@ public class PlayerGunAttack : PlayerAttack
         }
     }
     
-    public void SetHandCollision(int set)
-    {
-        if (set > 0)
-        {
-            _hitBoxColliders[0].enabled = true;
-            SetActiveAttack();
-        }
-        else if (set <= 0)
-        {
-            _hitBoxColliders[0].enabled = false;
-        }
-    }
+    // public void SetHandCollision(int set)
+    // {
+    //     if (set > 0)
+    //     {
+    //         _hitBoxColliders[0].enabled = true;
+    //         SetActiveAttack();
+    //     }
+    //     else if (set <= 0)
+    //     {
+    //         _hitBoxColliders[0].enabled = false;
+    //     }
+    // }
 
     private void HandTransform()
     {
@@ -78,14 +83,19 @@ public class PlayerGunAttack : PlayerAttack
         base.SetAffterCast(set);      // 애니메이션 이벤트에서 이래야 받음
     }
 
-    public void ShootBullet()
+    public IEnumerator ShootBullet()
     {
         GameObject BulletgameObject = Instantiate(_gunBulletGameObject, GunObject.transform.position, _gunBulletGameObject.transform.rotation);
         GunBullet BulletgameObjectGunBullet = BulletgameObject.GetComponent<GunBullet>();
         BulletgameObjectGunBullet.ShootTeam = _playerState.team;
         BulletgameObjectGunBullet.ShootPosition = GunObject.transform.position;
-        BulletgameObjectGunBullet.ForwardVector3 = transform.forward;
+        Vector3 returnForwardVector = transform.forward;
+        returnForwardVector = Quaternion.Euler(Random.Range(0.0f, 5.0f), Random.Range(0.0f, 5.0f), 0) * transform.forward;
+        BulletgameObjectGunBullet.ForwardVector3 = returnForwardVector;
         BulletgameObjectGunBullet._playerGunAttack = this;
+        _Gun.Durability -= 1;
+        yield return new WaitForSeconds(0.025f);
+        isDelay = false;
     }
     
     

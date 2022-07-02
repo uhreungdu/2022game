@@ -10,20 +10,20 @@ public class GunBullet : MonoBehaviourPun
     public PlayerGunAttack _playerGunAttack;
     public Vector3 ShootPosition;
     public Vector3 ForwardVector3;
-    public float MaxDistance;
-    public float Speed = 1f;
+    public float MaxDistance = 80f;
+    public float Speed = 80f;
     public float ShootTeam;
 
     void Start()
     {
-        MaxDistance = 50f;
+        MaxDistance = 80f;
     }
 
     private void Update()
     {
         if (Vector3.Distance(ShootPosition, transform.position) <= MaxDistance)
         {
-            transform.position += ForwardVector3 * Speed;
+            transform.position += ForwardVector3 * Speed * Time.deltaTime;
         }
         else
             Destroy(gameObject);

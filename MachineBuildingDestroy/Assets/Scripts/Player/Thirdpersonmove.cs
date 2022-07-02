@@ -146,7 +146,7 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     public IEnumerator DashSpeed()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         speed = Minspeed;
         yield return new WaitForSeconds(4f);
         DashDelay = false;
