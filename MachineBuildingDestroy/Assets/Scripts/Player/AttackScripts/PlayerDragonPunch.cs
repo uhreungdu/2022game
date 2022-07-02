@@ -17,7 +17,7 @@ public class PlayerDragonPunch : PlayerAttack
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
-        _aftercastAttack = 1f;
+        _aftercastAttack = 0.6f;
         SetAffterCast(0);
         _damage = 30;
         //_coolTime = 10;

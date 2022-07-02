@@ -1,23 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class Hammer : MonoBehaviour
+public class Gun : MonoBehaviour
 {
-    public int Durability = 10;
+    public int Durability = 200;
 
     public PlayerState _PlayerState;
     // Update is called once per frame
+
     void Start()
     {
         _PlayerState = transform.root.GetComponent<PlayerState>();
     }
-    
+
     private void Awake()
     {
-        Durability = 10;
+        Durability = 200;
     }
-    
+
     void Update()
     {
         if (Durability <= 0)

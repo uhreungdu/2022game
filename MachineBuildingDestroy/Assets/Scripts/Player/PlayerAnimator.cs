@@ -135,8 +135,11 @@ public class PlayerAnimator : MonoBehaviourPun
             {
                 _AudioSource.PlayOneShot(_PlayerGunAttack._AttackAudioClips[Random.Range(0, _PlayerGunAttack._AttackAudioClips.Count)]);
             });
-        _PlayerGunAttack.ShootBullet();
-        //_Animator.SetTrigger("EnergyWave");
+        if (_PlayerGunAttack.isDelay == false)
+        {
+            StartCoroutine(_PlayerGunAttack.ShootBullet());
+            _PlayerGunAttack.isDelay = true;
+        }
     }
 
     public void DelayTimer()
