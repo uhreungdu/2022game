@@ -84,7 +84,9 @@ public class PlayerGunAttack : PlayerAttack
         GunBullet BulletgameObjectGunBullet = BulletgameObject.GetComponent<GunBullet>();
         BulletgameObjectGunBullet.ShootTeam = _playerState.team;
         BulletgameObjectGunBullet.ShootPosition = GunObject.transform.position;
-        BulletgameObjectGunBullet.ForwardVector3 = transform.forward;
+        Vector3 returnForwardVector = transform.forward;
+        returnForwardVector = Quaternion.Euler(Random.Range(0.0f, 5.0f), Random.Range(0.0f, 5.0f), 0) * transform.forward;
+        BulletgameObjectGunBullet.ForwardVector3 = returnForwardVector;
         BulletgameObjectGunBullet._playerGunAttack = this;
     }
     
