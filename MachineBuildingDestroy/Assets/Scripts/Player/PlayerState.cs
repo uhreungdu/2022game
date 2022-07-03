@@ -76,7 +76,11 @@ public class PlayerState : LivingEntity, IPunObservable
         var info = MyInRoomInfo.GetInstance();
         if (info != null)
         {
-            team = info.GetComponent<MyInRoomInfo>().mySlotNum % 2;
+            if (photonView.IsMine)
+            {
+                var num = info.GetComponent<MyInRoomInfo>().mySlotNum % 2;
+                photonView.RPC("SetTeamNum", RpcTarget.AllViaServer, num);
+            }
             //Destroy(info);
         }
         gManager = GameManager.GetInstance();
@@ -338,6 +342,12 @@ public class PlayerState : LivingEntity, IPunObservable
         UIGiltch = true;
         yield return new WaitForSeconds(0.3f);
         UIGiltch = false;
+    }
+
+    [PunRPC]
+    public void SetTeamNum(int val)
+    {
+        team = val;
     }
 
     private void OnApplicationQuit()
