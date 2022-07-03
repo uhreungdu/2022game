@@ -77,6 +77,7 @@ public class PlayerState : LivingEntity, IPunObservable
         if (info != null)
         {
             team = info.GetComponent<MyInRoomInfo>().mySlotNum % 2;
+            print(info.GetComponent<MyInRoomInfo>().mySlotNum + "번 자리");
             //Destroy(info);
         }
         gManager = GameManager.GetInstance();
