@@ -33,7 +33,6 @@ public class PlayerDashAttackTrigger : MonoBehaviourPun
                     myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerDashAttack._damage);
                 }
                 
-                
                 Debug.Log(attackTarget.health);
             }
         }
