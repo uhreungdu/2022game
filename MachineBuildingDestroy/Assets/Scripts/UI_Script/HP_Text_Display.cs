@@ -9,12 +9,14 @@ public class HP_Text_Display : MonoBehaviour
     public GameManager gManager;
     public Text text_H;
     public Image Hp_Bar;
+    public Material HP_BarMat;
     public Text text_Item;
     public Text Coin_text;
     public item_box_make.item_type item_typ;
     void Start()
     {
         gManager = GameManager.GetInstance();
+        HP_BarMat = Hp_Bar.GetComponent<Material>();
     }
 
     // Update is called once per frame
@@ -43,6 +45,20 @@ public class HP_Text_Display : MonoBehaviour
                 break;
             
                     
+        }
+    }
+
+    void Glitch_Effect_On(bool onoffswitch)
+    {
+        if (onoffswitch)
+        {
+            HP_BarMat.SetFloat("_NoiseScale",250f);
+            HP_BarMat.SetFloat("_Timenoise",10f);
+        }
+        else
+        {
+            HP_BarMat.SetFloat("_NoiseScale",0f);
+            HP_BarMat.SetFloat("_Timenoise",0f);
         }
     }
 }
