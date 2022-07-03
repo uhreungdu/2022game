@@ -359,7 +359,7 @@ public class PlayerState : LivingEntity, IPunObservable
     private void OnApplicationQuit()
     {
     }
-    
+
     [PunRPC]
     public void KillCount()
     {
