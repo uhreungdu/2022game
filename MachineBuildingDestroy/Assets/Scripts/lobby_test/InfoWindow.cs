@@ -10,7 +10,7 @@ public class InfoWindow : MonoBehaviour
     public GameObject playerName;
     public GameObject level;
     public int costume;
-    public GameObject playerModel;
+    //public GameObject playerModel;
     public GameObject gameResults;
     private GameObject _account;
 
@@ -29,7 +29,7 @@ public class InfoWindow : MonoBehaviour
         gameResults.GetComponent<Text>().text = "승리: " + win + " "
                                                 +"패배: " + lose;
         costume = data.GetPlayerCostume();
-        playerModel.GetComponent<PrintPlayerModel>().RenewPlayerModel(costume);
+        //playerModel.GetComponent<PrintPlayerModel>().RenewPlayerModel(costume);
     }
 
     public void SetCostumeOnDB(int num)

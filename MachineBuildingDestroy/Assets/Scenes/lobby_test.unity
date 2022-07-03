@@ -1421,7 +1421,6 @@ MonoBehaviour:
   playerName: {fileID: 2025415418}
   level: {fileID: 0}
   costume: 0
-  playerModel: {fileID: 0}
   gameResults: {fileID: 2027764566}
 --- !u!1 &482681157
 GameObject:
@@ -3583,7 +3582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -245.17798, y: -58.567993}
+  m_AnchoredPosition: {x: -187.2, y: -84.3}
   m_SizeDelta: {x: 340.556, y: 82.864}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1245557069
@@ -3603,8 +3602,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 5
-  m_Spacing: 21.76
+  m_ChildAlignment: 4
+  m_Spacing: 42.1
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
