@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameResultSceneUI : MonoBehaviour
@@ -61,6 +63,11 @@ public class GameResultSceneUI : MonoBehaviour
                 PlayerInfomation.transform.GetChild(i).GetChild(3).GetComponent<TextMeshProUGUI>().text = "";
             }
         }
+    }
+
+    public static void SceneChange(String Scenename)
+    {
+        SceneManager.LoadScene(Scenename);
     }
 
     // Update is called once per frame
