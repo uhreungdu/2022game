@@ -13,7 +13,7 @@ public class CameraSetup : MonoBehaviourPun
         if (photonView.IsMine)
         {
             CinemachineFreeLook cam = FindObjectOfType<CinemachineFreeLook>();
-
+            
             cam.Follow = transform;
             cam.LookAt = transform;
         }

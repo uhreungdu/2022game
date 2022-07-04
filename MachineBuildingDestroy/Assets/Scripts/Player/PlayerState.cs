@@ -181,7 +181,6 @@ public class PlayerState : LivingEntity, IPunObservable
         Dead_Effect.SetActive(true);
         if (photonView.IsMine)
         {
-            MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
             photonView.RPC("DeathCount", RpcTarget.AllViaServer);
         }
 
