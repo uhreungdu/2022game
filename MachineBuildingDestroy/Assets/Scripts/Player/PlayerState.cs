@@ -48,6 +48,7 @@ public class PlayerState : LivingEntity, IPunObservable
     public GameManager gManager;
     public GameObject _AttackGameObject;
     public GameObject nameOnhead;
+    public String NickName;
 
     private AudioSource playerAudioPlayer;
     private Animator _animator;
@@ -102,6 +103,8 @@ public class PlayerState : LivingEntity, IPunObservable
         {
             photonView.RPC("SetOnHeadName", RpcTarget.All, PhotonNetwork.NickName);
         }
+
+        NickName = nameOnhead.GetComponent<TextMesh>().text;
         
         _networkManager = GameObject.Find("NetworkManager");
         base.OnEnable();
@@ -176,9 +179,11 @@ public class PlayerState : LivingEntity, IPunObservable
         base.Die();
         _animator.SetTrigger("Dead");
         Dead_Effect.SetActive(true);
-        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalDeath++;
-        
+        if (photonView.IsMine)
+        {
+            photonView.RPC("DeathCount", RpcTarget.AllViaServer);
+        }
+
         if (PhotonNetwork.IsMasterClient)
         {
             if (Coinpref == null)
@@ -353,4 +358,26 @@ public class PlayerState : LivingEntity, IPunObservable
     private void OnApplicationQuit()
     {
     }
+
+    [PunRPC]
+    public void KillCount()
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.KillCount(myInRoomInfo.mySlotNum);
+    }
+    
+    [PunRPC]
+    public void DeathCount()
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.DeathCount(myInRoomInfo.mySlotNum);
+    }
+    
+    [PunRPC]
+    public void GetPointCount(int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    }
+    
 }
