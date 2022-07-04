@@ -49,6 +49,9 @@ public class PlayerState : LivingEntity, IPunObservable
     public GameObject _AttackGameObject;
     public GameObject nameOnhead;
     public String NickName;
+    
+    public String RecentHitNickName;
+    public Coroutine RecentHitCoroutine;
 
     private AudioSource playerAudioPlayer;
     private Animator _animator;
@@ -181,7 +184,22 @@ public class PlayerState : LivingEntity, IPunObservable
         Dead_Effect.SetActive(true);
         if (photonView.IsMine)
         {
-            photonView.RPC("DeathCount", RpcTarget.AllViaServer);
+            int Slotnum = -1;
+            MyInRoomInfo inRoomInfo = MyInRoomInfo.GetInstance();
+            foreach (var info in inRoomInfo.Infomations)
+            {
+                if (info.Name == NickName)
+                    Slotnum = info.SlotNum;
+            }
+            if (Slotnum != -1)
+                photonView.RPC("DeathCount", RpcTarget.AllViaServer, Slotnum);
+            foreach (var info in inRoomInfo.Infomations)
+            {
+                if (info.Name == RecentHitNickName)
+                    Slotnum = info.SlotNum;
+            }
+            if (Slotnum != -1)
+                photonView.RPC("KillCount", RpcTarget.AllViaServer, Slotnum);
         }
 
         if (PhotonNetwork.IsMasterClient)
@@ -342,6 +360,23 @@ public class PlayerState : LivingEntity, IPunObservable
         }
     }
 
+    [PunRPC]
+    public void RecentHit(string NickName)
+    {
+        RecentHitNickName = NickName;
+        if (RecentHitCoroutine != null)
+        {
+            StopCoroutine(RecentHitCoroutine);
+        }
+        RecentHitCoroutine = StartCoroutine(RecentHitPlayerUpdate());
+    }
+
+    public IEnumerator RecentHitPlayerUpdate()
+    {
+        yield return new WaitForSeconds(5.0f);
+        RecentHitNickName = null;
+    }
+
     IEnumerator hit_Giltch()
     {
         UIGiltch = true;
@@ -360,17 +395,17 @@ public class PlayerState : LivingEntity, IPunObservable
     }
 
     [PunRPC]
-    public void KillCount()
+    public void KillCount(int SlotNum)
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.KillCount(myInRoomInfo.mySlotNum);
+        myInRoomInfo.KillCount(SlotNum);
     }
     
     [PunRPC]
-    public void DeathCount()
+    public void DeathCount(int SlotNum)
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.DeathCount(myInRoomInfo.mySlotNum);
+        myInRoomInfo.DeathCount(SlotNum);
     }
     
     [PunRPC]
