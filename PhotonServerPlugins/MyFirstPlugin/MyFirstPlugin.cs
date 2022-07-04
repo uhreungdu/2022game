@@ -22,7 +22,8 @@ namespace MyFirstPlugin
         DestroyBuildingFromServer,
         HideBuildingFragments,
         PlayerSpawnFinish,
-        LoadGame
+        LoadGame,
+        SendGameResult
     }
 
     class PlayerInfo
@@ -175,7 +176,12 @@ namespace MyFirstPlugin
                     {
                         SetDestroyBuildingTimer(info);
                         break;
-                    }             
+                    }
+                case (byte)EventType.SendGameResult:
+                    {
+                        SendGameResultToDB((string)data[0], (bool)data[1], info);
+                        break;
+                    }
                 default:
                     break;
             }
@@ -283,6 +289,20 @@ namespace MyFirstPlugin
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add(0, (int)sender);
             BroadcastEvent(evCode, data);
+        }
+
+        private void SendGameResultToDB(string playerName, bool isWin, ICallInfo info)
+        {
+            string url = "http://127.0.0.1/gameresult.php?pname=" + "\"" + playerName + "\"";
+            if (isWin) url = url + "&win=" + 1;
+            else url = url + "&win=" + 0;
+            HttpRequest request = new HttpRequest()
+            {
+                Callback = OnHttpResponse,
+                Url = url,
+                Async = true
+            };
+            PluginHost.HttpRequest(request, info);
         }
 
         private void OnHttpResponse(IHttpResponse response, object userState)
