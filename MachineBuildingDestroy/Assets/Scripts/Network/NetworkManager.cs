@@ -25,7 +25,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         DestroyBuildingFromServer,
         HideBuildingFragments,
         SpawnPlayerFinish,
-        LoadGame
+        LoadGame,
+        SendGameResult
     }
 
     private static NetworkManager instance;
@@ -255,11 +256,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
-    public void SetTeamNumOnServerEvent(string name, int num)
+    public void SetTeamNumOnServerEvent(string playerName, int num)
     {
         byte evCode = (byte) EventCode.SetTeamOnServer;
-        object[] data = new object[] {name, num};
+        object[] data = new object[] {playerName, num};
         RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
+
+    public void SendGameResult(string playerName, bool isWin)
+    {
+        byte evCode = (byte) EventCode.SendGameResult;
+        object[] data = new object[] {playerName, isWin};
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.MasterClient};
         SendOptions sendOpt = new SendOptions {Reliability = true};
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
