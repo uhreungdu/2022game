@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,7 @@ public class SceneChanger : MonoBehaviour
     public void SceneChange(String Scenename)
     {
         Destroy(_myInRoomInfo);
+        PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(Scenename);
     }
 
