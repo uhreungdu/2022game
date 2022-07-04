@@ -2101,7 +2101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db9805eb206d0a4ab2faac2c2e1f90d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foot_obj: {fileID: 4176297603593519881, guid: 6a85956af73234e44b728169fb6a6460, type: 3}
+  foot_obj: {fileID: 2573692769583962227, guid: 5c7b41143f5f19f468cece8f9110dd81, type: 3}
   _EnergyEffect: {fileID: 2191523392018345328}
 --- !u!114 &4066415596320184420
 MonoBehaviour:

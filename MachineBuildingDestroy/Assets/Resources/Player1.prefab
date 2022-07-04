@@ -1662,6 +1662,7 @@ MonoBehaviour:
   Rfoot: {fileID: 5547327350908542995}
   Lfoot: {fileID: 3136286817224146852}
   collidingbuilding: 0
+  DashDelay: 0
 --- !u!114 &9163899072323061247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1782,12 +1783,12 @@ MonoBehaviour:
   _PlayerState: {fileID: 0}
   _gamePlayerInput: {fileID: 0}
   _thirdpersonmove: {fileID: 0}
-  _PlayerEquipitem: {fileID: 0}
   _PlayerDashAttack: {fileID: 0}
   _PlayerHandAttack: {fileID: 0}
   _PlayerJumpAttack: {fileID: 0}
   _PlayerDragonPunch: {fileID: 0}
   _PlayerEnergywaveAttack: {fileID: 0}
+  _PlayerGunAttack: {fileID: 0}
   _PlayerAnimationEvent: {fileID: 0}
   _AudioSource: {fileID: 0}
   _HammerAttack: {fileID: 0}
@@ -1932,7 +1933,9 @@ MonoBehaviour:
   Wall_Obstcle_Frame: {fileID: 0}
   BuffObj: {fileID: 0}
   HammerObj: {fileID: 7839886098388726917}
+  GunObj: {fileID: 0}
   Frame_Obj: {fileID: 0}
+  _playerAnimator: {fileID: 0}
   item_Rigid: {fileID: 0}
   parent_qut: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &600792617031973612
@@ -1985,7 +1988,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db9805eb206d0a4ab2faac2c2e1f90d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foot_obj: {fileID: 4176297603593519881, guid: 6a85956af73234e44b728169fb6a6460, type: 3}
+  foot_obj: {fileID: 2573692769583962227, guid: 5c7b41143f5f19f468cece8f9110dd81, type: 3}
+  _EnergyEffect: {fileID: 0}
 --- !u!114 &6089670397503165079
 MonoBehaviour:
   m_ObjectHideFlags: 0
