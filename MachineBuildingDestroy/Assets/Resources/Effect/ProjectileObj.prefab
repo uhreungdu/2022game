@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3118075335260877273}
+  - component: {fileID: 4341344606582167134}
+  - component: {fileID: 5671408365222254563}
   m_Layer: 0
   m_Name: ProjectileObj
   m_TagString: Untagged
@@ -31,6 +33,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4341344606582167134
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8010971074112202735}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2996079, y: 1.1088283, z: 2.873753}
+  m_Center: {x: 0.0067816377, y: -0.0013142824, z: 1.1188838}
+--- !u!114 &5671408365222254563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8010971074112202735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d042b0f842a759b43b1ab9fd40d2bc62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerGunAttack: {fileID: 0}
+  ShootPosition: {x: 0, y: 0, z: 0}
+  ForwardVector3: {x: 0, y: 0, z: 0}
+  MaxDistance: 80
+  Speed: 80
+  ShootTeam: 0
 --- !u!1001 &6512775912906252544
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38,6 +71,58 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3118075335260877273}
     m_Modifications:
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime1
+      value: 51657
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime2
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime3
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime1
+      value: 15806
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime2
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.9060749
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.62102616
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.key2.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.key2.g
+      value: 0.69796455
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.key2.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.m_NumAlphaKeys
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 448668392737032793, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
+      propertyPath: m_Parameters.colorGradient.m_NumColorKeys
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1633831137060941386, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
       propertyPath: m_Name
       value: projectile
@@ -60,23 +145,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2154788184138790128, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2154788184138790128, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2154788184138790128, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2154788184138790128, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2154788184138790128, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2154788184138790128, guid: 8f7815ddcf9adda45a57761dce91cdce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
