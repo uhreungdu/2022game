@@ -98,6 +98,4 @@ public class PlayerGunAttack : PlayerAttack
         yield return new WaitForSeconds(0.025f);
         isDelay = false;
     }
-    
-    
 }

@@ -143,7 +143,6 @@ public class PlayerState : LivingEntity, IPunObservable
 
     public void NetworkOtherAnimatorControl(String str, bool b)
     {
-        
         photonView.RPC("AnimatorControl", RpcTarget.AllViaServer, str, b);
     }
     
@@ -222,6 +221,10 @@ public class PlayerState : LivingEntity, IPunObservable
             }
         }
         point = 0;
+        if (photonView.IsMine)
+        {
+            photonView.RPC("GetPointCount", RpcTarget.AllViaServer, point);
+        }
         Invoke("Respawn", 10f);
     }
 
@@ -392,6 +395,7 @@ public class PlayerState : LivingEntity, IPunObservable
 
     private void OnApplicationQuit()
     {
+        
     }
 
     [PunRPC]

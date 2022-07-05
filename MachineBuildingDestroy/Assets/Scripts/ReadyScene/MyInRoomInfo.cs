@@ -10,7 +10,8 @@ public struct PlayersInfomation
     public int Costume;
     public int SlotNum;
     public int Platform;
-    
+
+    public int Point;
     public int TotalGetPoint;
     public float TotalCauseDamage;
     public int TotalDeath;
@@ -39,7 +40,6 @@ public class MyInRoomInfo : MonoBehaviourPun
                 container.AddComponent<PhotonView>();
             }
         }
-
         return _instance;
     }
 
@@ -111,11 +111,18 @@ public class MyInRoomInfo : MonoBehaviourPun
         print($"{index} TotalDeath : {myInRoomInfo.Infomations[index].TotalDeath}");
     }
     
-    [PunRPC]
     public void GetPointCount(int index, int Point)
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.Infomations[index].TotalGetPoint = Point;
+        myInRoomInfo.Infomations[index].Point = Point;
+        print($"{index} TotalGetPoint : {myInRoomInfo.Infomations[index].TotalGetPoint}");
+    }
+    
+    [PunRPC]
+    public void AddPointCount(int index, int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.Infomations[index].TotalGetPoint += Point;
         print($"{index} TotalGetPoint : {myInRoomInfo.Infomations[index].TotalGetPoint}");
     }
 

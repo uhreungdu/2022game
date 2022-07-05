@@ -15,17 +15,33 @@ public class GameResultSceneUI : MonoBehaviour
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         GameInfo gameInfo = GameInfo.GetInstance();
+
+        int totalGameScore1 = 0;
+        int totalGameScore2 = 0;
+        foreach (var info in myInRoomInfo.Infomations)
+        {
+            if (info.Name != "" && info.SlotNum % 2 == 0)
+                totalGameScore1 += info.Point;
+            else if (info.Name != "" && info.SlotNum % 2 == 1)
+                totalGameScore2 += info.Point;
+        }
+
+        totalGameScore1 += gameInfo.Infomations.gamescore[0];
+        totalGameScore2 += gameInfo.Infomations.gamescore[1];
+        GameTotalPointInfomation.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Convert.ToString(totalGameScore1);
+        GameTotalPointInfomation.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = Convert.ToString(totalGameScore2);
         
-        GameTotalPointInfomation.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Convert.ToString(gameInfo.Infomations.gamescore[0]);
-        GameTotalPointInfomation.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = Convert.ToString(gameInfo.Infomations.gamescore[1]);
-        if (gameInfo.Infomations.gamescore[0] > gameInfo.Infomations.gamescore[1])
+        // 1
+        if (totalGameScore1 > totalGameScore2)
         {
             GameTotalPointInfomation.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
                 "Victory!";
             GameTotalPointInfomation.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text =
                 "Defeat";
         }
-        else if (gameInfo.Infomations.gamescore[0] < gameInfo.Infomations.gamescore[1])
+        
+        // 2
+        else if (totalGameScore1 < totalGameScore2)
         {
             GameTotalPointInfomation.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
                 "Defeat";
@@ -52,7 +68,7 @@ public class GameResultSceneUI : MonoBehaviour
                 PlayerInfomation.transform.GetChild(i).GetChild(2).GetComponent<TextMeshProUGUI>().text =
                     Convert.ToString(myInRoomInfo.Infomations[i].TotalDeath);
                 PlayerInfomation.transform.GetChild(i).GetChild(3).GetComponent<TextMeshProUGUI>().text =
-                    Convert.ToString(myInRoomInfo.Infomations[i].TotalGetPoint);
+                    Convert.ToString((myInRoomInfo.Infomations[i].TotalGetPoint + myInRoomInfo.Infomations[i].Point));
             }
             else
             {

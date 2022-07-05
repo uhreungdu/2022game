@@ -218,7 +218,10 @@ public class Thirdpersonmove : MonoBehaviourPun
         {
             print("coin");
             _playerState.AddPoint(1);
-            
+            if (photonView.IsMine)
+            {
+                photonView.RPC("GetPointCount", RpcTarget.AllViaServer, _playerState.point);
+            }
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.Destroy(other.gameObject);
@@ -290,4 +293,12 @@ public class Thirdpersonmove : MonoBehaviourPun
             body.velocity = pushDir * pushPower;
         }
     }
+    //
+    //
+    // [PunRPC]
+    // public void GetPointCount(int Point)
+    // {
+    //     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+    //     myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    // }
 }
