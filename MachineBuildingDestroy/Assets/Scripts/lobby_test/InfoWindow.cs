@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -13,10 +14,13 @@ public class InfoWindow : MonoBehaviour
     //public GameObject playerModel;
     public GameObject gameResults;
     private GameObject _account;
+    private Socket _socket;
 
     private void Awake()
     {
         _account = GameObject.Find("Account");
+        _socket = LoginDBConnection.GetInstance().GetClientSocket();
+        //SendPlayerInfoRequest();
         NewGetPlayerInfo();
     }
 
@@ -35,6 +39,14 @@ public class InfoWindow : MonoBehaviour
     public void SetCostumeOnDB(int num)
     {
         StartCoroutine(CorSetCostumeOnDB(num));
+    }
+
+    private void SendPlayerInfoRequest()
+    {
+        byte[] sendBuf = new byte[1];
+        sendBuf[0] = (byte) LoginDBConnection.DBPacketType.AccountInfoRequest;
+
+        _socket.Send(sendBuf);
     }
     
     public IEnumerator CorSetCostumeOnDB(int num)

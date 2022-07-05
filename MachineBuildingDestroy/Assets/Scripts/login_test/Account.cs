@@ -64,6 +64,12 @@ public class Account : MonoBehaviour
         PhotonNetwork.NickName = nickname;
         PhotonNetwork.AutomaticallySyncScene = true;
     }
+    
+    public void RefreshAccount(int win, int lose)
+    {
+        _win = win;
+        _lose = lose;
+    }
 
     public string GetPlayerID()
     {
