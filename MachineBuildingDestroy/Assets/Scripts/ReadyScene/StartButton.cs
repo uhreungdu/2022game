@@ -21,18 +21,27 @@ public class StartButton : MonoBehaviourPun
         _info=GameObject.Find("Myroominfo");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         var info = _info.GetComponent<MyInRoomInfo>(); 
+        int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
+        
         if (info.isMaster)
         {
             transform.GetChild(0).GetComponent<Text>().text = "START";
+            GetComponent<Button>().interactable = true;
+            var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();
+            for (int i = 0; i < maxPlayer; ++i)
+            {
+                if(i==info.mySlotNum) continue;
+                
+                var target = slots.slots[i].GetComponent<Slot>();
+                if (target.Nickname != "" && !target.IsReady)
+                {
+                    GetComponent<Button>().interactable = false;
+                    break;
+                }
+            }
         }
         else
         {
@@ -43,21 +52,8 @@ public class StartButton : MonoBehaviourPun
     public void OnClick()
     {
         var info = _info.GetComponent<MyInRoomInfo>();
-        int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
         if (info.isMaster)
         {
-            var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();
-            for (int i = 0; i < maxPlayer; ++i)
-            {
-                if(i==info.mySlotNum) continue;
-                
-                var target = slots.slots[i].GetComponent<Slot>();
-                if (target.Nickname != "" && !target.IsReady)
-                {
-                    print("NOT READY ALL PLAYER");
-                    return;
-                }
-            }
             info.MapName = _MapDropdown.SelectText();
             _NetworkManager.GetComponent<NetworkManager>().LoadGameEvent();
             PhotonNetwork.LoadLevel("SampleScene");

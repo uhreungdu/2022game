@@ -27,6 +27,7 @@ public class LoginDBConnection : MonoBehaviour
     private byte[] sendbuf = new byte[BufSize-1];
     private byte[] recvbuf = new byte[BufSize];
     public GameObject loginWaitingWindow;
+    private GameObject SocketErrWindow;
     
     public enum ChatCode : byte
     {
@@ -125,6 +126,8 @@ public class LoginDBConnection : MonoBehaviour
             catch (Exception e)
             {
                 Debug.Log(e);
+                SocketErrWindow=GameObject.Find("SocketErrWindow");
+                SocketErrWindow.SetActive(true);
                 throw;
             }
         });
@@ -166,6 +169,8 @@ public class LoginDBConnection : MonoBehaviour
         catch (Exception ex)
         {
             print("Disconnected");
+            SocketErrWindow=GameObject.Find("SocketErrWindow");
+            SocketErrWindow.SetActive(true);
             DisconnectFromChatServer();
         }
     }
