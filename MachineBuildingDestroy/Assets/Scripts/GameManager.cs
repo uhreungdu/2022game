@@ -151,14 +151,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             now_timer.Ntimer += Time.deltaTime;
+            // °ÔÀÓ ³¡
             if (EManager.gameSet && now_timer.Ntimer >= EManager.gameSetTime + 7)
             {
-                PhotonNetwork.LoadLevel("GameResultScene");
                 GameInfo gameInfo = GameInfo.GetInstance();
                 for (int i = 0; i < 2; i++)
                 {
                     gameInfo.Infomations.gamescore[i] = gamescore[i];
                 }
+                PhotonNetwork.LoadLevel("GameResultScene");
                 Destroy(UImanager.GetInstance().gameObject);
                 Destroy(gameObject);
             }
