@@ -1951,7 +1951,7 @@ MonoBehaviour:
   Wall_Obstcle_Frame: {fileID: 0}
   BuffObj: {fileID: 0}
   HammerObj: {fileID: 7839886098388726917}
-  GunObj: {fileID: 0}
+  GunObj: {fileID: 1046019879307257484, guid: ecb6337e37271a4438d8ac9554b8843e, type: 3}
   Frame_Obj: {fileID: 0}
   _playerAnimator: {fileID: 0}
   item_Rigid: {fileID: 0}
