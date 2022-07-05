@@ -264,7 +264,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
-    public void SendGameResult(string playerName, bool isWin)
+    public void SendGameResult(bool isWin)
     {
         if (isWin)
         {
