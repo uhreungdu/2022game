@@ -32,7 +32,7 @@ public class LightEffect_Control : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((int)gmanager.EManager.Ntimer / 65.5f > 0 && once == true)
+        if ((int)gmanager.EManager.Ntimer / 66 > 0 && once == true)
         {
             readyEevent();
             once = false;
