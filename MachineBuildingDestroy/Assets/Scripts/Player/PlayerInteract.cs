@@ -59,7 +59,7 @@ public class PlayerInteract : MonoBehaviourPun
 
                 if (Time.time >= lastTime + timeBet)
                 {
-                    gManager.addScore(playerState.team, playerState.point);
+                    gManager.AddScore(playerState.team, playerState.point);
                     
                     if (photonView.IsMine)
                     {
