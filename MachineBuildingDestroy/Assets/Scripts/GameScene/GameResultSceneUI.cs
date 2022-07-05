@@ -39,7 +39,7 @@ public class GameResultSceneUI : MonoBehaviour
             GameTotalPointInfomation.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text =
                 "Defeat";
 
-            NetworkManager.GetInstance().SendGameResult("", myInRoomInfo.mySlotNum % 2 == 0);
+            NetworkManager.GetInstance().SendGameResult(myInRoomInfo.mySlotNum % 2 == 0);
         }
         
         // 2
@@ -50,7 +50,7 @@ public class GameResultSceneUI : MonoBehaviour
             GameTotalPointInfomation.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text =
                 "Victory!";
             
-            NetworkManager.GetInstance().SendGameResult("", myInRoomInfo.mySlotNum % 2 != 0);
+            NetworkManager.GetInstance().SendGameResult(myInRoomInfo.mySlotNum % 2 != 0);
         }
         else
         {
