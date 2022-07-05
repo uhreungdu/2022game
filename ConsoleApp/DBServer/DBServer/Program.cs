@@ -214,13 +214,12 @@ namespace Chatserver
                                 //Get Player info
                                 var result = DatabaseControl.GetPlayerInfo(session.id, false);
 
-                                int sendSize = 1 + 4 + result.name.Length;
+                                int sendSize = 1 + 3;
                                 byte[] sendData = new byte[sendSize];
                                 sendData[0] = (byte)sendSize;
                                 sendData[1] = (byte)DBPacketType.AccountInfoResult;
-                                sendData[2] = (byte)result.name.Length;
-                                sendData[3] = (byte)result.win;
-                                sendData[4] = (byte)result.lose;
+                                sendData[2] = (byte)result.win;
+                                sendData[3] = (byte)result.lose;
                                 //Send Result
                                 SendPlayerInfo(session, sendData);
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,

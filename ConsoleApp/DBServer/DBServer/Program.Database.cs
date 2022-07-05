@@ -65,6 +65,20 @@ namespace Database
         }
     }
 
+    public struct PlayerInfo
+    {
+        public string m_name;
+        public int m_win;
+        public int m_lose;
+
+        public PlayerInfo(string name, int win, int lose)
+        {
+            m_name = name;
+            m_win = win;
+            m_lose = lose;
+        }
+    }
+
     public class DatabaseControl
     {
         public static string connect = string.Format("Server={0}; Database={1}; Uid={2}; Pwd={3};",
@@ -323,7 +337,7 @@ namespace Database
                 conn.Dispose();
             }
         }
-        private static LoginResult GetPlayerInfo(string id, bool alreadyPlay)
+        public static LoginResult GetPlayerInfo(string id, bool alreadyPlay)
         {
             LoginResult result = new LoginResult();
             using (conn)
