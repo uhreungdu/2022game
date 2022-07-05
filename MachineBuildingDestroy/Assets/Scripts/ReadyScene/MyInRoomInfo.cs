@@ -111,7 +111,6 @@ public class MyInRoomInfo : MonoBehaviourPun
         print($"{index} TotalDeath : {myInRoomInfo.Infomations[index].TotalDeath}");
     }
     
-    [PunRPC]
     public void GetPointCount(int index, int Point)
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();

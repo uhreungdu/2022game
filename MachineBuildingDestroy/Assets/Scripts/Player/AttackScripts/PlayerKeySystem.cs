@@ -106,6 +106,7 @@ public class PlayerKeySystem : MonoBehaviourPun
                 _playerAnimator._Animator.SetBool("DashAttack", false);
                 _playerAnimator._Animator.SetBool("HammerAttack", false);
                 _playerAnimator._Animator.SetBool("Throw", false);
+                _playerAnimator._Animator.SetBool("Shoot", false);
                 if ( !_gamePlayerInput.fireKeyDown 
                      || (_gamePlayerInput.fireKeyDown && _playerAnimator._Animator.GetBool("Combo")))
                 {
@@ -124,6 +125,7 @@ public class PlayerKeySystem : MonoBehaviourPun
             _playerAnimator._Animator.SetBool("HammerAttack", false);
             _playerAnimator._Animator.SetBool("Combo", false);
             _playerAnimator._Animator.SetBool("Throw", false);
+            _playerAnimator._Animator.SetBool("Shoot", false);
         }
     }
 

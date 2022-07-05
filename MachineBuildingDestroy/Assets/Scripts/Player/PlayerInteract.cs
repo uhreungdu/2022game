@@ -89,12 +89,12 @@ public class PlayerInteract : MonoBehaviourPun
             _Progressbar.value = 0;
     }
     
-    [PunRPC]
-    public void GetPointCount(int Point)
-    {
-        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
-    }
+    // [PunRPC]
+    // public void GetPointCount(int Point)
+    // {
+    //     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+    //     myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    // }
     
     [PunRPC]
     public void AddPointCount(int Point)

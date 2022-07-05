@@ -138,6 +138,7 @@ public class PlayerAnimator : MonoBehaviourPun
         if (_PlayerGunAttack.isDelay == false)
         {
             StartCoroutine(_PlayerGunAttack.ShootBullet());
+            _Animator.SetBool("Shoot", true);
             _PlayerGunAttack.isDelay = true;
         }
     }

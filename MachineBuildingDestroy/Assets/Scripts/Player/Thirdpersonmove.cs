@@ -293,13 +293,12 @@ public class Thirdpersonmove : MonoBehaviourPun
             body.velocity = pushDir * pushPower;
         }
     }
-    
-    
-    [PunRPC]
-    public void GetPointCount(int index, int Point)
-    {
-        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.Infomations[index].Point = Point;
-        print($"{index} TotalGetPoint : {myInRoomInfo.Infomations[index].TotalGetPoint}");
-    }
+    //
+    //
+    // [PunRPC]
+    // public void GetPointCount(int Point)
+    // {
+    //     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+    //     myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    // }
 }
