@@ -56,6 +56,7 @@ public class PlayerHandAttackTrigger : MonoBehaviourPun
                     else
                     {
                         otherPlayerState.NetworkOnDamage(_playerHandAttack._damage);
+                        otherPlayerState.RecentHit(_playerState.NickName);
                     }
                     
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);

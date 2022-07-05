@@ -53,6 +53,7 @@ public class PlayerDashAttackTrigger : MonoBehaviourPun
                     else
                     {
                         otherPlayerState.NetworkOnDamage(_playerDashAttack._damage);
+                        otherPlayerState.RecentHit(_playerState.NickName);
                     }
                     
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);

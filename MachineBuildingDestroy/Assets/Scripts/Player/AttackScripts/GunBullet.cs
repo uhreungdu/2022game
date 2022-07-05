@@ -12,6 +12,7 @@ public class GunBullet : MonoBehaviourPun
     public Vector3 ForwardVector3;
     public float MaxDistance = 80f;
     public float Speed = 80f;
+    public string ShootNickName;
     public float ShootTeam;
 
     void Start()
@@ -69,6 +70,7 @@ public class GunBullet : MonoBehaviourPun
                     else
                     {
                         otherPlayerState.NetworkOnDamage(_playerGunAttack._damage);
+                        otherPlayerState.RecentHit(ShootNickName);
                     }
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     

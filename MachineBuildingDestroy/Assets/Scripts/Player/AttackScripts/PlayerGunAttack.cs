@@ -93,6 +93,7 @@ public class PlayerGunAttack : PlayerAttack
         returnForwardVector = Quaternion.Euler(Random.Range(0.0f, 5.0f), Random.Range(0.0f, 5.0f), 0) * transform.forward;
         BulletgameObjectGunBullet.ForwardVector3 = returnForwardVector;
         BulletgameObjectGunBullet._playerGunAttack = this;
+        BulletgameObjectGunBullet.ShootNickName = _playerState.NickName;
         _Gun.Durability -= 1;
         yield return new WaitForSeconds(0.025f);
         isDelay = false;
