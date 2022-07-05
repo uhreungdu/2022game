@@ -266,6 +266,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void SendGameResult(string playerName, bool isWin)
     {
+        if (isWin)
+        {
+            _account.RefreshAccount(_account.GetPlayerWin() + 1, _account.GetPlayerLose());
+        }
+        else
+        {
+            _account.RefreshAccount(_account.GetPlayerWin(), _account.GetPlayerLose() + 1);
+        }
+        
         byte evCode = (byte) EventCode.SendGameResult;
         object[] data = new object[] {playerName, isWin};
         RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.MasterClient};

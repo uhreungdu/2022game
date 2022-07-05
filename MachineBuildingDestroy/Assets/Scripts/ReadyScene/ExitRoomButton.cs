@@ -18,7 +18,7 @@ public class ExitRoomButton : MonoBehaviour
     private void ExitRoom()
     {
         byte[] sendBuf = new byte[1];
-        sendBuf[0] = (byte) LoginDBConnection.ChatCode.ExitRoom;
+        sendBuf[0] = (byte) LoginDBConnection.DBPacketType.ExitRoom;
 
         LoginDBConnection.GetInstance().GetClientSocket().Send(sendBuf);
     }

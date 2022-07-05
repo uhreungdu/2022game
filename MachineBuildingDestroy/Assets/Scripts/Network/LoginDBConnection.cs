@@ -29,7 +29,7 @@ public class LoginDBConnection : MonoBehaviour
     public GameObject loginWaitingWindow;
     private GameObject SocketErrWindow;
     
-    public enum ChatCode : byte
+    public enum DBPacketType : byte
     {
         Exit,
         EnterRoom,
@@ -38,7 +38,9 @@ public class LoginDBConnection : MonoBehaviour
         LoginRequest,
         LoginResult,
         RoomListRequest,
-        RoomListResult
+        RoomListResult,
+        AccountInfoRequest,
+        AccountInfoResult
     }
     
     public static LoginDBConnection GetInstance()
@@ -92,12 +94,15 @@ public class LoginDBConnection : MonoBehaviour
 
             switch (recvbuf[1])
             {
-                case (byte) ChatCode.LoginResult:
+                case (byte) DBPacketType.LoginResult:
                     GameObject.Find("LoginButton").GetComponent<LoginButton>().ProcessLogin(recvbuf);
                     break;
-                case (byte) ChatCode.RoomListResult:
+                case (byte) DBPacketType.RoomListResult:
                     Debug.Log("print");
                     GameObject.Find("RoomList").GetComponent<RoomList>().SetRoomList(recvbuf);
+                    break;
+                case (byte) DBPacketType.AccountInfoResult:
+                    Account.GetInstance().RefreshAccount(recvbuf[2], recvbuf[3]);
                     break;
             }
 
@@ -144,7 +149,7 @@ public class LoginDBConnection : MonoBehaviour
     private void DisconnectFromChatServer()
     {
         if (!_client.Connected) return;
-        sendbuf[0] = (byte)ChatCode.Exit;
+        sendbuf[0] = (byte)DBPacketType.Exit;
         _client.Send(sendbuf);
         _client.Close();
     }
@@ -179,7 +184,7 @@ public class LoginDBConnection : MonoBehaviour
     {
         if (_client == null) return;
         if (!_client.Connected) return;
-        sendbuf[0] = (byte) ChatCode.Exit;
+        sendbuf[0] = (byte) DBPacketType.Exit;
         _client.Send(sendbuf);
     }
 }
