@@ -9,7 +9,7 @@ using Database;
 
 namespace Chatserver
 {
-    enum ChatType : byte
+    enum DBPacketType : byte
     {
         Exit,
         EnterRoom,
@@ -18,7 +18,9 @@ namespace Chatserver
         LoginRequest,
         LoginResult,
         RoomListRequest,
-        RoomListResult
+        RoomListResult,
+        AccountInfoRequest,
+        AccountInfoResult
     }
 
     public class Session
@@ -112,13 +114,13 @@ namespace Chatserver
                 {
                     switch (session.buf[0])
                     {
-                        case (byte)ChatType.Exit:
+                        case (byte)DBPacketType.Exit:
                             {
                                 if (!session.is_online) return;
                                 DisconnectClient(session);
                                 return;
                             }
-                        case (byte)ChatType.EnterRoom:
+                        case (byte)DBPacketType.EnterRoom:
                             {
                                 data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
                                 Console.WriteLine(session.nickname + " enters Roomname " + data);
@@ -129,7 +131,7 @@ namespace Chatserver
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
-                        case (byte)ChatType.MakeRoom:
+                        case (byte)DBPacketType.MakeRoom:
                             {
                                 string iname = Encoding.UTF8.GetString(session.buf, 4, session.buf[1]);
                                 string ename = Encoding.UTF8.GetString(session.buf, 4 + session.buf[1], session.buf[2]);
@@ -143,7 +145,7 @@ namespace Chatserver
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
-                        case (byte)ChatType.ExitRoom:
+                        case (byte)DBPacketType.ExitRoom:
                             {
                                 Console.WriteLine(session.nickname + " exits Room " + session.roomname);
                                 session.roomname = "";
@@ -152,7 +154,7 @@ namespace Chatserver
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
-                        case (byte)ChatType.LoginRequest:
+                        case (byte)DBPacketType.LoginRequest:
                             {
                                 string id = Encoding.UTF8.GetString(session.buf, 3, session.buf[1]);
                                 string pw = Encoding.UTF8.GetString(session.buf, 3 + session.buf[1], session.buf[2]);
@@ -181,7 +183,7 @@ namespace Chatserver
                                 }
                                 break;
                             }
-                        case (byte)ChatType.RoomListRequest:
+                        case (byte)DBPacketType.RoomListRequest:
                             {
                                 List<RoomInfo> roomData = DatabaseControl.GetRoomInfos();
                                 foreach (RoomInfo roomInfo in roomData)
@@ -191,7 +193,7 @@ namespace Chatserver
                                     int sendSize = 1 + 6 + iname.Length + ename.Length;
                                     byte[] sendData = new byte[sendSize];
                                     sendData[0] = (byte)sendSize;
-                                    sendData[1] = (byte)ChatType.RoomListResult;
+                                    sendData[1] = (byte)DBPacketType.RoomListResult;
                                     sendData[2] = (byte)iname.Length;
                                     sendData[3] = (byte)ename.Length;
                                     sendData[4] = (byte)roomInfo.now_playernum;
@@ -203,6 +205,23 @@ namespace Chatserver
                                     SendRoomList(session, sendData);
                                 }
 
+                                session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
+                        case (byte)DBPacketType.AccountInfoRequest:
+                            {
+                                //Get Player info
+                                var result = DatabaseControl.GetPlayerInfo(session.id, false);
+
+                                int sendSize = 1 + 3;
+                                byte[] sendData = new byte[sendSize];
+                                sendData[0] = (byte)sendSize;
+                                sendData[1] = (byte)DBPacketType.AccountInfoResult;
+                                sendData[2] = (byte)result.win;
+                                sendData[3] = (byte)result.lose;
+                                //Send Result
+                                SendPlayerInfo(session, sendData);
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
@@ -234,7 +253,7 @@ namespace Chatserver
                         int sendSize = 1 + 7 + id.Length + name.Length;
                         byte[] sendData = new byte[sendSize];
                         sendData[0] = (byte)sendSize;
-                        sendData[1] = (byte)ChatType.LoginResult;
+                        sendData[1] = (byte)DBPacketType.LoginResult;
                         sendData[2] = (byte)result.code;
                         sendData[3] = (byte)id.Length;
                         sendData[4] = (byte)name.Length;
@@ -255,7 +274,7 @@ namespace Chatserver
                         int sendSize = 1 + 8 + id.Length + name.Length + roomname.Length;
                         byte[] sendData = new byte[sendSize];
                         sendData[0] = (byte)sendSize;
-                        sendData[1] = (byte)ChatType.LoginResult;
+                        sendData[1] = (byte)DBPacketType.LoginResult;
                         sendData[2] = (byte)result.code;
                         sendData[3] = (byte)id.Length;
                         sendData[4] = (byte)name.Length;
@@ -275,7 +294,7 @@ namespace Chatserver
                         int sendSize = 3;
                         byte[] sendData = new byte[sendSize];
                         sendData[0] = (byte)sendSize;
-                        sendData[1] = (byte)ChatType.LoginResult;
+                        sendData[1] = (byte)DBPacketType.LoginResult;
                         sendData[2] = (byte)result.code;
                         session.socket.BeginSend(sendData, 0, sendData.Length, 0,
                             new AsyncCallback(SendCallback), session);
@@ -285,6 +304,12 @@ namespace Chatserver
         }
 
         private static void SendRoomList(Session session, byte[] sendData)
+        {
+            session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                new AsyncCallback(SendCallback), session);
+        }
+
+        private static void SendPlayerInfo(Session session, byte[] sendData)
         {
             session.socket.BeginSend(sendData, 0, sendData.Length, 0,
                 new AsyncCallback(SendCallback), session);

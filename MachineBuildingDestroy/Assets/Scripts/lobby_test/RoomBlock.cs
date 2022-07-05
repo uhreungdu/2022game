@@ -71,7 +71,7 @@ public class RoomBlock : MonoBehaviour
         byte[] tempBuf = Encoding.UTF8.GetBytes(_iname);
         
         byte[] sendBuf = new byte[tempBuf.Length + 1];
-        sendBuf[0] = (byte) LoginDBConnection.ChatCode.EnterRoom;
+        sendBuf[0] = (byte) LoginDBConnection.DBPacketType.EnterRoom;
         
         Array.Copy(tempBuf, 0, sendBuf, 1, tempBuf.Length);
         

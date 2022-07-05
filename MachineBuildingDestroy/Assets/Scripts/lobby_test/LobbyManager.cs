@@ -59,7 +59,7 @@ public class LobbyManager : MonoBehaviour
     public void GetRoomList()
     {
         byte[] sendBuf = new byte[1];
-        sendBuf[0] = (byte) LoginDBConnection.ChatCode.RoomListRequest;
+        sendBuf[0] = (byte) LoginDBConnection.DBPacketType.RoomListRequest;
 
         _socket.Send(sendBuf);
     }
