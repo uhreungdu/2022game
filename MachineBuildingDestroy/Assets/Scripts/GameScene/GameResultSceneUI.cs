@@ -30,6 +30,8 @@ public class GameResultSceneUI : MonoBehaviour
         totalGameScore2 += gameInfo.Infomations.gamescore[1];
         GameTotalPointInfomation.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Convert.ToString(totalGameScore1);
         GameTotalPointInfomation.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = Convert.ToString(totalGameScore2);
+        
+        // 1
         if (totalGameScore1 > totalGameScore2)
         {
             GameTotalPointInfomation.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
@@ -37,6 +39,8 @@ public class GameResultSceneUI : MonoBehaviour
             GameTotalPointInfomation.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text =
                 "Defeat";
         }
+        
+        // 2
         else if (totalGameScore1 < totalGameScore2)
         {
             GameTotalPointInfomation.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
