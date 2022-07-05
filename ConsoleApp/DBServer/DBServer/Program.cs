@@ -20,7 +20,8 @@ namespace Chatserver
         RoomListRequest,
         RoomListResult,
         AccountInfoRequest,
-        AccountInfoResult
+        AccountInfoResult,
+        GameResult
     }
 
     public class Session
@@ -222,6 +223,13 @@ namespace Chatserver
                                 sendData[3] = (byte)result.lose;
                                 //Send Result
                                 SendPlayerInfo(session, sendData);
+                                session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
+                                    new AsyncCallback(ReceiveCallback), session);
+                                break;
+                            }
+                        case (byte)DBPacketType.GameResult:
+                            {
+                                DatabaseControl.ChangePlayerGameRecord(session.id, session.buf[1] == 0);
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;

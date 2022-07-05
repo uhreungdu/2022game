@@ -431,5 +431,39 @@ namespace Database
                 conn.Dispose();
             }
         }
+
+        /// <summary>
+        /// isWin 0 이면 해당 id에 win + 1
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isWin"></param>
+        public static void ChangePlayerGameRecord(string id, bool isWin)
+        {
+            using (conn)
+            {
+                conn.Open();
+                if (isWin)
+                {
+                    // player win + 1
+                    using (MySqlCommand cmd = new MySqlCommand("CharacterWinPlus", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@account_id", id);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                else
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("CharacterLosePlus", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@account_id", id);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                conn.Close();
+                conn.Dispose();
+            }
+        }
     }
 }
