@@ -160,10 +160,11 @@ namespace LobbyChatserver
             try
             {
                 Session session = (Session)ar.AsyncState;
-
+                /*
                 int sendsize = session.socket.EndSend(ar);
                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                 new AsyncCallback(ReceiveCallback), session);
+                */
             }
             catch (Exception ex)
             {

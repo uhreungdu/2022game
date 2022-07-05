@@ -52,7 +52,7 @@ public class LoginButton : MonoBehaviour
         byte[] pw = Encoding.UTF8.GetBytes(pwInput.GetComponent<InputField>().text);
 
         byte[] sendBuf = new byte[id.Length + pw.Length + 1 + 2];
-        sendBuf[0] = (byte) LoginDBConnection.ChatCode.LoginRequest;
+        sendBuf[0] = (byte) LoginDBConnection.DBPacketType.LoginRequest;
         sendBuf[1] = (byte) id.Length;
         sendBuf[2] = (byte) pw.Length;
 

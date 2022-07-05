@@ -34,7 +34,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private LobbyManager _lobbyManager;
     public string networkState;
     public GameObject[] player;
-    public GameObject errWindow;
+    private GameObject PhotonErrWindow;
     private GameObject _team1Spawner;
     private GameObject _team2Spawner;
     [SerializeField] private Player[] _players;
@@ -161,10 +161,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Instantiate(errWindow, new Vector3(Screen.width/2f,Screen.height/2f,0), 
-            Quaternion.identity, GameObject.Find("Canvas").transform);
-        errWindow.SetActive(true);
-        errWindow.GetComponentInChildren<Text>().text = cause.ToString();
+        PhotonErrWindow = GameObject.Find("PhotonErrWindow");
+        PhotonErrWindow.SetActive(true);
+        PhotonErrWindow.GetComponentInChildren<Text>().text = cause.ToString();
         print(cause.ToString());
         Logout(_account.GetPlayerID());
     }
@@ -267,6 +266,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void SendGameResult(string playerName, bool isWin)
     {
+        if (isWin)
+        {
+            _account.RefreshAccount(_account.GetPlayerWin() + 1, _account.GetPlayerLose());
+        }
+        else
+        {
+            _account.RefreshAccount(_account.GetPlayerWin(), _account.GetPlayerLose() + 1);
+        }
+        
         byte evCode = (byte) EventCode.SendGameResult;
         object[] data = new object[] {playerName, isWin};
         RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.MasterClient};
