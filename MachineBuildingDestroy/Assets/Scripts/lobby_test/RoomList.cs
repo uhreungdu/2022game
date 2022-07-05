@@ -61,7 +61,13 @@ public class RoomList : MonoBehaviour
     public void CleanRoomList()
     {
         if (rooms.Count != 0)
+        {
             rooms.Clear();
+            foreach (var roomBlock in RoomBlocks)
+            {
+                roomBlock.GetComponent<RoomBlock>().SetVariables("", "", 0, 0, false);
+            }
+        }
     }
 
     public void MoveNextPage()
