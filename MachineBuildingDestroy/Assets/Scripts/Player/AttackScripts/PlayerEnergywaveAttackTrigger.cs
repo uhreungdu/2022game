@@ -119,4 +119,14 @@ public class PlayerEnergywaveAttackTrigger : MonoBehaviourPun
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
     }
+    [PunRPC]
+    void NetWorkPlayOneShot(AudioClip audioClip)
+    {
+        AudioPlayOneShot(audioClip);
+    }
+
+    void AudioPlayOneShot(AudioClip audioClip)
+    {
+        _playerState._AudioSource.PlayOneShot(audioClip);
+    }
 }
