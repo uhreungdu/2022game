@@ -1739,6 +1739,7 @@ MonoBehaviour:
   _AttackGameObject: {fileID: 8041448678384610568}
   nameOnhead: {fileID: 3417985307305165095}
   NickName: 
+  team: 0
   RecentHitNickName: 
   Dead_Effect: {fileID: 7488789173918327245}
   _Thirdpersonmove: {fileID: 0}

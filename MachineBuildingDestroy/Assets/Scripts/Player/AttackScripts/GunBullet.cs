@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Permissions;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,7 @@ public class GunBullet : MonoBehaviourPun
     public float MaxDistance = 80f;
     public float Speed = 80f;
     public string ShootNickName;
-    public float ShootTeam;
+    public int ShootTeam;
 
     void Start()
     {
@@ -22,12 +23,13 @@ public class GunBullet : MonoBehaviourPun
 
     private void Update()
     {
+        if (!photonView.IsMine) return;
         if (Vector3.Distance(ShootPosition, transform.position) <= MaxDistance)
         {
             transform.position += ForwardVector3 * Speed * Time.deltaTime;
         }
         else
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -50,7 +52,7 @@ public class GunBullet : MonoBehaviourPun
                     myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerGunAttack._damage);
                 }
                 Debug.Log(attackTarget.health);
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
 
@@ -72,8 +74,9 @@ public class GunBullet : MonoBehaviourPun
                         otherPlayerState.NetworkOnDamage(_playerGunAttack._damage);
                         otherPlayerState.RecentHit(ShootNickName);
                     }
+
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
-                    
+
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
                         otherPlayerState.NetworkOtherAnimatorControl("Stiffen", true);
@@ -82,13 +85,15 @@ public class GunBullet : MonoBehaviourPun
                     {
                         otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
                     }
+
                     if (otherPlayerState.dead)
                     {
                         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
                         myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
                         myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerGunAttack._damage);
                     }
-                    Destroy(gameObject);
+
+                    PhotonNetwork.Destroy(gameObject);
                 }
             }
         }
@@ -106,7 +111,7 @@ public class GunBullet : MonoBehaviourPun
                 {
                     Target.NetworkOnDamage(_playerGunAttack._damage);
                 }
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
     }
@@ -139,4 +144,5 @@ public class GunBullet : MonoBehaviourPun
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
     }
+    
 }

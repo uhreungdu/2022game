@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 3780573895708123168}
   - component: {fileID: -1180471590626629043}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Bullet 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,7 +255,7 @@ MonoBehaviour:
   MaxDistance: 0
   Speed: 80
   ShootNickName: 
-  ShootTeam: 0
+  ShootTeam: 1
 --- !u!114 &3780573895708123168
 MonoBehaviour:
   m_ObjectHideFlags: 0
