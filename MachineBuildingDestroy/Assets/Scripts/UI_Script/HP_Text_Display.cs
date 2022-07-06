@@ -10,7 +10,6 @@ public class HP_Text_Display : MonoBehaviour
     public Text text_H;
     public Image Hp_Bar;
     public Material HP_BarMat;
-    public Text text_Item;
     public Text Coin_text;
     public item_box_make.item_type item_typ;
     void Start()
@@ -26,27 +25,6 @@ public class HP_Text_Display : MonoBehaviour
         Hp_Bar.fillAmount = gManager.player_stat.health / gManager.player_stat.MaxHealth;
         item_typ = gManager.player_stat.Item_num;
         Coin_text.text = ""+gManager.player_stat.Coin_Count;
-        switch (item_typ)
-        {
-            case item_box_make.item_type.no_item:
-                text_Item.text = " ";
-                break;
-            case item_box_make.item_type.potion:
-                text_Item.text = "Potion";
-                break;
-            case item_box_make.item_type.obstacles:
-                text_Item.text = "obstacles";
-                break;
-            case item_box_make.item_type.Buff:
-                text_Item.text = "Buff";
-                break;
-            case item_box_make.item_type.Hammer:
-                text_Item.text = "Hammer";
-                break;
-            
-                    
-        }
-
         Glitch_Effect_On(gManager.player_stat.UIGiltch);
     }
 
