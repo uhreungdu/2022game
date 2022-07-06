@@ -234,6 +234,7 @@ public class Thirdpersonmove : MonoBehaviourPun
                 }
                 if (Slotnum != -1)
                     photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, _playerState.point);
+                photonView.RPC("SetOnHeadCoinNum", RpcTarget.All, _playerState.point.ToString());
                 _AudioSource.PlayOneShot(GetCoinClip);
             }
             if (PhotonNetwork.IsMasterClient)
