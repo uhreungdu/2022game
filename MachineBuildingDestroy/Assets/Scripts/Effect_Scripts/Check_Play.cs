@@ -15,6 +15,6 @@ public class Check_Play : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(check.aliveParticleCount);
+        //print(check.aliveParticleCount);
     }
 }

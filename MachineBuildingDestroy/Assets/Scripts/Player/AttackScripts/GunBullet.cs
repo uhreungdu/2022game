@@ -53,7 +53,7 @@ public class GunBullet : MonoBehaviourPun
                     myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _damage);
                 }
                 Debug.Log(attackTarget.health);
-                PhotonNetwork.Destroy(gameObject);
+                photonView.RPC("RemoveBulletObject", RpcTarget.All);
             }
         }
 
@@ -93,8 +93,7 @@ public class GunBullet : MonoBehaviourPun
                         myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
                         myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _damage);
                     }
-
-                    PhotonNetwork.Destroy(gameObject);
+                    photonView.RPC("RemoveBulletObject", RpcTarget.All);
                 }
             }
         }
@@ -112,7 +111,7 @@ public class GunBullet : MonoBehaviourPun
                 {
                     Target.NetworkOnDamage(_damage);
                 }
-                PhotonNetwork.Destroy(gameObject);
+                photonView.RPC("RemoveBulletObject", RpcTarget.All);
             }
         }
     }
@@ -144,6 +143,13 @@ public class GunBullet : MonoBehaviourPun
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    }
+
+    [PunRPC]
+    public void RemoveBulletObject()
+    {
+        if (photonView.IsMine)
+            PhotonNetwork.Destroy(gameObject);
     }
     
 }
