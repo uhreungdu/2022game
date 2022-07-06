@@ -24,6 +24,19 @@ public class PlayerState : LivingEntity, IPunObservable
     public bool stiffen { get; private set; }
     public bool falldown { get; private set; }
 
+    public enum Currentstatus
+    {
+        Idle,
+        Attack,
+        SupergardAttack,       // 상태이상이 걸리지 않는 공격
+        Stiffen,
+        Falldown,
+        Dead,
+        Count
+    }
+
+    public Currentstatus _Currentstatus;
+
     private Vector3 reSpawnTransform;
 
     public item_box_make.item_type Item { get; set; }
@@ -41,11 +54,14 @@ public class PlayerState : LivingEntity, IPunObservable
     private CharacterController _characterController;
     public Dmgs_Status P_Dm;
     public GameObject Dead_Effect;
+    public Thirdpersonmove _Thirdpersonmove;
 
     public GameObject coinprefab;
     [SerializeField]
     private float explosionForce;
     private GameObject _networkManager;
+
+    private GameObject Coinpref;
 
     void Start()
     {
@@ -53,16 +69,18 @@ public class PlayerState : LivingEntity, IPunObservable
         playerAudioPlayer = GetComponent<AudioSource>();
         _characterController = GetComponent<CharacterController>();
         _playerAnimator = GetComponent<PlayerAnimator>();
-        var info = GameObject.Find("Myroominfo");
+        _Thirdpersonmove = GetComponent<Thirdpersonmove>();
+        var info = MyInRoomInfo.GetInstance();
         if (info != null)
         {
-            team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
-            Destroy(info);
+            team = info.GetComponent<MyInRoomInfo>().mySlotNum % 2;
+            //Destroy(info);
         }
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
         
-        Item = item_box_make.item_type.obstacles;
+        Item = item_box_make.item_type.EnergyWave;
+        //Item = item_box_make.item_type.no_item;
         
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);
@@ -70,6 +88,9 @@ public class PlayerState : LivingEntity, IPunObservable
             ReSpawnTransformSet(transform.position.y), 
             ReSpawnTransformSet(transform.position.z));
         Dead_Effect.SetActive(false);
+        
+        _Currentstatus = Currentstatus.Idle;
+        
         if (photonView.IsMine)
         {
             photonView.RPC("SetOnHeadName", RpcTarget.All, PhotonNetwork.NickName);
@@ -107,6 +128,18 @@ public class PlayerState : LivingEntity, IPunObservable
         return value;
     }
 
+    public void NetworkOtherAnimatorControl(String str, bool b)
+    {
+        
+        photonView.RPC("AnimatorControl", RpcTarget.AllViaServer, str, b);
+    }
+    
+    [PunRPC]
+    public void AnimatorControl(String str, bool b)
+    {
+        _animator.SetBool(str, b);
+    }
+
     [PunRPC]
     public override void OnDamage(float damage)
     {
@@ -122,15 +155,41 @@ public class PlayerState : LivingEntity, IPunObservable
 
     public void NetworkOnDamage(float damage)
     {
-        //OnDamage(damage);
-        photonView.RPC("OnDamage", RpcTarget.AllViaServer, damage);
+        if (photonView)
+            photonView.RPC("OnDamage", RpcTarget.AllViaServer, damage);
+        else
+        {
+            OnDamage(damage);
+        }
     }
-
+ 
     public override void Die() {
-        // LivingEntity?�� Die()�? ?��?��?��?�� 기본 ?���? 처리 ?��?��
         base.Die();
         _animator.SetTrigger("Dead");
         Dead_Effect.SetActive(true);
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalDeath++;
+        
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (Coinpref == null)
+                Coinpref = Resources.Load<GameObject>("Coin");
+            for (int i = 0; i < point; ++i)
+            {
+                float radian = ((360.0f / (point)) * i) * (float)(Math.PI / 180.0f);
+                float radius = 5.0f;
+                Vector3 coinPosition = transform.position;
+                coinPosition.x = coinPosition.x + (radius * Mathf.Cos(radian));
+                coinPosition.z = coinPosition.z + (radius * Mathf.Sin(radian));
+                coinPosition.y = 5.0f;
+                GameObject coin =
+                    PhotonNetwork.InstantiateRoomObject(Coinpref.name, coinPosition, coinprefab.transform.rotation);
+                Vector3 explosionPosition = transform.position;
+                coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f, 500 / 2);
+                coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f);
+            }
+        }
+        point = 0;
         Invoke("Respawn", 10f);
     }
 
@@ -139,6 +198,7 @@ public class PlayerState : LivingEntity, IPunObservable
         _characterController.enabled = false;
         transform.position = reSpawnTransform + new Vector3(Random.Range(-4, 4), 0.0f, Random.Range(-4, 4));
         _characterController.enabled = true;
+        _Thirdpersonmove.yvelocity = 0.0f;
         dead = false;
         health = startingHealth;
         Dead_Effect.SetActive(false);
@@ -208,10 +268,16 @@ public class PlayerState : LivingEntity, IPunObservable
         
     }
 
+    private void UpdateCurrentstatus()
+    {
+        
+    }
+
     private void OnDestroy()
     {
         if (!PhotonNetwork.IsMasterClient) return;
         if (PhotonNetwork.PlayerList.Length < 2) return;
+        if (gManager.EManager.gameSet) return;
         DropCoins(point, transform.position);
     }
     

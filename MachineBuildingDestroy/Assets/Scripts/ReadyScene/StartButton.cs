@@ -8,14 +8,17 @@ using UnityEngine.SceneManagement;
 
 public class StartButton : MonoBehaviourPun
 {
-    public GameObject Info;
+    private GameObject _info;
 
     private GameObject _NetworkManager;
-    
+
+    public MapDropdown _MapDropdown;
+
     // Start is called before the first frame update
     void Start()
     {
         _NetworkManager = GameObject.Find("NetworkManager");
+        _info=GameObject.Find("Myroominfo");
     }
 
     // Update is called once per frame
@@ -26,26 +29,27 @@ public class StartButton : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        var info = Info.GetComponent<MyInRoomInfo>(); 
-        if (info.IsMaster)
+        var info = _info.GetComponent<MyInRoomInfo>(); 
+        if (info.isMaster)
         {
             transform.GetChild(0).GetComponent<Text>().text = "START";
         }
         else
         {
-            transform.GetChild(0).GetComponent<Text>().text = info.IsReady ? "READY CANCEL" : "READY";
+            transform.GetChild(0).GetComponent<Text>().text = info.isReady ? "READY CANCEL" : "READY";
         }
     }
 
     public void OnClick()
     {
-        var info = Info.GetComponent<MyInRoomInfo>();
-        if (info.IsMaster)
+        var info = _info.GetComponent<MyInRoomInfo>();
+        int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
+        if (info.isMaster)
         {
             var slots = GameObject.Find("CharacterSlots").GetComponent<CharacterSlots>();
-            for (int i = 0; i < 6; ++i)
+            for (int i = 0; i < maxPlayer; ++i)
             {
-                if(i==info.MySlotNum) continue;
+                if(i==info.mySlotNum) continue;
                 
                 var target = slots.slots[i].GetComponent<Slot>();
                 if (target.Nickname != "" && !target.IsReady)
@@ -54,20 +58,21 @@ public class StartButton : MonoBehaviourPun
                     return;
                 }
             }
-            _NetworkManager.GetComponent<NetworkManager>().StartGameEvent();
+            info.MapName = _MapDropdown.SelectText();
+            _NetworkManager.GetComponent<NetworkManager>().LoadGameEvent();
             PhotonNetwork.LoadLevel("SampleScene");
         }
         else
         {
-            if (info.IsReady)
+            if (info.isReady)
             {
-                info.IsReady = false;
-                photonView.RPC("ReadyPlayerSlot", RpcTarget.MasterClient, info.MySlotNum, false);
+                info.isReady = false;
+                photonView.RPC("ReadyPlayerSlot", RpcTarget.MasterClient, info.mySlotNum, false);
             }
             else
             {
-                info.IsReady = true;
-                photonView.RPC("ReadyPlayerSlot", RpcTarget.MasterClient, info.MySlotNum, true);
+                info.isReady = true;
+                photonView.RPC("ReadyPlayerSlot", RpcTarget.MasterClient, info.mySlotNum, true);
             }
         }
     }

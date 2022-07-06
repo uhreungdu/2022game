@@ -4,7 +4,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class HammerAttackTrigger : MonoBehaviour
+public class HammerAttackTrigger : MonoBehaviourPun
 {
     private HammerAttack _hammerAttack;
     public Hammer _Hammer;
@@ -23,9 +23,19 @@ public class HammerAttackTrigger : MonoBehaviour
             BulidingObject attackTarget = other.GetComponent<BulidingObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
-                //attackTarget.NetworkOnDamage(_hammerAttack._damage);
-                attackTarget.OnDamage(_hammerAttack._damage);
-                _Hammer.Durability--;
+                if (SceneManager.GetActiveScene().name == "LocalRoom")
+                {
+                    attackTarget.OnDamage(_hammerAttack._damage);
+                    ReduceDurability(1);
+                }
+                else
+                {
+                    attackTarget.NetworkOnDamage(_hammerAttack._damage);
+                    photonView.RPC("ReduceDurability", RpcTarget.AllViaServer, 1);
+                    MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                    myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _hammerAttack._damage);
+                }
+
                 Debug.Log(attackTarget.health);
             }
         }
@@ -34,26 +44,33 @@ public class HammerAttackTrigger : MonoBehaviour
         {
             if (other.gameObject != transform.root.gameObject)
             {
-                PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+                PlayerState otherPlayerState = other.gameObject.GetComponent<PlayerState>();
                 Animator otherAnimator = other.GetComponent<Animator>();
-                if (other.gameObject != null && !playerState.dead 
+                if (other.gameObject != null && !otherPlayerState.dead 
                     /*&& otherPlayerState.team != _playerState.team*/)
                 {
                     if (SceneManager.GetActiveScene().name == "LocalRoom")
                     {
-                        playerState.OnDamage(_hammerAttack._damage);
+                        otherPlayerState.OnDamage(_hammerAttack._damage);
+                        ReduceDurability(1);
                     }
                     else
                     {
-                        playerState.NetworkOnDamage(_hammerAttack._damage);
+                        otherPlayerState.NetworkOnDamage(_hammerAttack._damage);
+                        photonView.RPC("ReduceDurability", RpcTarget.AllViaServer, 1);
+                        if (otherPlayerState.dead)
+                        {
+                            MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                            myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
+                            myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _hammerAttack._damage);
+                        }
                     }
 
-                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 10);
-                    _Hammer.Durability--;
-                }
-                if (!otherAnimator.GetBool("Falldown"))
-                {
-                    otherAnimator.SetBool("Falldown", true);
+                    other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
+                    if (!otherAnimator.GetBool("Falldown"))
+                    {
+                        otherPlayerState.NetworkOtherAnimatorControl("Falldown", true);
+                    }
                 }
             }
         }
@@ -65,8 +82,42 @@ public class HammerAttackTrigger : MonoBehaviour
             {
                 Target.NetworkOnDamage(_playerState.P_Dm.Damge_formula());
                 Debug.Log(Target.health);
-                _Hammer.Durability--;
+                photonView.RPC("ReduceDurability", RpcTarget.AllViaServer, 1);
             }
         }
+    }
+
+    [PunRPC]
+    public void ReduceDurability(int value)
+    {
+        _Hammer.Durability -= value;
+    }
+    
+    [PunRPC]
+    public void CauseDamageCount(int damage)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.CauseDamageCount(myInRoomInfo.mySlotNum, damage);
+    }
+    
+    [PunRPC]
+    public void KillCount()
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.KillCount(myInRoomInfo.mySlotNum);
+    }
+    
+    [PunRPC]
+    public void DeathCount()
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.DeathCount(myInRoomInfo.mySlotNum);
+    }
+    
+    [PunRPC]
+    public void GetPointCount(int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
     }
 }

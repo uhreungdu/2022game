@@ -22,7 +22,7 @@ public class PlayerKeySystem : MonoBehaviourPun
     public Thirdpersonmove Thirdpersonmove;
     private PlayerEquipitem _playerEquipitem;
 
-    private float timeBetAttack = 0.467f; // ���� ����
+    private float timeBetAttack = 0.3f; // ���� ����
     private float activeAttackTime = 0f; // ���� ���� �ð�
     private float lastAttackTime = 0f; // ������ �������� �� ����
 
@@ -54,6 +54,7 @@ public class PlayerKeySystem : MonoBehaviourPun
     {
         PressFire();
         PressItem();
+        BuffCheck();
     }
 
     void PressFire()
@@ -70,8 +71,12 @@ public class PlayerKeySystem : MonoBehaviourPun
         }
         if (_gamePlayerInput.fire)
         {
+            bool DashAttack = _playerAnimator._Animator.GetBool("DashAttack");
+            bool HammerAttack = _playerAnimator._Animator.GetBool("HammerAttack");
+            bool Combo = _playerAnimator._Animator.GetBool("Combo");
+            bool Throw = _playerAnimator._Animator.GetBool("Throw");
             //Debug.Log("�� ���� = " + boxCollider.transform.forward);
-            if (_playerState.nowEquip == true)
+            if (_playerState.nowEquip == true && !_playerState.aftercast)
             {
                 switch (_playerState.Item)
                 {
@@ -84,19 +89,29 @@ public class PlayerKeySystem : MonoBehaviourPun
                         _playerAnimator.HammerAttack();
                         break;
                     default:
-                        photonView.RPC("Throw_item", RpcTarget.All);
+                        photonView.RPC("Throw_item", RpcTarget.AllViaServer);
                         break;
                 }
             }
-            else if (_gamePlayerInput.dash && !_gamePlayerInput.fireKeyDown)
+            else if (_gamePlayerInput.dash && !_gamePlayerInput.fireKeyDown && !_playerState.aftercast)
             {
                 _playerAnimator.OnDashAttack();
             }
-            else if (!_gamePlayerInput.fireKeyDown || 
-                     (_gamePlayerInput.fireKeyDown && Time.time >= lastAttackTime + timeBetAttack ))
+            else
             {
-                lastAttackTime = Time.time;
-                _playerAnimator.OnAttack();
+                _playerAnimator._Animator.SetBool("DashAttack", false);
+                _playerAnimator._Animator.SetBool("HammerAttack", false);
+                _playerAnimator._Animator.SetBool("Throw", false);
+                if ( !_gamePlayerInput.fireKeyDown 
+                     || (_gamePlayerInput.fireKeyDown && _playerAnimator._Animator.GetBool("Combo")))
+                {
+                    lastAttackTime = Time.time;
+                    _playerAnimator.OnAttack();
+                }
+                else
+                {
+                    _playerAnimator._Animator.SetBool("Combo", false);
+                }
             }
         }
         else
@@ -110,12 +125,14 @@ public class PlayerKeySystem : MonoBehaviourPun
 
     private void PressItem()
     {
+        if (!photonView.IsMine) return;
         if (_gamePlayerInput.item)
         {
             switch (_playerState.Item)
             {
                 case item_box_make.item_type.potion:
                 case item_box_make.item_type.obstacles:
+                case item_box_make.item_type.EnergyWave:
                     Equip_item();
                     break;
                 default:
@@ -130,8 +147,6 @@ public class PlayerKeySystem : MonoBehaviourPun
             ItemObj.transform.rotation = new Quaternion(parent_qut.x,
                 0, 0, 0);
         }
-
-        BuffCheck();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -185,11 +200,11 @@ public class PlayerKeySystem : MonoBehaviourPun
 
         if (other.tag == "Player")
         {
-            PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
-            if (other.gameObject != null && !playerState.dead && playerState.team != _playerState.team)
-            {
-                playerState.OnDamage(20);
-            }
+            // PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+            // if (other.gameObject != null && !playerState.dead && playerState.team != _playerState.team)
+            // {
+            //     playerState.OnDamage(20);
+            // }
         }
     }
     

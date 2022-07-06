@@ -11,7 +11,8 @@ public class Slot : MonoBehaviour,IPunObservable
     public GameObject nicknameText;
     public GameObject statusText;
     public GameObject masterButton;
-    public GameObject platformText;
+    public GameObject platformImage;
+    public Sprite[] platformIcons;
     
     // Start is called before the first frame update
     void Start()
@@ -37,21 +38,21 @@ public class Slot : MonoBehaviour,IPunObservable
         // 없으면 변수 초기화
         Nickname = "";
         IsReady = false;
-        Platform = "";
+        Platform = 2;
     }
 
     private void SetText()
     {
         nicknameText.GetComponent<Text>().text = Nickname;
         statusText.GetComponent<Text>().text = IsReady ? "ready!" : "";
-        platformText.GetComponent<Text>().text = Platform;
+        platformImage.GetComponent<Image>().sprite = platformIcons[Platform];
     }
     
     public string Nickname { get; set; } = "";
 
     public bool IsReady { get; set; } = false;
 
-    public string Platform { get; set; } = "";
+    public int Platform { get; set; } = 2;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -67,7 +68,7 @@ public class Slot : MonoBehaviour,IPunObservable
         {
             Nickname = (string) stream.ReceiveNext();
             IsReady = (bool) stream.ReceiveNext();
-            Platform = (string) stream.ReceiveNext();
+            Platform = (int) stream.ReceiveNext();
         }
     }
     

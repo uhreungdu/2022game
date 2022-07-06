@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -7679107019282651007}
   - component: {fileID: 6769090360413461319}
   - component: {fileID: -3983303933793541729}
+  - component: {fileID: 1827692100246268731}
   m_Layer: 9
   m_Name: Tank
   m_TagString: Wall
@@ -108,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef489d263be7ee4aad66292ab68b262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 100
+  startingHealth: 60
   coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
   point: 15
   boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
@@ -116,8 +117,8 @@ MonoBehaviour:
   _MeshRenderer: {fileID: 0}
   _MeshCollider: {fileID: 0}
   destroyfloor: 0
-  destroyTime: 5
-  _reSpawnTime: 10
+  destroyTime: 27
+  _reSpawnTime: 30
   _ExplosionForce: 1000
   effect_obj: {fileID: 0}
   prefeb_effect: {fileID: 43508311127239940, guid: 84309fdd9219f1d43b57248b43322cbc, type: 3}
@@ -131,7 +132,7 @@ MeshCollider:
   m_GameObject: {fileID: 1560815743673721885}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -200,6 +201,19 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!65 &1827692100246268731
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560815743673721885}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12.249252, y: 6.485277, z: 20.45513}
+  m_Center: {x: 0.0000019073486, y: 3.2224112, z: -3.2853446}
 --- !u!1 &5305876138290355629
 GameObject:
   m_ObjectHideFlags: 0

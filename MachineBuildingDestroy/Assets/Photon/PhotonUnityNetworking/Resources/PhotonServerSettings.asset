@@ -59,6 +59,18 @@ MonoBehaviour:
   - Potion_ThrowState
   - SetOnHeadName
   - HideBuilding
+  - SendRoomChat
+  - NetworkOtherAnimatorControl
+  - AddImpact
+  - AnimatorControl
+  - ReduceDurability
+  - Setyvelocity
+  - Die
+  - CauseDamageCount
+  - DeathCount
+  - GetPointCount
+  - KillCount
+  - NetworkHitEffectInstantiate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

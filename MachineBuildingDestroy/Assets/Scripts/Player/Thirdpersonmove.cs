@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 using UnityEngine.PlayerLoop;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.Serialization;
 
 public class Thirdpersonmove : MonoBehaviourPun
@@ -15,9 +16,9 @@ public class Thirdpersonmove : MonoBehaviourPun
     public LayerMask _fieldLayer;
     private PlayerAllAttackAfterCast _playerAllAttackAfterCast;
 
-    public float speed = 18f;
-    public float Maxspeed = 24f;
-    public float Minspeed = 18f;
+    public float speed = 27f;
+    public float Maxspeed = 36f;
+    public float Minspeed = 27f;
     public float yvelocity = 0;
     public float Cgravity = 4f;
     private float tempgravity = -3f;
@@ -90,11 +91,12 @@ public class Thirdpersonmove : MonoBehaviourPun
             jumpmove.y = yvelocity;
             _characterController.Move(jumpmove);
 
-            if (_playerAllAttackAfterCast.PlayerActivejumpColliderCheck())
-            {
-                yvelocity = 0;
-            }
-            else
+            // if (_playerAllAttackAfterCast.PlayerActivejumpColliderCheck())
+            // {
+            //     //photonView.RPC("Setyvelocity", RpcTarget.AllViaServer);
+            //     //yvelocity = 0.0f;
+            // }
+            // else
                 yvelocity += tempgravity * Time.deltaTime;
             //Debug.Log(jumpmove);
             if (IsGrounded())
@@ -102,6 +104,12 @@ public class Thirdpersonmove : MonoBehaviourPun
                 yvelocity = 0;
             }
         }
+    }
+
+    [PunRPC]
+    public void Setyvelocity()
+    {
+        yvelocity = 0.0f;
     }
 
     public void Jump()
@@ -193,13 +201,15 @@ public class Thirdpersonmove : MonoBehaviourPun
         {
             item_box_make itemBoxMake = other.gameObject.GetComponent<item_box_make>();
             if (PhotonNetwork.IsMasterClient)
-                _playerState.SetItem(itemBoxMake.now_type);
+                if (_playerState.Item == item_box_make.item_type.no_item)
+                    _playerState.SetItem(itemBoxMake.now_type);
             _playerState.isAimming = true;
         }
         else if (other.gameObject.tag == "Coin")
         {
             print("coin");
             _playerState.AddPoint(1);
+            
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.Destroy(other.gameObject);

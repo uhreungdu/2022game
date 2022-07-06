@@ -10,6 +10,8 @@ public class PlayerEquipitem : MonoBehaviourPun
     public GameObject _ItemObject;
     private PlayerState _playerState;
     public Transform _RFingerTransform;
+
+    public Transform _CameraTransform;
     
     public bool BuffOn;
     public bool can_put_Obs;
@@ -19,6 +21,7 @@ public class PlayerEquipitem : MonoBehaviourPun
     public GameObject BuffObj;
     public GameObject HammerObj;
     public GameObject Frame_Obj;
+    public PlayerAnimator _playerAnimator;
     public Rigidbody item_Rigid;
     public Quaternion parent_qut;
     
@@ -28,8 +31,8 @@ public class PlayerEquipitem : MonoBehaviourPun
 
     void Start()
     {
+        _playerAnimator = GetComponent<PlayerAnimator>();
         setObj();
-
     }
 
     private void Update()
@@ -43,9 +46,9 @@ public class PlayerEquipitem : MonoBehaviourPun
         {
             //getobj = Resources.Load<GameObject>("potion");
             ItemObj = PhotonNetwork.Instantiate("potion", new Vector3(0, 0, 0), Quaternion.identity);
-            ItemObj.transform.SetParent(gameObject.transform, true);
             Vector3 tpos = _RFingerTransform.transform.position;
             ItemObj.transform.Translate(tpos);
+            ItemObj.transform.SetParent(_RFingerTransform.transform, true);
             item_Rigid = ItemObj.GetComponent<Rigidbody>();
             ItemObj.GetComponent<PotionState>().SetState("init");
             _playerState.nowEquip = true;
@@ -68,9 +71,17 @@ public class PlayerEquipitem : MonoBehaviourPun
             HammerObj.SetActive(true);
             _playerState.nowEquip = true;
         }
+        
+        else if (_playerState.Item == item_box_make.item_type.EnergyWave)
+        {
+            _playerAnimator.EnergyWaveAttack();
+            //_playerState.Item = item_box_make.item_type.no_item;
+        }
 
         else if (_playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
         {
+            buff_Time = 10;
+            _playerState.Item = item_box_make.item_type.no_item;
             BuffOn = true;
         }
     }
@@ -84,37 +95,33 @@ public class PlayerEquipitem : MonoBehaviourPun
             ItemObj.transform.parent = null;
             ItemObj.GetComponent<PotionState>().SetState("throw");
             Vector3 throw_Angle;
-            throw_Angle = gameObject.transform.forward * 10f;
-            throw_Angle.y = 5f;
+            throw_Angle = gameObject.transform.forward * 15f;
+            throw_Angle.y = 15f;
             item_Rigid.AddForce(throw_Angle, ForceMode.Impulse);
             _playerState.nowEquip = false;
             //던지고 나면 아이템 사라짐
-            // _playerState.Item = item_box_make.item_type.no_item;
+            _playerState.Item = item_box_make.item_type.no_item;
         }
 
         if (_playerState.Item == item_box_make.item_type.obstacles)
         {
             can_put_Obs = ItemObj.GetComponent<Obstcle_put_down>().can_put_down;
             print("들어옴");
-            if (can_put_Obs == true)
-            {
                 Quaternion old_rot = gameObject.transform.rotation;
                 //Debug.Log(old_rot);
                 Destroy(ItemObj.gameObject);
                 ItemObj.transform.parent = null;
-                //getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
+                //GameObject getobj = Resources.Load<GameObject>("Wall_Obstcle_Objs");
                 //ItemObj = Instantiate(getobj);
-                Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 5f);
+                Vector3 tpos = gameObject.transform.position + (gameObject.transform.forward * 10f) + Vector3.up;
                 //ItemObj.transform.Translate(tpos);
                 //ItemObj.transform.rotation = new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w);
                 ItemObj = PhotonNetwork.Instantiate("Wall_Obstcle_Objs", tpos,
                     new Quaternion(old_rot.x, old_rot.y, old_rot.z, old_rot.w));
                 ItemObj = null;
-                Frame_Obj.SetActive(false);
                 _playerState.nowEquip = false;
                 //던지고 나면 아이템 사라짐
-                // _playerState.Item = item_box_make.item_type.no_item;
-            }
+                _playerState.Item = item_box_make.item_type.no_item;
         }
     }
 
@@ -122,7 +129,7 @@ public class PlayerEquipitem : MonoBehaviourPun
     {
         if (Time.time >= LastHealTime + timeBetHeal)
         {
-            if (_playerState.health + 20 >= _playerState.startingHealth)
+            if (_playerState.health + 20 <= _playerState.startingHealth)
             {
                 _playerState.RestoreHealth(20);
                 LastHealTime = Time.time;

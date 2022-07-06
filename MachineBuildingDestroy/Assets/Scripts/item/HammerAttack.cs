@@ -32,6 +32,8 @@ public class HammerAttack : PlayerAttack
     {
         if (_hitBoxColliders[0].enabled && ActiveColliderCheck())
         {
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
+                _playerState._Currentstatus = PlayerState.Currentstatus.SupergardAttack;
             return;
         }
         else if (_hitBoxColliders[0].enabled)

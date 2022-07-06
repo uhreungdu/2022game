@@ -129,7 +129,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_028c1b43e12749a5ae3d15336fa84b73: {r: 0, g: 4, b: 0.4078431, a: 0.3490196}
-    - Color_0304a8404d2f4f9b8fe2accd4a4b9edb: {r: 0, g: 5.340313, b: 2.308101, a: 1}
+    - Color_0304a8404d2f4f9b8fe2accd4a4b9edb: {r: 5.818598, g: 6.322597, b: 0, a: 1}
     - Color_1304d92a93fb445996d6b062eb36b70f: {r: 0, g: 1, b: 0.06529045, a: 1}
     - Color_66652d091e02412cb31b9764a08e65c0: {r: 0, g: 0, b: 0, a: 0}
     - TopColor: {r: 0.0509078, g: 0.9811321, b: 0.07769295, a: 1}

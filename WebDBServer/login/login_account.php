@@ -1,5 +1,5 @@
 <?php
-$conn = mysqli_connect("localhost","root","kpu2022project","2022project");
+$conn = mysqli_connect("localhost","root","2022project","havocfes");
 
 $id=$_POST['id'];
 $pw=$_POST['pw'];

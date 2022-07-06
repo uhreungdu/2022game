@@ -1,22 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BulidingObject : LivingEntity
 {
-    public GameObject coinprefab;     // ������ ������ ���� ������
-    public int point;                // 몇점인지
+    public GameObject coinprefab; // ������ ������ ���� ������
+    public int point; // 몇점인지
     public Material boxmaterial;
     public Rigidbody rigidbody;
     public MeshRenderer _MeshRenderer;
     public MeshCollider _MeshCollider;
-    
+
     public int destroyfloor = 0;
     public int destroyTime = 5;
-    
+
     public float _reSpawnTime = 10.0f;
     protected float _reSpawnTimer = 0.0f;
     protected GameManager _Gamemanager;
@@ -32,11 +34,11 @@ public class BulidingObject : LivingEntity
     // Start is called before the first frame update
     protected void Start()
     {
-            var objectName = gameObject.transform.root.name;
-            objectName = objectName.Remove(objectName.Length - 7, 7);
-            AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
-                _reSpawnTime);
-        
+        var objectName = gameObject.transform.root.name;
+        objectName = objectName.Remove(objectName.Length - 7, 7);
+        AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
+            _reSpawnTime);
+
 
         rigidbody = GetComponentInChildren<Rigidbody>();
         _MeshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -50,7 +52,6 @@ public class BulidingObject : LivingEntity
     {
         if (_Gamemanager == null)
         {
-
         }
         else if (!_Gamemanager.EManager.gameSet)
         {
@@ -64,19 +65,20 @@ public class BulidingObject : LivingEntity
         {
             for (int i = 0; i < point; ++i)
             {
-                float radian = (Random.Range(0, 360)) * Mathf.PI / 180;
-                float radius = Random.value * 3.0f;
+                float radian = ((360.0f / (point)) * i) * (float)(Math.PI / 180.0f);
+                float radius = 5.0f;
                 Vector3 coinPosition = transform.position;
                 coinPosition.x = coinPosition.x + (radius * Mathf.Cos(radian));
                 coinPosition.z = coinPosition.z + (radius * Mathf.Sin(radian));
-                coinPosition.y = coinPosition.y;
+                coinPosition.y = 5;
                 GameObject coin =
                     PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, coinprefab.transform.rotation);
                 //Instantiate(coinprefab, coinPosition, transform.rotation);
                 Vector3 explosionPosition = transform.position;
-                coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f, _ExplosionForce / 2);
-                coin.GetComponent<Rigidbody>().AddExplosionForce(_ExplosionForce, explosionPosition, 10f);
+                coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f, 500 / 2);
+                coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f);
             }
+
             BuildingDestroyEvent(photonView.ViewID);
         }
     }
@@ -90,6 +92,7 @@ public class BulidingObject : LivingEntity
         }
         else
             objectName = gameObject.name;
+
         objectName = objectName.Remove(objectName.Length - 7, 7);
         Vector3 position = transform.position;
         position.y += 30;
@@ -97,7 +100,7 @@ public class BulidingObject : LivingEntity
         print("리스폰진짜됨");
         PhotonNetwork.Destroy(gameObject);
     }
-    
+
     public void HideBuildingFragments()
     {
         if (childMeshRenderers == null) return;
@@ -135,13 +138,14 @@ public class BulidingObject : LivingEntity
             print("리스폰됨");
         }
     }
-    
+
+    [PunRPC]
     public override void Die()
     {
         base.Die();
         _reSpawnTimer = Time.time;
     }
-    
+
     [PunRPC]
     public void WallDestroy()
     {
@@ -150,27 +154,32 @@ public class BulidingObject : LivingEntity
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1);
         }
-        if (health <= startingHealth / 7f * 5  && destroyfloor <= 1)
+
+        if (health <= startingHealth / 7f * 5 && destroyfloor <= 1)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
         }
-        if (health <= startingHealth / 7f * 4  && destroyfloor <= 2)
+
+        if (health <= startingHealth / 7f * 4 && destroyfloor <= 2)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
         }
+
         if (health <= startingHealth / 7f * 3 && destroyfloor <= 3)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1);
         }
-        if (health <= startingHealth / 7f * 2  && destroyfloor <= 4)
+
+        if (health <= startingHealth / 7f * 2 && destroyfloor <= 4)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1);
         }
-        if (health <= startingHealth / 7f * 1  && destroyfloor <= 5)
+
+        if (health <= startingHealth / 7f * 1 && destroyfloor <= 5)
         {
             destroyfloor++;
             CMeshSlicer.Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1);
@@ -184,7 +193,7 @@ public class BulidingObject : LivingEntity
                 if (child != _MeshRenderer)
                     child.enabled = true;
             }
-            
+
             childMeshCollider = GetComponentsInChildren<MeshCollider>();
             foreach (var child in childMeshCollider)
             {
@@ -198,20 +207,25 @@ public class BulidingObject : LivingEntity
             {
                 child.constraints = RigidbodyConstraints.None;
                 Vector3 objectPotision = transform.position;
-                objectPotision.y = 1;
-                child.AddExplosionForce(_ExplosionForce, objectPotision, 40f, _ExplosionForce / 2.0f);
-                child.AddExplosionForce(_ExplosionForce, objectPotision, 40f);
+                if (child.gameObject != gameObject)
+                {
+                    objectPotision.y = 1;
+                    child.AddExplosionForce(_ExplosionForce, objectPotision, 40f, _ExplosionForce / 8.0f);
+                    child.AddExplosionForce(_ExplosionForce, objectPotision, 40f);
+                }
             }
 
             _MeshRenderer.enabled = false;
             _MeshCollider.enabled = false;
             effect_obj = Instantiate(prefeb_effect);
             effect_obj.transform.SetParent(gameObject.transform);
-            effect_obj.transform.Translate(gameObject.transform.position);
+            effect_obj.transform.position = gameObject.transform.position;
             Destroy(GetComponent<PhotonRigidbodyView>());
             Destroy(rigidbody);
+            CinemachineShake.Instance.ShakeCamera(25f, 0.5f);
         }
     }
+
     [PunRPC]
     public override void OnDamage(float damage)
     {
@@ -228,7 +242,7 @@ public class BulidingObject : LivingEntity
 
     public void NetworkOnDamage(float val)
     {
-        photonView.RPC("OnDamage",RpcTarget.AllViaServer,val);
+        photonView.RPC("OnDamage", RpcTarget.AllViaServer, val);
     }
 
     [PunRPC]
@@ -236,7 +250,7 @@ public class BulidingObject : LivingEntity
     {
         health = fHealth;
     }
-    
+
     private void AddBuildingToServerEvent(int viewID, string type, Vector3 pos, Quaternion rotate, float respawnTime)
     {
         if (!PhotonNetwork.IsMasterClient) return;
@@ -257,4 +271,23 @@ public class BulidingObject : LivingEntity
         SendOptions sendOpt = new SendOptions {Reliability = true};
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            if (rigidbody != null)
+                rigidbody.isKinematic = true;
+        }
+    }
+    
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            if (rigidbody != null)
+                rigidbody.isKinematic = false;
+        }
+    }
+    
 }

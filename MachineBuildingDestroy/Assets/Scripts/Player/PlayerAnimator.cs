@@ -18,6 +18,9 @@ public class PlayerAnimator : MonoBehaviourPun
     public PlayerHandAttack _PlayerHandAttack;
     public PlayerJumpAttack _PlayerJumpAttack;
     public PlayerDragonPunch _PlayerDragonPunch;
+    public PlayerEnergywaveAttack _PlayerEnergywaveAttack;
+    public PlayerAnimationEvent _PlayerAnimationEvent;
+    public AudioSource _AudioSource;
     public HammerAttack _HammerAttack;
 
     public float lastAttackTime;
@@ -52,6 +55,9 @@ public class PlayerAnimator : MonoBehaviourPun
         _PlayerHandAttack = GetComponent<PlayerHandAttack>();
         _PlayerJumpAttack = GetComponent<PlayerJumpAttack>();
         _PlayerDragonPunch = GetComponent<PlayerDragonPunch>();
+        _PlayerEnergywaveAttack = GetComponent<PlayerEnergywaveAttack>();
+        _PlayerAnimationEvent = GetComponent<PlayerAnimationEvent>();
+        _AudioSource = GetComponent<AudioSource>();
         _HammerAttack = GetComponent<HammerAttack>();
     }
 
@@ -67,19 +73,61 @@ public class PlayerAnimator : MonoBehaviourPun
     {
         if (_Animator.GetBool("IsGrounded"))
         {
+            _PlayerAnimationEvent.Play(
+                null,
+                null,
+                null,
+                () =>
+                {
+                    _AudioSource.PlayOneShot(_PlayerHandAttack._AttackAudioClips[Random.Range(0, _PlayerHandAttack._AttackAudioClips.Count)]);
+                });
             _Animator.SetBool("Combo", true);
         }
         else
         {
-            _PlayerJumpAttack.SetAffterCast(1);
-            _Animator.SetBool("Combo", true);
+            if (!_PlayerState.aftercast)
+            {
+                _PlayerAnimationEvent.Play(
+                    null,
+                    null,
+                    null,
+                    () =>
+                    {
+                        _AudioSource.PlayOneShot(_PlayerJumpAttack._AttackAudioClips[Random.Range(0, _PlayerJumpAttack._AttackAudioClips.Count)]);
+                    });
+                _PlayerJumpAttack.SetAffterCast(1);
+                _Animator.SetBool("Combo", true);
+            }
         }
     }
 
     public void HammerAttack()
     {
+        _PlayerAnimationEvent.Play(
+            null,
+            null,
+            null,
+            () =>
+            {
+                _AudioSource.PlayOneShot(_HammerAttack._AttackAudioClips[Random.Range(0, _HammerAttack._AttackAudioClips.Count)]);
+                
+            });
         _HammerAttack.SetAffterCast(1);
         _Animator.SetBool("HammerAttack", _gamePlayerInput.fire);
+    }
+    
+    public void EnergyWaveAttack()
+    {
+        _PlayerAnimationEvent.Play(
+            null,
+            null,
+            null,
+            () =>
+            {
+                _AudioSource.PlayOneShot(_PlayerEnergywaveAttack._AttackAudioClips[Random.Range(0, _PlayerEnergywaveAttack._AttackAudioClips.Count)]);
+            });
+        _PlayerEnergywaveAttack.SetAffterCast(1);
+        _Animator.SetTrigger("EnergyWave");
     }
 
     public void DelayTimer()
@@ -155,8 +203,17 @@ public class PlayerAnimator : MonoBehaviourPun
     
     public void DragonPunch()
     {
-        if (_PlayerDragonPunch.CoolTimer())
+        if (_PlayerDragonPunch.CoolTimer()) 
         {
+            _PlayerAnimationEvent.Play(
+                null,
+                null,
+                null,
+                () =>
+                {
+                    _AudioSource.PlayOneShot(_PlayerDragonPunch._AttackAudioClips[Random.Range(0, _PlayerDragonPunch._AttackAudioClips.Count)]);
+                });
+            _PlayerDragonPunch.SetAffterCast(1);
             _Animator.SetBool("DragonPunch", true);
         }
     }

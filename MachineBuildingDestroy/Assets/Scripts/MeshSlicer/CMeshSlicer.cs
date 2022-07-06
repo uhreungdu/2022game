@@ -405,9 +405,9 @@ public class CMeshSlicer : MonoBehaviour
         bObject.GetComponent<MeshRenderer>().enabled = false;
 
         aObject.tag = "DestroyWall";
-        aObject.layer = 9;
+        aObject.layer = 15;
         bObject.tag = "DestroyWall";
-        bObject.layer = 9;
+        bObject.layer = 15;
 
         Transform _DestroyObjecttransform = null;
         if (_target.transform.parent)

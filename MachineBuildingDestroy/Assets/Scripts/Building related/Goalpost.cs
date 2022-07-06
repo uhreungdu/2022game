@@ -27,7 +27,17 @@ public class Goalpost : MonoBehaviourPun
 
     private void OnEvent()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
+        //if (!PhotonNetwork.IsMasterClient) return;
         if (_gameManager.EManager.goalpost_Create)
         {
             if (_meshRenderer.enabled == false)
@@ -48,7 +58,7 @@ public class Goalpost : MonoBehaviourPun
             if (_meshRenderer.enabled)
             {
                 _meshRenderer.enabled = false;
-                _rigidbody.useGravity = true;
+                _rigidbody.useGravity = false;
             }
             foreach (var colliders in _Colliders)
             {

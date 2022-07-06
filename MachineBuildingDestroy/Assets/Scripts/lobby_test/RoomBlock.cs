@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -17,6 +20,7 @@ public class RoomBlock : MonoBehaviour
     private int _nowP;
     private int _maxP;
     private bool _ingame;
+    private Socket _client;
 
     private LobbyManager _lobbyManager;
     private Account _account;
@@ -26,12 +30,7 @@ public class RoomBlock : MonoBehaviour
     {
         _lobbyManager = LobbyManager.GetInstance();
         _account = Account.GetInstance();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _client = ChatClient.GetInstance().GetClientSocket();
     }
 
     public void SetVariables(string internalName, string externalName, int nowPlayerNum, int maxPlayerNum, bool ingame)
@@ -63,30 +62,21 @@ public class RoomBlock : MonoBehaviour
 
     public void EnterRoom()
     {
-        StartCoroutine(WebRequest());
+        SendEnterRoom();
+        PhotonNetwork.JoinRoom(_iname);
     }
-
-    IEnumerator WebRequest()
+    
+    private void SendEnterRoom()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("iname", "\"" + _iname + "\"");
-        form.AddField("Pname", "\"" + _account.GetPlayerNickname() + "\"");
-
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/player_join_room.php", form);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            string results = www.downloadHandler.text;
-            Debug.Log(results);
-            _lobbyManager.SetInRoomName(_iname);
-            _lobbyManager.SetExRoomName(_ename);
-            PhotonNetwork.JoinRoom(_iname);
-            //SceneManager.LoadScene("SampleScene");
-        }
+        byte[] tempBuf = Encoding.UTF8.GetBytes(_iname);
+        
+        byte[] sendBuf = new byte[tempBuf.Length + 1];
+        sendBuf[0] = (byte) ChatClient.ChatCode.EnterRoom;
+        
+        Array.Copy(tempBuf, 0, sendBuf, 1, tempBuf.Length);
+        
+        _client.Send(sendBuf);
     }
+
+    
 }

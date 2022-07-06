@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
         public void Active_landmakr(){
-            if((int)Ntimer / 240 > 0)
+            if((int)Ntimer / 120 > 0)
             {
                 landmakr_Create = true;
                 //Debug.Log("아이템 생성");
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         public void Active_gameSet()
         {
-            if((int)Ntimer / 300 > 0)
+            if((int)Ntimer / 180 > 0)
             {
                 gameSetTime = Ntimer;
                 gameSet = true;
@@ -139,7 +139,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         now_timer.min = 0;
         now_timer.sec = 0;
         now_timer.Ntimer = 0f;
-
         gameStart = false;
     }
 
@@ -153,6 +152,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             if (EManager.gameSet && now_timer.Ntimer >= EManager.gameSetTime + 7)
             {
                 PhotonNetwork.LoadLevel("GameResultScene");
+                GameInfo gameInfo = GameInfo.GetInstance();
+                for (int i = 0; i < 2; i++)
+                {
+                    gameInfo.Infomations.gamescore[i] = gamescore[i];
+                }
                 Destroy(UImanager.GetInstance().gameObject);
                 Destroy(gameObject);
             }

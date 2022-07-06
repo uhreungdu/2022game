@@ -23,14 +23,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         DestroyBuildingFromClient,
         CreateBuildingFromServer,
         DestroyBuildingFromServer,
-        HideBuildingFragments
+        HideBuildingFragments,
+        SpawnPlayerFinish,
+        LoadGame
     }
 
     private static NetworkManager instance;
     private Account _account;
     private LobbyManager _lobbyManager;
     public string networkState;
-    public GameObject player;
+    public GameObject[] player;
     public GameObject errWindow;
     private GameObject _team1Spawner;
     private GameObject _team2Spawner;
@@ -87,23 +89,25 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void SpawnPlayer()
     {
         Vector3 pos = new Vector3(-15, 10.0f, -15);
-        
+
         var info = GameObject.Find("Myroominfo");
         int team = 0;
         if (info != null)
         {
-            team = Convert.ToInt32(info.GetComponent<MyInRoomInfo>().MySlotNum > 2);
-            Destroy(info);
+            team = info.GetComponent<MyInRoomInfo>().mySlotNum % 2;
+            //Destroy(info);
         }
+
         while (_team1Spawner == null)
         {
             _team1Spawner = GameObject.FindWithTag("Spawner1");
         }
+
         while (_team2Spawner == null)
         {
             _team2Spawner = GameObject.FindWithTag("Spawner2");
         }
-        
+
         if (team == 0 && _team1Spawner != null)
         {
             pos = _team1Spawner.transform.position;
@@ -115,7 +119,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
         }
         
-        PhotonNetwork.Instantiate(player.name, pos, Quaternion.identity);
+        PhotonNetwork.Instantiate(player[team].name, pos, Quaternion.identity);
+        
+        SpawnPlayerFinishEvent();
     }
 
     public void SpawnPlayer(int team)
@@ -142,12 +148,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             pos += new Vector3(Random.Range(-4, 4), 10.0f, Random.Range(-4, 4));
         }
         
-        PhotonNetwork.Instantiate(player.name, pos, Quaternion.identity);
+        PhotonNetwork.Instantiate(player[team].name, pos, Quaternion.identity);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        StartCoroutine(_lobbyManager.GetRoomList());
+        var _roomList = GameObject.Find("RoomList").GetComponent<RoomList>();
+        _roomList.CleanRoomList();
+        _lobbyManager.GetRoomList();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -158,6 +166,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         errWindow.GetComponentInChildren<Text>().text = cause.ToString();
         print(cause.ToString());
         Logout(_account.GetPlayerID());
+    }
+    
+    void Logout(string id)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", "\"" + id + "\"");
+        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/logout_account.php", form);
+        www.SendWebRequest();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -170,9 +186,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         _players = PhotonNetwork.PlayerList;
     }
 
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (Application.platform != RuntimePlatform.Android) return;
+        if (SceneManager.GetActiveScene().name == "login_test") return;
+
+        PhotonNetwork.Disconnect();
+    }
+
     private void OnApplicationQuit()
     {
-        Logout(_account.GetPlayerID());
+        PhotonNetwork.Disconnect();
     }
 
     // Update is called once per frame
@@ -184,23 +208,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             networkState = curNetworkState;
             print(networkState);
         }
-    }
-
-    void ExitRoom(string id, string roomname)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("Pname", "\"" + id + "\"");
-        form.AddField("iname", "\"" + roomname + "\"");
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/player_exit_room.php", form);
-        www.SendWebRequest();
-    }
-
-    void Logout(string id)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("id", "\"" + id + "\"");
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/logout_account.php", form);
-        www.SendWebRequest();
     }
 
     void RaiseEventSample()
@@ -221,6 +228,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
+    public void LoadGameEvent()
+    {
+        byte evCode = (byte) EventCode.LoadGame;
+        object[] data = new object[] { };
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
+
     public void StartGameEvent()
     {
         byte evCode = (byte) EventCode.StartGame;
@@ -229,8 +245,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SendOptions sendOpt = new SendOptions {Reliability = true};
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
-    
-    
+
+    public void SpawnPlayerFinishEvent()
+    {
+        byte evCode = (byte) EventCode.SpawnPlayerFinish;
+        object[] data = new object[] {PhotonNetwork.NickName};
+        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        SendOptions sendOpt = new SendOptions {Reliability = true};
+        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
 
     public void SetTeamNumOnServerEvent(string name, int num)
     {

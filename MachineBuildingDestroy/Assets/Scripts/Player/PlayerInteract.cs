@@ -13,6 +13,7 @@ public class PlayerInteract : MonoBehaviour
     // Start is called before the first frame update
     
     public float timeBet = 3f; // ���� ����
+    public LayerMask _LayerMask;
     private float lastTime; // ������ �������� �� ����
     private bool neargoalpost;
     
@@ -39,6 +40,11 @@ public class PlayerInteract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Collider[] colliders = Physics.OverlapSphere(transform.position + new Vector3(0f, 2.5f, 0f), 10, _LayerMask);
+        if (colliders.Length >= 1)
+            neargoalpost = true;
+        else
+            neargoalpost = false;
         if (gamePlayerInput.Interaction && neargoalpost)
         {
             if (lastTime < 0)
@@ -49,14 +55,18 @@ public class PlayerInteract : MonoBehaviour
             if (Time.time >= lastTime + timeBet)
             {
                 gManager.addScore(playerState.team, playerState.point);
+                MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalGetPoint += playerState.point;
                 playerState.ResetPoint();
+                _Progressbar.gameObject.SetActive(false);
             }
         }
         else
         {
-            lastTime = -1;
             _Progressbar.gameObject.SetActive(false);
+            lastTime = -1;
         }
+
         ProgressbarUpdate();
         playerState.update_stat();
     }
@@ -71,18 +81,18 @@ public class PlayerInteract : MonoBehaviour
             _Progressbar.value = 0;
     }
     
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Goalpost")
-        {
-            neargoalpost = true;
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Goalpost")
-        {
-            neargoalpost = false;
-        }
-    }
+    // private void OnTriggerStay(Collider other)
+    // {
+    //     if (other.tag == "Goalpost")
+    //     {
+    //         neargoalpost = true;
+    //     }
+    // }
+    // private void OnTriggerExit(Collider other)
+    // {
+    //     if (other.tag == "Goalpost")
+    //     {
+    //         neargoalpost = false;
+    //     }
+    // }
 }

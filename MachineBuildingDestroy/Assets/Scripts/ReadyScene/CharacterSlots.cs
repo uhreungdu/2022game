@@ -15,7 +15,11 @@ public class CharacterSlots : MonoBehaviourPun
     void Start()
     {
         info = GameObject.Find("Myroominfo");
-        
+        var maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
+        for (var i = 5; i > maxPlayer - 1; --i)
+        {
+            slots[i].GetComponent<Image>().color = Color.gray;
+        }
     }
 
     // Update is called once per frame
@@ -26,34 +30,45 @@ public class CharacterSlots : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        if(!init){
-            photonView.RPC("SetSlotByQuick",RpcTarget.MasterClient,
-            PhotonNetwork.NickName, Application.platform.ToString());
+        if(!init)
+        {
+            var nickname = PhotonNetwork.NickName;
+            photonView.RPC("SetSlotByQuick",RpcTarget.MasterClient, nickname, Application.platform);
             init = true;
         }
         
         var num = -1;
+        int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
+        
         // 자신 슬롯 번호 갱신
-        for (var i = 0; i < 6; ++i)
+        for (var i = 0; i < maxPlayer; ++i)
         {
             var slotComponent = slots[i].GetComponent<Slot>();
             if (slotComponent.Nickname != PhotonNetwork.NickName) continue;
-            info.GetComponent<MyInRoomInfo>().MySlotNum = i;
+            info.GetComponent<MyInRoomInfo>().mySlotNum = i;
             num = i;
             break;
         }
         
         // 자신 슬롯 색상 강조
-        for (var i = 0; i < 6; ++i)
+        for (var i = 0; i < maxPlayer; ++i)
         {
             var slotComponent = slots[i].GetComponent<Slot>();
+            slots[i].GetComponent<Image>().color = num!=i ? Color.white : Color.yellow;
+        }
+        
+        // 룸 정보 갱신
+        for (var i = 0; i < maxPlayer; ++i)
+        {
+            var slotComponent = slots[i].GetComponent<Slot>();
+            info.GetComponent<MyInRoomInfo>().RenewInfo(i, slotComponent);
             slots[i].GetComponent<Image>().color = num!=i ? Color.white : Color.yellow;
         }
         
         // Master 넘기는 버튼 활성화 갱신
         if (PhotonNetwork.IsMasterClient)
         {
-            for (var i = 0; i < 6; ++i)
+            for (var i = 0; i < maxPlayer; ++i)
             {
                 var slotComponent = slots[i].GetComponent<Slot>();
                 if (slotComponent.Nickname != "")
@@ -63,7 +78,7 @@ public class CharacterSlots : MonoBehaviourPun
         }
         else
         {
-            for (var i = 0; i < 6; ++i)
+            for (var i = 0; i < maxPlayer; ++i)
             {
                 slots[i].GetComponent<Slot>().masterButton.GetComponent<Button>().interactable = false;
             }
@@ -71,16 +86,18 @@ public class CharacterSlots : MonoBehaviourPun
     }
     
     [PunRPC]
-    void SetSlotByQuick(string nickname, string platform)
+    void SetSlotByQuick(string nickname, RuntimePlatform platform)
     {
         var slot = transform.GetComponent<CharacterSlots>();
-        for (var i = 0; i < 6; ++i)
+        int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
+        for (var i = 0; i < maxPlayer; ++i)
         {
             var target = slot.slots[i].GetComponent<Slot>();
             if (target.Nickname != "") continue;
             target.Nickname = nickname;
             target.IsReady = false;
-            target.Platform = platform;
+            target.Platform = platform == RuntimePlatform.Android ? 1 : 0;
+            Debug.Log(target.Platform);
             break;
 
         }

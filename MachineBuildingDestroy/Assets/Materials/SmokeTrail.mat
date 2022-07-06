@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SmokeTrail
+  m_Shader: {fileID: -6465566751694194690, guid: d70aafe2b35bf7d428ba90297c56fc37, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_968032e71e974000ab89f0b71094d9f7:
+        m_Texture: {fileID: 2800000, guid: 0ed7d80e9890b644fb2297bae801fbdc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_b23142ffdc5e483a8c1ae9efa4293df9:
+        m_Texture: {fileID: 2800000, guid: 65deb0ec73bc0314e9aa0b854a5158d9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_beae8fe48c574976b3db7a22ac9602c1: -1
+    - _AlphaC: 0
+    m_Colors:
+    - Color_0dc1bba84cab4af39b43b59a0798d997: {r: 5.7876706, g: 5.7876706, b: 5.7876706, a: 1}
+    - Vector2_d65969af8b904cdabb18df0691559b57: {r: 1, g: 1, b: 0, a: 0}
+    - Vector2_fb28dbb4df224c1d88c1f60be272633c: {r: 1, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []

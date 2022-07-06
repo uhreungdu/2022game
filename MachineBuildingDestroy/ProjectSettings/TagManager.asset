@@ -34,9 +34,9 @@ TagManager:
   - PostProcess
   - Potion
   - ItemBeacon
-  - 
-  - 
-  - 
+  - GoalPost
+  - Obstacle
+  - DestroyBuilding
   - 
   - 
   - 

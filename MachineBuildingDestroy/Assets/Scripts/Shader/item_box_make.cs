@@ -7,12 +7,15 @@ public class item_box_make : MonoBehaviour
 {
     //아이템 타입을 나타내는 enum
     //0:무기, 1:투척, 2:소모, 3:설치
+    // 에너지파 추가
+    // UI 추가바람
     public enum item_type{
         no_item,
         Buff,
         potion,
         obstacles,
-        Hammer
+        Hammer,
+        EnergyWave
     }
     
     public item_type now_type {get; private set;}
@@ -74,7 +77,7 @@ public class item_box_make : MonoBehaviour
                     effect_switch = true;
                 }
             }
-            transform.Rotate(Vector3.up * 20 * Time.deltaTime);
+            transform.Rotate(Vector3.up * 100 * Time.deltaTime);
         }
     }
     

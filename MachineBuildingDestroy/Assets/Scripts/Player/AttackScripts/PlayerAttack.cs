@@ -1,16 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack : MonoBehaviourPun
 {
     public PlayerState _playerState;
     protected string _attackName; // 공격 이름
-    public float _damage { protected set; get; } // 공격력
+    public int _damage { protected set; get; } // 공격력
     
     protected float _aftercastAttack; // 공격 후딜레이
-    
     public bool aftercast { get; private set; } // 움직일 수 없는 시간
 
     public List<BoxCollider> _hitBoxColliders; // 히드박스가 공격에 필요한개 하나가 아닐 수 있음
@@ -20,7 +20,13 @@ public class PlayerAttack : MonoBehaviour
 
     protected float _coolTime = 0f;
     protected float _lastUsedTime;
-    
+    public List<AudioClip> _AttackAudioClips;
+
+    public void Start()
+    {
+        _playerState = GetComponent<PlayerState>();
+    }
+
     public void AfterCastRecovery()
     {
         if (Time.time >= _playerState._lastAttackTime + _playerState._aftercastAttack && _playerState.aftercast)
@@ -28,6 +34,7 @@ public class PlayerAttack : MonoBehaviour
             SetAffterCast(0);
         }
     }
+    
     public bool CoolTimer()
     {
         if (Time.time >= _lastUsedTime + _coolTime)

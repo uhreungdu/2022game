@@ -17,6 +17,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     public Material RadMaterial;
     public Material Blue;
 
+    public GameObject ChildObject;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +49,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     {
         if (_playerinput.currentActionMap.name == "Editer")
         {
-            if (!mapEditerManager.SaveMode && gameObject.transform.childCount < 1)
+            if (!mapEditerManager.SaveMode && ChildObject == null)
             {
                 
                 GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
@@ -55,18 +57,21 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 if (tilepref != null)
                 {
                     GameObject temp = Instantiate(tilepref, tilepref.transform.position, tilepref.transform.rotation);
+                    ChildObject = temp;
+                    print(temp.transform.GetSiblingIndex());
                     temp.transform.parent = gameObject.transform;
                     temp.transform.position += GetPoint();
-                    Rigidbody temprigidbody = temp.GetComponent<Rigidbody>();
+                    Rigidbody temprigidbody = temp.GetComponentInChildren<Rigidbody>();
                     if (temprigidbody != null)
-                        temp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                        temp.GetComponentInChildren<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                     Destroy(temp.GetComponentInChildren<BulidingObject>());
                     Destroy(temp.GetComponentInChildren<LandMarkObject>());
+                    Destroy(temp.GetComponentInChildren<Goalpost>());
                     Collider[] tempColliders = temp.GetComponentsInChildren<Collider>();
                     if (tempColliders != null)
                     foreach (var collider in tempColliders)
                     {
-                        collider.enabled = false;
+                        //collider.enabled = false;
                     }
                 }
             }
@@ -75,7 +80,8 @@ public class MapEditerOnScreenPoint : MonoBehaviour
         {
             if (gameObject.transform.childCount >= 1)
             {
-                Destroy(transform.GetChild(0).gameObject);
+                Destroy(ChildObject);
+                ChildObject = null;
             }
         }
     }
@@ -87,14 +93,17 @@ public class MapEditerOnScreenPoint : MonoBehaviour
             if (mapEditerManager.SaveMode)
             {
                 if (gameObject.transform.childCount >= 1)
-                    Destroy(transform.GetChild(0).gameObject);
+                {
+                    Destroy(ChildObject);
+                    ChildObject = null;
+                }
             }
             else if (gameObject.transform.childCount >= 1)
             {
                 Vector3 Point = GetPoint();
-                int x = (int) GetPoint().x / 10;
-                int z = (int) GetPoint().z / 10;
-                if (Point.x <= 0)
+                float x = (int)(GetPoint().x * 0.1f);
+                float z = (int)(GetPoint().z * 0.1f);
+                if (Point.x <= 0.0f)
                 {
                     Point.x = -5 + x * 10;
                 }
@@ -103,7 +112,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                     Point.x = 5 + x * 10;
                 }
 
-                if (Point.z <= 0)
+                if (Point.z <= 0.0f)
                 {
                     Point.z = -5 + z * 10;
                 }
@@ -113,9 +122,13 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 }
                 GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
                 transform.position = Point;
-                transform.GetChild(0).position = Point;
-                transform.GetChild(0).position += tilepref.transform.position;
-                transform.GetChild(0).rotation = Quaternion.Euler(0, _rotate, 0);
+                if (ChildObject != null)
+                {
+                    ChildObject.transform.SetAsLastSibling();
+                    ChildObject.transform.position = Point;
+                    ChildObject.transform.position += tilepref.transform.position;
+                    ChildObject.transform.rotation = Quaternion.Euler(0, _rotate, 0);
+                }
             }
         }
     }
@@ -132,16 +145,17 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                     {
                         Map.Tile tile = new Map.Tile();
                         tile.kind = mapEditerManager.Prefnum;
-                        tile.position = transform.GetChild(0).position;
-                        tile.rotate = transform.GetChild(0).rotation;
+                        tile.position = ChildObject.transform.position;
+                        tile.rotate = ChildObject.transform.rotation;
                         map.maptile.Tiles.Add(tile);
-                        Collider[] tempColliders = transform.GetChild(0).GetComponentsInChildren<Collider>();
+                        Collider[] tempColliders = ChildObject.transform.GetComponentsInChildren<Collider>();
                         if (tempColliders != null)
                             foreach (var collider in tempColliders)
                             {
                                 collider.enabled = true;
                             }
-                        transform.GetChild(0).parent = map.gameObject.transform;
+                        ChildObject.transform.parent = map.gameObject.transform;
+                        ChildObject = null;
                     }
                 }
 
@@ -190,7 +204,11 @@ public class MapEditerOnScreenPoint : MonoBehaviour
         {
             if (gameObject.transform.childCount >= 1)
             {
-                Destroy(transform.GetChild(0).gameObject);
+                if (ChildObject != null)
+                {
+                    Destroy(ChildObject.gameObject);
+                    ChildObject = null;
+                }
             }
             mapEditerManager.Prefnum = num;
         }
@@ -200,10 +218,10 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     {
         foreach (var allTile in map.maptile.Tiles)
         {
-            Vector3 comp1 = new Vector3((int) allTile.position.x, 0,
-                (int) allTile.position.z);
-            Vector3 comp2 = new Vector3((int) transform.position.x,
-                0, (int) transform.position.z);
+            Vector3 comp1 = new Vector3(allTile.position.x, 0,
+                allTile.position.z);
+            Vector3 comp2 = new Vector3(transform.position.x,
+                0, transform.position.z);
             if (mapEditerManager.Prefnum == 0 && allTile.kind == 0 && comp1 == comp2)
             {
                 return true;
@@ -220,10 +238,10 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     {
         foreach (var allTile in map.maptile.Tiles)
         {
-            Vector3 comp1 = new Vector3((int) allTile.position.x, 0,
-                (int) allTile.position.z);
-            Vector3 comp2 = new Vector3((int) transform.GetChild(0).position.x,
-                0, (int) transform.GetChild(0).position.z);
+            Vector3 comp1 = new Vector3(allTile.position.x, 0,
+                allTile.position.z);
+            Vector3 comp2 = new Vector3(transform.position.x,
+                0, transform.position.z);
             if (mapEditerManager.Prefnum == 0 && allTile.kind == 0 && comp1 == comp2)
             {
                 map.maptile.Tiles.Remove(allTile);
@@ -240,7 +258,7 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent == null)
+        if (other.transform.parent.name == "Map")
         {
             if (InstallCheck())
             {

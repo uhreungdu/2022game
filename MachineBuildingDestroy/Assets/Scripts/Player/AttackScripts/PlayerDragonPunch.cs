@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerDragonPunch : PlayerAttack
@@ -11,14 +12,16 @@ public class PlayerDragonPunch : PlayerAttack
     private Thirdpersonmove _thirdpersonmove;
     void Start()
     {
+        base.Start();
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
         _aftercastAttack = 1f;
         SetAffterCast(0);
-        _damage = 20;
-        _coolTime = 10;
+        _damage = 30;
+        //_coolTime = 10;
+        _coolTime = 0;
         _lastUsedTime = -999f;
         
         _hitBoxColliders.Add(_HandBoxCollider);
@@ -26,19 +29,22 @@ public class PlayerDragonPunch : PlayerAttack
 
     void Update()
     {
-        HandTransform();
+        //HandTransform();
         AfterCastRecovery();
         ActiveRAttack();
     }
     
     public void ActiveRAttack()
     {
-        if (_hitBoxColliders[0].enabled && ActiveColliderCheck())
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_playerState.dead)
         {
-            return;
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
+                _playerState._Currentstatus = PlayerState.Currentstatus.SupergardAttack;
         }
         else if (_hitBoxColliders[0].enabled)
         {
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.SupergardAttack)
+                _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
             SetDragonPunchCollision(0);
         }
     }
@@ -65,9 +71,18 @@ public class PlayerDragonPunch : PlayerAttack
     public void DragonPunchMovement()
     {
         Transform rootTransform = transform.root;
-        _playerImpact.AddImpact(rootTransform.up, 500);
+        _thirdpersonmove.yvelocity = 1.5f;
+        //_playerImpact.AddImpact(rootTransform.up, 500);
         _playerImpact.AddImpact(rootTransform.forward, 150);
+        //photonView.RPC("Setyvelocity", RpcTarget.AllViaServer);
     }
+    
+    [PunRPC]
+    public void Setyvelocity(float vel)
+    {
+        _thirdpersonmove.yvelocity = vel;
+    }
+
     
     public void SetDragonPunchAffterCast(int set)
     {

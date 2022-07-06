@@ -12,6 +12,7 @@ public class PlayerJumpAttack : PlayerAttack
     private Thirdpersonmove _thirdpersonmove;
     void Start()
     {
+        base.Start();
         _playerImpact = transform.GetComponent<PlayerImpact>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
         _attackName = "기본공격";
@@ -27,8 +28,19 @@ public class PlayerJumpAttack : PlayerAttack
     {
         HandTransform();
         AfterCastRecovery();
-        if (_hitBoxColliders[0].enabled && _thirdpersonmove.IsGrounded())
+        ActiveAttack();
+    }
+    public void ActiveAttack()
+    {
+        if (_hitBoxColliders[0].enabled && ActiveColliderCheck() && !_playerState.IsCrowdControl() && !_thirdpersonmove.IsGrounded() && !_playerState.dead)
         {
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Idle)
+                _playerState._Currentstatus = PlayerState.Currentstatus.Attack;
+        }
+        else if (_hitBoxColliders[0].enabled)
+        {
+            if (_playerState._Currentstatus == PlayerState.Currentstatus.Attack)
+                _playerState._Currentstatus = PlayerState.Currentstatus.Idle;
             _hitBoxColliders[0].enabled = false;
         }
     }
@@ -55,7 +67,7 @@ public class PlayerJumpAttack : PlayerAttack
     public void JumpAttackMovement()
     {
         Transform rootTransform = transform.root;
-        _playerImpact.AddImpact(rootTransform.forward, 100);
+        _playerImpact.AddImpact(rootTransform.forward, 200);
     }
     
     public void SetJumpAffterCast(int set)

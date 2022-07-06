@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class PlayerDragonPunchTrigger : MonoBehaviour
+public class PlayerDragonPunchTrigger : MonoBehaviourPun
 {
     private PlayerDragonPunch _playerDragonPunch;
     public PlayerState _playerState;
@@ -13,15 +15,23 @@ public class PlayerDragonPunchTrigger : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        
+        if (!PhotonNetwork.IsMasterClient) return;
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Wall")
         {
             BulidingObject attackTarget = other.GetComponent<BulidingObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
-                // attackTarget.NetworkOnDamage(_playerHandAttack._damage);
-                attackTarget.OnDamage(_playerDragonPunch._damage);
+                if (SceneManager.GetActiveScene().name == "LocalRoom")
+                {
+                    attackTarget.OnDamage(_playerDragonPunch._damage);
+                }
+                else
+                {
+                    attackTarget.NetworkOnDamage(_playerDragonPunch._damage);
+                    MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                    myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerDragonPunch._damage);
+                }
                 Debug.Log(attackTarget.health);
             }
         }
@@ -35,16 +45,29 @@ public class PlayerDragonPunchTrigger : MonoBehaviour
                 if (other.gameObject != null && !otherPlayerState.dead)
                 {
                     // && otherPlayerState.team != _playerState.team
-                    //playerState.NetworkOnDamage(_playerHandAttack._damage);
-                    otherPlayerState.OnDamage(_playerDragonPunch._damage);
-                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 40);
+                    if (SceneManager.GetActiveScene().name == "LocalRoom")
+                    {
+                        otherPlayerState.OnDamage(_playerDragonPunch._damage);
+                    }
+                    else
+                    {
+                        otherPlayerState.NetworkOnDamage(_playerDragonPunch._damage);
+                    }
+                    
+                    other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetBool("Stiffen", true);
+                        otherPlayerState.NetworkOtherAnimatorControl("Stiffen", true);
                     }
                     else if (otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetTrigger("RepeatStiffen");
+                        otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
+                    }
+                    if (otherPlayerState.dead)
+                    {
+                        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                        myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
+                        myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerDragonPunch._damage);
                     }
                 }
             }
@@ -55,9 +78,43 @@ public class PlayerDragonPunchTrigger : MonoBehaviour
             Obstacle_Obj Target = other.GetComponent<Obstacle_Obj>();
             if (Target != null && !Target.dead)
             {
-                Target.OnDamage(_playerState.P_Dm.Damge_formula());
-                Debug.Log(Target.health);
+                if (SceneManager.GetActiveScene().name == "LocalRoom")
+                {
+                    Target.OnDamage(_playerDragonPunch._damage);
+                }
+                else
+                {
+                    Target.NetworkOnDamage(_playerDragonPunch._damage);
+                }
             }
         }
+    }
+    
+    [PunRPC]
+    public void CauseDamageCount(int damage)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.CauseDamageCount(myInRoomInfo.mySlotNum, damage);
+    }
+    
+    [PunRPC]
+    public void KillCount()
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.KillCount(myInRoomInfo.mySlotNum);
+    }
+    
+    [PunRPC]
+    public void DeathCount()
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.DeathCount(myInRoomInfo.mySlotNum);
+    }
+    
+    [PunRPC]
+    public void GetPointCount(int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
     }
 }

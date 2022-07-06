@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // 손에 직접적으로 들어가는 스크립트 트리거용
-public class PlayerHandAttackTrigger : MonoBehaviour
+public class PlayerHandAttackTrigger : MonoBehaviourPun
 {
     private PlayerHandAttack _playerHandAttack;
     public PlayerState _playerState;
@@ -33,6 +33,8 @@ public class PlayerHandAttackTrigger : MonoBehaviour
                     else
                     {
                         attackTarget.NetworkOnDamage(_playerHandAttack._damage); 
+                        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                        myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerHandAttack._damage);
                     }
                     Debug.Log(attackTarget.health);
                 }
@@ -43,28 +45,34 @@ public class PlayerHandAttackTrigger : MonoBehaviour
         {
             if (other.gameObject != transform.root.gameObject)
             {
-                PlayerState playerState = other.gameObject.GetComponent<PlayerState>();
+                PlayerState otherPlayerState = other.gameObject.GetComponent<PlayerState>();
                 Animator otherAnimator = other.GetComponent<Animator>();
-                if (other.gameObject != null && !playerState.dead /*&& otherPlayerState.team != _playerState.team*/)
+                if (other.gameObject != null && !otherPlayerState.dead /*&& otherPlayerState.team != _playerState.team*/)
                 {
                     if (SceneManager.GetActiveScene().name == "LocalRoom")
                     {
-                        playerState.OnDamage(_playerHandAttack._damage);
+                        otherPlayerState.OnDamage(_playerHandAttack._damage);
                     }
                     else
                     {
-                        playerState.NetworkOnDamage(_playerHandAttack._damage);
+                        otherPlayerState.NetworkOnDamage(_playerHandAttack._damage);
                     }
                     
-                    other.GetComponent<PlayerImpact>().AddImpact(transform.root.forward, 40);
+                    other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetBool("Stiffen", true);
+                        otherPlayerState.NetworkOtherAnimatorControl("Stiffen", true);
                     }
                     else if (otherAnimator.GetBool("Stiffen"))
                     {
-                        otherAnimator.SetTrigger("RepeatStiffen");
+                        otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
+                    }
+                    if (otherPlayerState.dead)
+                    {
+                        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+                        myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
+                        myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerHandAttack._damage);
                     }
                 }
             }
@@ -75,8 +83,14 @@ public class PlayerHandAttackTrigger : MonoBehaviour
             Obstacle_Obj Target = other.GetComponent<Obstacle_Obj>();
             if (Target != null && !Target.dead)
             {
-                Target.NetworkOnDamage(_playerState.P_Dm.Damge_formula());
-                Debug.Log(Target.health);
+                if (SceneManager.GetActiveScene().name == "LocalRoom")
+                {
+                    Target.OnDamage(_playerHandAttack._damage);
+                }
+                else
+                {
+                    Target.NetworkOnDamage(_playerHandAttack._damage);
+                }
             }
         }
     }

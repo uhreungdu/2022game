@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MarkTile
+  m_Shader: {fileID: -6465566751694194690, guid: 3257c8ca947ce0c419eba426a611c39d, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_9e7f185b02e14b25b6ce2fa358697acc:
+        m_Texture: {fileID: 2800000, guid: 2c88184e4fbedfd4daee44f8b2d9c874, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_94a36f5d56f74129ab3b88638ee3013e: -0.06
+    - Vector1_bd91838555e24782adeb4e5b44fd16c5: 0.1
+    - _RippleSpeed: 1
+    m_Colors:
+    - Color_1204655023aa4b9a8660051d8f42dbaf: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_ae538516062f463ab667632a5fd7a6ab: {r: 0.5, g: 0.5, b: 0, a: 0}
+  m_BuildTextureStacks: []
