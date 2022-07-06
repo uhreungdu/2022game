@@ -1745,6 +1745,7 @@ MonoBehaviour:
   _Thirdpersonmove: {fileID: 0}
   coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
   explosionForce: 400
+  _AudioSource: {fileID: 0}
 --- !u!114 &5279383354855515017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2527,6 +2528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Durability: 10
   _PlayerState: {fileID: 1049520447631437763}
+  HitClip: {fileID: 0}
 --- !u!114 &4024240451423959038
 MonoBehaviour:
   m_ObjectHideFlags: 0
