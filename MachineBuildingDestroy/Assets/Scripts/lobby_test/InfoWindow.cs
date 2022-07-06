@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -10,13 +11,16 @@ public class InfoWindow : MonoBehaviour
     public GameObject playerName;
     public GameObject level;
     public int costume;
-    public GameObject playerModel;
+    //public GameObject playerModel;
     public GameObject gameResults;
     private GameObject _account;
+    private Socket _socket;
 
     private void Awake()
     {
         _account = GameObject.Find("Account");
+        _socket = LoginDBConnection.GetInstance().GetClientSocket();
+        //SendPlayerInfoRequest();
         NewGetPlayerInfo();
     }
 
@@ -26,16 +30,23 @@ public class InfoWindow : MonoBehaviour
         playerName.GetComponent<Text>().text = data.GetPlayerNickname();
         var win = data.GetPlayerWin();
         var lose = data.GetPlayerLose();
-        gameResults.GetComponent<Text>().text = "총 게임 수: " + (win + lose) + "\n"
-                                                +"승리: " + win + "\n"
+        gameResults.GetComponent<Text>().text = "승리: " + win + " "
                                                 +"패배: " + lose;
         costume = data.GetPlayerCostume();
-        playerModel.GetComponent<PrintPlayerModel>().RenewPlayerModel(costume);
+        //playerModel.GetComponent<PrintPlayerModel>().RenewPlayerModel(costume);
     }
 
     public void SetCostumeOnDB(int num)
     {
         StartCoroutine(CorSetCostumeOnDB(num));
+    }
+
+    private void SendPlayerInfoRequest()
+    {
+        byte[] sendBuf = new byte[1];
+        sendBuf[0] = (byte) LoginDBConnection.DBPacketType.AccountInfoRequest;
+
+        _socket.Send(sendBuf);
     }
     
     public IEnumerator CorSetCostumeOnDB(int num)

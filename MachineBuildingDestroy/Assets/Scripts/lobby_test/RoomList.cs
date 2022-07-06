@@ -27,7 +27,7 @@ public class RoomList : MonoBehaviour
     }
     
     [SerializeField]
-    private GameObject[] RoomBlocks = new GameObject[8];
+    private GameObject[] RoomBlocks = new GameObject[5];
     [SerializeField]
     private List<RoomInfo> rooms = new List<RoomInfo>();
     
@@ -61,7 +61,13 @@ public class RoomList : MonoBehaviour
     public void CleanRoomList()
     {
         if (rooms.Count != 0)
+        {
             rooms.Clear();
+            foreach (var roomBlock in RoomBlocks)
+            {
+                roomBlock.GetComponent<RoomBlock>().SetVariables("", "", 0, 0, false);
+            }
+        }
     }
 
     public void MoveNextPage()
@@ -80,7 +86,7 @@ public class RoomList : MonoBehaviour
 
     public void SetRoomBlocks()
     {
-        _maxIndex = (rooms.Count - 2) / 8;
+        _maxIndex = (rooms.Count - 2) / RoomBlocks.Length;
         if (_maxIndex < listIndex) listIndex = _maxIndex;
         nextButton.GetComponent<Button>().interactable = _maxIndex != listIndex;
         prevButton.GetComponent<Button>().interactable = 0 != listIndex;
@@ -91,7 +97,7 @@ public class RoomList : MonoBehaviour
         int maxP;
         bool ingame;
 
-        var index = listIndex * 8;
+        var index = listIndex * RoomBlocks.Length;
         foreach (var roomBlock in RoomBlocks)
         {
             if (rooms.Count - 1 < index)

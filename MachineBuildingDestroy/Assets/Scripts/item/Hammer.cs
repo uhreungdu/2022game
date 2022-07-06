@@ -8,6 +8,16 @@ public class Hammer : MonoBehaviour
 
     public PlayerState _PlayerState;
     // Update is called once per frame
+    void Start()
+    {
+        _PlayerState = transform.root.GetComponent<PlayerState>();
+    }
+    
+    private void Awake()
+    {
+        Durability = 10;
+    }
+    
     void Update()
     {
         if (Durability <= 0)

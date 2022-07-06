@@ -12,13 +12,12 @@ public class PlayerAnimator : MonoBehaviourPun
     public PlayerState _PlayerState;
     public GamePlayerInput _gamePlayerInput;
     public Thirdpersonmove _thirdpersonmove;
-    private CharacterController _characterController;
-    public PlayerEquipitem _PlayerEquipitem;
     public PlayerDashAttack _PlayerDashAttack;
     public PlayerHandAttack _PlayerHandAttack;
     public PlayerJumpAttack _PlayerJumpAttack;
     public PlayerDragonPunch _PlayerDragonPunch;
     public PlayerEnergywaveAttack _PlayerEnergywaveAttack;
+    public PlayerGunAttack _PlayerGunAttack;
     public PlayerAnimationEvent _PlayerAnimationEvent;
     public AudioSource _AudioSource;
     public HammerAttack _HammerAttack;
@@ -35,12 +34,7 @@ public class PlayerAnimator : MonoBehaviourPun
     public float speed = 18f;
     public float Maxspeed = 24f;
 
-    private bool _isGrounded;
-
-    public bool IsGrounded
-    {
-        get => _isGrounded;
-    }
+    public bool CanAirAttack { private set; get; }
 
     // Start is called before the first frame update
     void Start()
@@ -48,14 +42,13 @@ public class PlayerAnimator : MonoBehaviourPun
         _Animator = GetComponentInChildren<Animator>();
         _gamePlayerInput = GetComponent<GamePlayerInput>();
         _thirdpersonmove = GetComponent<Thirdpersonmove>();
-        _characterController = GetComponent<CharacterController>();
         _PlayerState = GetComponent<PlayerState>();
-        _PlayerEquipitem = GetComponent<PlayerEquipitem>();
         _PlayerDashAttack = GetComponent<PlayerDashAttack>();
         _PlayerHandAttack = GetComponent<PlayerHandAttack>();
         _PlayerJumpAttack = GetComponent<PlayerJumpAttack>();
         _PlayerDragonPunch = GetComponent<PlayerDragonPunch>();
         _PlayerEnergywaveAttack = GetComponent<PlayerEnergywaveAttack>();
+        _PlayerGunAttack = GetComponent<PlayerGunAttack>();
         _PlayerAnimationEvent = GetComponent<PlayerAnimationEvent>();
         _AudioSource = GetComponent<AudioSource>();
         _HammerAttack = GetComponent<HammerAttack>();
@@ -67,6 +60,8 @@ public class PlayerAnimator : MonoBehaviourPun
         StiffenTimer();
         FalldownTimer();
         AnimationUpdate();
+        if (_thirdpersonmove.IsGrounded())
+            CanAirAttack = true;
     }
 
     public void OnAttack()
@@ -85,7 +80,7 @@ public class PlayerAnimator : MonoBehaviourPun
         }
         else
         {
-            if (!_PlayerState.aftercast)
+            if (!_PlayerState.aftercast && CanAirAttack == true)
             {
                 _PlayerAnimationEvent.Play(
                     null,
@@ -97,6 +92,7 @@ public class PlayerAnimator : MonoBehaviourPun
                     });
                 _PlayerJumpAttack.SetAffterCast(1);
                 _Animator.SetBool("Combo", true);
+                CanAirAttack = false;
             }
         }
     }
@@ -110,7 +106,6 @@ public class PlayerAnimator : MonoBehaviourPun
             () =>
             {
                 _AudioSource.PlayOneShot(_HammerAttack._AttackAudioClips[Random.Range(0, _HammerAttack._AttackAudioClips.Count)]);
-                
             });
         _HammerAttack.SetAffterCast(1);
         _Animator.SetBool("HammerAttack", _gamePlayerInput.fire);
@@ -128,6 +123,24 @@ public class PlayerAnimator : MonoBehaviourPun
             });
         _PlayerEnergywaveAttack.SetAffterCast(1);
         _Animator.SetTrigger("EnergyWave");
+    }
+
+    public void GunAttack()
+    {
+        _PlayerAnimationEvent.Play(
+            null,
+            null,
+            null,
+            () =>
+            {
+                _AudioSource.PlayOneShot(_PlayerGunAttack._AttackAudioClips[Random.Range(0, _PlayerGunAttack._AttackAudioClips.Count)]);
+            });
+        if (_PlayerGunAttack.isDelay == false)
+        {
+            StartCoroutine(_PlayerGunAttack.ShootBullet());
+            _Animator.SetBool("Shoot", true);
+            _PlayerGunAttack.isDelay = true;
+        }
     }
 
     public void DelayTimer()
@@ -148,7 +161,6 @@ public class PlayerAnimator : MonoBehaviourPun
             }
         }
     }
-
 
     public void FalldownTimer()
     {
@@ -187,7 +199,6 @@ public class PlayerAnimator : MonoBehaviourPun
                 _Animator.SetBool("Jump", false);
             }
         }
-
         _Animator.SetBool("IsGrounded", _thirdpersonmove.IsGrounded());
     }
 

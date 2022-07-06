@@ -22,17 +22,6 @@ public class LoginButton : MonoBehaviour
     private Socket _socket;
     [SerializeField] private string[] accountVal;
     private bool _doLogin = false;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void FixedUpdate()
     {
@@ -53,7 +42,7 @@ public class LoginButton : MonoBehaviour
         pwInput.GetComponent<InputField>().interactable = false;
         
         // 로그인 요청
-        _socket = ChatClient.GetInstance().GetClientSocket();
+        _socket = LoginDBConnection.GetInstance().GetClientSocket();
         LoginAccount();
     }
 
@@ -63,7 +52,7 @@ public class LoginButton : MonoBehaviour
         byte[] pw = Encoding.UTF8.GetBytes(pwInput.GetComponent<InputField>().text);
 
         byte[] sendBuf = new byte[id.Length + pw.Length + 1 + 2];
-        sendBuf[0] = (byte) ChatClient.ChatCode.LoginRequest;
+        sendBuf[0] = (byte) LoginDBConnection.DBPacketType.LoginRequest;
         sendBuf[1] = (byte) id.Length;
         sendBuf[2] = (byte) pw.Length;
 

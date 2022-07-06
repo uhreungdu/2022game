@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class PlayerInteract : MonoBehaviour
+public class PlayerInteract : MonoBehaviourPun
 {
     [FormerlySerializedAs("playerInput")] public GamePlayerInput gamePlayerInput;
     public PlayerState playerState;
@@ -40,34 +40,42 @@ public class PlayerInteract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position + new Vector3(0f, 2.5f, 0f), 10, _LayerMask);
-        if (colliders.Length >= 1)
-            neargoalpost = true;
-        else
-            neargoalpost = false;
-        if (gamePlayerInput.Interaction && neargoalpost)
-        {
-            if (lastTime < 0)
+            Collider[] colliders =
+                Physics.OverlapSphere(transform.position + new Vector3(0f, 2.5f, 0f), 10, _LayerMask);
+            if (colliders.Length >= 1)
+                neargoalpost = true;
+            else
+                neargoalpost = false;
+            if (gamePlayerInput.Interaction && neargoalpost)
             {
-                lastTime = Time.time;
-                _Progressbar.gameObject.SetActive(true);
-            }
-            if (Time.time >= lastTime + timeBet)
-            {
-                gManager.addScore(playerState.team, playerState.point);
-                MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-                myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalGetPoint += playerState.point;
-                playerState.ResetPoint();
-                _Progressbar.gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            _Progressbar.gameObject.SetActive(false);
-            lastTime = -1;
-        }
+                if (lastTime < 0)
+                {
+                    lastTime = Time.time;
+                    if (photonView.IsMine)
+                    {
+                        _Progressbar.gameObject.SetActive(true);
+                    }
+                }
 
-        ProgressbarUpdate();
+                if (Time.time >= lastTime + timeBet)
+                {
+                    gManager.AddScore(playerState.team, playerState.point);
+                    
+                    if (photonView.IsMine)
+                    {
+                        photonView.RPC("AddPointCount", RpcTarget.AllViaServer, playerState.point);
+                    }
+                    playerState.ResetPoint();
+                    _Progressbar.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                _Progressbar.gameObject.SetActive(false);
+                lastTime = -1;
+            }
+            ProgressbarUpdate();
+
         playerState.update_stat();
     }
 
@@ -79,6 +87,20 @@ public class PlayerInteract : MonoBehaviour
         }
         else
             _Progressbar.value = 0;
+    }
+    
+    // [PunRPC]
+    // public void GetPointCount(int Point)
+    // {
+    //     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+    //     myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    // }
+    
+    [PunRPC]
+    public void AddPointCount(int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.AddPointCount(myInRoomInfo.mySlotNum, Point);
     }
     
     // private void OnTriggerStay(Collider other)

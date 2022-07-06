@@ -31,8 +31,22 @@ public class LobbyManager : MonoBehaviour
 
     void Awake()
     {
-    _socket = ChatClient.GetInstance().GetClientSocket();
+        _socket = LoginDBConnection.GetInstance().GetClientSocket();
+        GameObject roominfo;
+        try
+        {
+            roominfo = GameObject.Find("Myroominfo");
+            if (roominfo != null)
+            {
+                Destroy(roominfo);
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
+
     void Start()
     {
     }
@@ -45,7 +59,7 @@ public class LobbyManager : MonoBehaviour
     public void GetRoomList()
     {
         byte[] sendBuf = new byte[1];
-        sendBuf[0] = (byte) ChatClient.ChatCode.RoomListRequest;
+        sendBuf[0] = (byte) LoginDBConnection.DBPacketType.RoomListRequest;
 
         _socket.Send(sendBuf);
     }

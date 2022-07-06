@@ -25,7 +25,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         DestroyBuildingFromServer,
         HideBuildingFragments,
         SpawnPlayerFinish,
-        LoadGame
+        LoadGame,
+        SendGameResult
     }
 
     private static NetworkManager instance;
@@ -33,7 +34,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private LobbyManager _lobbyManager;
     public string networkState;
     public GameObject[] player;
-    public GameObject errWindow;
+    private GameObject PhotonErrWindow;
     private GameObject _team1Spawner;
     private GameObject _team2Spawner;
     [SerializeField] private Player[] _players;
@@ -160,10 +161,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Instantiate(errWindow, new Vector3(Screen.width/2f,Screen.height/2f,0), 
-            Quaternion.identity, GameObject.Find("Canvas").transform);
-        errWindow.SetActive(true);
-        errWindow.GetComponentInChildren<Text>().text = cause.ToString();
+        PhotonErrWindow = GameObject.Find("PhotonErrWindow");
+        PhotonErrWindow.SetActive(true);
+        PhotonErrWindow.GetComponentInChildren<Text>().text = cause.ToString();
         print(cause.ToString());
         Logout(_account.GetPlayerID());
     }
@@ -255,13 +255,35 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
-    public void SetTeamNumOnServerEvent(string name, int num)
+    public void SetTeamNumOnServerEvent(string playerName, int num)
     {
         byte evCode = (byte) EventCode.SetTeamOnServer;
-        object[] data = new object[] {name, num};
+        object[] data = new object[] {playerName, num};
         RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         SendOptions sendOpt = new SendOptions {Reliability = true};
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+    }
+
+    public void SendGameResult(bool isWin)
+    {
+        if (isWin)
+        {
+            _account.RefreshAccount(_account.GetPlayerWin() + 1, _account.GetPlayerLose());
+        }
+        else
+        {
+            _account.RefreshAccount(_account.GetPlayerWin(), _account.GetPlayerLose() + 1);
+        }
+        
+        var socket = LoginDBConnection.GetInstance().GetClientSocket();
+
+        byte[] data = new byte[2];
+        data[0] = (byte)LoginDBConnection.DBPacketType.GameResult;
+        // 0 is win
+        if (isWin) data[1] = 0;
+        else data[1] = 1;
+
+        socket.Send(data);
     }
 
     public void ConnectPhotonServer()

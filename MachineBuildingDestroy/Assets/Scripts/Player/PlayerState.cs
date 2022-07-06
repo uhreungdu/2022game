@@ -23,7 +23,8 @@ public class PlayerState : LivingEntity, IPunObservable
     
     public bool stiffen { get; private set; }
     public bool falldown { get; private set; }
-
+    
+    public bool UIGiltch { get; private set; }
     public enum Currentstatus
     {
         Idle,
@@ -47,6 +48,10 @@ public class PlayerState : LivingEntity, IPunObservable
     public GameManager gManager;
     public GameObject _AttackGameObject;
     public GameObject nameOnhead;
+    public String NickName;
+    
+    public String RecentHitNickName;
+    public Coroutine RecentHitCoroutine;
 
     private AudioSource playerAudioPlayer;
     private Animator _animator;
@@ -55,6 +60,7 @@ public class PlayerState : LivingEntity, IPunObservable
     public Dmgs_Status P_Dm;
     public GameObject Dead_Effect;
     public Thirdpersonmove _Thirdpersonmove;
+    
 
     public GameObject coinprefab;
     [SerializeField]
@@ -62,6 +68,7 @@ public class PlayerState : LivingEntity, IPunObservable
     private GameObject _networkManager;
 
     private GameObject Coinpref;
+    
 
     void Start()
     {
@@ -73,13 +80,17 @@ public class PlayerState : LivingEntity, IPunObservable
         var info = MyInRoomInfo.GetInstance();
         if (info != null)
         {
-            team = info.GetComponent<MyInRoomInfo>().mySlotNum % 2;
+            if (photonView.IsMine)
+            {
+                var num = info.GetComponent<MyInRoomInfo>().mySlotNum % 2;
+                photonView.RPC("SetTeamNum", RpcTarget.AllViaServer, num);
+            }
             //Destroy(info);
         }
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
         
-        Item = item_box_make.item_type.EnergyWave;
+        Item = item_box_make.item_type.Gun;
         //Item = item_box_make.item_type.no_item;
         
         P_Dm = new Dmgs_Status();
@@ -88,7 +99,7 @@ public class PlayerState : LivingEntity, IPunObservable
             ReSpawnTransformSet(transform.position.y), 
             ReSpawnTransformSet(transform.position.z));
         Dead_Effect.SetActive(false);
-        
+        UIGiltch = false;
         _Currentstatus = Currentstatus.Idle;
         
         if (photonView.IsMine)
@@ -96,6 +107,8 @@ public class PlayerState : LivingEntity, IPunObservable
             photonView.RPC("SetOnHeadName", RpcTarget.All, PhotonNetwork.NickName);
         }
 
+        NickName = nameOnhead.GetComponent<TextMesh>().text;
+        
         _networkManager = GameObject.Find("NetworkManager");
         base.OnEnable();
     }
@@ -130,7 +143,6 @@ public class PlayerState : LivingEntity, IPunObservable
 
     public void NetworkOtherAnimatorControl(String str, bool b)
     {
-        
         photonView.RPC("AnimatorControl", RpcTarget.AllViaServer, str, b);
     }
     
@@ -151,6 +163,8 @@ public class PlayerState : LivingEntity, IPunObservable
         { 
             child.enabled = false;
         }
+
+        StartCoroutine(hit_Giltch());
     }
 
     public void NetworkOnDamage(float damage)
@@ -167,9 +181,26 @@ public class PlayerState : LivingEntity, IPunObservable
         base.Die();
         _animator.SetTrigger("Dead");
         Dead_Effect.SetActive(true);
-        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.Infomations[myInRoomInfo.mySlotNum].TotalDeath++;
-        
+        if (photonView.IsMine)
+        {
+            int Slotnum = -1;
+            MyInRoomInfo inRoomInfo = MyInRoomInfo.GetInstance();
+            foreach (var info in inRoomInfo.Infomations)
+            {
+                if (info.Name == NickName)
+                    Slotnum = info.SlotNum;
+            }
+            if (Slotnum != -1)
+                photonView.RPC("DeathCount", RpcTarget.AllViaServer, Slotnum);
+            foreach (var info in inRoomInfo.Infomations)
+            {
+                if (info.Name == RecentHitNickName)
+                    Slotnum = info.SlotNum;
+            }
+            if (Slotnum != -1)
+                photonView.RPC("KillCount", RpcTarget.AllViaServer, Slotnum);
+        }
+
         if (PhotonNetwork.IsMasterClient)
         {
             if (Coinpref == null)
@@ -190,6 +221,10 @@ public class PlayerState : LivingEntity, IPunObservable
             }
         }
         point = 0;
+        if (photonView.IsMine)
+        {
+            photonView.RPC("GetPointCount", RpcTarget.AllViaServer, point);
+        }
         Invoke("Respawn", 10f);
     }
 
@@ -297,7 +332,7 @@ public class PlayerState : LivingEntity, IPunObservable
             coin.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionPosition, 10f, explosionForce / 2);
             coin.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionPosition, 10f);
         }
-    } 
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -323,12 +358,65 @@ public class PlayerState : LivingEntity, IPunObservable
     {
         if (photonView.IsMine)
         {
-            gManager.player_stat.setting(health,Item,point,startingHealth);
+            gManager.player_stat.setting(health,Item,point,startingHealth,UIGiltch);
             //print("정보 넘겨줌");
         }
     }
 
+    [PunRPC]
+    public void RecentHit(string NickName)
+    {
+        RecentHitNickName = NickName;
+        if (RecentHitCoroutine != null)
+        {
+            StopCoroutine(RecentHitCoroutine);
+        }
+        RecentHitCoroutine = StartCoroutine(RecentHitPlayerUpdate());
+    }
+
+    public IEnumerator RecentHitPlayerUpdate()
+    {
+        yield return new WaitForSeconds(5.0f);
+        RecentHitNickName = null;
+    }
+
+    IEnumerator hit_Giltch()
+    {
+        UIGiltch = true;
+        yield return new WaitForSeconds(0.3f);
+        UIGiltch = false;
+    }
+
+    [PunRPC]
+    public void SetTeamNum(int val)
+    {
+        team = val;
+    }
+
     private void OnApplicationQuit()
     {
+        
     }
+
+    [PunRPC]
+    public void KillCount(int SlotNum)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.KillCount(SlotNum);
+    }
+    
+    [PunRPC]
+    public void DeathCount(int SlotNum)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.DeathCount(SlotNum);
+    }
+    
+    [PunRPC]
+    public void GetPointCount(int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    }
+    
 }

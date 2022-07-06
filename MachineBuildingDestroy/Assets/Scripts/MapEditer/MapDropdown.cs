@@ -57,7 +57,7 @@ public class MapDropdown : MonoBehaviour
 
     public void LoadButton()
     {
-        _Map.LoadMapFile(Application.dataPath + "/" + "Map", SelectText());
-        _Map.MapLoad();
+        //_Map.LoadMapFile(Application.dataPath + "/" + "Map", SelectText());
+        _Map.MapLoad(SelectText());
     }
 }

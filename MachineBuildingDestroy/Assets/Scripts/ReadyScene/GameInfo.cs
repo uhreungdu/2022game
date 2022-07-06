@@ -38,7 +38,6 @@ public class GameInfo : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
             Infomations.gamescore = new int[2];
-            
         }
         else
         {

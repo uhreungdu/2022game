@@ -38,6 +38,7 @@ public class PlayerKeySystem : MonoBehaviourPun
     public Rigidbody item_Rigid;
     public Collider item_Coll;
     public Quaternion parent_qut;
+    
 
     void Start()
     {
@@ -88,6 +89,9 @@ public class PlayerKeySystem : MonoBehaviourPun
                     case item_box_make.item_type.Hammer:
                         _playerAnimator.HammerAttack();
                         break;
+                    case item_box_make.item_type.Gun:
+                        _playerAnimator.GunAttack();
+                        break;
                     default:
                         photonView.RPC("Throw_item", RpcTarget.AllViaServer);
                         break;
@@ -102,6 +106,7 @@ public class PlayerKeySystem : MonoBehaviourPun
                 _playerAnimator._Animator.SetBool("DashAttack", false);
                 _playerAnimator._Animator.SetBool("HammerAttack", false);
                 _playerAnimator._Animator.SetBool("Throw", false);
+                _playerAnimator._Animator.SetBool("Shoot", false);
                 if ( !_gamePlayerInput.fireKeyDown 
                      || (_gamePlayerInput.fireKeyDown && _playerAnimator._Animator.GetBool("Combo")))
                 {
@@ -120,6 +125,7 @@ public class PlayerKeySystem : MonoBehaviourPun
             _playerAnimator._Animator.SetBool("HammerAttack", false);
             _playerAnimator._Animator.SetBool("Combo", false);
             _playerAnimator._Animator.SetBool("Throw", false);
+            _playerAnimator._Animator.SetBool("Shoot", false);
         }
     }
 

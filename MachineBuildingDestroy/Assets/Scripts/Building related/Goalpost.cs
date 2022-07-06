@@ -37,7 +37,7 @@ public class Goalpost : MonoBehaviourPun
         // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
         // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
         // CAUTION:// CAUTION:// CAUTION:// CAUTION:// CAUTION:
-        //if (!PhotonNetwork.IsMasterClient) return;
+        // if (!PhotonNetwork.IsMasterClient) return;
         if (_gameManager.EManager.goalpost_Create)
         {
             if (_meshRenderer.enabled == false)

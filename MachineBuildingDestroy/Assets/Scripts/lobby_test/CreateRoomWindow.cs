@@ -6,6 +6,7 @@ using System.Text;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -25,6 +26,7 @@ public class CreateRoomWindow : MonoBehaviour
     public GameObject roomNameField;
     public GameObject playerNumField;
     public GameObject gameModeField;
+    public GameObject okButton;
 
     public GameObject DarkBackground;
 
@@ -42,7 +44,12 @@ public class CreateRoomWindow : MonoBehaviour
     {
         gManager = LobbyManager.GetInstance();
         _account = Account.GetInstance();
-        _client = ChatClient.GetInstance().GetClientSocket();
+        _client = LoginDBConnection.GetInstance().GetClientSocket();
+    }
+
+    private void FixedUpdate()
+    {
+        okButton.GetComponent<Button>().interactable = roomNameField.GetComponent<InputField>().text != "";
     }
 
     public void OnClick(bool val)
@@ -69,8 +76,8 @@ public class CreateRoomWindow : MonoBehaviour
 
     public void CreateRoom(string roomName)
     {
-        _ename = roomName + Random.Range(0, 9999);
-        _iname = _ename + DateTime.Now.ToString(" HH-mm-ss");
+        _ename = roomName;
+        _iname = _ename + +Random.Range(0, 9999) + DateTime.Now.ToString(" HH-mm-ss");
 
         SendMakeRoom();
         PhotonNetwork.JoinOrCreateRoom(_iname, new RoomOptions { MaxPlayers = _playerNum }, null);
@@ -82,7 +89,7 @@ public class CreateRoomWindow : MonoBehaviour
         byte[] ename = Encoding.UTF8.GetBytes(_ename);
 
         byte[] sendBuf = new byte[iname.Length + ename.Length + 1 + 3];
-        sendBuf[0] = (byte) ChatClient.ChatCode.MakeRoom;
+        sendBuf[0] = (byte) LoginDBConnection.DBPacketType.MakeRoom;
         sendBuf[1] = (byte) iname.Length;
         sendBuf[2] = (byte) ename.Length;
         sendBuf[3] = (byte) _playerNum;  // maxPlayerNum

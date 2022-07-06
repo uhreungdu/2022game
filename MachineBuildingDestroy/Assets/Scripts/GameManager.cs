@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 //Debug.Log("아이템 존재 X");
             }
         }
-        public void Active_Goalopost(){
-            if((int)Ntimer / 60 > 0 && (int)Ntimer % 60 < 20)
+        public void Active_Goalopost() {
+            if((int)Ntimer > 0 /* && (int)Ntimer % 60 < 20*/)
             {
                 goalpost_Create = true;
                 //Debug.Log("아이템 생성");
@@ -98,13 +98,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         public item_box_make.item_type Item_num { get; private set; }
         public float Coin_Count{get; private set;}
         public float MaxHealth{get; private set;}
+        public bool UIGiltch { get; private set; }
 
-        public void setting(float hp, item_box_make.item_type Item, float coin, float m_Health)
+        public void setting(float hp, item_box_make.item_type Item, float coin, float m_Health,bool UIGil)
         {
             health = hp;
             Item_num = Item;
             Coin_Count = coin;
             MaxHealth = m_Health;
+            UIGiltch = UIGil;
         }
     }
 
@@ -149,14 +151,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             now_timer.Ntimer += Time.deltaTime;
+            // 게임 끝
             if (EManager.gameSet && now_timer.Ntimer >= EManager.gameSetTime + 7)
             {
-                PhotonNetwork.LoadLevel("GameResultScene");
                 GameInfo gameInfo = GameInfo.GetInstance();
                 for (int i = 0; i < 2; i++)
                 {
                     gameInfo.Infomations.gamescore[i] = gamescore[i];
                 }
+                PhotonNetwork.LoadLevel("GameResultScene");
                 Destroy(UImanager.GetInstance().gameObject);
                 Destroy(gameObject);
             }
@@ -179,6 +182,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         return gamescore[team] = point;
     }
+
+    public void AddScore(int team, int point)
+    {
+        photonView.RPC("addScore", RpcTarget.AllViaServer, team, point);
+    }
+    
+    [PunRPC]
     public int addScore(int team, int point)
     {
         return gamescore[team] += point;
