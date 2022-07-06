@@ -307,7 +307,7 @@ public class CMeshSlicer : MonoBehaviour
 
         //Transform _DestroyObjecttransform = null;
         
-        BulidingObject _bulidingObject = _target.transform.root.GetComponent<BulidingObject>();
+        BulidingObject _bulidingObject = _target.transform.root.GetComponentInChildren<BulidingObject>();
         Transform _DestroyObjecttransform = _bulidingObject.DestroyObjects.transform;
         
         // if (_target.transform.parent)
