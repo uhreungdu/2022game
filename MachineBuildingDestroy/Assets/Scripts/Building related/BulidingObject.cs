@@ -97,7 +97,6 @@ public class BulidingObject : LivingEntity
             }
             var objectName = gameObject.transform.root.name;
             objectName = objectName.Remove(objectName.Length - 7, 7);
-            NetWorkPlayOneShot(_AudioClip);
             if (GameManager.GetInstance().getTime().Ntimer < 180 - 45)
             {
                 _reSpawnTime = 45 - GameManager.GetInstance().getTime().Ntimer % 45;
@@ -111,8 +110,7 @@ public class BulidingObject : LivingEntity
             }
             BuildingDestroyEvent(photonView.ViewID);
         }
-        //_AudioSource.PlayOneShot(_PlayerGunAttack._AttackAudioClips[Random.Range(0, _PlayerGunAttack._AttackAudioClips.Count)]);
-        
+        _AudioSource.PlayOneShot(_AudioClip);
     }
 
     void RespawnBuilding()
