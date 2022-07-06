@@ -59,7 +59,7 @@ public class CreateRoomWindow : MonoBehaviour
         {
             var roomName =roomNameField.GetComponent<InputField>().text;
             _playerNum = (byte)_playerNumArray[playerNumField.GetComponent<Dropdown>().value];
-            _gameMode = _gameModeArray[gameModeField.GetComponent<Dropdown>().value];
+           // _gameMode = _gameModeArray[gameModeField.GetComponent<Dropdown>().value];
             CreateRoom(roomName);
         }
         //Cancel
@@ -67,7 +67,7 @@ public class CreateRoomWindow : MonoBehaviour
         {
             roomNameField.GetComponent<InputField>().text = "";
             playerNumField.GetComponent<Dropdown>().value = 0;
-            gameModeField.GetComponent<Dropdown>().value = 0;
+           // gameModeField.GetComponent<Dropdown>().value = 0;
             
             DarkBackground.SetActive(false);
             gameObject.SetActive(false);
