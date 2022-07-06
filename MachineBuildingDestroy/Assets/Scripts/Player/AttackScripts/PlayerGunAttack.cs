@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Configuration;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerGunAttack : PlayerAttack
@@ -85,7 +86,8 @@ public class PlayerGunAttack : PlayerAttack
 
     public IEnumerator ShootBullet()
     {
-        GameObject BulletgameObject = Instantiate(_gunBulletGameObject, GunObject.transform.position, _gunBulletGameObject.transform.rotation);
+        GameObject BulletgameObject = PhotonNetwork.Instantiate(_gunBulletGameObject.name, GunObject.transform.position,
+            _gunBulletGameObject.transform.rotation);
         GunBullet BulletgameObjectGunBullet = BulletgameObject.GetComponent<GunBullet>();
         BulletgameObjectGunBullet.ShootTeam = _playerState.team;
         BulletgameObjectGunBullet.ShootPosition = GunObject.transform.position;

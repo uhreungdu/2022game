@@ -1642,6 +1642,7 @@ MonoBehaviour:
   _AttackGameObject: {fileID: 7480064757404641631}
   nameOnhead: {fileID: 2826411413483701616}
   NickName: 
+  team: 1
   RecentHitNickName: 
   Dead_Effect: {fileID: 8051301026320541082}
   _Thirdpersonmove: {fileID: 0}
@@ -2154,7 +2155,7 @@ MonoBehaviour:
   RHandGameObject: {fileID: 3195111622126177207}
   GunObject: {fileID: 2978823672978583272}
   _GunBullets: []
-  _gunBulletGameObject: {fileID: 3472247822214706442, guid: 131b8dec69988f749a7dfd44ec839e25, type: 3}
+  _gunBulletGameObject: {fileID: 3472247822214706442, guid: 4d4deee8e379b474db5f8d22ad7c6e31, type: 3}
   _Gun: {fileID: 562909654690510129}
   isDelay: 0
 --- !u!1 &7583388678684933248
