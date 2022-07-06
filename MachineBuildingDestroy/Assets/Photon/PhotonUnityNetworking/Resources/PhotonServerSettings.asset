@@ -76,6 +76,7 @@ MonoBehaviour:
   - AddPointCount
   - addScore
   - RPC_SetBulletProfile
+  - NetWorkaddScore
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
