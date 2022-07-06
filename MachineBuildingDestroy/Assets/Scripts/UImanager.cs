@@ -50,7 +50,7 @@ public class UImanager : MonoBehaviour
 			}
 		
 		}
-        DontDestroyOnLoad(instance);
+        //DontDestroyOnLoad(instance);
         gmanager = GameManager.GetInstance();
     }
 

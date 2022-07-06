@@ -139,6 +139,7 @@ public class PlayerAnimator : MonoBehaviourPun
         {
             StartCoroutine(_PlayerGunAttack.ShootBullet());
             _Animator.SetBool("Shoot", true);
+            _AudioSource.PlayOneShot(_PlayerGunAttack._AttackAudioClips[Random.Range(0, _PlayerGunAttack._AttackAudioClips.Count)]);
             _PlayerGunAttack.isDelay = true;
         }
     }
