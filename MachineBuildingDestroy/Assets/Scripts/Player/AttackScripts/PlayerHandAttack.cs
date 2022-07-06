@@ -30,6 +30,7 @@ public class PlayerHandAttack : PlayerAttack
         _lastColliderActiveTime = 0.23f; // 공격 유지 시간
         _aftercastAttack = 0.3f;
         _damage = 10;
+        _AttackAudioClips.Add(Resources.Load<AudioClip>("Sounds/Punch"));
         
         _hitBoxColliders.Add(_lHandBoxCollider);
         _hitBoxColliders.Add(_rHandBoxCollider);

@@ -258,15 +258,16 @@ public class MapEditerOnScreenPoint : MonoBehaviour
     
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent.name == "Map")
-        {
-            if (InstallCheck())
-            {
-                if (InstallCheckRemove())
-                    map.ReLoadMap();
-            }
-        }
-        else if (InstallCheck() && other.transform.parent.name != "Pointer")
+        // if (other.transform.parent.name == "Map")
+        // {
+        //     if (InstallCheck())
+        //     {
+        //         if (InstallCheckRemove())
+        //             map.ReLoadMap();
+        //     }
+        // }
+        // else
+        if (/*InstallCheck() && */other.transform.parent.name != "Pointer")
         {
             if (InstallCheckRemove())
             {

@@ -42,6 +42,9 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     public bool DashDelay;
 
+    public AudioSource _AudioSource;
+    public AudioClip GetCoinClip;
+
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
@@ -49,10 +52,12 @@ public class Thirdpersonmove : MonoBehaviourPun
         _playerAllAttackAfterCast = GetComponent<PlayerAllAttackAfterCast>();
         gamePlayerInput = GetComponent<GamePlayerInput>();
         _playerState = GetComponent<PlayerState>();
+        _AudioSource = GetComponent<AudioSource>();
         Debug.Log(Application.platform);
         _playerState.isAimming = false;
         _playerState.nowEquip = false;
         DashDelay = false;
+        GetCoinClip = Resources.Load<AudioClip>("Sounds/coins");
     }
 
     void FixedUpdate()
@@ -229,6 +234,7 @@ public class Thirdpersonmove : MonoBehaviourPun
                 }
                 if (Slotnum != -1)
                     photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, _playerState.point);
+                _AudioSource.PlayOneShot(GetCoinClip);
             }
             if (PhotonNetwork.IsMasterClient)
             {

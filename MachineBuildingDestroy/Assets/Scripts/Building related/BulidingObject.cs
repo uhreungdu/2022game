@@ -35,6 +35,12 @@ public class BulidingObject : LivingEntity
 
     private List<Coroutine> Coroutines = new List<Coroutine>();
 
+    public AudioSource _AudioSource;
+
+    public AudioClip _AudioClip;
+
+    public int MaxCut = 6;
+
     // Start is called before the first frame update
     protected void Start()
     {
@@ -52,6 +58,9 @@ public class BulidingObject : LivingEntity
         GameObject _DestroyObject = new GameObject("DestroyObjects");
         _DestroyObject.transform.SetParent(transform, false);
         DestroyObjects = _DestroyObject;
+
+        _AudioSource = GetComponent<AudioSource>();
+        _AudioClip = Resources.Load<AudioClip>("Sounds/Boom");
     }
 
     // Update is called once per frame
@@ -88,6 +97,7 @@ public class BulidingObject : LivingEntity
             }
             var objectName = gameObject.transform.root.name;
             objectName = objectName.Remove(objectName.Length - 7, 7);
+            NetWorkPlayOneShot(_AudioClip);
             if (GameManager.GetInstance().getTime().Ntimer < 180 - 45)
             {
                 _reSpawnTime = 45 - GameManager.GetInstance().getTime().Ntimer % 45;
@@ -101,6 +111,8 @@ public class BulidingObject : LivingEntity
             }
             BuildingDestroyEvent(photonView.ViewID);
         }
+        //_AudioSource.PlayOneShot(_PlayerGunAttack._AttackAudioClips[Random.Range(0, _PlayerGunAttack._AttackAudioClips.Count)]);
+        
     }
 
     void RespawnBuilding()
@@ -169,37 +181,37 @@ public class BulidingObject : LivingEntity
     [PunRPC]
     public void WallDestroy()
     {
-        if (health <= startingHealth / 7f * 6 && destroyfloor <= 0)
+        if (health <= startingHealth / 7f * 6 && destroyfloor <= 0 && MaxCut > destroyfloor)
         {
             destroyfloor++;
             Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1)));
         }
 
-        if (health <= startingHealth / 7f * 5 && destroyfloor <= 1)
+        if (health <= startingHealth / 7f * 5 && destroyfloor <= 1 && MaxCut > destroyfloor)
         {
             destroyfloor++;
             Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1)));
         }
 
-        if (health <= startingHealth / 7f * 4 && destroyfloor <= 2)
+        if (health <= startingHealth / 7f * 4 && destroyfloor <= 2 && MaxCut > destroyfloor)
         {
             destroyfloor++;
             Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1)));
         }
 
-        if (health <= startingHealth / 7f * 3 && destroyfloor <= 3)
+        if (health <= startingHealth / 7f * 3 && destroyfloor <= 3 && MaxCut > destroyfloor)
         {
             destroyfloor++;
             Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1)));
         }
 
-        if (health <= startingHealth / 7f * 2 && destroyfloor <= 4)
+        if (health <= startingHealth / 7f * 2 && destroyfloor <= 4 && MaxCut > destroyfloor)
         {
             destroyfloor++;
             Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1)));
         }
 
-        if (health <= startingHealth / 7f * 1 && destroyfloor <= 5)
+        if (health <= startingHealth / 7f * 1 && destroyfloor <= 5 && MaxCut > destroyfloor)
         {
             destroyfloor++;
             Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1)));
@@ -359,4 +371,9 @@ public class BulidingObject : LivingEntity
         }
     }
     
+    [PunRPC]
+    void NetWorkPlayOneShot(AudioClip audioClip)
+    {
+        _AudioSource.PlayOneShot(audioClip);
+    }
 }

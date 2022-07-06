@@ -20,6 +20,7 @@ public class PlayerJumpAttack : PlayerAttack
         _aftercastAttack = 0.8f;
         SetAffterCast(0);
         _damage = 15;
+        _AttackAudioClips.Add(Resources.Load<AudioClip>("Sounds/Punch"));
         
         _hitBoxColliders.Add(_rHandBoxCollider);
     }

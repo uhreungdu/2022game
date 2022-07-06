@@ -7,10 +7,13 @@ public class Hammer : MonoBehaviour
     public int Durability = 10;
 
     public PlayerState _PlayerState;
+
+    public AudioClip HitClip;
     // Update is called once per frame
     void Start()
     {
         _PlayerState = transform.root.GetComponent<PlayerState>();
+        HitClip = Resources.Load<AudioClip>("Sounds/Hammer");
     }
     
     private void Awake()

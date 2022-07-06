@@ -33,6 +33,7 @@ public class PlayerHandAttackTrigger : MonoBehaviourPun
                     else
                     {
                         attackTarget.NetworkOnDamage(_playerHandAttack._damage); 
+                        NetWorkPlayOneShot(_playerHandAttack._AttackAudioClips[1]);
                         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
                         myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerHandAttack._damage);
                     }
@@ -59,6 +60,7 @@ public class PlayerHandAttackTrigger : MonoBehaviourPun
                         otherPlayerState.RecentHit(_playerState.NickName);
                     }
                     
+                    NetWorkPlayOneShot(_playerHandAttack._AttackAudioClips[1]);
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     
                     if (!otherAnimator.GetBool("Stiffen"))
@@ -90,9 +92,16 @@ public class PlayerHandAttackTrigger : MonoBehaviourPun
                 }
                 else
                 {
+                    NetWorkPlayOneShot(_playerHandAttack._AttackAudioClips[1]);
                     Target.NetworkOnDamage(_playerHandAttack._damage);
                 }
             }
         }
+    }
+    
+    [PunRPC]
+    void NetWorkPlayOneShot(AudioClip audioClip)
+    {
+        _playerState._AudioSource.PlayOneShot(audioClip);
     }
 }

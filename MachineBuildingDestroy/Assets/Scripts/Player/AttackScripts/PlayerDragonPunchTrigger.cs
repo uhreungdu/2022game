@@ -25,12 +25,14 @@ public class PlayerDragonPunchTrigger : MonoBehaviourPun
                 if (SceneManager.GetActiveScene().name == "LocalRoom")
                 {
                     attackTarget.OnDamage(_playerDragonPunch._damage);
+                    NetWorkPlayOneShot(_playerDragonPunch._AttackAudioClips[1]);
                 }
                 else
                 {
                     attackTarget.NetworkOnDamage(_playerDragonPunch._damage);
                     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
                     myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerDragonPunch._damage);
+                    NetWorkPlayOneShot(_playerDragonPunch._AttackAudioClips[1]);
                 }
                 Debug.Log(attackTarget.health);
             }
@@ -55,6 +57,7 @@ public class PlayerDragonPunchTrigger : MonoBehaviourPun
                         otherPlayerState.RecentHit(_playerState.NickName);
                     }
                     
+                    NetWorkPlayOneShot(_playerDragonPunch._AttackAudioClips[1]);
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
@@ -85,6 +88,7 @@ public class PlayerDragonPunchTrigger : MonoBehaviourPun
                 }
                 else
                 {
+                    NetWorkPlayOneShot(_playerDragonPunch._AttackAudioClips[1]);
                     Target.NetworkOnDamage(_playerDragonPunch._damage);
                 }
             }
@@ -117,5 +121,11 @@ public class PlayerDragonPunchTrigger : MonoBehaviourPun
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    }
+    
+    [PunRPC]
+    void NetWorkPlayOneShot(AudioClip audioClip)
+    {
+        _playerState._AudioSource.PlayOneShot(audioClip);
     }
 }

@@ -82,6 +82,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             if ((int) Ntimer / 120 > 0)
             {
+                if (landmakr_Create == false)
+                {
+                    SoundManager _soundManager;_soundManager = SoundManager.GetInstance();
+                    AudioClip audioClip = Resources.Load<AudioClip>("Sounds/시간없을때");
+                    _soundManager.Play(audioClip, SoundManager.Sound.Bgm);
+                }
                 landmakr_Create = true;
                 //Debug.Log("아이템 생성");
             }
@@ -93,7 +99,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         public void Active_gameSet()
         {
-            if ((int) Ntimer / 30 > 0)
+            if ((int) Ntimer / 180 > 0)
             {
                 gameSetTime = Ntimer;
                 gameSet = true;
@@ -168,7 +174,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         now_timer.Ntimer += Time.deltaTime;
         // 게임 끝
-        if (EManager.gameSet && now_timer.Ntimer >= EManager.gameSetTime + 7)
+        if (EManager.gameSet && now_timer.Ntimer >= EManager.gameSetTime + 5)
         {
             if (PhotonNetwork.IsMasterClient)
             {
@@ -208,7 +214,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         photonView.RPC("addScore", RpcTarget.AllViaServer, team, point);
     }
 
-    [PunRPC]
     public int addScore(int team, int point)
     {
         return gamescore[team] += point;

@@ -82,7 +82,7 @@ public class PlayerEquipitem : MonoBehaviourPun
         else if (_playerState.Item == item_box_make.item_type.EnergyWave)
         {
             _playerAnimator.EnergyWaveAttack();
-            //_playerState.Item = item_box_make.item_type.no_item;
+            _playerState.Item = item_box_make.item_type.no_item;
         }
 
         else if (_playerState.Item == item_box_make.item_type.Buff && BuffOn == false)
