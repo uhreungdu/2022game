@@ -21,13 +21,16 @@ public class GameResultSceneUI : MonoBehaviour
         foreach (var info in myInRoomInfo.Infomations)
         {
             if (info.Name != "" && info.SlotNum % 2 == 0)
+            {
                 totalGameScore1 += info.Point;
+                totalGameScore1 += info.TotalGetPoint;
+            }
             else if (info.Name != "" && info.SlotNum % 2 == 1)
+            {
                 totalGameScore2 += info.Point;
+                totalGameScore2 += info.TotalGetPoint;
+            }
         }
-
-        totalGameScore1 += gameInfo.Infomations.gamescore[0];
-        totalGameScore2 += gameInfo.Infomations.gamescore[1];
         GameTotalPointInfomation.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Convert.ToString(totalGameScore1);
         GameTotalPointInfomation.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = Convert.ToString(totalGameScore2);
         

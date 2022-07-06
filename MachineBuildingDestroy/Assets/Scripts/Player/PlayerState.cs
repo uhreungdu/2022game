@@ -223,7 +223,15 @@ public class PlayerState : LivingEntity, IPunObservable
         point = 0;
         if (photonView.IsMine)
         {
-            photonView.RPC("GetPointCount", RpcTarget.AllViaServer, point);
+            int Slotnum = -1;
+            MyInRoomInfo inRoomInfo = MyInRoomInfo.GetInstance();
+            foreach (var info in inRoomInfo.Infomations)
+            {
+                if (info.Name == NickName)
+                    Slotnum = info.SlotNum;
+            }
+            if (Slotnum != -1)
+                photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, point);
         }
         Invoke("Respawn", 10f);
     }
@@ -413,10 +421,10 @@ public class PlayerState : LivingEntity, IPunObservable
     }
     
     [PunRPC]
-    public void GetPointCount(int Point)
+    public void GetPointCount(int SlotNum, int Point)
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+        myInRoomInfo.GetPointCount(SlotNum, Point);
     }
     
 }

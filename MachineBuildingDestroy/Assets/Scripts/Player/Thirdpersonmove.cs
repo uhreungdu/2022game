@@ -220,7 +220,15 @@ public class Thirdpersonmove : MonoBehaviourPun
             _playerState.AddPoint(1);
             if (photonView.IsMine)
             {
-                photonView.RPC("GetPointCount", RpcTarget.AllViaServer, _playerState.point);
+                int Slotnum = -1;
+                MyInRoomInfo inRoomInfo = MyInRoomInfo.GetInstance();
+                foreach (var info in inRoomInfo.Infomations)
+                {
+                    if (info.Name == _playerState.NickName)
+                        Slotnum = info.SlotNum;
+                }
+                if (Slotnum != -1)
+                    photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, _playerState.point);
             }
             if (PhotonNetwork.IsMasterClient)
             {
