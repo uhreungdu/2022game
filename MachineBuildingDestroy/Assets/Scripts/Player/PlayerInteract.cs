@@ -52,32 +52,53 @@ public class PlayerInteract : MonoBehaviourPun
                 {
                     lastTime = Time.time;
                     if (photonView.IsMine)
-                    {
                         _Progressbar.gameObject.SetActive(true);
-                    }
+                    ProgressbarUpdate();
                 }
 
                 if (Time.time >= lastTime + timeBet)
                 {
-                    gManager.AddScore(playerState.team, playerState.point);
-                    
                     if (photonView.IsMine)
                     {
-                        photonView.RPC("AddPointCount", RpcTarget.AllViaServer, playerState.point);
+                        photonView.RPC("NetWorkaddScore", RpcTarget.AllViaServer);
+                        int Slotnum = -1;
+                        MyInRoomInfo inRoomInfo = MyInRoomInfo.GetInstance();
+                        foreach (var info in inRoomInfo.Infomations)
+                        {
+                            if (info.Name == playerState.NickName)
+                               Slotnum = info.SlotNum;
+                        }
+
+                        if (Slotnum != -1)
+                        {
+                            photonView.RPC("AddPointCount", RpcTarget.AllViaServer, Slotnum, playerState.point);
+                            photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
+                        }
                     }
                     playerState.ResetPoint();
-                    _Progressbar.gameObject.SetActive(false);
+                    
+                    if (photonView.IsMine)
+                        _Progressbar.gameObject.SetActive(false);
                 }
             }
             else
             {
-                _Progressbar.gameObject.SetActive(false);
-                lastTime = -1;
+                if (photonView.IsMine)
+                {
+                    _Progressbar.gameObject.SetActive(false);
+                    lastTime = -1;
+                }
             }
-            ProgressbarUpdate();
 
         playerState.update_stat();
     }
+    
+    [PunRPC]
+    public void NetWorkaddScore()
+    {
+        gManager.addScore(playerState.team, playerState.point);
+    }
+    
 
     private void ProgressbarUpdate()
     {
@@ -97,10 +118,10 @@ public class PlayerInteract : MonoBehaviourPun
     // }
     
     [PunRPC]
-    public void AddPointCount(int Point)
+    public void AddPointCount(int SlotNum, int Point)
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.AddPointCount(myInRoomInfo.mySlotNum, Point);
+        myInRoomInfo.AddPointCount(SlotNum, Point);
     }
     
     // private void OnTriggerStay(Collider other)

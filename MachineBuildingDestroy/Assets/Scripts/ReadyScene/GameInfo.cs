@@ -27,7 +27,6 @@ public class GameInfo : MonoBehaviour
                 _instance = container.AddComponent<GameInfo>();
             }
         }
-
         return _instance;
     }
 

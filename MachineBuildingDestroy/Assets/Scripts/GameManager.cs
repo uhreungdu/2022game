@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         public void Active_gameSet()
         {
-            if((int)Ntimer / 180 > 0)
+            if((int)Ntimer / 30 > 0)
             {
                 gameSetTime = Ntimer;
                 gameSet = true;
