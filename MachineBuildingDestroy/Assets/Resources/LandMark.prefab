@@ -47,9 +47,9 @@ GameObject:
   - component: {fileID: 6542954356232124453}
   - component: {fileID: 972696993845191032}
   - component: {fileID: 8817305425580677449}
-  - component: {fileID: 3287810068403289433}
   - component: {fileID: 8488467233062269902}
   - component: {fileID: 6605088825851004209}
+  - component: {fileID: 5745401947906653478}
   m_Layer: 9
   m_Name: Object
   m_TagString: Wall
@@ -199,20 +199,6 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!64 &3287810068403289433
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2530926999318412299}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: -1
-  m_Mesh: {fileID: -3531946766418785785, guid: 389315124c5555a4badc142cdf172054, type: 3}
 --- !u!114 &8488467233062269902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +325,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &5745401947906653478
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2530926999318412299}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 16.270725, y: 42.56473, z: 19.150108}
+  m_Center: {x: 1.0294125, y: 21.27888, z: 0.12514782}
 --- !u!1001 &8500352087677527687
 PrefabInstance:
   m_ObjectHideFlags: 0

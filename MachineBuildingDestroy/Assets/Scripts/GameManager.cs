@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         public void Active_landmakr()
         {
-            if ((int) Ntimer / 120 > 0)
+            if ((int) Ntimer / 180 > 0)
             {
                 if (landmakr_Create == false)
                 {
