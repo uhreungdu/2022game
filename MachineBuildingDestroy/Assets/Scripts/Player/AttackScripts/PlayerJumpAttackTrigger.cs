@@ -28,6 +28,7 @@ public class PlayerJumpAttackTrigger : MonoBehaviourPun
                 }
                 else
                 {
+                    NetWorkPlayOneShot(_playerJumpAttack._AttackAudioClips[1]);
                     attackTarget.NetworkOnDamage(_playerJumpAttack._damage);
                     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
                     myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerJumpAttack._damage);
@@ -54,6 +55,7 @@ public class PlayerJumpAttackTrigger : MonoBehaviourPun
                         otherPlayerState.NetworkOnDamage(_playerJumpAttack._damage);
                         otherPlayerState.RecentHit(_playerState.NickName);
                     }
+                    NetWorkPlayOneShot(_playerJumpAttack._AttackAudioClips[1]);
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     
                     if (!otherAnimator.GetBool("Stiffen"))
@@ -81,10 +83,12 @@ public class PlayerJumpAttackTrigger : MonoBehaviourPun
             {
                 if (SceneManager.GetActiveScene().name == "LocalRoom")
                 {
+                    NetWorkPlayOneShot(_playerJumpAttack._AttackAudioClips[1]);
                     Target.OnDamage(_playerJumpAttack._damage);
                 }
                 else
                 {
+                    NetWorkPlayOneShot(_playerJumpAttack._AttackAudioClips[1]);
                     Target.NetworkOnDamage(_playerJumpAttack._damage);
                 }
             }
@@ -118,5 +122,11 @@ public class PlayerJumpAttackTrigger : MonoBehaviourPun
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    }
+    
+    [PunRPC]
+    void NetWorkPlayOneShot(AudioClip audioClip)
+    {
+        _playerState._AudioSource.PlayOneShot(audioClip);
     }
 }

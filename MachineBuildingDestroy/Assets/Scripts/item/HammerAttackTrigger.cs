@@ -36,6 +36,7 @@ public class HammerAttackTrigger : MonoBehaviourPun
                     myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _hammerAttack._damage);
                 }
 
+                NetWorkPlayOneShot(_Hammer.HitClip);
                 Debug.Log(attackTarget.health);
             }
         }
@@ -65,7 +66,7 @@ public class HammerAttackTrigger : MonoBehaviourPun
                             myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _hammerAttack._damage);
                         }
                     }
-
+                    NetWorkPlayOneShot(_Hammer.HitClip);
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     if (!otherAnimator.GetBool("Falldown"))
                     {
@@ -82,6 +83,7 @@ public class HammerAttackTrigger : MonoBehaviourPun
             {
                 Target.NetworkOnDamage(_playerState.P_Dm.Damge_formula());
                 Debug.Log(Target.health);
+                NetWorkPlayOneShot(_Hammer.HitClip);
                 photonView.RPC("ReduceDurability", RpcTarget.AllViaServer, 1);
             }
         }
@@ -119,5 +121,11 @@ public class HammerAttackTrigger : MonoBehaviourPun
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    }
+    
+    [PunRPC]
+    void NetWorkPlayOneShot(AudioClip audioClip)
+    {
+        _playerState._AudioSource.PlayOneShot(audioClip);
     }
 }

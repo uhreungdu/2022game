@@ -23,6 +23,7 @@ public class PlayerDragonPunch : PlayerAttack
         //_coolTime = 10;
         _coolTime = 0;
         _lastUsedTime = -999f;
+        _AttackAudioClips.Add(Resources.Load<AudioClip>("Sounds/Punch"));
         
         _hitBoxColliders.Add(_HandBoxCollider);
     }

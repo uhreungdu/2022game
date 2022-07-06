@@ -32,7 +32,7 @@ public class PlayerDashAttackTrigger : MonoBehaviourPun
                     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
                     myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerDashAttack._damage);
                 }
-                
+                NetWorkPlayOneShot(_playerDashAttack._AttackAudioClips[1]);
                 Debug.Log(attackTarget.health);
             }
         }
@@ -56,6 +56,7 @@ public class PlayerDashAttackTrigger : MonoBehaviourPun
                         otherPlayerState.RecentHit(_playerState.NickName);
                     }
                     
+                    NetWorkPlayOneShot(_playerDashAttack._AttackAudioClips[1]);
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     if (!otherAnimator.GetBool("Stiffen"))
                     {
@@ -87,6 +88,7 @@ public class PlayerDashAttackTrigger : MonoBehaviourPun
                 else
                 {
                     Target.NetworkOnDamage(_playerDashAttack._damage);
+                    NetWorkPlayOneShot(_playerDashAttack._AttackAudioClips[1]);
                 }
             }
         }
@@ -119,5 +121,12 @@ public class PlayerDashAttackTrigger : MonoBehaviourPun
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    }
+    
+    
+    [PunRPC]
+    void NetWorkPlayOneShot(AudioClip audioClip)
+    {
+        _playerState._AudioSource.PlayOneShot(audioClip);
     }
 }

@@ -53,7 +53,6 @@ public class PlayerInteract : MonoBehaviourPun
                     lastTime = Time.time;
                     if (photonView.IsMine)
                         _Progressbar.gameObject.SetActive(true);
-                    ProgressbarUpdate();
                 }
 
                 if (Time.time >= lastTime + timeBet)
@@ -75,8 +74,6 @@ public class PlayerInteract : MonoBehaviourPun
                             photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
                         }
                     }
-                    playerState.ResetPoint();
-                    
                     if (photonView.IsMine)
                         _Progressbar.gameObject.SetActive(false);
                 }
@@ -89,7 +86,7 @@ public class PlayerInteract : MonoBehaviourPun
                     lastTime = -1;
                 }
             }
-
+        ProgressbarUpdate();
         playerState.update_stat();
     }
     
@@ -97,6 +94,7 @@ public class PlayerInteract : MonoBehaviourPun
     public void NetWorkaddScore()
     {
         gManager.addScore(playerState.team, playerState.point);
+        playerState.ResetPoint();
     }
     
 

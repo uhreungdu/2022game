@@ -18,6 +18,7 @@ public class PlayerDashAttack : PlayerAttack
         _aftercastAttack = 0.467f;
         SetAffterCast(0);
         _damage = 20;
+        _AttackAudioClips.Add(Resources.Load<AudioClip>("Sounds/Punch"));
         
         _hitBoxColliders.Add(_HandBoxCollider);
     }

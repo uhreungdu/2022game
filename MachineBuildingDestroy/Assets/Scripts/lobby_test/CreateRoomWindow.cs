@@ -58,7 +58,7 @@ public class CreateRoomWindow : MonoBehaviour
         if (val)
         {
             okButton.GetComponent<Button>().interactable = false;
-            var roomName =roomNameField.GetComponent<InputField>().text;
+            var roomName = roomNameField.GetComponent<InputField>().text;
             _playerNum = (byte)_playerNumArray[playerNumField.GetComponent<Dropdown>().value];
            // _gameMode = _gameModeArray[gameModeField.GetComponent<Dropdown>().value];
             CreateRoom(roomName);
