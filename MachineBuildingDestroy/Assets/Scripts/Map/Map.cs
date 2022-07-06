@@ -87,7 +87,12 @@ public class Map : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Other)
+        {
+            GameObject g = GameObject.Find("GameManager");
+            if (g != null)
+                Destroy(g);
+        }
     }
 
     string ObjectToJson(object obj)
