@@ -125,6 +125,7 @@ MonoBehaviour:
   _Map: {fileID: 0}
   DestroyObjects: {fileID: 0}
   _AudioSource: {fileID: 0}
+  _AudioClip: {fileID: 0}
   MaxCut: 6
 --- !u!114 &-2283443481089927820
 MonoBehaviour:
