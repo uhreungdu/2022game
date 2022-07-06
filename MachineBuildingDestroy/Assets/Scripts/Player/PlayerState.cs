@@ -47,6 +47,7 @@ public class PlayerState : LivingEntity, IPunObservable
     public GameManager gManager;
     public GameObject _AttackGameObject;
     public GameObject nameOnhead;
+    public GameObject CoinOnhead;
     public String NickName;
     public int team;
     
@@ -305,6 +306,12 @@ public class PlayerState : LivingEntity, IPunObservable
     public void SetOnHeadName(string value)
     {
         nameOnhead.GetComponent<TextMesh>().text = value;
+    }
+    
+    [PunRPC]
+    public void SetOnHeadCoinNum(string value)
+    {
+        CoinOnhead.GetComponent<TextMesh>().text = value;
     }
 
     // Update is called once per frame
