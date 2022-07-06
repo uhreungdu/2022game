@@ -1057,6 +1057,7 @@ MonoBehaviour:
   - {fileID: 2358042896829115922, guid: 614c6c54b2542464a8e289b9f62b53cf, type: 3}
   - {fileID: 2358042896829115922, guid: 9501ee61c1aef2d46bfd8737ec494ad3, type: 3}
   - {fileID: 2358042896829115922, guid: 13b6010d644313a45be698d983da13cc, type: 3}
+  - {fileID: 2358042896829115922, guid: bbdee4d5d848229448358bc380a1044a, type: 3}
   Online: 1
   Other: 0
 --- !u!4 &581632887
@@ -2638,7 +2639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1539579122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2651,7 +2652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1314a7c13a1e9b2468185276eb92f7ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _AudioClip: {fileID: 8300000, guid: 1ac4d65eaff133543a425289720c1c40, type: 3}
+  _AudioClip: {fileID: 8300000, guid: 5a830268bf601f040bedd532db446995, type: 3}
 --- !u!4 &1539579123
 Transform:
   m_ObjectHideFlags: 0
