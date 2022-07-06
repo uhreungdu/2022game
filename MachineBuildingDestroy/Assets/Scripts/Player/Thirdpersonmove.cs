@@ -244,7 +244,11 @@ public class Thirdpersonmove : MonoBehaviourPun
             else
             {
                 other.gameObject.GetComponent<Renderer>().enabled = false;
-                other.gameObject.GetComponent<Collider>().enabled = false;
+                Collider[] colliders = other.gameObject.GetComponents<Collider>();
+                foreach (var collider in colliders)
+                {
+                    collider.enabled = false;
+                }
             }
         }
     }

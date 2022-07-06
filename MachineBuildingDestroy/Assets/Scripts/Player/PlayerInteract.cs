@@ -46,13 +46,12 @@ public class PlayerInteract : MonoBehaviourPun
                 neargoalpost = true;
             else
                 neargoalpost = false;
-            if (gamePlayerInput.Interaction && neargoalpost)
+            if (photonView.IsMine && gamePlayerInput.Interaction && neargoalpost)
             {
                 if (lastTime < 0)
                 {
                     lastTime = Time.time;
-                    if (photonView.IsMine)
-                        _Progressbar.gameObject.SetActive(true);
+                    _Progressbar.gameObject.SetActive(true);
                 }
 
                 if (Time.time >= lastTime + timeBet)
@@ -87,8 +86,13 @@ public class PlayerInteract : MonoBehaviourPun
                     lastTime = -1;
                 }
             }
-        ProgressbarUpdate();
-        playerState.update_stat();
+
+            if (photonView.IsMine)
+            {
+                ProgressbarUpdate();
+            }
+
+            playerState.update_stat();
     }
     
     [PunRPC]
