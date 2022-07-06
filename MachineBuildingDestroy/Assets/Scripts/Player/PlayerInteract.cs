@@ -59,7 +59,7 @@ public class PlayerInteract : MonoBehaviourPun
                 {
                     if (photonView.IsMine)
                     {
-                        photonView.RPC("NetWorkaddScore", RpcTarget.AllViaServer);
+                        photonView.RPC("NetWorkaddScore", RpcTarget.All);
                         int Slotnum = -1;
                         MyInRoomInfo inRoomInfo = MyInRoomInfo.GetInstance();
                         foreach (var info in inRoomInfo.Infomations)
@@ -67,15 +67,16 @@ public class PlayerInteract : MonoBehaviourPun
                             if (info.Name == playerState.NickName)
                                Slotnum = info.SlotNum;
                         }
-
                         if (Slotnum != -1)
                         {
-                            photonView.RPC("AddPointCount", RpcTarget.AllViaServer, Slotnum, playerState.point);
-                            photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
+                            photonView.RPC("AddPointCount", RpcTarget.All, Slotnum, playerState.point);
+                            photonView.RPC("GetPointCount", RpcTarget.All, Slotnum, 0);
                         }
+                        photonView.RPC("SetOnHeadCoinNum", RpcTarget.All, playerState.point.ToString());
                     }
                     if (photonView.IsMine)
                         _Progressbar.gameObject.SetActive(false);
+                    lastTime = -1;
                 }
             }
             else
