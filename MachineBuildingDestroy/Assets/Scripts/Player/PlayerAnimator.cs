@@ -74,7 +74,7 @@ public class PlayerAnimator : MonoBehaviourPun
                 null,
                 () =>
                 {
-                    NetWorkPlayOneShot(_PlayerHandAttack._AttackAudioClips[Random.Range(0, _PlayerHandAttack._AttackAudioClips.Count)]);
+                    NetWorkPlayOneShot(_PlayerHandAttack._AttackAudioClips[0]);
                 });
             _Animator.SetBool("Combo", true);
         }
@@ -88,7 +88,7 @@ public class PlayerAnimator : MonoBehaviourPun
                     null,
                     () =>
                     {
-                        NetWorkPlayOneShot(_PlayerJumpAttack._AttackAudioClips[Random.Range(0, _PlayerJumpAttack._AttackAudioClips.Count)]);
+                        NetWorkPlayOneShot(_PlayerJumpAttack._AttackAudioClips[0]);
                     });
                 _PlayerJumpAttack.SetAffterCast(1);
                 _Animator.SetBool("Combo", true);
@@ -105,7 +105,7 @@ public class PlayerAnimator : MonoBehaviourPun
             null,
             () =>
             {
-                NetWorkPlayOneShot(_HammerAttack._AttackAudioClips[Random.Range(0, _HammerAttack._AttackAudioClips.Count)]);
+                NetWorkPlayOneShot(_HammerAttack._AttackAudioClips[0]);
             });
         _HammerAttack.SetAffterCast(1);
         _Animator.SetBool("HammerAttack", _gamePlayerInput.fire);
@@ -115,11 +115,14 @@ public class PlayerAnimator : MonoBehaviourPun
     {
         _PlayerAnimationEvent.Play(
             null,
-            null,
+            () =>
+            {
+                NetWorkPlayOneShot(_PlayerEnergywaveAttack._AttackAudioClips[1]);
+            },
             null,
             () =>
             {
-                NetWorkPlayOneShot(_PlayerEnergywaveAttack._AttackAudioClips[Random.Range(0, _PlayerEnergywaveAttack._AttackAudioClips.Count)]);
+                NetWorkPlayOneShot(_PlayerEnergywaveAttack._AttackAudioClips[0]);
             });
         _PlayerEnergywaveAttack.SetAffterCast(1);
         _Animator.SetTrigger("EnergyWave");
@@ -223,7 +226,7 @@ public class PlayerAnimator : MonoBehaviourPun
                 null,
                 () =>
                 {
-                    NetWorkPlayOneShot(_PlayerDragonPunch._AttackAudioClips[Random.Range(0, _PlayerDragonPunch._AttackAudioClips.Count)]);
+                    NetWorkPlayOneShot(_PlayerDragonPunch._AttackAudioClips[0]);
                 });
             _PlayerDragonPunch.SetAffterCast(1);
             _Animator.SetBool("DragonPunch", true);

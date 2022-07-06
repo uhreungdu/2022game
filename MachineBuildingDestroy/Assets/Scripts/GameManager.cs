@@ -214,7 +214,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         photonView.RPC("addScore", RpcTarget.AllViaServer, team, point);
     }
 
-    [PunRPC]
     public int addScore(int team, int point)
     {
         return gamescore[team] += point;

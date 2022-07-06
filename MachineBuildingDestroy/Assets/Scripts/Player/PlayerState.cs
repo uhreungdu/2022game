@@ -61,14 +61,15 @@ public class PlayerState : LivingEntity, IPunObservable
     public GameObject Dead_Effect;
     public Thirdpersonmove _Thirdpersonmove;
     
-
     public GameObject coinprefab;
     [SerializeField]
     private float explosionForce;
     private GameObject _networkManager;
 
     private GameObject Coinpref;
-    
+
+    public AudioSource _AudioSource;
+
 
     void Start()
     {
@@ -77,6 +78,7 @@ public class PlayerState : LivingEntity, IPunObservable
         _characterController = GetComponent<CharacterController>();
         _playerAnimator = GetComponent<PlayerAnimator>();
         _Thirdpersonmove = GetComponent<Thirdpersonmove>();
+        _AudioSource = GetComponent<AudioSource>();
         var info = MyInRoomInfo.GetInstance();
         if (info != null)
         {
@@ -90,8 +92,8 @@ public class PlayerState : LivingEntity, IPunObservable
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
         
+        //Item = item_box_make.item_type.Hammer;
         Item = item_box_make.item_type.no_item;
-        //Item = item_box_make.item_type.no_item;
         
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);

@@ -17,7 +17,7 @@ public class HammerAttack : PlayerAttack
         _attackName = "해머기본공격";
         _lastColliderActiveTime = 0.4f; // 공격 유지 시간
         SetHammerAffterCast(0);
-        _damage = 25;
+        _damage = 30;
         
         _hitBoxColliders.Add(_hammerBoxCollider);
     }

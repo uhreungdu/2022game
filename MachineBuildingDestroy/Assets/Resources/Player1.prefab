@@ -1682,6 +1682,8 @@ MonoBehaviour:
   Lfoot: {fileID: 3136286817224146852}
   collidingbuilding: 0
   DashDelay: 0
+  _AudioSource: {fileID: 0}
+  GetCoinClip: {fileID: 0}
 --- !u!114 &9163899072323061247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2025,6 +2027,7 @@ MonoBehaviour:
   _hitBoxColliders: []
   _AttackAudioClips:
   - {fileID: 8300000, guid: 509962221071f9842ab88efa6c265c08, type: 3}
+  - {fileID: 8300000, guid: 1f1d5fa6c456f524b88226447fcadf27, type: 3}
   _playerImpact: {fileID: 5557033289253594524}
   _rHandBoxCollider: {fileID: 6353965995092347216}
   RHandGameObject: {fileID: 5184360644021627930}
