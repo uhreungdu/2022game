@@ -11,7 +11,6 @@ using Random = UnityEngine.Random;
 
 public class PlayerState : LivingEntity, IPunObservable
 {
-    public int team { get; private set; }
     public int point { get; private set; }
     
     public bool isAimming{ get; set; }
@@ -49,6 +48,7 @@ public class PlayerState : LivingEntity, IPunObservable
     public GameObject _AttackGameObject;
     public GameObject nameOnhead;
     public String NickName;
+    public int team;
     
     public String RecentHitNickName;
     public Coroutine RecentHitCoroutine;

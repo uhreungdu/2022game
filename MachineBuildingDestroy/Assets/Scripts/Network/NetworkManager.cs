@@ -264,7 +264,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
 
-    public void SendGameResult(string playerName, bool isWin)
+    public void SendGameResult(bool isWin)
     {
         if (isWin)
         {
@@ -275,11 +275,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             _account.RefreshAccount(_account.GetPlayerWin(), _account.GetPlayerLose() + 1);
         }
         
-        byte evCode = (byte) EventCode.SendGameResult;
-        object[] data = new object[] {playerName, isWin};
-        RaiseEventOptions RaiseOpt = new RaiseEventOptions {Receivers = ReceiverGroup.MasterClient};
-        SendOptions sendOpt = new SendOptions {Reliability = true};
-        PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
+        var socket = LoginDBConnection.GetInstance().GetClientSocket();
+
+        byte[] data = new byte[2];
+        data[0] = (byte)LoginDBConnection.DBPacketType.GameResult;
+        // 0 is win
+        if (isWin) data[1] = 0;
+        else data[1] = 1;
+
+        socket.Send(data);
     }
 
     public void ConnectPhotonServer()

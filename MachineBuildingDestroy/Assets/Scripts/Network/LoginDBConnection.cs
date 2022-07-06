@@ -40,7 +40,8 @@ public class LoginDBConnection : MonoBehaviour
         RoomListRequest,
         RoomListResult,
         AccountInfoRequest,
-        AccountInfoResult
+        AccountInfoResult,
+        GameResult
     }
     
     public static LoginDBConnection GetInstance()

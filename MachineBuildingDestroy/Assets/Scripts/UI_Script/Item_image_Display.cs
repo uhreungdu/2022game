@@ -15,6 +15,7 @@ public class Item_image_Display : MonoBehaviour
     public Sprite PotionImage;
     public Sprite BuffImage;
     public Sprite obstacles;
+    public Sprite GunImage;
     public item_box_make.item_type item_typ;
     // Start is called before the first frame update
     void Start()
@@ -43,7 +44,9 @@ public class Item_image_Display : MonoBehaviour
             case item_box_make.item_type.Hammer:
                 item_icon.sprite = HammerImage;
                 break;
-            
+            case item_box_make.item_type.Gun:
+                item_icon.sprite = GunImage;
+                break;
                     
         }
     }

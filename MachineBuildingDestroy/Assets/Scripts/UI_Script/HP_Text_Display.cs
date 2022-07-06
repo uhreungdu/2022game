@@ -16,7 +16,7 @@ public class HP_Text_Display : MonoBehaviour
     void Start()
     {
         gManager = GameManager.GetInstance();
-        HP_BarMat = Hp_Bar.GetComponent<Material>();
+        HP_BarMat = Hp_Bar.material;
     }
 
     // Update is called once per frame
@@ -46,6 +46,8 @@ public class HP_Text_Display : MonoBehaviour
             
                     
         }
+
+        Glitch_Effect_On(gManager.player_stat.UIGiltch);
     }
 
     void Glitch_Effect_On(bool onoffswitch)
