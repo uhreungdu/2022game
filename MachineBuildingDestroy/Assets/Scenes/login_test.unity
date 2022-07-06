@@ -11790,6 +11790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loginWaitingWindow: {fileID: 1375915710}
+  socketErrWindow: {fileID: 0}
 --- !u!4 &565960609
 Transform:
   m_ObjectHideFlags: 0
@@ -27094,10 +27095,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PhotonErrWIndow
       objectReference: {fileID: 0}
-    - target: {fileID: 1077563448467974805, guid: aae3e81f4bf5fb74b91b41b10c868c44, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aae3e81f4bf5fb74b91b41b10c868c44, type: 3}
 --- !u!224 &821658771 stripped
@@ -40799,6 +40796,7 @@ MonoBehaviour:
   player:
   - {fileID: 6962304825099367683, guid: d32ccc424f107b04c964688911a498e0, type: 3}
   - {fileID: 7550675007537066324, guid: 6d479682a2fa498409e7b537affcb8a1, type: 3}
+  photonErrWindow: {fileID: 0}
 --- !u!4 &2018934612
 Transform:
   m_ObjectHideFlags: 0
@@ -41296,10 +41294,6 @@ PrefabInstance:
     - target: {fileID: 7242370143267193267, guid: ea55545466a5f5f4d807b43aef5dae95, type: 3}
       propertyPath: m_Name
       value: SocketErrWIndow
-      objectReference: {fileID: 0}
-    - target: {fileID: 7242370143267193267, guid: ea55545466a5f5f4d807b43aef5dae95, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea55545466a5f5f4d807b43aef5dae95, type: 3}

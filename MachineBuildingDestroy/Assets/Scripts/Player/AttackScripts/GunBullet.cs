@@ -15,6 +15,7 @@ public class GunBullet : MonoBehaviourPun
     public float Speed = 80f;
     public string ShootNickName;
     public int ShootTeam;
+    private int _damage = 10;
 
     void Start()
     {
@@ -43,16 +44,16 @@ public class GunBullet : MonoBehaviourPun
             {
                 if (SceneManager.GetActiveScene().name == "LocalRoom")
                 {
-                    attackTarget.OnDamage(_playerGunAttack._damage);
+                    attackTarget.OnDamage(_damage);
                 }
                 else
                 {
-                    attackTarget.NetworkOnDamage(_playerGunAttack._damage);
+                    attackTarget.NetworkOnDamage(_damage);
                     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-                    myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerGunAttack._damage);
+                    myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _damage);
                 }
                 Debug.Log(attackTarget.health);
-                PhotonNetwork.Destroy(gameObject);
+                photonView.RPC("RemoveBulletObject", RpcTarget.All);
             }
         }
 
@@ -67,11 +68,11 @@ public class GunBullet : MonoBehaviourPun
                     // && otherPlayerState.team != _playerState.team
                     if (SceneManager.GetActiveScene().name == "LocalRoom")
                     {
-                        otherPlayerState.OnDamage(_playerGunAttack._damage);
+                        otherPlayerState.OnDamage(_damage);
                     }
                     else
                     {
-                        otherPlayerState.NetworkOnDamage(_playerGunAttack._damage);
+                        otherPlayerState.NetworkOnDamage(_damage);
                         otherPlayerState.RecentHit(ShootNickName);
                     }
 
@@ -90,10 +91,9 @@ public class GunBullet : MonoBehaviourPun
                     {
                         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
                         myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
-                        myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerGunAttack._damage);
+                        myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _damage);
                     }
-
-                    PhotonNetwork.Destroy(gameObject);
+                    photonView.RPC("RemoveBulletObject", RpcTarget.All);
                 }
             }
         }
@@ -105,13 +105,13 @@ public class GunBullet : MonoBehaviourPun
             {
                 if (SceneManager.GetActiveScene().name == "LocalRoom")
                 {
-                    Target.OnDamage(_playerGunAttack._damage);
+                    Target.OnDamage(_damage);
                 }
                 else
                 {
-                    Target.NetworkOnDamage(_playerGunAttack._damage);
+                    Target.NetworkOnDamage(_damage);
                 }
-                PhotonNetwork.Destroy(gameObject);
+                photonView.RPC("RemoveBulletObject", RpcTarget.All);
             }
         }
     }
@@ -143,6 +143,13 @@ public class GunBullet : MonoBehaviourPun
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+    }
+
+    [PunRPC]
+    public void RemoveBulletObject()
+    {
+        if (photonView.IsMine)
+            PhotonNetwork.Destroy(gameObject);
     }
     
 }

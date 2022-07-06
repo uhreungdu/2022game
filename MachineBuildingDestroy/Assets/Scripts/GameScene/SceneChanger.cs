@@ -19,7 +19,6 @@ public class SceneChanger : MonoBehaviour
     public void SceneChange(String Scenename)
     {
         Destroy(_myInRoomInfo);
-        SceneManager.LoadScene(Scenename);
         PhotonNetwork.LeaveRoom();
     }
 
