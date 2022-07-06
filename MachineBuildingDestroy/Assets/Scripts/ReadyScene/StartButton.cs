@@ -11,7 +11,7 @@ public class StartButton : MonoBehaviourPun
     private GameObject _info;
 
     private GameObject _NetworkManager;
-
+    private int maxPlayer;
     public MapDropdown _MapDropdown;
 
     // Start is called before the first frame update
@@ -19,13 +19,13 @@ public class StartButton : MonoBehaviourPun
     {
         _NetworkManager = GameObject.Find("NetworkManager");
         _info=GameObject.Find("Myroominfo");
+        maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
     }
 
     private void FixedUpdate()
     {
-        var info = _info.GetComponent<MyInRoomInfo>(); 
-        int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
-        
+        var info = _info.GetComponent<MyInRoomInfo>();
+
         if (info.isMaster)
         {
             transform.GetChild(0).GetComponent<Text>().text = "START";

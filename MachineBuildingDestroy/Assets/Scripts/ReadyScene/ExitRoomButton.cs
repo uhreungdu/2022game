@@ -12,7 +12,6 @@ public class ExitRoomButton : MonoBehaviour
     {
         PhotonNetwork.LeaveRoom();
         ExitRoom();
-        SceneManager.LoadScene("lobby_test");
     }
 
     private void ExitRoom()

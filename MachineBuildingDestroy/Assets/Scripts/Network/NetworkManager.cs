@@ -34,7 +34,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private LobbyManager _lobbyManager;
     public string networkState;
     public GameObject[] player;
-    private GameObject PhotonErrWindow;
+    public GameObject photonErrWindow;
     private GameObject _team1Spawner;
     private GameObject _team2Spawner;
     [SerializeField] private Player[] _players;
@@ -85,6 +85,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.LoadLevel("ReadyRoom");
 
+    }
+
+    public override void OnLeftRoom()
+    {
+        var sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "GameResultScene" || sceneName == "ReadyRoom" )
+            SceneManager.LoadScene("lobby_test");
     }
 
     public void SpawnPlayer()
@@ -161,9 +168,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        PhotonErrWindow = GameObject.Find("PhotonErrWindow");
-        PhotonErrWindow.SetActive(true);
-        PhotonErrWindow.GetComponentInChildren<Text>().text = cause.ToString();
+        photonErrWindow.SetActive(true);
+        photonErrWindow.GetComponentInChildren<Text>().text = cause.ToString();
         print(cause.ToString());
         Logout(_account.GetPlayerID());
     }
