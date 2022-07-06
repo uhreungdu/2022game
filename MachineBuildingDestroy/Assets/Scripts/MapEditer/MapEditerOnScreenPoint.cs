@@ -242,16 +242,16 @@ public class MapEditerOnScreenPoint : MonoBehaviour
                 allTile.position.z);
             Vector3 comp2 = new Vector3(transform.position.x,
                 0, transform.position.z);
-            if (mapEditerManager.Prefnum == 0 && allTile.kind == 0 && comp1 == comp2)
+            if (/*mapEditerManager.Prefnum == 0 && allTile.kind == 0 &&*/ comp1 == comp2)
             {
                 map.maptile.Tiles.Remove(allTile);
                 return true;
             }
-            else if (mapEditerManager.Prefnum != 0 && allTile.kind > 0 && comp1 == comp2 && mapEditerManager.Prefnum == allTile.kind)
-            {
-                map.maptile.Tiles.Remove(allTile);
-                return true;
-            }
+            // else if (mapEditerManager.Prefnum != 0 && allTile.kind > 0 && comp1 == comp2 && mapEditerManager.Prefnum == allTile.kind)
+            // {
+            //     map.maptile.Tiles.Remove(allTile);
+            //     return true;
+            // }
         }
         return false;
     }
