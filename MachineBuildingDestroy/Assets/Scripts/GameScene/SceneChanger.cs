@@ -20,7 +20,6 @@ public class SceneChanger : MonoBehaviour
     {
         Destroy(_myInRoomInfo);
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene(Scenename);
     }
 
     // Update is called once per frame

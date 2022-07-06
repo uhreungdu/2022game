@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 1077563448467974804}
   - component: {fileID: 1077563448467974826}
   - component: {fileID: 1077563448467974827}
-  - component: {fileID: 3299270173974516485}
+  - component: {fileID: 1396306697603173351}
   m_Layer: 5
   m_Name: PhotonErrWIndow
   m_TagString: Untagged
@@ -156,7 +156,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3299270173974516485
+--- !u!114 &1396306697603173351
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,6 +165,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1077563448467974805}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cb57f828bf8b06409510fffb40941ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f23261f7f908ee41b669d6a4de3943a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

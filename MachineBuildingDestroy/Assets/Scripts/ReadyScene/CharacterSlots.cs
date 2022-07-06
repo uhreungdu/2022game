@@ -9,13 +9,14 @@ using UnityEngine.UI;
 public class CharacterSlots : MonoBehaviourPun
 {
     private bool init = false;
+    private int maxPlayer;
     public GameObject[] slots = new GameObject[6];
     public GameObject info;
     // Start is called before the first frame update
     void Start()
     {
         info = GameObject.Find("Myroominfo");
-        var maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
+        maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
         for (var i = 5; i > maxPlayer - 1; --i)
         {
             slots[i].GetComponent<Image>().color = Color.gray;
@@ -38,7 +39,6 @@ public class CharacterSlots : MonoBehaviourPun
         }
         
         var num = -1;
-        int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
         
         // 자신 슬롯 번호 갱신
         for (var i = 0; i < maxPlayer; ++i)

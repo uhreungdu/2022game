@@ -439,7 +439,7 @@ namespace Photon.Realtime
         /// <summary>Uses OpSetPropertiesOfActor to sync this player's NickName (server is being updated with this.NickName).</summary>
         private bool SetPlayerNameProperty()
         {
-            if (this.RoomReference != null && !this.RoomReference.IsOffline)
+            if (this.RoomReference != null && !this.RoomReference.IsOffline && this.RoomReference.LoadBalancingClient.InRoom)
             {
                 Hashtable properties = new Hashtable();
                 properties[ActorProperties.PlayerName] = this.nickName;
