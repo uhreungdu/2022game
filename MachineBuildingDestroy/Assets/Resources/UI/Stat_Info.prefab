@@ -81,7 +81,7 @@ MonoBehaviour:
   BuffImage: {fileID: 21300000, guid: 0e8238fb7ba1c7441bf0b0c8dcfe2768, type: 3}
   obstacles: {fileID: 21300000, guid: 65541e7c4f8c812408f2744de35d0666, type: 3}
   GunImage: {fileID: 21300000, guid: d3834607642951045b54ee950b54ecec, type: 3}
-  EnergyImage: {fileID: 21300000, guid: 84c099d2af6b87b48a87dafc280045e3, type: 3}
+  EnergyImage: {fileID: 21300000, guid: ea6a7f85c48c6a54699ef8e7e1b7fc4c, type: 3}
   item_typ: 0
 --- !u!1 &4018138924763266282
 GameObject:
