@@ -75,7 +75,7 @@ public class Map : MonoBehaviour
             }
             else
             {
-                MapLoad();
+                MapLoad("1");
             }
         }
         else
