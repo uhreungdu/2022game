@@ -8,6 +8,7 @@ public class UImanager : MonoBehaviour
     // Start is called before the first frame update
     private static UImanager instance;
     public GameManager gmanager;
+    public GameObject Score;
     public List<GameObject> Score_UI = new List<GameObject>();
     public GameObject Canvas;
     public static UImanager GetInstance()
@@ -28,9 +29,11 @@ public class UImanager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            Score_UI.Add(GameObject.Find("Team_Blue_Score"));
-            Score_UI.Add(GameObject.Find("Team_Red_Score"));
             Canvas = GameObject.Find("Canvas");
+            Score = Canvas.transform.Find("Score").gameObject;
+            Score_UI.Add(Score.transform.Find("TeamBlueScore").gameObject);
+            Score_UI.Add(Score.transform.Find("TeamRedScore").gameObject);
+            Score_UI.Add(Score.transform.Find("ScoreCenter").gameObject);
         }
         else if( instance != this)
         {
@@ -61,9 +64,33 @@ public class UImanager : MonoBehaviour
     }
     void UpdateGameScore()
     {
-        for(int i = 0; i<2; ++i)
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        int[] teamScore = new int[2];
+        float[] teamScoreRatio = new float[2];
+        
+        for (int i = 0; i < 6; ++i)
         {
-            Score_UI[i].GetComponent<ScoreText>().UpdateScore(gmanager.getScore(i));
+            if (myInRoomInfo.Infomations[i].Name != "")
+            {
+                teamScore[i % 2] += myInRoomInfo.Infomations[i].TotalGetPoint;
+            }
         }
+        for(int i = 0; i < 2; ++i)
+        {
+            teamScore[i] += gmanager.getScore(i);
+        }
+        
+        for(int i = 0; i < 2; ++i)
+        {
+            if ((teamScore[0] + teamScore[1]) == 0)
+            {
+                teamScoreRatio[i] = 0.5f;
+            }
+            else
+                teamScoreRatio[i] = teamScore[i] / (float)(teamScore[0] + teamScore[1]);
+            Score_UI[i].GetComponent<Image>().fillAmount = teamScoreRatio[i];
+        }
+        Vector3 CenterPosition = new Vector3((teamScoreRatio[0] * 1500) - 750, Score_UI[2].transform.localPosition.y, Score_UI[2].transform.localPosition.z);
+        Score_UI[2].transform.localPosition = CenterPosition;
     }
 }

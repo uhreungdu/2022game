@@ -163,7 +163,7 @@ public class PlayerState : LivingEntity, IPunObservable
         _playerAnimator.lastFalldownTime = Time.time;
         BoxCollider[] _attackboxColliders = _AttackGameObject.GetComponentsInChildren<BoxCollider>();
         foreach (BoxCollider child in _attackboxColliders)
-        { 
+        {
             child.enabled = false;
         }
 
@@ -223,7 +223,6 @@ public class PlayerState : LivingEntity, IPunObservable
                 coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f);
             }
         }
-        point = 0;
         if (photonView.IsMine)
         {
             int Slotnum = -1;
@@ -233,9 +232,14 @@ public class PlayerState : LivingEntity, IPunObservable
                 if (info.Name == NickName)
                     Slotnum = info.SlotNum;
             }
+
             if (Slotnum != -1)
-                photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, point);
+            {
+                photonView.RPC("NetWorkdelScore", RpcTarget.All, point);
+                photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
+            }
         }
+        point = 0;
         Invoke("Respawn", 10f);
     }
 
@@ -343,7 +347,7 @@ public class PlayerState : LivingEntity, IPunObservable
             coinPosition.x = coinPosition.x + (radius * Mathf.Cos(radian));
             coinPosition.z = coinPosition.z + (radius * Mathf.Sin(radian));
             coinPosition.y = coinPosition.y + 10f;
-            GameObject coin =
+            GameObject coin = 
                 PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, coinprefab.transform.rotation);
             Vector3 explosionPosition = transform.position;
             coin.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionPosition, 10f, explosionForce / 2);
