@@ -218,6 +218,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         return gamescore[team] += point;
     }
+    
+    public int delScore(int team, int point)
+    {
+        return gamescore[team] -= point;
+    }
 
     public int getTeamcount(int num)
     {
