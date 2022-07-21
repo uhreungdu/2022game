@@ -48,6 +48,11 @@ public class Map : MonoBehaviour
     private List<GameObject> Planes = new List<GameObject>();
     public InputField FileNameInput;
 
+    public float MaximumX = -Int32.MaxValue;
+    public float MaximumZ = -Int32.MaxValue;
+    public float MinimumX = Int32.MaxValue;
+    public float MinimumZ = Int32.MaxValue;
+
     public GameObject[] Prefs;
 
     private float x = 20;
@@ -70,6 +75,7 @@ public class Map : MonoBehaviour
                 if (PhotonNetwork.IsMasterClient)
                 {
                     CreateNetworkMap();
+                    MeasurementMap();
                     GameObject.Find("NetworkManager").GetComponent<NetworkManager>().SpawnPlayerEvent();
                 }
             }
@@ -333,6 +339,22 @@ public class Map : MonoBehaviour
             GameObject tilepref = SetTilepref(maptile.Tiles[i].kind);
             GameObject temp = PhotonNetwork.InstantiateRoomObject(tilepref.name, maptile.Tiles[i].position, maptile.Tiles[i].rotate);
         }
+    }
+
+    public void MeasurementMap()
+    {
+        foreach (var tile in maptile.Tiles)
+        {
+            if (tile.position.x > MaximumX)
+                MaximumX = tile.position.x;
+            if (tile.position.z > MaximumZ)
+                MaximumZ = tile.position.z;
+            if (tile.position.x < MinimumX)
+                MinimumX = tile.position.x;
+            if (tile.position.z < MinimumZ)
+                MinimumZ = tile.position.z;
+        }
+        print($"MaximumX = {MaximumX}, MaximumZ = {MaximumZ}, MinimumX = {MinimumX}, MinimumZ = {MinimumZ}");
     }
     
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
