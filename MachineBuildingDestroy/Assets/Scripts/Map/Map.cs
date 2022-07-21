@@ -298,7 +298,6 @@ public class Map : MonoBehaviour
                 Destroy(temp.GetComponentInChildren<LandMarkObject>());
             }
         }
-
     }
 
     public void ReLoadMap()
