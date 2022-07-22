@@ -58,7 +58,6 @@ public class PlayerInteract : MonoBehaviourPun
                 {
                     if (photonView.IsMine)
                     {
-                        photonView.RPC("NetWorkaddScore", RpcTarget.All);
                         int Slotnum = -1;
                         MyInRoomInfo inRoomInfo = MyInRoomInfo.GetInstance();
                         foreach (var info in inRoomInfo.Infomations)
@@ -68,10 +67,11 @@ public class PlayerInteract : MonoBehaviourPun
                         }
                         if (Slotnum != -1)
                         {
-                            photonView.RPC("AddPointCount", RpcTarget.All, Slotnum, playerState.point);
-                            photonView.RPC("GetPointCount", RpcTarget.All, Slotnum, 0);
+                            //photonView.RPC("AddPointCount", RpcTarget.All, Slotnum, playerState.point);
+                            photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
+                            photonView.RPC("NetWorkResetPoint", RpcTarget.AllViaServer);
                         }
-                        photonView.RPC("SetOnHeadCoinNum", RpcTarget.All, playerState.point.ToString());
+                        photonView.RPC("SetOnHeadCoinNum", RpcTarget.AllViaServer, playerState.point.ToString());
                     }
                     if (photonView.IsMine)
                         _Progressbar.gameObject.SetActive(false);
@@ -96,12 +96,21 @@ public class PlayerInteract : MonoBehaviourPun
     }
     
     [PunRPC]
-    public void NetWorkaddScore()
+    public void NetWorkaddScore(int point)
     {
-        gManager.addScore(playerState.team, playerState.point);
+        gManager.addScore(playerState.team, point);
+        //playerState.ResetPoint();
+    }
+    [PunRPC]
+    public void NetWorkdelScore(int point)
+    {
+        gManager.delScore(playerState.team, point);
+    }
+    [PunRPC]
+    public void NetWorkResetPoint()
+    {
         playerState.ResetPoint();
     }
-    
 
     private void ProgressbarUpdate()
     {
