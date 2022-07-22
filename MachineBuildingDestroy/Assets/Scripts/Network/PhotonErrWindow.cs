@@ -8,5 +8,6 @@ public class PhotonErrWindow : MonoBehaviour
     private void Start()
     {
         NetworkManager.GetInstance().photonErrWindow = this.gameObject;
+        gameObject.SetActive(false);
     }
 }
