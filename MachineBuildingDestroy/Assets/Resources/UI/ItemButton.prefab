@@ -134,7 +134,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ee483b43721694cb13c42a8f10c3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gManager: {fileID: 0}
   isPressed: 0
+  itemImage: {fileID: 7532934404742445997}
+  itemImages:
+  - {fileID: 4565309332300815021, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+  - {fileID: -5528109249921028640, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+  - {fileID: -6058912753807448768, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+  - {fileID: 5842256662924946513, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+  - {fileID: -1707224240996072244, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+  - {fileID: 2512719813778086948, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+  - {fileID: 1899149257151751030, guid: c450aba983b87954399fa17e435f0abc, type: 3}
 --- !u!114 &1538480589327308622
 MonoBehaviour:
   m_ObjectHideFlags: 0
