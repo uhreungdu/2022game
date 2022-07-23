@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MeteoBodyMat
+  m_Shader: {fileID: -6465566751694194690, guid: e16a726990870774e8b81075c188e3da, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_119d5571606e469f80526e924f8304c3:
+        m_Texture: {fileID: 2800000, guid: 287e529f94cec764ca4a305dcea28ab6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_7237c4bf381d41f3babd809b85d6139d:
+        m_Texture: {fileID: 2800000, guid: 62767c257340c23458d38bc3401fc28f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_31c0d9897e0c4e1a8eb1283653d9163c: 8
+    - Vector1_76513775be774c7fbc8418e6b6a7b60c: -0.5
+    m_Colors:
+    - Color_10a33e6d661a4f568940b655ba98d138: {r: 0.7490196, g: 0.26036543, b: 0.02745099, a: 0}
+    - Color_98b48a80bcac4a46abf2484ba3ab5f74: {r: 1.4980392, g: 0.7766025, b: 0, a: 0}
+  m_BuildTextureStacks: []
