@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.045817133, g: 0.022596382, b: 0.087358035, a: 1}
+  m_IndirectSpecularColor: {r: 0.04598633, g: 0.023034934, b: 0.08608613, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1828,11 +1828,63 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8436915904983390509, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+      propertyPath: attackImage
+      value: 
+      objectReference: {fileID: 729604022}
+    - target: {fileID: 8436915904983390509, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+      propertyPath: itemImages.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8436915904983390509, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+      propertyPath: itemImages.Array.data[0]
+      value: 
+      objectReference: {fileID: -9170180018515363463, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+    - target: {fileID: 8436915904983390509, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+      propertyPath: itemImages.Array.data[1]
+      value: 
+      objectReference: {fileID: -5528109249921028640, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+    - target: {fileID: 8436915904983390509, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+      propertyPath: itemImages.Array.data[2]
+      value: 
+      objectReference: {fileID: -6058912753807448768, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+    - target: {fileID: 8436915904983390509, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+      propertyPath: itemImages.Array.data[3]
+      value: 
+      objectReference: {fileID: 5842256662924946513, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+    - target: {fileID: 8436915904983390509, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+      propertyPath: itemImages.Array.data[4]
+      value: 
+      objectReference: {fileID: -1707224240996072244, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+    - target: {fileID: 8436915904983390509, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+      propertyPath: itemImages.Array.data[5]
+      value: 
+      objectReference: {fileID: 2512719813778086948, guid: c450aba983b87954399fa17e435f0abc, type: 3}
+    - target: {fileID: 8436915904983390509, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+      propertyPath: itemImages.Array.data[6]
+      value: 
+      objectReference: {fileID: 1899149257151751030, guid: c450aba983b87954399fa17e435f0abc, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
 --- !u!224 &729604021 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8436915904983390505, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+  m_PrefabInstance: {fileID: 729604020}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &729604022 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8436915904983390507, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
+  m_PrefabInstance: {fileID: 729604020}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729604023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &729604023 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8436915904983390504, guid: eabdce6c40a03e04fadf065d2de9a09d, type: 3}
   m_PrefabInstance: {fileID: 729604020}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &906538417
@@ -4696,6 +4748,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7532934404742445999, guid: 8ad622e452e05f24c8507330e6c5d238, type: 3}
+      propertyPath: attackButton
+      value: 
+      objectReference: {fileID: 729604023}
     - target: {fileID: 7532934404742446001, guid: 8ad622e452e05f24c8507330e6c5d238, type: 3}
       propertyPath: m_Name
       value: ItemButton

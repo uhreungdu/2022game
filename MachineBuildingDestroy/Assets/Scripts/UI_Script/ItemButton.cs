@@ -11,6 +11,8 @@ public class ItemButton : MonoBehaviour
     public Image itemImage;
     public Sprite[] itemImages;
 
+    public GameObject attackButton;
+
     private void Awake()
     {
         gManager=GameManager.GetInstance();
@@ -28,6 +30,18 @@ public class ItemButton : MonoBehaviour
     
     public void ButtonDown()
     {
+        var item_type = gManager.player_stat.Item_num;
+        switch (item_type)
+        {
+            case item_box_make.item_type.obstacles:
+            case item_box_make.item_type.potion:
+            case item_box_make.item_type.Gun:
+            case item_box_make.item_type.Hammer:
+                attackButton.GetComponent<AttackButton>().ChangeButtonImage(item_type);
+                break;
+            default: 
+                break;
+        }
         isPressed = true;
     }
     

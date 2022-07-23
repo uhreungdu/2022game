@@ -38,7 +38,8 @@ public class PlayerKeySystem : MonoBehaviourPun
     public Rigidbody item_Rigid;
     public Collider item_Coll;
     public Quaternion parent_qut;
-    
+
+    private AttackButton _attackButton;
 
     void Start()
     {
@@ -47,7 +48,8 @@ public class PlayerKeySystem : MonoBehaviourPun
         _playerAnimator = GetComponentInChildren<PlayerAnimator>();
         Thirdpersonmove = GetComponentInChildren<Thirdpersonmove>();
         _playerEquipitem = GetComponent<PlayerEquipitem>();
-        
+        if (photonView.IsMine && Application.platform == RuntimePlatform.Android)
+            _attackButton = GameObject.Find("AttackButton").GetComponent<AttackButton>();
     }
 
     // ������ ������ ȣ��˴ϴ�.
@@ -85,6 +87,8 @@ public class PlayerKeySystem : MonoBehaviourPun
                     case item_box_make.item_type.obstacles:
                         Throw_item();
                         _playerAnimator.Throw();
+                        // 공격버튼 원래대로 바꾸기
+                        _attackButton.ChangeButtonImage(item_box_make.item_type.no_item);
                         break;
                     case item_box_make.item_type.Hammer:
                         _playerAnimator.HammerAttack();
