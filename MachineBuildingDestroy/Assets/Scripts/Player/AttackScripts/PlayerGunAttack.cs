@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Configuration;
 using Photon.Pun;
 using UnityEngine;
 

@@ -19,6 +19,7 @@ public class PlayerInteract : MonoBehaviourPun
     
     public UImanager _UImanager;
     private Slider _Progressbar;
+    private Button _interactButton;
     void Start()
     {
         lastTime = -1;
@@ -26,6 +27,9 @@ public class PlayerInteract : MonoBehaviourPun
         playerState = GetComponentInParent<PlayerState>();
         gManager = GameManager.GetInstance();
         _UImanager = UImanager.GetInstance();
+        
+        if (photonView.IsMine && Application.platform == RuntimePlatform.Android)
+            _interactButton = GameObject.Find("InteractButton").GetComponent<Button>();
         
         for (int i = 0; i < _UImanager.Canvas.transform.childCount; ++i)
         {
@@ -46,6 +50,13 @@ public class PlayerInteract : MonoBehaviourPun
                 neargoalpost = true;
             else
                 neargoalpost = false;
+
+            // 모바일용 동전 넣는버튼 활성화 & 비활성화
+            if (photonView.IsMine && Application.platform == RuntimePlatform.Android)
+            {
+                _interactButton.interactable = neargoalpost;   
+            }
+            
             if (photonView.IsMine && gamePlayerInput.Interaction && neargoalpost)
             {
                 if (lastTime < 0)
