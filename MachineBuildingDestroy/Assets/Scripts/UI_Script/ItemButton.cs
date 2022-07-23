@@ -23,6 +23,7 @@ public class ItemButton : MonoBehaviour
     public void ButtonUp()
     {
         isPressed = false;
+        GetComponent<Button>().interactable = false;
     }
     
     public void ButtonDown()
