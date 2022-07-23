@@ -28,7 +28,7 @@ public class PlayerInteract : MonoBehaviourPun
         gManager = GameManager.GetInstance();
         _UImanager = UImanager.GetInstance();
         
-        if (photonView.IsMine && Application.platform != RuntimePlatform.Android)
+        if (photonView.IsMine && Application.platform == RuntimePlatform.Android)
             _interactButton = GameObject.Find("InteractButton").GetComponent<Button>();
         
         for (int i = 0; i < _UImanager.Canvas.transform.childCount; ++i)
