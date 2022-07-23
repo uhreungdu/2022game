@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -15,6 +16,7 @@ public class GoatHeavyRain : MonoBehaviour
     }
 
     public Map map;
+    public GameObject GoatHeavyRainPref;
     private List<GoatHeavyRainInfo> GoatHeavyRainInfos = new List<GoatHeavyRainInfo>();
     private bool GoatHeavyRainDelay;
 
@@ -25,12 +27,15 @@ public class GoatHeavyRain : MonoBehaviour
             // 부하가 많은 작업 손으로 집어넣지 않았을 경우 방지
             map = GameObject.Find("Map").GetComponent<Map>();
         }
-
+        if (GoatHeavyRainPref == null)
+            GoatHeavyRainPref = Resources.Load<GameObject>("Effect/GoatHeavyRain");
         GoatHeavyRainDelay = false;
     }
 
     public void Update()
     {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
         if (GoatHeavyRainDelay == false)
             StartCoroutine(HeavyRainLoop());
         DebugGoatHeavyRainInfo();
@@ -66,6 +71,15 @@ public class GoatHeavyRain : MonoBehaviour
             }
             safety++;
         }
+        GameObject GoatHeavyRainObj = PhotonNetwork.InstantiateRoomObject("Effect/GoatHeavyRain",
+            returnGoatHeavyRainInfo.StartPosition, Quaternion.LookRotation(returnGoatHeavyRainInfo.Path));
+        GoatHeavyRainObject GoatHeavyRainObject = GoatHeavyRainObj.GetComponent<GoatHeavyRainObject>();
+        GoatHeavyRainObject._goatHeavyRainInfo = returnGoatHeavyRainInfo;
+        
+        GameObject DangerzoneObj = PhotonNetwork.InstantiateRoomObject("Effect/Dangerzone",
+            returnGoatHeavyRainInfo.EndPosition, Quaternion.identity);
+        GoatHeavyRainObject.Dangerzone = DangerzoneObj;
+        
         return returnGoatHeavyRainInfo;
     }
 
