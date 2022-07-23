@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 instance = container.AddComponent<GameManager>();
             }
         }
-
         return instance;
     }
 
@@ -43,6 +42,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         public bool itembox_Create;
         public bool goalpost_Create;
         public bool landmakr_Create;
+        public bool goatheavyrain_Create;
         public bool gameSet;
         public float gameSetTime;
 
@@ -75,6 +75,20 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 goalpost_Create = false;
+            }
+        }
+        
+        public void Active_goatheavyrain()
+        {
+            if ((int) Ntimer / 60 > 0 && (int) Ntimer % 20 < 10)
+            {
+                gameSetTime = Ntimer;
+                goatheavyrain_Create = true;
+                //Debug.Log("아이템 생성");
+            }
+            else
+            {
+                goatheavyrain_Create = false;
             }
         }
 
