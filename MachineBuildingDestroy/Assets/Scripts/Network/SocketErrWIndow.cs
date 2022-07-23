@@ -7,5 +7,6 @@ public class SocketErrWIndow : MonoBehaviour
     private void Start()
     {
         LoginDBConnection.GetInstance().socketErrWindow = this.gameObject;
+        gameObject.SetActive(false);
     }
 }
