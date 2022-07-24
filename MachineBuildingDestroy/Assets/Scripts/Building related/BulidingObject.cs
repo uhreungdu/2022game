@@ -40,6 +40,7 @@ public class BulidingObject : LivingEntity
     public AudioClip _AudioClip;
 
     public int MaxCut = 6;
+    public bool ItIsLandMark = false;
 
     // Start is called before the first frame update
     protected void Start()
@@ -97,7 +98,7 @@ public class BulidingObject : LivingEntity
             }
             var objectName = gameObject.transform.root.name;
             objectName = objectName.Remove(objectName.Length - 7, 7);
-            if (GameManager.GetInstance().getTime().Ntimer < 180 - 45)
+            if (GameManager.GetInstance().getTime().Ntimer < 180 - 45 && !ItIsLandMark)
             {
                 _reSpawnTime = 45 - GameManager.GetInstance().getTime().Ntimer % 45;
                 AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
