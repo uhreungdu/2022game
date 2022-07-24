@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 // using static item_box_make.item_type;
 
@@ -70,7 +71,7 @@ public class PlayerState : LivingEntity, IPunObservable
     private GameObject Coinpref;
 
     public AudioSource _AudioSource;
-
+    private Button _itemButton;
 
     void Start()
     {
@@ -108,6 +109,9 @@ public class PlayerState : LivingEntity, IPunObservable
         if (photonView.IsMine)
         {
             photonView.RPC("SetOnHeadName", RpcTarget.All, PhotonNetwork.NickName);
+            
+            if (Application.platform == RuntimePlatform.Android)
+                _itemButton = GameObject.Find("ItemButton").GetComponent<Button>();
         }
 
         NickName = nameOnhead.GetComponent<TextMesh>().text;
@@ -299,6 +303,8 @@ public class PlayerState : LivingEntity, IPunObservable
     public void SetItemRPC(item_box_make.item_type dItemType)
     {
         Item = dItemType;
+        if (photonView.IsMine && Application.platform == RuntimePlatform.Android)
+            _itemButton.interactable = true;
     }
 
     public void ResetPoint()
