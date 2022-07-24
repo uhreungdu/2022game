@@ -135,6 +135,7 @@ MonoBehaviour:
   _AudioSource: {fileID: 0}
   _AudioClip: {fileID: 0}
   MaxCut: 6
+  ItIsLandMark: 0
 --- !u!114 &-8843706162784481365
 MonoBehaviour:
   m_ObjectHideFlags: 0
