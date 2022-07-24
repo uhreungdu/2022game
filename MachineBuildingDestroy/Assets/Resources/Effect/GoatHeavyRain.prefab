@@ -65,6 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dangerzone: {fileID: 0}
+  ExplosionRadius: 20
 --- !u!114 &-997908871265874294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +193,7 @@ TrailRenderer:
   m_Time: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1.5
+    widthMultiplier: 10
     widthCurve:
       serializedVersion: 2
       m_Curve:
