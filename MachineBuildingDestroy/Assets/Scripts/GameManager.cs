@@ -205,10 +205,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         for (int i = 0; i < 2; ++i)
         {
-            if (gamescore[i] <= 5)
-            {
+            // if (gamescore[i] <= 5)
+            // {
                 Time_check();
-            }
+            // }
         }
     }
 
