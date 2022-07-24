@@ -268,6 +268,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             EManager.Active_Itembox();
             EManager.Active_Goalopost();
             EManager.Active_landmakr();
+            EManager.Active_goatheavyrain();
             EManager.Active_gameSet();
         }
 
