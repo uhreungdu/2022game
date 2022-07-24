@@ -14,6 +14,8 @@ public class ParticleAutoDestroy : MonoBehaviourPun
  
     void Update ()
     {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
         if (ps.Length > 0)
         {
             bool AllAlive = true;
