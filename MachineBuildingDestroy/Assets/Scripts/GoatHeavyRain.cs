@@ -19,6 +19,7 @@ public class GoatHeavyRain : MonoBehaviour
     public GameObject GoatHeavyRainPref;
     private List<GoatHeavyRainInfo> GoatHeavyRainInfos = new List<GoatHeavyRainInfo>();
     private bool GoatHeavyRainDelay;
+    private GameManager _gameManager;
 
     public void Start()
     {
@@ -30,15 +31,16 @@ public class GoatHeavyRain : MonoBehaviour
         if (GoatHeavyRainPref == null)
             GoatHeavyRainPref = Resources.Load<GameObject>("Effect/GoatHeavyRain");
         GoatHeavyRainDelay = false;
+        _gameManager = GameManager.GetInstance();
     }
 
     public void Update()
     {
         if (!PhotonNetwork.IsMasterClient)
             return;
-        if (GoatHeavyRainDelay == false)
+        if (GoatHeavyRainDelay == false && _gameManager.EManager.goatheavyrain_Create)
             StartCoroutine(HeavyRainLoop());
-        DebugGoatHeavyRainInfo();
+        // DebugGoatHeavyRainInfo();
     }
 
     IEnumerator HeavyRainLoop()
@@ -71,6 +73,7 @@ public class GoatHeavyRain : MonoBehaviour
             }
             safety++;
         }
+        
         GameObject GoatHeavyRainObj = PhotonNetwork.InstantiateRoomObject("Effect/GoatHeavyRain",
             returnGoatHeavyRainInfo.StartPosition, Quaternion.LookRotation(returnGoatHeavyRainInfo.Path));
         GoatHeavyRainObject GoatHeavyRainObject = GoatHeavyRainObj.GetComponent<GoatHeavyRainObject>();
