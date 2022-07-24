@@ -88,7 +88,7 @@ public class PlayerKeySystem : MonoBehaviourPun
                         Throw_item();
                         _playerAnimator.Throw();
                         // 공격버튼 원래대로 바꾸기
-                        _attackButton.ChangeButtonImage(item_box_make.item_type.no_item);
+                        // _attackButton.ChangeButtonImage(item_box_make.item_type.no_item);
                         break;
                     case item_box_make.item_type.Hammer:
                         _playerAnimator.HammerAttack();
