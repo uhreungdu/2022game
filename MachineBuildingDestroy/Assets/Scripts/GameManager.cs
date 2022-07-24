@@ -80,9 +80,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         
         public void Active_goatheavyrain()
         {
-            if ((int) Ntimer / 60 > 0 && (int) Ntimer % 20 < 10)
+            if ((int) Ntimer >= 60 && (int) Ntimer < 80)
             {
-                gameSetTime = Ntimer;
                 goatheavyrain_Create = true;
                 //Debug.Log("아이템 생성");
             }
