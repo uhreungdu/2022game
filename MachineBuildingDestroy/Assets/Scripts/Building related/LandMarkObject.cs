@@ -24,6 +24,7 @@ public class LandMarkObject : BulidingObject
         _Colliders = GetComponents<Collider>();
         _rigidbody = GetComponent<Rigidbody>();
         originTransform = transform.position;
+        ItIsLandMark = true;
     }
     void Update()
     {
