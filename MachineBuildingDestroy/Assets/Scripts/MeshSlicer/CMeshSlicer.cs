@@ -274,8 +274,6 @@ public class CMeshSlicer : MonoBehaviour
 
         aObject.AddComponent<Rigidbody>();
         bObject.AddComponent<Rigidbody>();
-        aObject.AddComponent<PhotonRigidbodyView>();
-        bObject.AddComponent<PhotonRigidbodyView>();
         aObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         bObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         aObject.AddComponent<MeshCollider>();

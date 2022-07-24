@@ -65,6 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dangerzone: {fileID: 0}
+  ExplosionRadius: 20
 --- !u!114 &-997908871265874294
 MonoBehaviour:
   m_ObjectHideFlags: 0

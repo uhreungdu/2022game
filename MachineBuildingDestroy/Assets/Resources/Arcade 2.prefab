@@ -119,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 30
   coinprefab: {fileID: 2259895039089517027, guid: 482cee03c4f569540bd6466c1ccc1114, type: 3}
-  point: 5
+  point: 3
   boxmaterial: {fileID: 2100000, guid: e2e1dd3b608a36a43b6b9f3c552da343, type: 2}
   rigidbody: {fileID: 0}
   _MeshRenderer: {fileID: 0}
@@ -135,6 +135,7 @@ MonoBehaviour:
   _AudioSource: {fileID: 0}
   _AudioClip: {fileID: 0}
   MaxCut: 6
+  ItIsLandMark: 0
 --- !u!114 &-8843706162784481365
 MonoBehaviour:
   m_ObjectHideFlags: 0

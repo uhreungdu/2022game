@@ -33,9 +33,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         public int sec;
         public float Ntimer;
     }
-
+    
     public timer_block now_timer;
-
+    
     public class Event_manager
     {
         public float Ntimer;
@@ -185,7 +185,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
-        now_timer.Ntimer += Time.deltaTime;
+        if (PhotonNetwork.IsMasterClient)
+            now_timer.Ntimer += Time.deltaTime;
         // °ÔÀÓ ³¡
         if (EManager.gameSet && now_timer.Ntimer >= EManager.gameSetTime + 5)
         {

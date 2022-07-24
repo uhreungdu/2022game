@@ -29,6 +29,7 @@ public class LandMarkObject : BulidingObject
     void Update()
     {
         base.Update();
+        if (!PhotonNetwork.IsMasterClient) return;
         if (_gameManager == null)
         {
             
