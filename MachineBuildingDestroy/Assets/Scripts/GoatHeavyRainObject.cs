@@ -83,7 +83,6 @@ public class GoatHeavyRainObject : MonoBehaviourPun
                         playerState.NetworkOnDamage(80);
                 }
             }
-
             PhotonNetwork.InstantiateRoomObject("Effect/MeteosExplosion",
                 _goatHeavyRainInfo.EndPosition, Quaternion.identity);
             PhotonNetwork.Destroy(Dangerzone);
