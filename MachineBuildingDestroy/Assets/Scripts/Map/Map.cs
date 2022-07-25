@@ -143,7 +143,7 @@ public class Map : MonoBehaviour
 
     public static List<T> LoadListJsonFile<T>()
     {
-        String FolderName = Application.dataPath + "/" + "Map";
+        String FolderName = Application.streamingAssetsPath + "/" + "Map";
         System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(FolderName);
         List<T> maptiles = new List<T>();
         if (di.Exists)
@@ -167,7 +167,7 @@ public class Map : MonoBehaviour
     
     public static List<string> LoadNameFile()
     {
-        String FolderName = Application.dataPath + "/" + "Map";
+        String FolderName = Application.streamingAssetsPath + "/" + "Map";
         System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(FolderName);
         List<string> NameList = new List<string>();
         if (di.Exists)
@@ -258,7 +258,7 @@ public class Map : MonoBehaviour
             
         }
         Debug.Log(jsonData);
-        CreateJsonFile(Application.dataPath + "/" + "Map", mapname, jsonData);
+        CreateJsonFile(Application.streamingAssetsPath + "/" + "Map", mapname, jsonData);
     }
 
     public GameObject SetTilepref(int kind)
@@ -281,7 +281,7 @@ public class Map : MonoBehaviour
         }
         if (maptile.Tiles.Count >= 1)
             maptile.Tiles.Clear();
-        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath + "/" + "Map", loadPath);
+        var jtc2 = LoadJsonFile<Maptile>(Application.streamingAssetsPath + "/" + "Map", loadPath);
         maptile = jtc2;
 
         for (int i = 0; i < maptile.Tiles.Count; ++i)
@@ -329,7 +329,7 @@ public class Map : MonoBehaviour
     public void CreateNetworkMap()
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        var jtc2 = LoadJsonFile<Maptile>(Application.dataPath + "/" + "Map", myInRoomInfo.MapName);
+        var jtc2 = LoadJsonFile<Maptile>(Application.streamingAssetsPath + "/" + "Map", myInRoomInfo.MapName);
         maptile = jtc2;
         // jtc2.Print();
 
