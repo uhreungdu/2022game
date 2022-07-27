@@ -7,48 +7,52 @@ using UnityEngine.InputSystem;
 
 public class Gun : MonoBehaviourPun
 {
-    public int Durability = 200;
+    public int Durability = 100;
 
     public PlayerState _PlayerState;
-    
+
     private AttackButton _attackButton;
     // Update is called once per frame
 
     void Start()
     {
         _PlayerState = transform.root.GetComponent<PlayerState>();
-        
+
         if (transform.root.GetComponent<PhotonView>().IsMine && Application.platform == RuntimePlatform.Android)
             _attackButton = GameObject.Find("AttackButton").GetComponent<AttackButton>();
     }
 
     private void Awake()
     {
-        Durability = 200;
+        Durability = 100;
     }
 
     void Update()
     {
-        if (Durability <= 0)
+        if (photonView.IsMine)
         {
-            photonView.RPC("NoDurabilityCheck", RpcTarget.AllViaServer);
-            if (transform.root.GetComponent<PhotonView>().IsMine && Application.platform == RuntimePlatform.Android)
+            if (Durability <= 0)
             {
-                // 공격버튼 원래대로 바꾸기
-                _attackButton.ChangeButtonImage(item_box_make.item_type.no_item);
+                photonView.RPC("NetworkNoDurabilityCheck", RpcTarget.AllViaServer);
+                if (transform.root.GetComponent<PhotonView>().IsMine && Application.platform == RuntimePlatform.Android)
+                {
+                    // 공격버튼 원래대로 바꾸기
+                    _attackButton.ChangeButtonImage(item_box_make.item_type.no_item);
+                }
             }
         }
     }
-    
-    [PunRPC]
-    void NoDurabilityCheck()
+
+    public void NoDurabilityCheck()
     {
-        if (Durability <= 0)
-        {
-            _PlayerState.nowEquip = false;
-            _PlayerState.Item = item_box_make.item_type.no_item;
-            gameObject.SetActive(false);
-        }
+        _PlayerState.nowEquip = false;
+        _PlayerState.Item = item_box_make.item_type.no_item;
+        gameObject.SetActive(false);
     }
-    
+
+    [PunRPC]
+    public void NetworkNoDurabilityCheck()
+    {
+        NoDurabilityCheck();
+    }
 }

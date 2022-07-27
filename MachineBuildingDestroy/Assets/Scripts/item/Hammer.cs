@@ -27,25 +27,30 @@ public class Hammer : MonoBehaviourPun
 
     void Update()
     {
-        if (Durability <= 0)
+        if (photonView.IsMine)
         {
-            photonView.RPC("NoDurabilityCheck", RpcTarget.AllViaServer);
-            if (transform.root.GetComponent<PhotonView>().IsMine && Application.platform == RuntimePlatform.Android)
+            if (Durability <= 0)
             {
-                // 공격버튼 원래대로 바꾸기
-                _attackButton.ChangeButtonImage(item_box_make.item_type.no_item);
+                photonView.RPC("NetworkNoDurabilityCheck", RpcTarget.AllViaServer);
+                if (transform.root.GetComponent<PhotonView>().IsMine && Application.platform == RuntimePlatform.Android)
+                {
+                    // 공격버튼 원래대로 바꾸기
+                    _attackButton.ChangeButtonImage(item_box_make.item_type.no_item);
+                }
             }
         }
     }
 
-    [PunRPC]
-    void NoDurabilityCheck()
+    public void NoDurabilityCheck()
     {
-        if (Durability <= 0)
-        {
-            _PlayerState.nowEquip = false;
-            _PlayerState.Item = item_box_make.item_type.no_item;
-            gameObject.SetActive(false);
-        }
+        _PlayerState.nowEquip = false;
+        _PlayerState.Item = item_box_make.item_type.no_item;
+        gameObject.SetActive(false);
+    }
+
+    [PunRPC]
+    public void NetworkNoDurabilityCheck()
+    {
+        NoDurabilityCheck();
     }
 }
