@@ -83,6 +83,7 @@ MonoBehaviour:
   - SetOnHeadCoinNum
   - NetWorkdelScore
   - NetWorkResetPoint
+  - AddTime
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
