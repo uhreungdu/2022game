@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
 
-public class Gun : MonoBehaviour
+public class Gun : MonoBehaviourPun
 {
     public int Durability = 200;
 
@@ -31,14 +31,24 @@ public class Gun : MonoBehaviour
     {
         if (Durability <= 0)
         {
-            _PlayerState.nowEquip = false;
-            _PlayerState.Item = item_box_make.item_type.no_item;
+            photonView.RPC("NoDurabilityCheck", RpcTarget.AllViaServer);
             if (transform.root.GetComponent<PhotonView>().IsMine && Application.platform == RuntimePlatform.Android)
             {
                 // 공격버튼 원래대로 바꾸기
                 _attackButton.ChangeButtonImage(item_box_make.item_type.no_item);
             }
+        }
+    }
+    
+    [PunRPC]
+    void NoDurabilityCheck()
+    {
+        if (Durability <= 0)
+        {
+            _PlayerState.nowEquip = false;
+            _PlayerState.Item = item_box_make.item_type.no_item;
             gameObject.SetActive(false);
         }
     }
+    
 }
