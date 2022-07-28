@@ -120,11 +120,22 @@ public class Map : MonoBehaviour
         string jsonData;
         try
         {
-            fileStream = new FileStream(string.Format("{0}/{1}.json", loadPath, fileName), FileMode.Open);
-            byte[] data = new byte[fileStream.Length];
-            fileStream.Read(data, 0, data.Length);
-            fileStream.Close();
-            jsonData = Encoding.UTF8.GetString(data);
+            if (RuntimePlatform.Android == Application.platform)
+            {
+                BetterStreamingAssets.Initialize();
+                byte[] data =
+                    BetterStreamingAssets.ReadAllBytes("Map/" + fileName + ".json");
+                jsonData = Encoding.UTF8.GetString(data);
+            }
+            else
+            {
+                fileStream = new FileStream(string.Format("{0}/{1}.json", loadPath, fileName), FileMode.Open);
+                byte[] data = new byte[fileStream.Length];
+                fileStream.Read(data, 0, data.Length);
+                fileStream.Close();
+                jsonData = Encoding.UTF8.GetString(data);
+            }
+
             return JsonUtility.FromJson<T>(jsonData);
         }
         catch (FileNotFoundException ioEx)
