@@ -120,11 +120,22 @@ public class Map : MonoBehaviour
         string jsonData;
         try
         {
-            fileStream = new FileStream(string.Format("{0}/{1}.json", loadPath, fileName), FileMode.Open);
-            byte[] data = new byte[fileStream.Length];
-            fileStream.Read(data, 0, data.Length);
-            fileStream.Close();
-            jsonData = Encoding.UTF8.GetString(data);
+            if (RuntimePlatform.Android == Application.platform)
+            {
+                BetterStreamingAssets.Initialize();
+                byte[] data =
+                    BetterStreamingAssets.ReadAllBytes("Map/" + fileName + ".json");
+                jsonData = Encoding.UTF8.GetString(data);
+            }
+            else
+            {
+                fileStream = new FileStream(string.Format("{0}/{1}.json", loadPath, fileName), FileMode.Open);
+                byte[] data = new byte[fileStream.Length];
+                fileStream.Read(data, 0, data.Length);
+                fileStream.Close();
+                jsonData = Encoding.UTF8.GetString(data);
+            }
+
             return JsonUtility.FromJson<T>(jsonData);
         }
         catch (FileNotFoundException ioEx)
@@ -167,24 +178,40 @@ public class Map : MonoBehaviour
     
     public static List<string> LoadNameFile()
     {
+        BetterStreamingAssets.Initialize();
         String FolderName = Application.streamingAssetsPath + "/" + "Map";
         System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(FolderName);
         List<string> NameList = new List<string>();
-        if (di.Exists)
+
+        if (RuntimePlatform.Android == Application.platform)
         {
-            foreach (System.IO.FileInfo File in di.GetFiles())
+            //loaded to Map/example.json
+            string[] paths = BetterStreamingAssets.GetFiles("Map", "*.json");
+            foreach (var filepath in paths)
             {
-                string extension = ".json";
-                if (File.Extension.ToLower().CompareTo(extension) == 0)
+                string filename = filepath.Substring(4, filepath.Length - 4 - 5);
+                NameList.Add(filename);
+            }
+        }
+        else
+        {
+            if (di.Exists)
+            {
+                foreach (System.IO.FileInfo File in di.GetFiles())
                 {
-                    String FileNameOnly = File.Name.Substring(0, File.Name.Length - extension.Length);
-                    String FullFileName = File.FullName;
-                    String loadPath = FolderName;
-                    NameList.Add(FileNameOnly);
-                    print(FullFileName + " " + FileNameOnly);
+                    string extension = ".json";
+                    if (File.Extension.ToLower().CompareTo(extension) == 0)
+                    {
+                        String FileNameOnly = File.Name.Substring(0, File.Name.Length - extension.Length);
+                        String FullFileName = File.FullName;
+                        String loadPath = FolderName;
+                        NameList.Add(FileNameOnly);
+                        print(FullFileName + " " + FileNameOnly);
+                    }
                 }
             }
         }
+
         return NameList;
     }
     public void LoadMapFile(string loadPath, string fileName)

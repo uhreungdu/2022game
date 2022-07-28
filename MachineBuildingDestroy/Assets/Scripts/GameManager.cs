@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient && gameStart)
             now_timer.Ntimer += Time.deltaTime;
         // °ÔÀÓ ³¡
         if (EManager.gameSet && now_timer.Ntimer >= EManager.gameSetTime + 5)
@@ -249,6 +249,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     public void SetGameStart(bool start)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("SetGameStartRPC", RpcTarget.AllViaServer, start);
+        }
+    }
+
+    [PunRPC]
+    public void SetGameStartRPC(bool start)
     {
         gameStart = start;
     }
