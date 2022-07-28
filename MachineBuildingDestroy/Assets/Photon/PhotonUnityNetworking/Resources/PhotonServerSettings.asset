@@ -84,6 +84,8 @@ MonoBehaviour:
   - NetWorkdelScore
   - NetWorkResetPoint
   - AddTime
+  - NoDurabilityCheck
+  - NetworkNoDurabilityCheck
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
