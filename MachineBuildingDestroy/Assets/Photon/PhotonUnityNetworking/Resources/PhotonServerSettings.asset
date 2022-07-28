@@ -84,7 +84,7 @@ MonoBehaviour:
   - NetWorkdelScore
   - NetWorkResetPoint
   - AddTime
-  - NoDurabilityCheck
+  - SetGameStartRPC
   - NetworkNoDurabilityCheck
   DisableAutoOpenWizard: 1
   ShowSettings: 1
