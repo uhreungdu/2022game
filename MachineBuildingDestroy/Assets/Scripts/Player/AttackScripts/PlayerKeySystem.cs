@@ -41,6 +41,9 @@ public class PlayerKeySystem : MonoBehaviourPun
 
     private AttackButton _attackButton;
 
+    // 이거 트루로 바꾸면 번호로 세팅 가능
+    private bool Debugmode = true;
+
     void Start()
     {
         _gamePlayerInput = GetComponentInParent<GamePlayerInput>();
@@ -64,6 +67,22 @@ public class PlayerKeySystem : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
         // parent_qut = gameObject.transform.parent.transform.rotation;
+        if (Debugmode)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                _playerState.SetItemRPC(item_box_make.item_type.obstacles);
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                _playerState.SetItemRPC(item_box_make.item_type.potion);
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+                _playerState.SetItemRPC(item_box_make.item_type.Buff);
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+                _playerState.SetItemRPC(item_box_make.item_type.Gun);
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+                _playerState.SetItemRPC(item_box_make.item_type.Hammer);
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+                _playerState.SetItemRPC(item_box_make.item_type.EnergyWave);
+        }
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             _playerAnimator.DragonPunch();
