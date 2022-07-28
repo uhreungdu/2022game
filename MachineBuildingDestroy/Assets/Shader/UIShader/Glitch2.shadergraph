@@ -11,6 +11,9 @@
         },
         {
             "m_Id": "cce249b2a0be499e8a6e8683bd17fdb6"
+        },
+        {
+            "m_Id": "9d5626d89f6c483d9c0aec104750dd73"
         }
     ],
     "m_Keywords": [],
@@ -1369,6 +1372,29 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
+    "m_ObjectId": "9d5626d89f6c483d9c0aec104750dd73",
+    "m_Guid": {
+        "m_GuidSerialized": "5069942f-cab5-479c-ac11-e0a3cd31060a"
+    },
+    "m_Name": "NoiseTex",
+    "m_DefaultReferenceName": "Texture2D_9d5626d89f6c483d9c0aec104750dd73",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"c9fd339a21c61a448ae569b4e8fadfe9\",\"type\":3}}",
+        "m_Guid": ""
+    },
+    "m_Modifiable": true,
+    "m_DefaultType": 0
 }
 
 {
