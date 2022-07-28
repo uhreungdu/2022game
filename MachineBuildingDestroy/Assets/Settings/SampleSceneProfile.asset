@@ -16,7 +16,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   threshold:
     m_OverrideState: 1
-    m_Value: 0.7
+    m_Value: 0.9
     min: 0
   intensity:
     m_OverrideState: 1
@@ -145,7 +145,7 @@ MonoBehaviour:
     m_Value: {x: 1, y: 1, z: 1, w: -0.097270794}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 0.06688976}
+    m_Value: {x: 1, y: 1, z: 1, w: 0.18394664}
   gain:
     m_OverrideState: 1
     m_Value: {x: 1, y: 1, z: 1, w: -0.08902098}
