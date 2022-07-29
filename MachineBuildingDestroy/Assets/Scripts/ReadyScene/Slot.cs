@@ -14,18 +14,6 @@ public class Slot : MonoBehaviour,IPunObservable
     public GameObject platformImage;
     public Sprite[] platformIcons;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         SetText();
@@ -44,8 +32,15 @@ public class Slot : MonoBehaviour,IPunObservable
     private void SetText()
     {
         nicknameText.GetComponent<Text>().text = Nickname;
-        statusText.GetComponent<Text>().text = IsReady ? "ready!" : "";
         platformImage.GetComponent<Image>().sprite = platformIcons[Platform];
+        if (PhotonNetwork.IsMasterClient)
+        {
+            statusText.GetComponent<Text>().text = "";
+        }
+        else
+        {
+            statusText.GetComponent<Text>().text = IsReady ? "ready!" : "";
+        }
     }
     
     public string Nickname { get; set; } = "";
