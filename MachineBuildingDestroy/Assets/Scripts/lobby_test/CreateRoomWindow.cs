@@ -23,6 +23,8 @@ public class CreateRoomWindow : MonoBehaviour
     private int[] _playerNumArray = new int[3];
     private string[] _gameModeArray = new string[3];
 
+    private bool _makeRoom = false;
+
     public GameObject roomNameField;
     public GameObject playerNumField;
     public GameObject gameModeField;
@@ -49,7 +51,8 @@ public class CreateRoomWindow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        okButton.GetComponent<Button>().interactable = roomNameField.GetComponent<InputField>().text != "";
+        if (!_makeRoom)
+            okButton.GetComponent<Button>().interactable = roomNameField.GetComponent<InputField>().text != "";
     }
 
     public void OnClick(bool val)
@@ -57,6 +60,7 @@ public class CreateRoomWindow : MonoBehaviour
         // OK
         if (val)
         {
+            _makeRoom = true;
             okButton.GetComponent<Button>().interactable = false;
             var roomName = roomNameField.GetComponent<InputField>().text;
             _playerNum = (byte)_playerNumArray[playerNumField.GetComponent<Dropdown>().value];
