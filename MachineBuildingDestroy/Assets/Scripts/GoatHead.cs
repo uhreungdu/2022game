@@ -113,10 +113,10 @@ public class GoatHead : MonoBehaviourPun
     {
         if (_gameManager.EManager.goatheavyrain_Create)
         {
-            if (appearY <= -StartY + 30 && appear)
+            if (appearY <= -StartY + 60 && appear)
             {
                 Vector3 position = originTransform;
-                appearY += Time.deltaTime * (-StartY + 80 / 3.0f);
+                appearY += Time.deltaTime * (-StartY + 60 / 3.0f);
                 position.y += appearY;
                 transform.position = position;
             }
@@ -126,7 +126,7 @@ public class GoatHead : MonoBehaviourPun
             if (appearY >= 0 && appear)
             {
                 Vector3 position = originTransform;
-                appearY -= Time.deltaTime * (-StartY + 80 / 1.5f);
+                appearY -= Time.deltaTime * (-StartY + 60 / 1.5f);
                 position.y += appearY;
                 transform.position = position;
             }
