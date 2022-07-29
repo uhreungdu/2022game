@@ -23,7 +23,8 @@ namespace MyFirstPlugin
         HideBuildingFragments,
         PlayerSpawnFinish,
         LoadGame,
-        SendGameResult
+        SendGameResult,
+        ResetRoomUI
     }
 
     class PlayerInfo
@@ -111,6 +112,10 @@ namespace MyFirstPlugin
             else
             {
                 playerInfo.Remove(playerInfo.Find(x => x.Name == info.Nickname));
+
+                byte evCode = (byte)EventType.ResetRoomUI;
+                Dictionary<byte, object> data = new Dictionary<byte, object>();
+                BroadcastEvent(evCode, data);
             }
             PluginHost.LogInfo($"User {info.Nickname} exit room {internalRoomName}");
             base.OnLeave(info);
@@ -293,7 +298,7 @@ namespace MyFirstPlugin
 
         private void SendGameResultToDB(string playerName, bool isWin, ICallInfo info)
         {
-            string url = "http://127.0.0.1/gameresult.php?pname=" + "\"" + playerName + "\"";
+            string url = "http://127.0.0.1/gameresult/result.php?pname=" + "\"" + playerName + "\"";
             if (isWin) url = url + "&win=" + 1;
             else url = url + "&win=" + 0;
             HttpRequest request = new HttpRequest()

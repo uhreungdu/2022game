@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class RcvEvent : MonoBehaviourPun
@@ -111,6 +112,15 @@ public class RcvEvent : MonoBehaviourPun
                     {
                         child.gameObject.SetActive(true);
                     }
+                }
+                break;
+            }
+            case (byte) NetworkManager.EventCode.ResetRoomUI:
+            {
+                var sceneName = SceneManager.GetActiveScene().name;
+                if (sceneName == "ReadyRoom")
+                {
+                    GameObject.Find("Myroominfo").GetComponent<MyInRoomInfo>().isReady = false;
                 }
                 break;
             }

@@ -26,7 +26,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         HideBuildingFragments,
         SpawnPlayerFinish,
         LoadGame,
-        SendGameResult
+        SendGameResult,
+        ResetRoomUI
     }
 
     private static NetworkManager instance;
@@ -168,8 +169,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        photonErrWindow.SetActive(true);
-        photonErrWindow.GetComponentInChildren<Text>().text = cause.ToString();
+        if (photonErrWindow != null)
+        {
+            photonErrWindow.SetActive(true);
+            photonErrWindow.GetComponentInChildren<Text>().text = cause.ToString();
+        }
+
         print(cause.ToString());
         Logout(_account.GetPlayerID());
     }
