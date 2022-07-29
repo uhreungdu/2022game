@@ -13,6 +13,7 @@ public class LandMarkEffectControl : MonoBehaviour
     public GameManager _gameManager;
 
     public GameObject Landmarkobj;
+    public GameObject feild_Tex;
 
     public bool can_effect;
     // Start is called before the first frame update
@@ -21,7 +22,7 @@ public class LandMarkEffectControl : MonoBehaviour
         setting_effects();
         _gameManager = GameManager.GetInstance();
         can_effect = true;
-
+        feild_Tex.SetActive(true);
     }
 
     // Update is called once per frame
@@ -89,5 +90,6 @@ public class LandMarkEffectControl : MonoBehaviour
                 }
             }
         }
+        feild_Tex.SetActive(false);
     }
 }

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Glitch2_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: f8a0cfbc6017dc2488da9424ea6a83c8, type: 3}
+  m_Name: SunMat
+  m_Shader: {fileID: -6465566751694194690, guid: 70f3a0b034910f74b9fa9fb3a4d7838d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,16 +19,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_6a29fdd6f86b41b083d91e753cb66e6b:
-        m_Texture: {fileID: 2800000, guid: 9b80b5b39f5070e45af8dac7f33979fd, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_9d5626d89f6c483d9c0aec104750dd73:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_de92c25df6be4f818e68878ee51745dd:
-        m_Texture: {fileID: 2800000, guid: a6a6d1420c0ef314ca45ccbce6db544f, type: 3}
+    - Texture2D_35ebdd2ac3a64dd3a47e6f84e1d01cb3:
+        m_Texture: {fileID: 2800000, guid: aec9722a14b00e544a4d11f760d572fb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -43,10 +35,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - Vector1_909780fa090246d3a23ba9b58650e891: 0
-    - Vector1_cce249b2a0be499e8a6e8683bd17fdb6: 0
-    - _NoiseScale: 0
-    - _Timenoise: 0
-    m_Colors: []
+    m_Floats: []
+    m_Colors:
+    - Color_2a647becbff344c9be588bc220e1d844: {r: 2.4528303, g: 2.4528303, b: 2.4528303, a: 0}
   m_BuildTextureStacks: []
