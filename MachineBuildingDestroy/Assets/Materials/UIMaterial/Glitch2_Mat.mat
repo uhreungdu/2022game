@@ -42,7 +42,7 @@ Material:
     m_Floats:
     - Vector1_909780fa090246d3a23ba9b58650e891: 0
     - Vector1_cce249b2a0be499e8a6e8683bd17fdb6: 0
-    - _NoiseScale: 250
-    - _Timenoise: 10
+    - _NoiseScale: 0
+    - _Timenoise: 0
     m_Colors: []
   m_BuildTextureStacks: []
