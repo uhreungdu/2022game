@@ -162,7 +162,6 @@ public class PlayerKeySystem : MonoBehaviourPun
             {
                 case item_box_make.item_type.potion:
                 case item_box_make.item_type.obstacles:
-                // case item_box_make.item_type.EnergyWave:
                     Equip_item();
                     break;
                 default:
