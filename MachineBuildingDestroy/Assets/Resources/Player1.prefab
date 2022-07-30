@@ -1708,6 +1708,12 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: DragonPunch
+  - Type: 9
+    SynchronizeType: 0
+    Name: EnergyWave
+  - Type: 4
+    SynchronizeType: 0
+    Name: Shoot
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
