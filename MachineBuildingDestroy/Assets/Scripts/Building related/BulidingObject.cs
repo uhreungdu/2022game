@@ -106,9 +106,13 @@ public class BulidingObject : LivingEntity
             }
             else
             {
-                AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
-                    10);
+                _Gamemanager.EManager.landmakr_Create = false;
             }
+            // else
+            // {
+            //     AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
+            //         10);
+            // }
             BuildingDestroyEvent(photonView.ViewID);
         }
         _AudioSource.PlayOneShot(_AudioClip);

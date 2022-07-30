@@ -30,7 +30,7 @@ public class LandMarkEffectControl : MonoBehaviour
     {
         if (_gameManager.EManager.landmakr_Create)
         {
-            BulidingObject dBulidingObject = Landmarkobj.GetComponent<BulidingObject>();
+            LandMarkObject dBulidingObject = Landmarkobj.GetComponent<LandMarkObject>();
             if (Landmarkobj.transform.position.y < 0 && can_effect)
             {
                 Play_Effects();
