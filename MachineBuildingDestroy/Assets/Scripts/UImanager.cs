@@ -31,8 +31,8 @@ public class UImanager : MonoBehaviour
             instance = this;
             Canvas = GameObject.Find("Canvas");
             Score = Canvas.transform.Find("Score").gameObject;
-            Score_UI.Add(Score.transform.Find("TeamBlueScore").gameObject);
             Score_UI.Add(Score.transform.Find("TeamRedScore").gameObject);
+            Score_UI.Add(Score.transform.Find("TeamBlueScore").gameObject);
             Score_UI.Add(Score.transform.Find("ScoreCenter").gameObject);
         }
         else if( instance != this)

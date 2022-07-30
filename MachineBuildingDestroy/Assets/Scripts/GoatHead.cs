@@ -88,7 +88,7 @@ public class GoatHead : MonoBehaviourPun
                 }
 
                 if (!_meshRenderer.enabled)
-                    _meshRenderer.enabled = true;
+                    photonView.RPC("AppearGoatHeadRPC", RpcTarget.AllViaServer, true);
                 
                 if (PhotonNetwork.IsMasterClient)
                     _Animator.SetBool("State", RandomBool());
@@ -104,7 +104,7 @@ public class GoatHead : MonoBehaviourPun
             if (appear == false)
             {
                 if (_meshRenderer.enabled)
-                    _meshRenderer.enabled = false;
+                    photonView.RPC("AppearGoatHeadRPC", RpcTarget.AllViaServer, false);
             }
         }
     }
@@ -144,5 +144,11 @@ public class GoatHead : MonoBehaviourPun
             return false;
         else
             return true;
+    }
+
+    [PunRPC]
+    void AppearGoatHeadRPC(bool enable)
+    {
+        _meshRenderer.enabled = enable;
     }
 }
