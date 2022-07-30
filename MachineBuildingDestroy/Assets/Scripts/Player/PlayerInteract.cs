@@ -82,7 +82,7 @@ public class PlayerInteract : MonoBehaviourPun
                             photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
                             photonView.RPC("NetWorkResetPoint", RpcTarget.AllViaServer);
                         }
-                        photonView.RPC("SetOnHeadCoinNum", RpcTarget.AllViaServer, 0);
+                        photonView.RPC("SetOnHeadCoinNum", RpcTarget.AllViaServer, 0.ToString());
                     }
                     if (photonView.IsMine)
                         _Progressbar.gameObject.SetActive(false);
