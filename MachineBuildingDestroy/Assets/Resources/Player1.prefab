@@ -2264,7 +2264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerState: {fileID: 488311783601679252}
   _hitBoxColliders: []
-  _AttackAudioClips: []
+  _AttackAudioClips:
+  - {fileID: 8300000, guid: ebcb6ad4df4b1944893b77559b7c7879, type: 3}
   _playerImpact: {fileID: 5557033289253594524}
   RHandGameObject: {fileID: 3195111622126177207}
   GunObject: {fileID: 2978823672978583272}

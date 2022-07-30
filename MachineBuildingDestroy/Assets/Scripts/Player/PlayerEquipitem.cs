@@ -76,6 +76,7 @@ public class PlayerEquipitem : MonoBehaviourPun
         else if (_playerState.Item == item_box_make.item_type.Gun && _playerState.nowEquip == false)
         {
             GunObj.SetActive(true);
+            GunObj.GetComponent<Gun>().Durability = 100;
             _playerState.nowEquip = true;
         }
         

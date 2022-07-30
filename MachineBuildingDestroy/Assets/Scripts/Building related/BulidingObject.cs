@@ -318,7 +318,7 @@ public class BulidingObject : LivingEntity
         int corutineCount = 0;
         for (int i = 0; i < _number; ++i)
         {
-            BulidingObject _bulidingObject = _target.GetComponent<BulidingObject>();
+            BulidingObject _bulidingObject = _target.GetComponentInChildren<BulidingObject>();
             Transform _DestroyObjecttransform = _bulidingObject.DestroyObjects.transform;
 
             if (_DestroyObjecttransform == null || _DestroyObjecttransform.childCount <= 0)
