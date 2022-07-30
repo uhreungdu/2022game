@@ -432,6 +432,23 @@ namespace Database
             }
         }
 
+        public static void PlayerExitRoom(string Pname, string iname)
+        {
+            using (conn)
+            {
+                conn.Open();
+                using (MySqlCommand cmd = new MySqlCommand("PlayerExitRoom", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Pname", Pname);
+                    cmd.Parameters.AddWithValue("@iname", iname);
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+
         /// <summary>
         /// isWin 0 이면 해당 id에 win + 1
         /// </summary>
