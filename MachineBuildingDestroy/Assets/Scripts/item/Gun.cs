@@ -33,7 +33,7 @@ public class Gun : MonoBehaviourPun
         {
             if (Durability <= 0)
             {
-                photonView.RPC("NetworkNoDurabilityCheck", RpcTarget.AllViaServer);
+                photonView.RPC("NetworkGunNoDurabilityCheck", RpcTarget.AllViaServer);
                 if (transform.root.GetComponent<PhotonView>().IsMine && Application.platform == RuntimePlatform.Android)
                 {
                     // 공격버튼 원래대로 바꾸기
@@ -51,7 +51,7 @@ public class Gun : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void NetworkNoDurabilityCheck()
+    public void NetworkGunNoDurabilityCheck()
     {
         NoDurabilityCheck();
     }
