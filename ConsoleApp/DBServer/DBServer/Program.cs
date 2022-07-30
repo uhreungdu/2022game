@@ -157,6 +157,7 @@ namespace Chatserver
                                 if (session.is_online)
                                 {
                                     Console.WriteLine(session.nickname + " exits Room " + session.roomname);
+                                    DatabaseControl.PlayerExitRoom(session.nickname, session.roomname);
                                     session.roomname = "";
                                     session.in_room = false;
                                 }
@@ -355,6 +356,8 @@ namespace Chatserver
             {
                 session.is_online = false;
                 Console.WriteLine(session.socket.RemoteEndPoint + " " + session.nickname + " is Disconnected.");
+                if (session.in_room)
+                    DatabaseControl.PlayerExitRoom(session.nickname, session.roomname);
                 DatabaseControl.LogoutAccount(session.id);
                 _ClientList.Remove(session);
                 session.socket.Close();
