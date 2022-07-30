@@ -123,34 +123,43 @@ namespace Chatserver
                             }
                         case (byte)DBPacketType.EnterRoom:
                             {
-                                data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
-                                Console.WriteLine(session.nickname + " enters Roomname " + data);
-                                session.roomname = data;
-                                session.in_room = true;
-                                DatabaseControl.PlayerEnterRoom(session.roomname, session.nickname);
+                                if (session.is_online)
+                                {
+                                    data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
+                                    Console.WriteLine(session.nickname + " enters Roomname " + data);
+                                    session.roomname = data;
+                                    session.in_room = true;
+                                    DatabaseControl.PlayerEnterRoom(session.roomname, session.nickname);
+                                }
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
                         case (byte)DBPacketType.MakeRoom:
                             {
-                                string iname = Encoding.UTF8.GetString(session.buf, 4, session.buf[1]);
-                                string ename = Encoding.UTF8.GetString(session.buf, 4 + session.buf[1], session.buf[2]);
-                                int maxPlayerNum = session.buf[3];
+                                if (session.is_online)
+                                {
+                                    string iname = Encoding.UTF8.GetString(session.buf, 4, session.buf[1]);
+                                    string ename = Encoding.UTF8.GetString(session.buf, 4 + session.buf[1], session.buf[2]);
+                                    int maxPlayerNum = session.buf[3];
 
-                                Console.WriteLine(session.nickname + " makes Roomname " + ename);
-                                session.roomname = iname;
-                                session.in_room = true;
-                                DatabaseControl.PlayerMakeRoom(iname, ename, maxPlayerNum, session.nickname);
+                                    Console.WriteLine(session.nickname + " makes Roomname " + ename);
+                                    session.roomname = iname;
+                                    session.in_room = true;
+                                    DatabaseControl.PlayerMakeRoom(iname, ename, maxPlayerNum, session.nickname);
+                                }
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;
                             }
                         case (byte)DBPacketType.ExitRoom:
                             {
-                                Console.WriteLine(session.nickname + " exits Room " + session.roomname);
-                                session.roomname = "";
-                                session.in_room = false;
+                                if (session.is_online)
+                                {
+                                    Console.WriteLine(session.nickname + " exits Room " + session.roomname);
+                                    session.roomname = "";
+                                    session.in_room = false;
+                                }
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
                                 break;

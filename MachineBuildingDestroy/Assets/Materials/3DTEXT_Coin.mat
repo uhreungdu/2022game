@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 3DTEXT
-  m_Shader: {fileID: 4800000, guid: cec65af313a6973438702b730020d788, type: 3}
+  m_Name: 3DTEXT_Coin
+  m_Shader: {fileID: 4800000, guid: 953d6c4c7f7ec324d860efb0db9c68ff, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
