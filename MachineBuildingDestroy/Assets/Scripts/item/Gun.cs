@@ -22,7 +22,7 @@ public class Gun : MonoBehaviourPun
             _attackButton = GameObject.Find("AttackButton").GetComponent<AttackButton>();
     }
 
-    private void Awake()
+    private void OnEnable()
     {
         Durability = 100;
     }

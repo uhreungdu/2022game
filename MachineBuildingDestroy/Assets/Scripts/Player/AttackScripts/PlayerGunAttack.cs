@@ -27,7 +27,7 @@ public class PlayerGunAttack : PlayerAttack
         _aftercastAttack = 0.8f;
         SetAffterCast(0);
         _damage = 10;
-        
+        _Gun = GunObject.GetComponent<Gun>();
         
         _GunBullets = new List<GameObject>();
     }
@@ -85,7 +85,7 @@ public class PlayerGunAttack : PlayerAttack
 
     public IEnumerator ShootBullet()
     {
-        GameObject BulletgameObject = PhotonNetwork.Instantiate(_gunBulletGameObject.name, GunObject.transform.position,
+        GameObject BulletgameObject = PhotonNetwork.Instantiate(_gunBulletGameObject.name, GunObject.transform.position + -GunObject.transform.right,
             _gunBulletGameObject.transform.rotation);
         GunBullet BulletgameObjectGunBullet = BulletgameObject.GetComponent<GunBullet>();
         BulletgameObjectGunBullet.ShootTeam = _playerState.team;
