@@ -33,7 +33,7 @@ public class Slot : MonoBehaviour,IPunObservable
     {
         nicknameText.GetComponent<Text>().text = Nickname;
         platformImage.GetComponent<Image>().sprite = platformIcons[Platform];
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient && Nickname == PhotonNetwork.NickName)
         {
             statusText.GetComponent<Text>().text = "";
         }
