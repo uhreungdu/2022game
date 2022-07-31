@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class GunBullet : MonoBehaviourPun
 {
-    public PlayerGunAttack _playerGunAttack;
     public Vector3 ShootPosition;
     public Vector3 ForwardVector3;
     public float MaxDistance = 80f;
@@ -20,6 +19,8 @@ public class GunBullet : MonoBehaviourPun
     void Start()
     {
         MaxDistance = 80f;
+        if (photonView.IsMine)
+            BulletInfomationRPC(ShootNickName);
     }
 
     private void Update()
@@ -144,6 +145,17 @@ public class GunBullet : MonoBehaviourPun
     {
         if (photonView.IsMine)
             PhotonNetwork.Destroy(gameObject);
+    }
+
+    public void BulletInfomationRPC(string nickName)
+    {
+        photonView.RPC("BulletniceName", RpcTarget.AllViaServer, ShootNickName);
+    }
+    
+    [PunRPC]
+    public void BulletniceName(string nickName)
+    {
+        ShootNickName = nickName;
     }
     
 }
