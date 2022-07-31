@@ -109,7 +109,6 @@ public class PlayerHandAttackTrigger : MonoBehaviourPun
                     }
                     else
                     {
-                        photonView.RPC("NetWorkPlayOneShot", RpcTarget.All, _playerHandAttack._AttackAudioClips[1]);
                         Target.NetworkOnDamage(_playerHandAttack._damage);
                     }
                 }

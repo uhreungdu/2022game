@@ -16,10 +16,11 @@ public class HammerAttackTrigger : MonoBehaviourPun
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Wall")
         {
+            _playerState._AudioSource.PlayOneShot(_Hammer.HitClip);
+            if (!PhotonNetwork.IsMasterClient) return;
             BulidingObject attackTarget = other.GetComponent<BulidingObject>();
             if (attackTarget != null && !attackTarget.dead)
             {
@@ -36,7 +37,6 @@ public class HammerAttackTrigger : MonoBehaviourPun
                     myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _hammerAttack._damage);
                 }
 
-                NetWorkPlayOneShot(_Hammer.HitClip);
                 Debug.Log(attackTarget.health);
             }
         }
@@ -45,6 +45,8 @@ public class HammerAttackTrigger : MonoBehaviourPun
         {
             if (other.gameObject != transform.root.gameObject)
             {
+                _playerState._AudioSource.PlayOneShot(_Hammer.HitClip);
+                if (!PhotonNetwork.IsMasterClient) return;
                 PlayerState otherPlayerState = other.gameObject.GetComponent<PlayerState>();
                 Animator otherAnimator = other.GetComponent<Animator>();
                 if (other.gameObject != null && !otherPlayerState.dead 
@@ -66,7 +68,6 @@ public class HammerAttackTrigger : MonoBehaviourPun
                             myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _hammerAttack._damage);
                         }
                     }
-                    NetWorkPlayOneShot(_Hammer.HitClip);
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     if (!otherAnimator.GetBool("Falldown"))
                     {
@@ -78,6 +79,8 @@ public class HammerAttackTrigger : MonoBehaviourPun
 
         if (other.tag == "Obstcle_Item")
         {
+            _playerState._AudioSource.PlayOneShot(_Hammer.HitClip);
+            if (!PhotonNetwork.IsMasterClient) return;
             Obstacle_Obj Target = other.GetComponent<Obstacle_Obj>();
             if (Target != null && !Target.dead)
             {

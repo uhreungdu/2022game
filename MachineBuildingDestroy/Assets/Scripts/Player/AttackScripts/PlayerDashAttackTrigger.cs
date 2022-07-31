@@ -79,7 +79,11 @@ public class PlayerDashAttackTrigger : MonoBehaviourPun
                         }
                     }
                 }
-                _playerState._AudioSource.PlayOneShot(_playerDashAttack._AttackAudioClips[1]);
+                
+                if (other.gameObject != transform.root.gameObject)
+                {
+                    _playerState._AudioSource.PlayOneShot(_playerDashAttack._AttackAudioClips[1]);
+                }
             }
         }
 
