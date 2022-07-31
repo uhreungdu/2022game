@@ -64,12 +64,6 @@ public class PlayerEnergywaveAttackTrigger : MonoBehaviourPun
                     {
                         otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
                     }
-                    if (otherPlayerState.dead)
-                    {
-                        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-                        myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
-                        myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerEnergywaveAttack._damage);
-                    }
                 }
             }
         }

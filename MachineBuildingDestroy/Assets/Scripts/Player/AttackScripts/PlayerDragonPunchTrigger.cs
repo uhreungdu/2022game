@@ -71,13 +71,6 @@ public class PlayerDragonPunchTrigger : MonoBehaviourPun
                         {
                             otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
                         }
-
-                        if (otherPlayerState.dead)
-                        {
-                            MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-                            myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
-                            myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerDragonPunch._damage);
-                        }
                     }
                 }
                 if (other.gameObject != transform.root.gameObject)
