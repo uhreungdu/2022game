@@ -235,7 +235,7 @@ public class Thirdpersonmove : MonoBehaviourPun
 
                 if (Slotnum != -1)
                 {
-                    photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, 1);
+                    photonView.RPC("AddPointCount", RpcTarget.AllViaServer, Slotnum, 1);
                     photonView.RPC("NetWorkaddScore", RpcTarget.AllViaServer, 1);
                 }
                 photonView.RPC("SetOnHeadCoinNum", RpcTarget.AllViaServer, _playerState.point.ToString());
@@ -318,10 +318,11 @@ public class Thirdpersonmove : MonoBehaviourPun
     }
     //
     //
-    // [PunRPC]
-    // public void GetPointCount(int Point)
-    // {
-    //     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-    //     myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
-    // }
+    
+    [PunRPC]
+    public void AddPointCount(int SlotNum, int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.AddPointCount(SlotNum, Point);
+    }
 }

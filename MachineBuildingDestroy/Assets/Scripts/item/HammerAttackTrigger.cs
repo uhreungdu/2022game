@@ -121,10 +121,10 @@ public class HammerAttackTrigger : MonoBehaviourPun
     }
     
     [PunRPC]
-    public void GetPointCount(int Point)
+    public void SetPointCount(int Point)
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
+        myInRoomInfo.SetPointCount(myInRoomInfo.mySlotNum, Point);
     }
     
     [PunRPC]

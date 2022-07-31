@@ -94,8 +94,8 @@ public class PlayerState : LivingEntity, IPunObservable
         gManager = GameManager.GetInstance();
         gManager.addTeamcount(team);
         
-        //Item = item_box_make.item_type.Hammer;
-        SetItem(item_box_make.item_type.Gun);
+        Item = item_box_make.item_type.no_item;
+        //SetItem(item_box_make.item_type.Gun);
         
         P_Dm = new Dmgs_Status();
         P_Dm.Set_St(20f,0f,1f);
@@ -440,10 +440,17 @@ public class PlayerState : LivingEntity, IPunObservable
     }
     
     [PunRPC]
-    public void GetPointCount(int SlotNum, int Point)
+    public void SetPointCount(int SlotNum, int Point)
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.GetPointCount(SlotNum, Point);
+        myInRoomInfo.SetPointCount(SlotNum, Point);
     }
+    
+    // [PunRPC]
+    // public void AddPointCount(int SlotNum, int Point)
+    // {
+    //     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+    //     myInRoomInfo.AddPointCount(SlotNum, Point);
+    // }
     
 }

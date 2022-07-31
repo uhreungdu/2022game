@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         
         public void Active_goatheavyrain()
         {
-            if ((int) Ntimer >= 5 && (int) Ntimer <= 25)
+            if ((int) Ntimer >= 60 && (int) Ntimer <= 80)
             {
                 if (goatheavyrain_Create == false)
                 {
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         public void Active_gameSet()
         {
-            if ((int) Ntimer / 180 > 0)
+            if ((int) Ntimer / 20 > 0)
             {
                 gameSetTime = Ntimer;
                 gameSet = true;
