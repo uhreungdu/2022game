@@ -82,9 +82,9 @@ public class MyInRoomInfo : MonoBehaviourPun
     {
         photonView.RPC("DeathCount", RpcTarget.AllViaServer, index);
     }
-    public void NetworkGetPointCount(int index, int Point)
+    public void NetworkSetPointCount(int index, int Point)
     {
-        photonView.RPC("GetPointCount", RpcTarget.AllViaServer, index, Point);
+        photonView.RPC("SetPointCount", RpcTarget.AllViaServer, index, Point);
     }
     
     [PunRPC]
@@ -111,18 +111,27 @@ public class MyInRoomInfo : MonoBehaviourPun
         print($"{index} TotalDeath : {myInRoomInfo.Infomations[index].TotalDeath}");
     }
     
-    public void GetPointCount(int index, int Point)
+    public void SetPointCount(int index, int Point)
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.Infomations[index].Point = Point;
-        print($"{index} TotalGetPoint : {myInRoomInfo.Infomations[index].TotalGetPoint}");
     }
     
     public void AddPointCount(int index, int Point)
     {
         MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.Infomations[index].Point += Point;
+    }
+    
+    public void SetTotalGetPointCount(int index, int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.Infomations[index].TotalGetPoint = Point;
+    }
+    public void AddTotalGetPointCount(int index, int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
         myInRoomInfo.Infomations[index].TotalGetPoint += Point;
-        print($"{index} TotalGetPoint : {myInRoomInfo.Infomations[index].TotalGetPoint}");
     }
 
     public int mySlotNum

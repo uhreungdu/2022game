@@ -79,7 +79,8 @@ public class PlayerInteract : MonoBehaviourPun
                         if (Slotnum != -1)
                         {
                             //photonView.RPC("AddPointCount", RpcTarget.All, Slotnum, playerState.point);
-                            photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
+                            photonView.RPC("AddTotalGetPointCount", RpcTarget.AllViaServer, Slotnum, playerState.point);
+                            photonView.RPC("SetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
                             photonView.RPC("NetWorkResetPoint", RpcTarget.AllViaServer);
                         }
                         photonView.RPC("SetOnHeadCoinNum", RpcTarget.AllViaServer, 0.ToString());
@@ -122,6 +123,13 @@ public class PlayerInteract : MonoBehaviourPun
     {
         playerState.ResetPoint();
     }
+    
+    [PunRPC]
+    public void AddTotalGetPointCount(int SlotNum, int Point)
+    {
+        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
+        myInRoomInfo.AddTotalGetPointCount(SlotNum, Point);
+    }
 
     private void ProgressbarUpdate()
     {
@@ -139,14 +147,7 @@ public class PlayerInteract : MonoBehaviourPun
     //     MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
     //     myInRoomInfo.GetPointCount(myInRoomInfo.mySlotNum, Point);
     // }
-    
-    [PunRPC]
-    public void AddPointCount(int SlotNum, int Point)
-    {
-        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-        myInRoomInfo.AddPointCount(SlotNum, Point);
-    }
-    
+
     // private void OnTriggerStay(Collider other)
     // {
     //     if (other.tag == "Goalpost")
