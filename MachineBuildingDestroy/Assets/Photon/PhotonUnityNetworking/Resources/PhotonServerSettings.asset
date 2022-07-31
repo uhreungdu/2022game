@@ -87,6 +87,8 @@ MonoBehaviour:
   - SetGameStartRPC
   - NetworkNoDurabilityCheck
   - AppearGoatHeadRPC
+  - NetworkGunNoDurabilityCheck
+  - NetworkHummerNoDurabilityCheck
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

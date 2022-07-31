@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Hammer : MonoBehaviourPun
 {
-    public int Durability = 5;
+    public int Durability = 2;
     public PlayerState _PlayerState;
     public AudioClip HitClip;
 
@@ -22,7 +22,7 @@ public class Hammer : MonoBehaviourPun
 
     private void Awake()
     {
-        Durability = 5;
+        Durability = 2;
     }
 
     void Update()
