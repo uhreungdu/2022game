@@ -88,15 +88,20 @@ public class PlayerGunAttack : PlayerAttack
         GameObject BulletgameObject = PhotonNetwork.Instantiate(_gunBulletGameObject.name, GunObject.transform.position + -GunObject.transform.right,
             _gunBulletGameObject.transform.rotation);
         GunBullet BulletgameObjectGunBullet = BulletgameObject.GetComponent<GunBullet>();
-        BulletgameObjectGunBullet.ShootTeam = _playerState.team;
-        BulletgameObjectGunBullet.ShootPosition = GunObject.transform.position;
-        Vector3 returnForwardVector = transform.forward;
-        returnForwardVector = Quaternion.Euler(Random.Range(0.0f, 5.0f), Random.Range(0.0f, 5.0f), 0) * transform.forward;
-        BulletgameObjectGunBullet.ForwardVector3 = returnForwardVector;
-        BulletgameObjectGunBullet._playerGunAttack = this;
-        BulletgameObjectGunBullet.ShootNickName = _playerState.NickName;
+        photonView.RPC("BulletInfomation", RpcTarget.AllViaServer, BulletgameObjectGunBullet);
         _Gun.Durability -= 1;
         yield return new WaitForSeconds(0.025f);
         isDelay = false;
+    }
+
+    [PunRPC]
+    void BulletInfomation(GunBullet gunBullet)
+    {
+        gunBullet.ShootPosition = GunObject.transform.position;
+        Vector3 returnForwardVector = transform.forward;
+        returnForwardVector = Quaternion.Euler(Random.Range(0.0f, 5.0f), Random.Range(0.0f, 5.0f), 0) * transform.forward;
+        gunBullet.ForwardVector3 = returnForwardVector;
+        gunBullet._playerGunAttack = this;
+        gunBullet.ShootNickName = _playerState.NickName;
     }
 }
