@@ -52,7 +52,7 @@ public class SoundManager : MonoBehaviour
         // 효과음 Dictionary 비우기
         _audioClips.Clear();
     }
-    public void Play(AudioClip audioClip, Sound type = Sound.Effect, float pitch = 1.0f)
+    public void Play(AudioClip audioClip, Sound type = Sound.Effect, float pitch = 1.0f, float volume = 1.0f)
     {
         if (audioClip == null)
             return;
@@ -71,6 +71,7 @@ public class SoundManager : MonoBehaviour
         {
             AudioSource audioSource = _audioSources[(int)Sound.Effect];
             audioSource.pitch = pitch;
+            audioSource.volume = volume;
             audioSource.PlayOneShot(audioClip);
         }
     }
