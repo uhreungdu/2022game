@@ -80,13 +80,25 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         
         public void Active_goatheavyrain()
         {
-            if ((int) Ntimer >= 60 && (int) Ntimer <= 80)
+            if ((int) Ntimer >= 5 && (int) Ntimer <= 25)
             {
+                if (goatheavyrain_Create == false)
+                {
+                    SoundManager _soundManager;_soundManager = SoundManager.GetInstance();
+                    AudioClip audioClip = Resources.Load<AudioClip>("Sounds/염소등장음악");
+                    _soundManager.Play(audioClip, SoundManager.Sound.Bgm);
+                }
                 goatheavyrain_Create = true;
                 //Debug.Log("아이템 생성");
             }
             else
             {
+                if (goatheavyrain_Create == true)
+                {
+                    SoundManager _soundManager;_soundManager = SoundManager.GetInstance();
+                    AudioClip audioClip = Resources.Load<AudioClip>("Sounds/인게임");
+                    _soundManager.Play(audioClip, SoundManager.Sound.Bgm);
+                }
                 goatheavyrain_Create = false;
             }
         }
