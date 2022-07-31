@@ -52,7 +52,7 @@ public class PlayerEnergywaveAttackTrigger : MonoBehaviourPun
                     else
                     {
                         otherPlayerState.NetworkOnDamage(_playerEnergywaveAttack._damage);
-                        otherPlayerState.RecentHit(_playerState.NickName);
+                        otherPlayerState.RecentHitRPC(_playerState.NickName);
                     }
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     

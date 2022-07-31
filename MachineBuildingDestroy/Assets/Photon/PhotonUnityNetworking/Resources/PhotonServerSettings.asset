@@ -89,6 +89,8 @@ MonoBehaviour:
   - AppearGoatHeadRPC
   - NetworkGunNoDurabilityCheck
   - NetworkHummerNoDurabilityCheck
+  - SetPointCount
+  - AddTotalGetPointCount
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
