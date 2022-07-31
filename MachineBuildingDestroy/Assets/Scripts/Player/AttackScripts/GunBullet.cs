@@ -73,7 +73,7 @@ public class GunBullet : MonoBehaviourPun
                     else
                     {
                         otherPlayerState.NetworkOnDamage(_damage);
-                        otherPlayerState.RecentHit(ShootNickName);
+                        otherPlayerState.RecentHitRPC(ShootNickName);
                     }
 
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);

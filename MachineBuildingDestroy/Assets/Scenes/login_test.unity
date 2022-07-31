@@ -2179,6 +2179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e7a663306647ba8072bebbfe6e5643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomName: 
   loginWaitingWindow: {fileID: 1375915710}
   socketErrWindow: {fileID: 0}
 --- !u!4 &565960609

@@ -58,7 +58,7 @@ public class PlayerDashAttackTrigger : MonoBehaviourPun
                         else
                         {
                             otherPlayerState.NetworkOnDamage(_playerDashAttack._damage);
-                            otherPlayerState.RecentHit(_playerState.NickName);
+                            otherPlayerState.RecentHitRPC(_playerState.NickName);
                         }
 
                         other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
@@ -71,12 +71,6 @@ public class PlayerDashAttackTrigger : MonoBehaviourPun
                             otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
                         }
 
-                        if (otherPlayerState.dead)
-                        {
-                            MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-                            myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
-                            myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _playerDashAttack._damage);
-                        }
                     }
                 }
                 

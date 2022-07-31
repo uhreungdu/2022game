@@ -403,6 +403,12 @@ public class PlayerState : LivingEntity, IPunObservable
         }
         RecentHitCoroutine = StartCoroutine(RecentHitPlayerUpdate());
     }
+    
+    [PunRPC]
+    public void RecentHitRPC(string NickName)
+    {
+        photonView.RPC("RecentHit", RpcTarget.AllViaServer, NickName);
+    }
 
     public IEnumerator RecentHitPlayerUpdate()
     {

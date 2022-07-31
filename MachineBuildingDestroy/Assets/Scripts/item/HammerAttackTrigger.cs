@@ -62,12 +62,7 @@ public class HammerAttackTrigger : MonoBehaviourPun
                     {
                         otherPlayerState.NetworkOnDamage(_hammerAttack._damage);
                         photonView.RPC("ReduceDurability", RpcTarget.AllViaServer, 1);
-                        if (otherPlayerState.dead)
-                        {
-                            MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-                            myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
-                            myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _hammerAttack._damage);
-                        }
+                        otherPlayerState.RecentHitRPC(_playerState.NickName);
                     }
                     other.GetComponent<PlayerImpact>().NetworkAddImpact(transform.root.forward, 40);
                     if (!otherAnimator.GetBool("Falldown"))
