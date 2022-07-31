@@ -62,8 +62,8 @@ public class RoomBlock : MonoBehaviour
 
     public void EnterRoom()
     {
+        GameObject.Find("LoginDBConnection").GetComponent<LoginDBConnection>().roomName = _iname;
         SendEnterRoom();
-        PhotonNetwork.JoinRoom(_iname);
     }
     
     private void SendEnterRoom()

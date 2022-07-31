@@ -23,6 +23,8 @@ public class LoginDBConnection : MonoBehaviour
 
     private int _recvCursor = 0;
     private int _readCursor = -1;
+
+    public string roomName;
     
     private byte[] sendbuf = new byte[BufSize-1];
     private byte[] recvbuf = new byte[BufSize];
@@ -41,7 +43,8 @@ public class LoginDBConnection : MonoBehaviour
         RoomListResult,
         AccountInfoRequest,
         AccountInfoResult,
-        GameResult
+        GameResult,
+        EnterRoomResult
     }
     
     public static LoginDBConnection GetInstance()
@@ -105,6 +108,23 @@ public class LoginDBConnection : MonoBehaviour
                 case (byte) DBPacketType.AccountInfoResult:
                     Account.GetInstance().RefreshAccount(recvbuf[2], recvbuf[3]);
                     break;
+                case (byte) DBPacketType.EnterRoomResult:
+                    switch (recvbuf[2])
+                    {
+                        case 0:
+                            PhotonNetwork.JoinRoom(roomName);
+                            break;
+                        case 1:
+                            Debug.Log("MAX USER");
+                            break;
+                        case 2:
+                            Debug.Log("GAME ALREADY STARTED");
+                            break;
+                        case 3:
+                            Debug.Log("NO ROOM EXIST");
+                            break;
+                    }
+                    break;
             }
 
             _readCursor = recvbuf[0];
@@ -165,10 +185,10 @@ public class LoginDBConnection : MonoBehaviour
             if (recvsize > 0)
             {
                 Debug.Log(recvsize);
-                _isDataSend = true;
                 _client.BeginReceive(recvbuf, _recvCursor, BufSize-_recvCursor, 0,
                     ReceiveCallback, _client);
                 _recvCursor = recvsize;
+                _isDataSend = true;
             }
         }
         catch (Exception ex)

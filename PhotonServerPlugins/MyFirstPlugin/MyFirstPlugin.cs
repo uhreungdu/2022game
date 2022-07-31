@@ -117,6 +117,17 @@ namespace MyFirstPlugin
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
                 BroadcastEvent(evCode, data);
             }
+            /*
+            string url = "http://127.0.0.1/player_exit_room.php?iname=" +
+                "\"" + internalRoomName + "\"" + "&Pname=" + "\"" + info.Nickname + "\"";
+            HttpRequest request = new HttpRequest()
+            {
+                Callback = OnHttpResponse,
+                Url = url,
+                Async = true
+            };
+            PluginHost.HttpRequest(request, info);
+            */
             PluginHost.LogInfo($"User {info.Nickname} exit room {internalRoomName}");
             base.OnLeave(info);
         }
