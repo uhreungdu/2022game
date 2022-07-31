@@ -15,6 +15,7 @@ public class PlayerGunAttack : PlayerAttack
     public GameObject _gunBulletGameObject;
 
     public Gun _Gun;
+    private GunBullet gunBullet;
     
     public bool isDelay = false;
     void Start()
@@ -87,15 +88,20 @@ public class PlayerGunAttack : PlayerAttack
     {
         GameObject BulletgameObject = PhotonNetwork.Instantiate(_gunBulletGameObject.name, GunObject.transform.position + -GunObject.transform.right,
             _gunBulletGameObject.transform.rotation);
-        GunBullet BulletgameObjectGunBullet = BulletgameObject.GetComponent<GunBullet>();
-        photonView.RPC("BulletInfomation", RpcTarget.AllViaServer, BulletgameObjectGunBullet);
+        gunBullet = BulletgameObject.GetComponent<GunBullet>();
+        BulletInfomationRPC();
         _Gun.Durability -= 1;
         yield return new WaitForSeconds(0.025f);
         isDelay = false;
     }
 
+    void BulletInfomationRPC()
+    {
+        photonView.RPC("BulletInfomation", RpcTarget.AllViaServer);
+    }
+
     [PunRPC]
-    void BulletInfomation(GunBullet gunBullet)
+    void BulletInfomation()
     {
         gunBullet.ShootPosition = GunObject.transform.position;
         Vector3 returnForwardVector = transform.forward;
