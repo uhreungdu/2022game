@@ -68,13 +68,6 @@ public class UImanager : MonoBehaviour
         int[] teamScore = new int[2];
         float[] teamScoreRatio = new float[2];
         
-        for (int i = 0; i < 6; ++i)
-        {
-            if (myInRoomInfo.Infomations[i].Name != "")
-            {
-                teamScore[i % 2] += myInRoomInfo.Infomations[i].TotalGetPoint;
-            }
-        }
         for(int i = 0; i < 2; ++i)
         {
             teamScore[i] += gmanager.getScore(i);

@@ -239,8 +239,11 @@ public class PlayerState : LivingEntity, IPunObservable
 
             if (Slotnum != -1)
             {
-                photonView.RPC("NetWorkdelScore", RpcTarget.All, point);
-                photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
+                if (point > 0)
+                {
+                    photonView.RPC("NetWorkdelScore", RpcTarget.All, point);
+                    photonView.RPC("SetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
+                }
             }
         }
         point = 0;
@@ -399,6 +402,12 @@ public class PlayerState : LivingEntity, IPunObservable
             StopCoroutine(RecentHitCoroutine);
         }
         RecentHitCoroutine = StartCoroutine(RecentHitPlayerUpdate());
+    }
+    
+    [PunRPC]
+    public void RecentHitRPC(string NickName)
+    {
+        photonView.RPC("RecentHit", RpcTarget.AllViaServer, NickName);
     }
 
     public IEnumerator RecentHitPlayerUpdate()
