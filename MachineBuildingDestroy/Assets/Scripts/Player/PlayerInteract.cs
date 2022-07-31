@@ -67,7 +67,7 @@ public class PlayerInteract : MonoBehaviourPun
 
                 if (Time.time >= lastTime + timeBet)
                 {
-                    if (photonView.IsMine)
+                    if (photonView.IsMine && !playerState.IsCrowdControl())
                     {
                         int Slotnum = -1;
                         MyInRoomInfo inRoomInfo = MyInRoomInfo.GetInstance();

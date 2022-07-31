@@ -87,12 +87,6 @@ public class GunBullet : MonoBehaviourPun
                         otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
                     }
 
-                    if (otherPlayerState.dead)
-                    {
-                        MyInRoomInfo myInRoomInfo = MyInRoomInfo.GetInstance();
-                        myInRoomInfo.NetworkKillCount(myInRoomInfo.mySlotNum);
-                        myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _damage);
-                    }
                     photonView.RPC("RemoveBulletObject", RpcTarget.All);
                 }
             }

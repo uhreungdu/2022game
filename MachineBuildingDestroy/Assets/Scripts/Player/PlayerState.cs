@@ -190,22 +190,24 @@ public class PlayerState : LivingEntity, IPunObservable
         Dead_Effect.SetActive(true);
         if (photonView.IsMine)
         {
-            int Slotnum = -1;
+            int DeathSlotnum = -1;
             MyInRoomInfo inRoomInfo = MyInRoomInfo.GetInstance();
             foreach (var info in inRoomInfo.Infomations)
             {
                 if (info.Name == NickName)
-                    Slotnum = info.SlotNum;
+                    DeathSlotnum = info.SlotNum;
             }
-            if (Slotnum != -1)
-                photonView.RPC("DeathCount", RpcTarget.AllViaServer, Slotnum);
+            if (DeathSlotnum != -1)
+                photonView.RPC("DeathCount", RpcTarget.AllViaServer, DeathSlotnum);
+            int KillSlotnum = -1;
             foreach (var info in inRoomInfo.Infomations)
             {
-                if (info.Name == RecentHitNickName)
-                    Slotnum = info.SlotNum;
+                if (info.Name == RecentHitNickName && RecentHitNickName != null)
+                    KillSlotnum = info.SlotNum;
             }
-            if (Slotnum != -1)
-                photonView.RPC("KillCount", RpcTarget.AllViaServer, Slotnum);
+            if (KillSlotnum != -1)
+                if (DeathSlotnum % 2 != KillSlotnum % 2)
+                    photonView.RPC("KillCount", RpcTarget.AllViaServer, KillSlotnum);
         }
 
         if (PhotonNetwork.IsMasterClient)
@@ -243,6 +245,7 @@ public class PlayerState : LivingEntity, IPunObservable
                 {
                     photonView.RPC("NetWorkdelScore", RpcTarget.All, point);
                     photonView.RPC("SetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
+                    photonView.RPC("SetOnHeadCoinNum", RpcTarget.AllViaServer, 0.ToString());
                 }
             }
         }
