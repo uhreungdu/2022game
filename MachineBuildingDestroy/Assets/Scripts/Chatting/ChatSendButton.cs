@@ -53,12 +53,12 @@ public class ChatSendButton : MonoBehaviourPun
     {
         var msg = inputfield.GetComponent<InputField>().text;
         
-        photonView.RPC("SendRoomChat",RpcTarget.AllViaServer,PhotonNetwork.NickName, msg);
+        photonView.RPC("SendRoomChat_RPC",RpcTarget.AllViaServer,PhotonNetwork.NickName, msg);
         inputfield.GetComponent<InputField>().text = string.Empty;
     }
 
     [PunRPC]
-    void SendRoomChat(string nickname, string msg)
+    void SendRoomChat_RPC(string nickname, string msg)
     {
         chatLog.GetComponent<Chatlog>().AddLine(nickname, msg);
     }
