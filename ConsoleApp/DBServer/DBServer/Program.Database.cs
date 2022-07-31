@@ -143,15 +143,15 @@ namespace Database
                 conn.Dispose();
             }
         }
-        public static void PlayerEnterRoom(string iname, string Pname)
+        public static int PlayerEnterRoom(string iname, string Pname)
         {
             if (RoomCheck(iname))
             {
                 switch (RoomPlayerNumCheck(iname))
                 {
                     case 0: break;
-                    case 1: Console.WriteLine("ERR: MAX USER"); return;
-                    case 2: Console.WriteLine("ERR: GAME ALREADY START"); return;
+                    case 1: Console.WriteLine("ERR: MAX USER"); return 1;
+                    case 2: Console.WriteLine("ERR: GAME ALREADY START"); return 2;
                 };
 
                 string[] sql = new string[2];
@@ -159,11 +159,12 @@ namespace Database
                 sql[1] = string.Format("UPDATE room SET now_playernum = now_playernum + 1 WHERE internal_name = {0}", iname);
 
                 PlayerJoinRoom(Pname, iname);
+                return 0;
             }
             else
             {
                 Console.WriteLine("ERR: NO ROOM");
-                return;
+                return 3;
             }
         }
         public static LoginResult LoginAccount(string id, string pw)

@@ -21,7 +21,8 @@ namespace Chatserver
         RoomListResult,
         AccountInfoRequest,
         AccountInfoResult,
-        GameResult
+        GameResult,
+        EnterRoomResult
     }
 
     public class Session
@@ -126,10 +127,17 @@ namespace Chatserver
                                 if (session.is_online)
                                 {
                                     data = Encoding.UTF8.GetString(session.buf, 1, recvsize - 1);
-                                    Console.WriteLine(session.nickname + " enters Roomname " + data);
-                                    session.roomname = data;
-                                    session.in_room = true;
-                                    DatabaseControl.PlayerEnterRoom(session.roomname, session.nickname);
+                                    byte[] sendData = new byte[3];
+                                    sendData[0] = 2;
+                                    sendData[1] = (byte)DBPacketType.EnterRoomResult;
+                                    sendData[2] = (byte)DatabaseControl.PlayerEnterRoom(data, session.nickname);
+                                    SendEnterRoomResult(session, sendData);
+                                    if (sendData[1] == 0)
+                                    {
+                                        Console.WriteLine(session.nickname + " enters Roomname " + data);
+                                        session.roomname = data;
+                                        session.in_room = true;
+                                    }
                                 }
                                 session.socket.BeginReceive(session.buf, 0, Session.bufSize, 0,
                                     new AsyncCallback(ReceiveCallback), session);
@@ -328,6 +336,12 @@ namespace Chatserver
         }
 
         private static void SendPlayerInfo(Session session, byte[] sendData)
+        {
+            session.socket.BeginSend(sendData, 0, sendData.Length, 0,
+                new AsyncCallback(SendCallback), session);
+        }
+
+        private static void SendEnterRoomResult(Session session, byte[] sendData)
         {
             session.socket.BeginSend(sendData, 0, sendData.Length, 0,
                 new AsyncCallback(SendCallback), session);
