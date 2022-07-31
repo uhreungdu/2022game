@@ -11,6 +11,7 @@ public class HammerAttackTrigger : MonoBehaviourPun
     public PlayerState _playerState;
     void Start()
     {
+        _Hammer = GetComponent<Hammer>();
         _playerState = transform.root.GetComponent<PlayerState>();
         _hammerAttack = transform.root.GetComponent<HammerAttack>();
     }
