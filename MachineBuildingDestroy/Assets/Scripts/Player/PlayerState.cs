@@ -239,8 +239,11 @@ public class PlayerState : LivingEntity, IPunObservable
 
             if (Slotnum != -1)
             {
-                photonView.RPC("NetWorkdelScore", RpcTarget.All, point);
-                photonView.RPC("GetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
+                if (point > 0)
+                {
+                    photonView.RPC("NetWorkdelScore", RpcTarget.All, point);
+                    photonView.RPC("SetPointCount", RpcTarget.AllViaServer, Slotnum, 0);
+                }
             }
         }
         point = 0;
