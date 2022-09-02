@@ -142,7 +142,7 @@ public class PlayerAnimator : MonoBehaviourPun
         {
             StartCoroutine(_PlayerGunAttack.ShootBullet());
             _Animator.SetBool("Shoot", true);
-            NetWorkPlayOneShot(_PlayerGunAttack._AttackAudioClips[Random.Range(0, _PlayerGunAttack._AttackAudioClips.Count)]);
+            photonView.RPC("PlayOneShotGunShootRPC", RpcTarget.AllViaServer);
             _PlayerGunAttack.isDelay = true;
         }
     }
@@ -237,5 +237,10 @@ public class PlayerAnimator : MonoBehaviourPun
     void NetWorkPlayOneShot(AudioClip audioClip)
     {
         _AudioSource.PlayOneShot(audioClip);
+    }
+    [PunRPC]
+    void PlayOneShotGunShootRPC()
+    {
+        _AudioSource.PlayOneShot(_PlayerGunAttack._AttackAudioClips[0]);
     }
 }
