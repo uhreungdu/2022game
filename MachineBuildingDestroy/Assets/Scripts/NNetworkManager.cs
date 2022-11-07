@@ -107,7 +107,9 @@ public class NNetworkManager : MonoBehaviourPunCallbacks
         WWWForm form = new WWWForm();
         form.AddField("Pname", "\""+id+"\"") ;
         form.AddField("iname", "\""+roomname+"\"") ;
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/player_exit_room.php", form);
+        UnityWebRequest www =
+            UnityWebRequest.Post(
+                "http://" + PhotonNetwork.PhotonServerSettings.AppSettings.Server + "/player_exit_room.php", form);
         www.SendWebRequest();
     }
 

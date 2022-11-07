@@ -14,7 +14,7 @@ public class LoginDBConnection : MonoBehaviour
 {
     private static LoginDBConnection instance;
     
-    private const string ServerAddress = "121.139.87.70";
+    private string ServerAddress = PhotonNetwork.PhotonServerSettings.AppSettings.Server;
     private const int Port = 15001;
     private const int BufSize = 256;
     private Socket _client;
