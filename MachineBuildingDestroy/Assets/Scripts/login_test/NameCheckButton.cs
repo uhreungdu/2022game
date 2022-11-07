@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -69,7 +70,9 @@ public class NameCheckButton : MonoBehaviour
         var nickname = nameInput.GetComponent<InputField>().text;
         form.AddField("name", "\"" + nickname + "\"");
 
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/name_check.php", form);
+        UnityWebRequest www =
+            UnityWebRequest.Post(
+                "http://" + PhotonNetwork.PhotonServerSettings.AppSettings.Server + "/login/name_check.php", form);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)

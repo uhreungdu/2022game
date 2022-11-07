@@ -183,7 +183,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         WWWForm form = new WWWForm();
         form.AddField("id", "\"" + id + "\"");
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/logout_account.php", form);
+        UnityWebRequest www =
+            UnityWebRequest.Post(
+                "http://" + PhotonNetwork.PhotonServerSettings.AppSettings.Server + "/login/logout_account.php", form);
         www.SendWebRequest();
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -51,7 +52,9 @@ public class ResetPWButton : MonoBehaviour
         form.AddField("id", "\"" + idInput.GetComponent<InputField>().text + "\"");
         form.AddField("pw", "\"" + pwInput.GetComponent<InputField>().text + "\"");
 
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/login/reset_pw.php", form);
+        UnityWebRequest www =
+            UnityWebRequest.Post(
+                "http://" + PhotonNetwork.PhotonServerSettings.AppSettings.Server + "/login/reset_pw.php", form);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -55,7 +56,10 @@ public class InfoWindow : MonoBehaviour
         form.AddField("id", "\"" + _account.GetComponent<Account>().GetPlayerID() + "\"");
         form.AddField("costume", num);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://121.139.87.70/lobby/set_player_costume.php", form);
+        UnityWebRequest www =
+            UnityWebRequest.Post(
+                "http://" + PhotonNetwork.PhotonServerSettings.AppSettings.Server + "/lobby/set_player_costume.php",
+                form);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
