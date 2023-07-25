@@ -188,37 +188,37 @@ public class BulidingObject : LivingEntity
         if (health <= startingHealth / 7f * 6 && destroyfloor <= 0 && MaxCut > destroyfloor)
         {
             destroyfloor++;
-            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1)));
+            Coroutines.Add(StartCoroutine(SliceSeveralTimes(gameObject, Vector3.up, boxmaterial, 1)));
         }
 
         if (health <= startingHealth / 7f * 5 && destroyfloor <= 1 && MaxCut > destroyfloor)
         {
             destroyfloor++;
-            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1)));
+            Coroutines.Add(StartCoroutine(SliceSeveralTimes(gameObject, Vector3.right, boxmaterial, 1)));
         }
 
         if (health <= startingHealth / 7f * 4 && destroyfloor <= 2 && MaxCut > destroyfloor)
         {
             destroyfloor++;
-            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1)));
+            Coroutines.Add(StartCoroutine(SliceSeveralTimes(gameObject, Vector3.forward, boxmaterial, 1)));
         }
 
         if (health <= startingHealth / 7f * 3 && destroyfloor <= 3 && MaxCut > destroyfloor)
         {
             destroyfloor++;
-            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.up, boxmaterial, 1)));
+            Coroutines.Add(StartCoroutine(SliceSeveralTimes(gameObject, Vector3.up, boxmaterial, 1)));
         }
 
         if (health <= startingHealth / 7f * 2 && destroyfloor <= 4 && MaxCut > destroyfloor)
         {
             destroyfloor++;
-            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.right, boxmaterial, 1)));
+            Coroutines.Add(StartCoroutine(SliceSeveralTimes(gameObject, Vector3.right, boxmaterial, 1)));
         }
 
         if (health <= startingHealth / 7f * 1 && destroyfloor <= 5 && MaxCut > destroyfloor)
         {
             destroyfloor++;
-            Coroutines.Add(StartCoroutine(Sliceseveraltimes(gameObject, Vector3.forward, boxmaterial, 1)));
+            Coroutines.Add(StartCoroutine(SliceSeveralTimes(gameObject, Vector3.forward, boxmaterial, 1)));
         }
 
         if (dead)
@@ -318,9 +318,10 @@ public class BulidingObject : LivingEntity
         PhotonNetwork.RaiseEvent(evCode, data, RaiseOpt, sendOpt);
     }
     
-    public IEnumerator Sliceseveraltimes(GameObject _target, Vector3 _sliceNormal, Material _interial, int _number)
+    public IEnumerator SliceSeveralTimes(GameObject _target, Vector3 _sliceNormal, Material _interial, int _number)
     {
         int corutineCount = 0;
+        int maxCount = 3;
         for (int i = 0; i < _number; ++i)
         {
             BulidingObject _bulidingObject = _target.GetComponentInChildren<BulidingObject>();
@@ -328,8 +329,7 @@ public class BulidingObject : LivingEntity
 
             if (_DestroyObjecttransform == null || _DestroyObjecttransform.childCount <= 0)
             {
-                CMeshSlicer.SlicerWorld(_target.gameObject, _sliceNormal, _target.GetComponent<MeshRenderer>().bounds.center,
-                    _interial);
+                CMeshSlicer.SlicerWorld(_target.gameObject, _sliceNormal, _target.GetComponent<MeshRenderer>().bounds.center, _interial);
                 corutineCount++;
             }
             else
@@ -348,7 +348,7 @@ public class BulidingObject : LivingEntity
                                 corutineCount++;
                             }
                         }
-                        if (corutineCount % 3 == 0)
+                        if (corutineCount % maxCount == 0)
                             yield return null;
                     }
                 }

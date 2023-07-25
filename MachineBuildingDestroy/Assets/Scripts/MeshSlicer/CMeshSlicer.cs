@@ -18,7 +18,6 @@ public class CMeshSlicer : MonoBehaviour
         return Slicer(_target, localNormal, localPoint, _interial);
     }
 
-
     public static GameObject[] Slicer(GameObject _target, Vector3 _sliceNormal, Vector3 _slicePoint,
         Material _ineterial)
     {
@@ -286,14 +285,6 @@ public class CMeshSlicer : MonoBehaviour
         MeshCollider bObjectMeshCollider = bObject.GetComponent<MeshCollider>();
         bObjectMeshCollider.convex = true;
         bObjectMeshCollider.enabled = false;
-        // aObject.AddComponent<BoxCollider>();
-        // bObject.AddComponent<BoxCollider>();
-        //
-        // BoxCollider aObjectMeshCollider = aObject.GetComponent<BoxCollider>();
-        // aObjectMeshCollider.enabled = false;
-        //
-        // BoxCollider bObjectMeshCollider = bObject.GetComponent<BoxCollider>();
-        // bObjectMeshCollider.enabled = false;
 
         aObject.GetComponent<MeshRenderer>().enabled = false;
         bObject.GetComponent<MeshRenderer>().enabled = false;
@@ -303,54 +294,14 @@ public class CMeshSlicer : MonoBehaviour
         bObject.tag = "DestroyWall";
         bObject.layer = 15;
 
-        //Transform _DestroyObjecttransform = null;
-        
         BulidingObject _bulidingObject = _target.transform.root.GetComponentInChildren<BulidingObject>();
         Transform _DestroyObjecttransform = _bulidingObject.DestroyObjects.transform;
         
-        // if (_target.transform.parent)
-        // {
-        //     _DestroyObjecttransform = _target.transform.parent;
-        // }
-        
-        //Create sliced object
-        if (/*_DestroyObjecttransform == null || _DestroyObjecttransform.name != "DestroyObjects"*/ 
-            _DestroyObjecttransform.childCount <= 0)
+        if ( _DestroyObjecttransform.childCount <= 0)
         {
-            //GameObject _DestroyObject = new GameObject("DestroyObjects");
-            //_DestroyObject.transform.SetParent(_target.transform, false);
-            //_target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            //_DestroyObjecttransform = _DestroyObject.transform;
-            // _target.GetComponent<MeshFilter>().sharedMesh = orinMesh;
-            // _target.GetComponent<MeshCollider>().sharedMesh = orinMesh;
-            // _target.GetComponent<MeshCollider>().convex = true;
-            // _target.GetComponent<MeshRenderer>().enabled = true;
             aObject.transform.SetParent(_DestroyObjecttransform, true);
             bObject.transform.SetParent(_DestroyObjecttransform, true);
             _target.tag = "Wall";
-
-            // abParentObject = new GameObject(_target.name, typeof(Rigidbody), typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider));
-            
-            // abParentObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            // abParentObject.GetComponent<MeshFilter>().sharedMesh = orinMesh;
-            // abParentObject.GetComponent<MeshCollider>().sharedMesh = orinMesh;
-            // abParentObject.GetComponent<MeshCollider>().convex = true;
-            // abParentObject.GetComponent<MeshRenderer>().enabled = false;
-            // abParentObject.transform.position = _target.transform.position;
-            //
-            // abParentObject.transform.rotation = _target.transform.rotation;
-            //
-            // abParentObject.transform.localScale = _target.transform.localScale;
-            //
-            // CopyComponent<WallObject>(_target.GetComponent<WallObject>(), abParentObject);
-            //
-            // abParentObject.transform.SetParent(_target.transform.parent);
-            //
-            // aObject.transform.SetParent(abParentObject.transform, true);
-            //
-            // bObject.transform.SetParent(abParentObject.transform, true);
-            //
-            // abParentObject.tag = "Wall";
         }
         else
         {
@@ -364,15 +315,6 @@ public class CMeshSlicer : MonoBehaviour
             _target.SetActive(false);
             Destroy(_target);
         }
-
-
-        //Hide original object
-
-        // Destroy(_target);
-        // _target.GetComponent<MeshRenderer>().enabled = false;
-        // orinMesh.Clear();
-
-        //Return cutted object
 
         return new GameObject[] {aObject, bObject};
     }

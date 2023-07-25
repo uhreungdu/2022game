@@ -101,24 +101,26 @@ public class MapEditerOnScreenPoint : MonoBehaviour
             else if (gameObject.transform.childCount >= 1)
             {
                 Vector3 Point = GetPoint();
-                float x = (int)(GetPoint().x * 0.1f);
-                float z = (int)(GetPoint().z * 0.1f);
+                Debug.Log(Point.x + ", " + Point.z);
+                int preset = 5;
+                float x = (int)(GetPoint().x * 0.1f) * 10;  // 1의 자리 이하 버림
+                float z = (int)(GetPoint().z * 0.1f) * 10;  // 1의 자리 이하 버림
                 if (Point.x <= 0.0f)
                 {
-                    Point.x = -5 + x * 10;
+                    Point.x = -preset + x;
                 }
                 else
                 {
-                    Point.x = 5 + x * 10;
+                    Point.x = preset + x;
                 }
 
                 if (Point.z <= 0.0f)
                 {
-                    Point.z = -5 + z * 10;
+                    Point.z = -preset + z;
                 }
                 else
                 {
-                    Point.z = 5 + z * 10;
+                    Point.z = preset + z;
                 }
                 GameObject tilepref = map.SetTilepref(mapEditerManager.Prefnum);
                 transform.position = Point;

@@ -20,7 +20,7 @@ public class Map : MonoBehaviour
     }
     public class Maptile
     {
-        public List<Tile> Tiles = new List<Tile>();        // json���� ���� ���� �ļ�
+        public List<Tile> Tiles = new List<Tile>();        // json
         public void Print()
         {
             for (int i = 0; i < Tiles.Count; ++i)
@@ -280,11 +280,9 @@ public class Map : MonoBehaviour
             FileNameInput.text = "SampleMap";
         }
         LoadMapList();
-        foreach (var maptile in MapList)
-        {
-            
-        }
+
         Debug.Log(jsonData);
+
         CreateJsonFile(Application.streamingAssetsPath + "/" + "Map", mapname, jsonData);
     }
 

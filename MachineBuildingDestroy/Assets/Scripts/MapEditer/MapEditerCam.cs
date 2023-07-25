@@ -44,7 +44,7 @@ public class MapEditerCam : MonoBehaviour
         }
         if (yZoom > 0)
         {
-            if (transform.position.y < 100)
+            if (transform.position.y < 1000)
             {
                 direction.y = yZoom;
             }
@@ -53,8 +53,8 @@ public class MapEditerCam : MonoBehaviour
         transform.position += direction;
         mapEditerCamInput.ResetDirection();
 
-        if (transform.position.y > 100)
-            transform.position = new Vector3(transform.position.x, 100, transform.position.z);
+        if (transform.position.y > 1000)
+            transform.position = new Vector3(transform.position.x, 1000, transform.position.z);
 
         if (transform.position.y < 20)
             transform.position = new Vector3(transform.position.x, 20, transform.position.z);
