@@ -5,22 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/IPAddressSccene.unity
     guid: 3f2fd429cacfe354887bbed8c974b49a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/login_test.unity
     guid: 6841b715191a0ca45b49a5a9a2f15726
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/lobby_test.unity
     guid: d0d148968c0f56c45b53c7211c58b40b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ReadyRoom.unity
     guid: ea1375cdefe4b0945af5ef5ea1602c1b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameResultScene.unity
     guid: c6792c9ffa7c5124a85db84671fff019
   - enabled: 0
@@ -32,5 +32,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/LocalRoom.unity
     guid: 8b56fb8f70dcaa04d98cf49a3870d09b
+  - enabled: 1
+    path: Assets/Scenes/MapEditer.unity
+    guid: aafa5cd1c4309bd40a8f2e722aa9f823
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 0267b7bc18e112e4ba49f3ee4d137ebb, type: 2}

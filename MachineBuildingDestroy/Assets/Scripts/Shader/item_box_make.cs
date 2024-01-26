@@ -96,8 +96,12 @@ public class item_box_make : MonoBehaviour
         if(col.tag == "Player"){
              if(effect_switch == true)
              {
-                 if (PhotonNetwork.IsMasterClient)
-                     PhotonNetwork.Destroy(gameObject);
+                 //if (PhotonNetwork.IsMasterClient)
+                 {
+                     //PhotonNetwork.Destroy(gameObject);
+                 }
+                
+                 Destroy(gameObject);
              }
          }
     }

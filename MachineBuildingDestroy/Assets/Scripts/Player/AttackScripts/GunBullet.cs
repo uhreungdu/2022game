@@ -25,7 +25,7 @@ public class GunBullet : MonoBehaviourPun
 
     private void Update()
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
         if (Vector3.Distance(ShootPosition, transform.position) <= MaxDistance)
         {
             transform.position += ForwardVector3 * Speed * Time.deltaTime;
@@ -36,7 +36,7 @@ public class GunBullet : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        //if (!PhotonNetwork.IsMasterClient) return;
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
         if (other.tag == "Wall")
         {
@@ -54,7 +54,8 @@ public class GunBullet : MonoBehaviourPun
                     myInRoomInfo.NetworkCauseDamageCount(myInRoomInfo.mySlotNum, _damage);
                 }
                 Debug.Log(attackTarget.health);
-                photonView.RPC("RemoveBulletObject", RpcTarget.All);
+                //photonView.RPC("RemoveBulletObject", RpcTarget.All);
+                RemoveBulletObject();
             }
         }
 
@@ -88,7 +89,8 @@ public class GunBullet : MonoBehaviourPun
                         otherPlayerState.NetworkOtherAnimatorControl("RepeatStiffen", true);
                     }
 
-                    photonView.RPC("RemoveBulletObject", RpcTarget.All);
+                    //photonView.RPC("RemoveBulletObject", RpcTarget.All);
+                    RemoveBulletObject();
                 }
             }
         }
@@ -106,7 +108,8 @@ public class GunBullet : MonoBehaviourPun
                 {
                     Target.NetworkOnDamage(_damage);
                 }
-                photonView.RPC("RemoveBulletObject", RpcTarget.All);
+                //photonView.RPC("RemoveBulletObject", RpcTarget.All);
+                RemoveBulletObject();
             }
         }
     }

@@ -1201,7 +1201,7 @@
             Gets the point on the path at the given percentage (0 to 1)
             </summary>
             <param name="perc">The percentage (0 to 1) at which to get the point</param>
-            <param name="convertToConstantPerc">If TRUE constant speed is taken into account, otherwise not</param>
+            <param name="convertToConstantPerc">If TRUE constant _speed is taken into account, otherwise not</param>
         </member>
         <member name="T:DG.Tweening.Plugins.Options.IPlugOptions">
             <summary>
@@ -2377,7 +2377,7 @@
             <para>Has no effect on Sequences or if the tween has already started</para></summary>
         </member>
         <member name="M:DG.Tweening.TweenParams.SetSpeedBased(System.Boolean)">
-            <summary>If isSpeedBased is TRUE sets the tween as speed based
+            <summary>If isSpeedBased is TRUE sets the tween as _speed based
             (the duration will represent the number of units the tween moves x second).
             <para>Has no effect on Sequences, nested tweens, or if the tween has already started</para></summary>
         </member>
@@ -2673,12 +2673,12 @@
             <para>Has no effect on Sequences or if the tween has already started</para></summary>
         </member>
         <member name="M:DG.Tweening.TweenSettingsExtensions.SetSpeedBased``1(``0)">
-            <summary>If isSpeedBased is TRUE sets the tween as speed based
+            <summary>If isSpeedBased is TRUE sets the tween as _speed based
             (the duration will represent the number of units the tween moves x second).
             <para>Has no effect on Sequences, nested tweens, or if the tween has already started</para></summary>
         </member>
         <member name="M:DG.Tweening.TweenSettingsExtensions.SetSpeedBased``1(``0,System.Boolean)">
-            <summary>If isSpeedBased is TRUE sets the tween as speed based
+            <summary>If isSpeedBased is TRUE sets the tween as _speed based
             (the duration will represent the number of units the tween moves x second).
             <para>Has no effect on Sequences, nested tweens, or if the tween has already started</para></summary>
         </member>

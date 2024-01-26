@@ -50,7 +50,6 @@ public class BulidingObject : LivingEntity
         AddBuildingToServerEvent(photonView.ViewID, objectName, transform.position, transform.rotation,
             _reSpawnTime);
 
-
         rigidbody = GetComponentInChildren<Rigidbody>();
         _MeshRenderer = GetComponentInChildren<MeshRenderer>();
         _MeshCollider = GetComponentInChildren<Collider>();
@@ -79,7 +78,7 @@ public class BulidingObject : LivingEntity
 
     public void DieAction()
     {
-        if (PhotonNetwork.IsMasterClient)
+        //if (PhotonNetwork.IsMasterClient)
         {
             for (int i = 0; i < point; ++i)
             {
@@ -89,9 +88,8 @@ public class BulidingObject : LivingEntity
                 coinPosition.x = coinPosition.x + (radius * Mathf.Cos(radian));
                 coinPosition.z = coinPosition.z + (radius * Mathf.Sin(radian));
                 coinPosition.y = 5;
-                GameObject coin =
-                    PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, coinprefab.transform.rotation);
-                //Instantiate(coinprefab, coinPosition, transform.rotation);
+                //GameObject coin = PhotonNetwork.InstantiateRoomObject(coinprefab.name, coinPosition, coinprefab.transform.rotation);
+                GameObject coin = Instantiate(coinprefab, coinPosition, transform.rotation);
                 Vector3 explosionPosition = transform.position;
                 coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f, 500 / 2);
                 coin.GetComponent<Rigidbody>().AddExplosionForce(500, explosionPosition, 10f);

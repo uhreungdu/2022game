@@ -85,8 +85,9 @@ public class PlayerGunAttack : PlayerAttack
 
     public IEnumerator ShootBullet()
     {
-        GameObject BulletgameObject = PhotonNetwork.Instantiate(_gunBulletGameObject.name, GunObject.transform.position + -GunObject.transform.right,
-            _gunBulletGameObject.transform.rotation);
+        //GameObject BulletgameObject = PhotonNetwork.Instantiate(_gunBulletGameObject.name, GunObject.transform.position + -GunObject.transform.right, _gunBulletGameObject.transform.rotation);
+        GameObject BulletgameObject = Instantiate(_gunBulletGameObject,
+            GunObject.transform.position + -GunObject.transform.right, _gunBulletGameObject.transform.rotation);
         GunBullet BulletgameObjectGunBullet = BulletgameObject.GetComponent<GunBullet>();
         BulletgameObjectGunBullet.ShootPosition = GunObject.transform.position;
         Vector3 returnForwardVector = transform.forward;

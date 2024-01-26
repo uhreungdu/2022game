@@ -29,12 +29,13 @@ public class Gun : MonoBehaviourPun
 
     void Update()
     {
-        if (photonView.IsMine)
+        //if (photonView.IsMine)
         {
             if (Durability <= 0)
             {
-                photonView.RPC("NetworkGunNoDurabilityCheck", RpcTarget.AllViaServer);
-                if (transform.root.GetComponent<PhotonView>().IsMine && Application.platform == RuntimePlatform.Android)
+                //photonView.RPC("NetworkGunNoDurabilityCheck", RpcTarget.AllViaServer);
+                NetworkGunNoDurabilityCheck();
+                //if (transform.root.GetComponent<PhotonView>().IsMine && Application.platform == RuntimePlatform.Android)
                 {
                     // 공격버튼 원래대로 바꾸기
                     _attackButton.ChangeButtonImage(item_box_make.item_type.no_item);

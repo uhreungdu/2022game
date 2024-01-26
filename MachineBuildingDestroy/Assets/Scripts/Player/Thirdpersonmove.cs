@@ -183,8 +183,7 @@ public class Thirdpersonmove : MonoBehaviourPun
 
     public void Equip_item()
     {
-        if (!_playerState.isAimming)
-            return;
+        //if (!_playerState.isAimming) return;
         if (_playerState.Item == item_box_make.item_type.potion)
         {
             getobj = Resources.Load<GameObject>("potion");
@@ -214,7 +213,7 @@ public class Thirdpersonmove : MonoBehaviourPun
         if (other.gameObject.tag == "Item")
         {
             item_box_make itemBoxMake = other.gameObject.GetComponent<item_box_make>();
-            if (PhotonNetwork.IsMasterClient)
+            //if (PhotonNetwork.IsMasterClient)
                 if (_playerState.Item == item_box_make.item_type.no_item)
                     _playerState.SetItem(itemBoxMake.now_type);
             _playerState.isAimming = true;

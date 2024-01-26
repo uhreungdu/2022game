@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,6 +77,7 @@ public class GamePlayerInput : MonoBehaviour
             Interaction = Input.GetButton(InteractionButtonName);
             item = Input.GetButton(ItemButtonName);
         }
+        /*
         if (_gameManager.gameStart == false || _gameManager.EManager.gameSet)
         {
             // move에 관한 입력 감지
@@ -89,6 +91,7 @@ public class GamePlayerInput : MonoBehaviour
             Interaction = false;
             item = false;
         }
+        */
     }
 
 //     public void OnMove(InputValue value)

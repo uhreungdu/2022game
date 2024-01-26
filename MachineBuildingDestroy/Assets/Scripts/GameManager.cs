@@ -197,12 +197,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient && gameStart)
+        //if (PhotonNetwork.IsMasterClient && gameStart)
             now_timer.Ntimer += Time.deltaTime;
         // °ÔÀÓ ³¡
         if (EManager.gameSet && now_timer.Ntimer >= EManager.gameSetTime + 5)
         {
-            if (PhotonNetwork.IsMasterClient)
+            //if (PhotonNetwork.IsMasterClient)
             {
                 GameInfo gameInfo = GameInfo.GetInstance();
                 for (int i = 0; i < 2; i++)

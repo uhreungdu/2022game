@@ -302,7 +302,8 @@ public class PlayerState : LivingEntity, IPunObservable
     public void SetItem(item_box_make.item_type dItemType)
     {
         //Item = dItemType;
-        photonView.RPC("SetItemRPC", RpcTarget.All, dItemType);
+        //photonView.RPC("SetItemRPC", RpcTarget.All, dItemType);
+        SetItemRPC(dItemType);
     }
 
     [PunRPC]

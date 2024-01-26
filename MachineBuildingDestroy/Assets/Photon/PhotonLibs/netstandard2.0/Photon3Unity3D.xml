@@ -1606,7 +1606,7 @@
             This value affects the Packet-content. The resulting UDP packages will have additional
             headers that also count against the package size (so it's bigger than this limit in the end)
             Setting this value while being connected is not allowed and will throw an Exception.
-            Minimum is 576. Huge values won't speed up connections in most cases!
+            Minimum is 576. Huge values won't _speed up connections in most cases!
             </remarks>
         </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.IsEncryptionAvailable">

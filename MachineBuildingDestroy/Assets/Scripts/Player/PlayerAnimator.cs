@@ -142,7 +142,8 @@ public class PlayerAnimator : MonoBehaviourPun
         {
             StartCoroutine(_PlayerGunAttack.ShootBullet());
             _Animator.SetBool("Shoot", true);
-            photonView.RPC("PlayOneShotGunShootRPC", RpcTarget.AllViaServer);
+            //photonView.RPC("PlayOneShotGunShootRPC", RpcTarget.AllViaServer);
+            PlayOneShotGunShootRPC();
             _PlayerGunAttack.isDelay = true;
         }
     }

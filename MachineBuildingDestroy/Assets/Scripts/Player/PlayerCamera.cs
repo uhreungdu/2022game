@@ -20,6 +20,7 @@ public class PlayerCamera : MonoBehaviourPun
     {
         _Buildings = new List<GameObject>();
         _ExitBuildings = new List<GameObject>();
+        //_RenewCamTransform = new RenewCamTransform();
     }
 
     // Update is called once per frame
